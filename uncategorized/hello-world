@@ -31,7 +31,7 @@
 	<body>
 		<div
 			class="kira-background"
-			style="background-image: url('https://raw.githubusercontent.com/ch1ny/PictureCDN/master/others/f0d5cc34c6e5aa7.jpg')"
+			style="background-image: url('https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/wallhaven-6o11xx.jpg')"
 		></div>
 		<div class="kira-header">
     <a
@@ -43,7 +43,7 @@
     </a>
     <a href="/" title="姜将的个人博客">
         <img
-			src="https://raw.githubusercontent.com/ch1ny/PictureCDN/master/others/116359b4ccf19917.jpg"
+			src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"
 			alt="姜将"
 		/>
     </a>
@@ -51,9 +51,9 @@
 		<div class="kira-body">
 			<div class="kira-sidebar" id="sidebar">
 	<div class="kira-avatar mdui-ripple">
-		<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ch1ny/PictureCDN/master/others/116359b4ccf19917.jpg" title="姜将">
+		<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg" title="姜将">
 			<img
-				src="https://raw.githubusercontent.com/ch1ny/PictureCDN/master/others/116359b4ccf19917.jpg"
+				src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"
 				alt="姜将"
 			/>
 		</a>
@@ -128,7 +128,7 @@
 			></i> </a
 		><a
 			class="mdui-ripple"
-			href="https://space.bilibili.com/27905679"
+			href="https://space.bilibili.com/262150061"
 			target="_blank"
 			mdui-tooltip="{content: '哔哩哔哩'}"
 			style="
@@ -141,7 +141,7 @@
 			></i> </a
 		><a
 			class="mdui-ripple"
-			href="https://github.com/ch1ny/"
+			href="https://github.com/JIANG54864"
 			target="_blank"
 			mdui-tooltip="{content: 'GitHub'}"
 			style="
@@ -180,7 +180,7 @@
 		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
 		<br />
 		
-			<a href="https://beian.miit.gov.cn/" target="_blank">赣ICP备******号</a>
+			<a href="https://beian.miit.gov.cn/" target="_blank">鄂ICP备5201314号</a>
 		
 		
 	</div>
@@ -243,7 +243,7 @@
 			style="padding-bottom: '56.25%'"
 		>
 			<img
-				data-src="https://raw.githubusercontent.com/ch1ny/PictureCDN/master/others/f0d5cc34c6e5aa7.jpg"
+				data-src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/wallhaven-6o11xx.jpg"
 				data-sizes="auto"
 				alt="Hello World"
 				class="lazyload  kira-post-cover-image"
