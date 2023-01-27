@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html 
+	lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
+<link rel="stylesheet" href="/css/layout.css">
+
+		
+		<title> Nosql理论基础 -  姜将的个人博客</title>
+		<link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" />
+		<script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
+		<!-- lazyload -->
+		<script src="https://unpkg.com/lazysizes@5.1.0/lazysizes.min.js"></script>
+		<!-- smooth-scrolling -->
+		<script src="https://unpkg.com/smooth-scrolling.js@latest"></script>
+		<!-- highlight -->
+		<link rel="stylesheet" href="//unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/atom-one-dark.min.css" />
+		<script src="//unpkg.com/@highlightjs/cdn-assets@11.6.0/highlight.min.js"></script>
+		<!-- 预置 kiraicon -->
+		<link rel="stylesheet" href="/lib/iconfont/iconfont.css" crossorigin />
+		<link
+			rel="shortcut icon"
+			href="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"
+			type="image/png"
+		/>
+	<meta name="generator" content="Hexo 6.3.0"></head>
+
+	<body>
+		<div
+			class="kira-background"
+			style="background-image: url('https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/wallhaven-6o11xx.jpg')"
+		></div>
+		<div class="kira-header">
+    <a
+        class="kira-drawer-button mdui-ripple"
+        title="导航栏"
+        onclick="document.querySelector('.kira-sidebar-modal').classList.add('show');document.querySelector('.kira-sidebar#sidebar').classList.add('show');"
+    >
+        <i class="kirafont icon-menu"></i>
+    </a>
+    <a href="/" title="姜将的个人博客">
+        <img
+			src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"
+			alt="姜将"
+		/>
+    </a>
+</div>
+		<div class="kira-body">
+			<div class="kira-sidebar" id="sidebar">
+	<div class="kira-avatar mdui-ripple">
+		<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg" title="姜将">
+			<img
+				src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"
+				alt="姜将"
+			/>
+		</a>
+	</div>
+	<div class="kira-count">
+		<div><span>文章</span>5</div>
+		<div><span>标签</span>6</div>
+		<div><span>分类</span>4</div>
+	</div>
+	<div class="kira-list">
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/"
+			title="回到首页"
+		>
+			<i
+				class="kirafont icon-home"
+			></i>
+			<div class="kira-list-item-content">回到首页</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/archive"
+			title="文章归档"
+		>
+			<i
+				class="kirafont icon-container"
+			></i>
+			<div class="kira-list-item-content">文章归档</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/about"
+			title="关于本人"
+		>
+			<i
+				class="kirafont icon-user"
+			></i>
+			<div class="kira-list-item-content">关于本人</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/friends"
+			title="我的朋友"
+		>
+			<i
+				class="kirafont icon-team"
+			></i>
+			<div class="kira-list-item-content">我的朋友</div>
+		</a>
+		
+	</div>
+	<aside id="kira-sidebar">
+		 <div class="kira-widget-wrap">
+	<div class="kira-widget kira-social">
+		<a
+			class="mdui-ripple"
+			href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=2792663690&website=www.oicqzone.com"
+			target="_blank"
+			mdui-tooltip="{content: 'QQ'}"
+			style="
+				color: rgb(49, 174, 255);
+				background-color: rgba(49, 174, 255, .1);
+			"
+		>
+			<i
+				class="kirafont icon-QQ"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://space.bilibili.com/262150061"
+			target="_blank"
+			mdui-tooltip="{content: '哔哩哔哩'}"
+			style="
+				color: rgb(231, 106, 141);
+				background-color: rgba(231, 106, 141, .15);
+			"
+		>
+			<i
+				class="kirafont icon-bilibili"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://github.com/JIANG54864"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .15);
+			"
+		>
+			<i
+				class="kirafont icon-github"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://gitee.com/jiangjiang2077"
+			target="_blank"
+			mdui-tooltip="{content: 'Gitee'}"
+			style="
+				color: rgb(165, 15, 15);
+				background-color: rgba(165, 15, 15, .15);
+			"
+		>
+			<i
+				class="kirafont icon-gitee"
+			></i> </a
+		>
+	</div>
+</div>
+  
+<div class="kira-widget-wrap">
+  <h3 class="kira-widget-title">分类</h3>
+  <div class="kira-widget">
+
+    <ul class="category-list">
+
+      
+
+
+      
+
+      
+
+      <li class="category-list-item">
+        <a class="category-list-link" href="/categories/others/">others</a>
+        <span class="category-list-count">1</span>
+      </li>
+
+      
+
+      <li class="category-list-item">
+        <a class="category-list-link" href="/categories/实验/">实验</a>
+        <span class="category-list-count">1</span>
+      </li>
+
+      
+
+      <li class="category-list-item">
+        <a class="category-list-link" href="/categories/知识梳理/">知识梳理</a>
+        <span class="category-list-count">1</span>
+      </li>
+
+      
+
+      <li class="category-list-item">
+        <a class="category-list-link" href="/categories/编程/">编程</a>
+        <span class="category-list-count">2</span>
+      </li>
+
+      
+    </ul>
+
+  </div>
+</div>
+  
+<div class="kira-widget-wrap">
+	<div id="randomtagcloud" class="kira-widget tagcloud kira-rainbow"><a href="/tags/mongo/" style="font-size: 10px;">mongo</a> <a href="/tags/nosql/" style="font-size: 15px;">nosql</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/%E5%AE%9E%E9%AA%8C/" style="font-size: 10px;">实验</a> <a href="/tags/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" style="font-size: 15px;">语言基础</a></div>
+	
+</div>
+
+ 
+	</aside>
+	<div class="kira-copyright">
+		&copy; 2023
+		<a href="/">姜将</a
+		>
+		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &
+		<!-- TODO: github 链接 -->
+		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
+		<br />
+		
+			<a href="https://beian.miit.gov.cn/" target="_blank">鄂ICP备5201314号</a>
+		
+		
+	</div>
+</div>
+<div class="kira-sidebar-modal" id="sidebar-modal" onclick="(function(self) {
+	self.classList.remove('show');
+	document.querySelector('.kira-sidebar.show#sidebar').classList.remove('show');
+})(this)"></div>
+			<div class="kira-content">
+				<div id="kira-top-header"></div>
+				<div class="kira-main-content">
+					
+<link rel="stylesheet" href="/css/kira-image.css">
+
+<script src="/js/kira-image.js"></script>
+<div class="kira-image">
+    <div class="kira-image-modal">
+        <div class="kira-image-header">
+            <div class="kira-image-counter"></div>
+            <div class="kira-image-title"></div>
+            <div class="kira-image-operation">
+                <div class="kira-image-operation-button" id="kira-image-operation-button-zoom">
+                    <i class="kirafont icon-zoom-in"></i>
+                </div>
+                <div class="kira-image-operation-button" id="kira-image-operation-button-close">
+                    <i class="kirafont icon-close"></i>
+                </div>
+            </div>
+        </div>
+        <div class="kira-image-container">
+            <div class="kira-image-prev-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-left"></i>
+                </div>
+            </div>
+            <div class="kira-image-list">
+                <div class="kira-image-prev">
+                    <img />
+                </div>
+                <div class="kira-image-now">
+                    <img />
+                </div>
+                <div class="kira-image-next">
+                    <img />
+                </div>
+            </div>
+            <div class="kira-image-next-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="kira-post">
+	<article>
+		
+		<div
+			class="kira-post-cover"
+			style="padding-bottom: '56.25%'"
+		>
+			<img
+				data-src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/wallhaven-6o11xx.jpg"
+				data-sizes="auto"
+				alt="Nosql理论基础"
+				class="lazyload  kira-post-cover-image"
+			/>
+			<h1>Nosql理论基础</h1>
+		</div>
+		
+		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
+			<a><i class="kirafont icon-calendar-fill"></i>2023年01月27日</a>
+			<a><i class="kirafont icon-areachart"></i>7.9k 字</a>
+			<a><i class="kirafont icon-time-circle-fill"></i>大概 32 分钟</a>
+		</div>
+		<p>学习Nosql过程中对基础知识的整理。这门课最后考了97分，排名第三。</p>
+<h1><span id="数据一致性">数据一致性</span></h1><p>•一致性模型强度排序如下：</p>
+<p>• 线性一致性 &gt; 顺序一致性 &gt; 因果一致性 &gt; { 写后读一致性&#x2F;自读自写一致性，单调读&#x2F;写一致性，前缀一致性，先读后写一致性} </p>
+<h2><span id="强一致性">•强一致性</span></h2><p>•也叫即时一致性</p>
+<p>•假如应用1先写入了一个值到存储系统，存储系统保证后续<strong>应用1、应用2、应用3对于该值读取操作都将返回最新值</strong></p>
+<h2><span id="弱一致性">•弱一致性</span></h2><p>•假如应用1先写入了一个值到存储系统，存储系统不能保证后续应用1，应用2，应用3对于该值的读取操作能读取到最新值。</p>
+<h2><span id="最终一致性">•最终一致性</span></h2><p>•最终一致性是弱一致性的一种特例</p>
+<p>•假如应用1首先写了一个值到存储系统，存储系统保证如果在应用1，应用2，应用3后续读取之前<strong>没有其它写操作更新同样的值</strong>的前提下，<strong>最终所有的读取操作都会读取到应用1写入的最新值</strong></p>
+<p>•不一致性窗口：从应用1写入到后续操作应用1，应用2，应用3读取到最新值这一段时间</p>
+<p>•此种情况下，如果没有失败发生的话，“不一致性窗口”的大小依赖于以下的几个因素：交互延迟，系统的负载，以及复制技术中replica的个数(这个可以理解为master&#x2F;salve模式中salve的个数)</p>
+<h2><span id="写后读一致性read-after-write-consistency">•“写后读一致性”(Read after Write Consistency)</span></h2><p>•“读写一致性”，或“读自己写一致性”(Read My Writes Consistency)</p>
+<p>•小明参加了同学聚会，会后在朋友圈分享了自己在同学聚会上的照片。小明知道自己的同学也会看到他分享的照片，特意又刷新了下朋友圈，确认照片分享成功，小明十分满意。</p>
+<p>•小明发布照片的延时极短，用户体验很好。这是因为数据仅被保存在主副本 R1 上，就立即反馈保存成功。而其他副本在后台异步更新，由于网络延迟等原因每个副本更新速度不同，在 T2 时刻两个副本达成一致。从过程来看，这符合前面所讲的最终一致性。</p>
+<p>•小明有一个再次刷新朋友圈的动作，此时如果访问副本 R2，由于其尚未完成同步，聚会照片将会消失，小明就会觉得自己的照片被弄丢了。假定系统可以通过某种策略由写入节点的主副本 R1 负责后续的读取操作，这样就实现了写后读一致性，可以保证小明再次读取到照片。</p>
+<p>•<strong>自己写入成功的任何数据，下一刻一定能读取到，其内容保证与自己最后一次写入完全一致，这就是“写后读一致性”、“读自己一致性” 。</strong></p>
+<h2><span id="单调一致性monotonic-read-consistency">•“单调一致性”(Monotonic Read Consistency)</span></h2><p>•在小明发布照片后的瞬间，小刚也刷新了朋友圈，此时读取到副本 R1，所以小刚看到了照片；片刻之后，小刚再次刷新，此时读取到的副本是 R2，而副本R2还没有完成从主副本R1的数据复制，于是照片就消失了。出现了“时光倒流”的现象。</p>
+<p>•想要排除这种异常，系统必须实现单调一致性(Monotonic Read Consistency)。单调一致性<strong>保证了用户在读取到某个值后，不会出现比这个值更旧的值。</strong></p>
+<p>•在软件工程中实现单调一致性，可以将用户与副本建立固定的映射关系，将用户 ID 映射到固定副本上，这样避免了在多个副本中切换，也就不会出现上面的异常了</p>
+<h2><span id="前缀一致性consistent-prefix">•“前缀一致性”(Consistent Prefix)</span></h2><p>•前缀一致性是通过显式的方式来保证因果性。通过对原有数据添加后缀来控制进程读取数据的顺序。</p>
+<p>•小明在观看篮球比赛，在比赛中场发了一条微信朋友圈 “Go Lakers”。这时家在北京的小刚在手机上刷到了小明的这条朋友圈信息，并在下边留言“现在的比分是多少？”，小明回复：“96:82 ”。远在美国的小王这时却看到了一个奇怪的现象，评论区先出现了小明的回复“96:82”，而后才出现小刚的评论“现在的比分是多少？”</p>
+<p>•小刚的问题和小明的回答之间具有因果关系，但由于数据复制时忽略了这层因果关系，以及分布式系统内部网络上的延迟，于是就出现了这种异常。</p>
+<p>•保持这种<strong>因果关系的一致性</strong>称为前缀一致性。</p>
+<h2><span id="线性一致性linearizability">•“线性一致性”(Linearizability)</span></h2><p>•线性一致性是最强的一种一致性模型，它是建立在事件的先后顺序之上的。在线性一致性下，整个系统表现得好像所有操作被记录在一条时间线上，并且被原子化，这样任意两个事件都可以比较先后顺序。</p>
+<p>•集群中的各个节点不能做到真正的时钟同步，这样节点有各自的时间线。那么，如何将操作记录在一条时间线上呢？这就需要一个绝对时间，也就是<strong>全局时钟</strong>。</p>
+<h2><span id="因果一致性causal-consistency">•“因果一致性”(Causal Consistency)</span></h2><p>•因果一致性的基础是偏序关系(不依赖于绝对时间)，部分事件顺序是可以比较的。至少一个节点内部的事件是可以排序的，依靠节点的本地时钟就行了；节点间如果发生通讯，则参与通讯的两个事件也是可以排序的，<strong>接收方的事件一定晚于调用方的事件。</strong></p>
+<p>•基于这种偏序关系，Leslie Lamport 在论文《Time, Clocks, and the Ordering of Events in a Distributed System》中提出了逻辑时钟的概念。</p>
+<p>•借助逻辑时钟仍然可以建立全序关系，虽然这个全序关系是不够精确的。但因果一致性弱于线性一致性，在并发性能上具有优势，也足以处理多数的异常现象，所以因果一致性也在工业界得到了应用。</p>
+<h1><span id="cap理论"><strong>CAP</strong>理论</span></h1><p>•NoSQL是分布式系统，具有高度的透明性</p>
+<p><strong>透明性是指每个节点对于用户的应用来说都是透明的，用户不必区分本地还是远程</strong></p>
+<p>•CAP定理：在一个分布式系统中，Consistency(一致性)、 Availability(可用性)、Partition tolerance(分区容错性)，三者不可兼得</p>
+<p>•一致性(C，这里指强一致性)：Every read receives the most recent write or an error.</p>
+<p>•在分布式系统中的<strong>所有数据副本，在同一时刻具有同样的值</strong>。(等同于所有节点访问同样的最新的数据副本)。</p>
+<p>•即如果系统对一个写操作返回成功，那么之后的读请求都必须读到这个新数据；如果返回失败，那么所有读操作都不能读到这个数据，对调用者而言数据具有强一致性(strong consistency) (又叫原子性 atomic、线性一致性 linearizable consistency)。</p>
+<p>•可用性(A)：</p>
+<p>•Every request receives a response, without guarantee that it contains the most recent version of the information.</p>
+<p>•每一个请求，都能<strong>得到响应</strong>。请求需要在一定时间内返回结果，结果<strong>可以是成功或者失败，也不需要确保返回的是最新版本的信息</strong>。</p>
+<p>•分区容错性(P)：The system continues to operate despite an arbitrary number of messages being dropped by the network between nodes.</p>
+<p>•大多数分布式系统都分布在多个子网络，**每个子网络就叫做一个区(Partition)**，区间通信可能失败。</p>
+<p>•分区容错性的含义是：在<strong>网络中断，消息丢失的情况下，仍然能够对外提供满足一致性或者可用性的服务。</strong></p>
+<p>•CA：放弃Partition tolerance ，将所有的数据(与事务相关的)都放到一台机器上，目前<strong>关系数据库大多采用此模式</strong>，可扩展性不强</p>
+<p>​     对于金融领域，必须要保证C和A，舍弃P。所以金融领域的网络设备故障，可能会造成用户无法使用。  </p>
+<p>•CP：放弃Availability ，一旦遇到partition事件，受影响的服务需要等待数据一致，因此在等待期间就无法对外提供服务</p>
+<p>•AP：放弃Consistency ，接受数据会变得“最终一致 (Eventually Consistent)”</p>
+<p>•对于互联网应用，主机多，数据大，部署分散。所以节点故障，网络故障是常态。这种情况下，要保证A和P。舍弃C虽然会影响客户体验，但保证AP，才能不影响用户使用流程。</p>
+<p>•由于在<strong>分布式系统</strong>中，网络硬件肯定会出现延迟丢包等问题，所以<strong>分区容忍性是必须保证</strong></p>
+<p>•分布式系统通常在可用性和一致性之间权衡</p>
+<h1><span id="base模型"><strong>BASE模型</strong></span></h1><p>•Basically Availble –基本可用</p>
+<p>•Soft-state –软状态&#x2F;柔性事务</p>
+<p>•Eventual Consistency –最终一致性</p>
+<p>•BASE模型完全不同于ACID模型，牺牲高一致性，获得可用性</p>
+<p>•BASE就是为了解决关系数据库强一致性引起的可用性降低而提出的解决方案。</p>
+<p>•BASE是对CAP中一致性和可用性权衡的结果，其来源于对大规模互联网系统分布式实践的总结，是基于CAP定理逐步演化而来的</p>
+<p>•其核心思想是即使无法做到强一致性(Strong consistency)，但每个应用都可以根据自身的业务特点，采用适当的方式来使系统达到最终一致性(Eventual consistency)</p>
+<h2><span id="base模型三要素">BASE模型三要素</span></h2><p>•1、基本可用：基本可用是指分布式系统在出现不可预知故障的时候，允许损失部分可用性—-注意，这<strong>绝不等价于系统不可用。</strong></p>
+<p>•(1)响应时间上的损失。正常情况下，一个在线搜索引擎需要在0.5秒之内返回给用户相应的查询结果，但由于出现故障，查询结果的响应时间增加了1~2秒</p>
+<p>•(2)系统功能上的损失：正常情况下，在一个电子商务网站上进行购物的时候，消费者几乎能够顺利完成每一笔订单，但是在一些节日大促购物高峰的时候，由于消费者的购物行为激增，为了保护购物系统的稳定性，部分消费者可能会被引导到一个等待页面</p>
+<p>•2、软状态</p>
+<p>•相对于原子性而言，要求多个节点的数据副本都是一致的，这是一种“硬状态”。</p>
+<p>•软状态指允许系统中的数据存在中间状态，并认为该中间状态的存在不会影响系统的整体可用性，即<strong>允许系统在不同节点的数据副本之间进行数据同步的过程存在延时</strong>。</p>
+<p>•3、最终一致性</p>
+<p>•最终一致性强调的是所有的数据副本，在经过一段时间的同步之后，最终都能够达到一个一致的状态。因此，最终一致性的本质是需要系统保证最终数据能够达到一致，而不需要实时保证系统数据的强一致性。</p>
+<h1><span id="数据一致性实现技术">数据一致性实现技术</span></h1><h2><span id="nwr模型">•NWR模型</span></h2><p>•N: <strong>数据所具有的副本数量</strong></p>
+<p>•R: 完成读取操作所需要读取的最小副本数量，即<strong>一次读操作所需要参与的最小节点数量</strong></p>
+<p>•W: 完成写操作所需要写入的最小副本数量，即<strong>一次写操作所需要参与的最小节点数量</strong></p>
+<p>•只需<strong>W + R &gt; N</strong>，就可以保证强一致性，因为读取数据的节点和被同步写入的节点是有重叠的</p>
+<p>•在分布式系统中，一般都要保证容错性，要求N大于等于3</p>
+<p>•如果要<strong>高的一致性，配置N&#x3D;W，R&#x3D;1</strong>，此时可用性特别是写操作的性能就会大大降低</p>
+<p>•如果想要<strong>高的可用性，就需要放松一致性的要求，此时可以配置W&#x3D;1</strong>，这样使得写操作延迟最低，同时通过异步的机制更新剩余的N - W个节点</p>
+<p>•几种特殊情况</p>
+<p>•W &#x3D; 1，R &#x3D; N，对写操作要求高性能高可用</p>
+<p>•R &#x3D; 1，W &#x3D; N，对读操作要求高性能高可用</p>
+<p>•<strong>W &#x3D; Q，R &#x3D; Q ，Q &#x3D; N&#x2F;2 + 1</strong> 一般应用适用，读写性能之间取得平衡，如N&#x3D;3，W&#x3D;2，R&#x3D;2</p>
+<h2><span id="两阶段提交协议">•两阶段提交协议</span></h2><p>一句话概括：<strong>任意一人拒绝则活动取消</strong>  </p>
+<p>•两阶段协议分为两个阶段</p>
+<p>•请求阶段(prepare阶段，或称表决阶段)</p>
+<p>•在请求阶段，协调者将<strong>通知事务参与者准备提交或取消事务，然后进入表决过程</strong>。</p>
+<p>•在表决过程中，<strong>参与者将告知协调者自己的决策：同意(事务参与者本地作业执行成功)或取消(本地作业执行故障)。</strong></p>
+<p>•提交阶段(commit 阶段)</p>
+<p>•<strong>协调者</strong>将基于第一个阶段的投票结果<strong>进行决策</strong>：提交或取消。<strong>当且仅当所有的参与者同意提交事务协调者才通知所有的参与者提交事务</strong>，否则协调者将通知所有的参与者取消事务。</p>
+<p>•优点：实现简单</p>
+<p>•缺点：</p>
+<p>•同步阻塞问题</p>
+<p>•执行过程中，所有参与节点都是事务阻塞型的。当参与者占有公共资源时，<strong>其他第三方节点访问公共资源不得不处于阻塞状态</strong>。当业务规模巨大时，2PC 的局限性就越来越明显，系统可伸缩性会变得很差。</p>
+<p>•单点故障</p>
+<p>•由于协调者的重要性，<strong>一旦协调者发生故障。参与者会一直阻塞下去</strong>。尤其在第二阶段，协调者发生故障，那么所有的参与者还都处于锁定事务资源的状态中，而无法继续完成事务操作。</p>
+<p>•如果是协调者宕机，可以重新选举一个协调者，但是<strong>无法解决因为协调者宕机导致的参与者处于阻塞状态的问题</strong></p>
+<p>•数据不一致</p>
+<p>•在两阶段提交的阶段2中，当协调者向参与者发送commit请求之后，发生了局部网络异常或者在发送commit请求过程中协调者发生了故障，这会导致只有一部分参与者接受到了commit请求。而在这部分参与者接到commit请求之后就会执行commit操作。但是其他部分未接到commit请求的机器则无法执行事务提交。于是整个分布式系统便出现了数据不一致性的现象。</p>
+<p>•两阶段提交无法解决的问题</p>
+<p>•协调者发出commit消息之后宕机，而接受到这条消息的参与者同时也宕机了。那么即使通过选举协议产生了新的协调者，这条事务的状态也是不确定的，没有参与者知道事务是否被已经提交。</p>
+<h2><span id="时间戳策略">•时间戳策略</span></h2><p>分布式系统中不同节点之间的物理时钟可能会有偏差，这样就可能导致较晚更新的数据其时间戳却比较早。因此我们设置一个全局时钟来进行时间同步。当一份数据更新之后，该数据所在节点向全局时钟请求一个时间戳。全局时钟存在以下问题：</p>
+<p>1）该全局时钟同步开销过大，影响系统效率；</p>
+<p>2）该全局时钟出现宕机，整个系统将无法工作</p>
+<p>•时间戳</p>
+<p>•假设发送或接受消息是进程中的一个事件，下面我们来定义分布式系统事件集中的先后关系，用“→”符号来表示，例如：<strong>若事件a发生在事件b之前，那么有a→b</strong>。该关系需要满足下列三个条件：</p>
+<p>•1) 如果事件a和事件b是同一个进程中的事件，并且a在b之前发生，那么有a→b；</p>
+<p>•2) <strong>如果事件a是某消息发送方进程中的事件，事件b是该消息接受方进程中接受该消息的事件，那么有a→b；</strong></p>
+<p>•3) 对于事件a、事件b和事件c，如果有a→b和b→c，那么a→c。</p>
+<p> 对于事件p3和事件q3，尽管在物理时间上，q3要先于p3发生，但是我们不能确定两事件在该模型下的逻辑关系，因此我们说p3和q3同时发生。  </p>
+<p>•“时钟走表”的概念</p>
+<p>•若事件a发生在事件b之前，有C(a)&lt; C(b)</p>
+<p>•例如C(a)&#x3D;4，C(b)&#x3D;7</p>
+<p>•那么在事件a和事件b之间存在4到5，5到6和6到7三个时间间隔。</p>
+<p>•即存在先后顺序的事件之间一定至少存在至少一个时间间隔。那么第一个限定意味着，<strong>同一个进程中的两个事件之间一定存在至少一个时间间隔</strong>；第二个限定意味着，<strong>每一条消息传递一定跨越了至少一个时间间隔</strong>。</p>
+<p>•时间戳策略在分布式系统中的应用：系统需要满足下面的实现规则：</p>
+<p>•IR1：对于同一节点上任意的连续事件来说，该节点上的时钟只需要保证较晚发生事件的时钟值要大于较早发生事件的时钟值即可</p>
+<p>•IR2</p>
+<p>•(a)如果事件a代表节点Ni发送消息m，那么消息m将携带时间戳Tm，且Tm&#x3D;Ci(a)；</p>
+<p>•(b)当节点Nj接受到消息m后，节点将设置该事件的时钟Cj<strong>大于等于本节点上一事件的时钟并且大于等于Tm</strong>。</p>
+<h2><span id="向量时钟">•向量时钟</span></h2><p>•向量时钟实际是一组版本号(版本号&#x3D;逻辑时钟)，假设数据需要存放3份，需要3台数据库存储(用A，B，C表示)，那么向量维度就是3，每个数据库有一个版本号，从0开始，这样就形成了一个向量版本 [A:0, B:0, C:0]</p>
+<p>•规则介绍</p>
+<p>•1、每次修改数据，本节点的版本号加1，例如上述 step 8中向B写入，于是从B:1 变成 B:2，其他节点的版本号不发生变更。</p>
+<p>•2、每次同步数据(这里需要注意，<strong>同步和修改是不一样的写操作</strong>), 会有三种情况：</p>
+<p>•a：本节点的向量版本<strong>都要比消息携带过来的向量版本低(小于或等于)</strong> 如本节点为 [A:1, B:2,C:3]， 消息携带过来为  [A:1, B:2,C:4] 或 [A:2, B:3,C:4]等，这时候<strong>合并规则取每个分量的最大值</strong>。</p>
+<p>•b：本节点的向量版本都要比消息携带过来的向量版本高，这时候可以认为本地数据比同步过来的数据要新，直接丢弃要同步的版本。</p>
+<p>•c：出现冲突，有的分量版本大，有的分量版本小，无法判断出来到底谁是最新版本。就要<strong>进行冲突仲裁，比如合并</strong>。</p>
+<p>•优势</p>
+<p>•节点之间不需要同步时钟，既不需要全局时钟</p>
+<p>•不需要在所有节点上存储和维护一段数据的版本数</p>
+<h2><span id="paxos协议">•Paxos协议</span></h2><p>Paxos协议不追求值的正确性、权威性、及时性，只追求一致性。</p>
+<p>•Paxos的两个原则</p>
+<p>•安全原则—保证不能做错的事</p>
+<p>•1. 针对某个实例的表决只能有一个“值”被批准，不能出现第二个值把第一个覆盖的情况；</p>
+<p>•2. 每个节点只能学习到已经被批准的值，不能学习没有被批准的值。</p>
+<p>•存活原则—只要有多数服务器存活并且彼此间可以通信最终都要做到的事</p>
+<p>•1. 最终会批准某个被提议的“值”；</p>
+<p>•2. 一个“值”被批准了，其他节点最终会学习到这个值。</p>
+<p>•Paxos协议的组件(角色)：</p>
+<p>•Proposer：提议发起者，处理客户端请求，将客户端的请求发送到集群中，以便决定这个值是否可以被批准。</p>
+<p>•Acceptor：提议批准者，负责处理接收到的提议，对提议进行投票，会存储一些状态来决定是否批准提议中的值。</p>
+<p>•Learner：提议学习者，只能学习到已经被批准的值，不能学习没有被批准的值。</p>
+<p>•注意：一个节点可以担当多个角色。</p>
+<p>•批准提议的规则：</p>
+<p>•R：当提议被大多数批准者所接受，则表明该提议被批准</p>
+<p>•如何确定一个提议，做到如下就可以保证</p>
+<p>P1：一个批准者必须接受它所收到的第一个提议</p>
+<p>P2：如果一项值为v的提议被批准，那么后续只批准值为v的提议 (即允许有多个提议被批准，但是这些提议必须拥有相同的值)</p>
+<p>P2a：如果一项值为v的提议被批准，那么acceptor后续只接受值为v的提议</p>
+<p>P2b：如果某个提议被批准，那么之后任何提议者都只能提出具有相同值的提议</p>
+<p>P2c（Paxos的核心）：对于提议(n,v)，acceptor的多数派S中，如果存在acceptor最近一次(即提议序号或者版本号最大)接受的提议的值为v’，那么要求v &#x3D; v’；否则v可为任意值 。     只要满足P2c就可以满足P2(P2c &#x3D;&gt; P2b &#x3D;&gt; P2a &#x3D;&gt; P2)  </p>
+<p>•Paxos协议算法分为两个阶段：</p>
+<p>•阶段一：</p>
+<p>•(a) proposer选择一个提案编号n，然后向半数以上的acceptor发送编号为n的Prepare请求。</p>
+<p>•(b) 如果一个acceptor收到一个编号为n的prepare请求，且n大于该acceptor已经承诺过的所有Prepare请求的编号，那么它就会将它已经接受过的编号最大的提议(如果有的话)作为承诺反馈给proposer，同时该acceptor承诺不再接受任何编号小于n的提议。</p>
+<p>•阶段二：</p>
+<p>•(a) 如果proposer收到半数以上acceptor对其发出的编号为n的Prepare请求的承诺，那么它就会发送一个针对[n,v]提议的accept请求给半数以上的acceptor。注意：v就是收到的承诺中编号最大的提案的value，如果响应中不包含任何提议，那么v就由Proposer自己决定。</p>
+<p>(b) 如果收到一个针对编号为的提议的请求，只要该没有对编号大于的请求做出过承诺，它就接受该提议</p>
+<h2><span id="raft协议">•Raft协议</span></h2><p>•一个节点有3种状态：</p>
+<p>•Follower state</p>
+<p>•Candidate state</p>
+<p>•Leader state</p>
+<p>•开始，所有节点都是Follower (追随者)状态</p>
+<p>•当所有的Follower都无法感知到Leader存在时，这是他们会变成一个Candidate(参选者)，Candidate可以向其他节点发起投票，其他节点反馈投票结果，即是同意还是驳回，如果此次投票获得了大部分节点的同意，则Candidate成为了新的Leader，这个过程就叫Leader Election(Leader选举)</p>
+<p>•Leader选出来之后，任何改变都需要通过Leader来传达</p>
+<p>•1、每一次变更都会作为一个entry加入到Leader节点日志中，这时entry的状态是未提交状态(uncommitted)，所以这并不会改变节点的当前值。</p>
+<p>•2、为了能够提交entry，首先需要做的是将entry复制到所有Follower节点，然后Leader开始等待直到大部分节点都写入成功了entry为止</p>
+<p>•3、最后Leader 提交entry，节点值发生变更，并通知所有Follower entry is committed</p>
+<p>•4、最后所有节点都达到了一致的状态，这个过程叫做日志复制。</p>
+<p>•Raft协议种存在两个超时设置用来控制选举过程</p>
+<p>•第一个超时设置：选举超时(election timeout)，选举超时用来设置一个节点从Follower变成一个Candidate所需要等待的时间，这个等待时间控制在150ms到300ms之间，这个等待时间是随机的，随机是为了尽量避免产生多个Candidate，给选举过程制造麻烦</p>
+<p>•当3个节点都设置election timeout时，节点a跑得比其他其他节点快些成为第一个Candidate，并开始发起第一轮选举。节点首先给自己先投一票，然后向其他节点发送Request Vote消息</p>
+<p>•如果其他节点收到消息后发现并没有进行过此次投票，则他就会为Candidate进行一次投票并重置election timeout，一旦Candidate获得了大多数选票(大多数保证每一轮选举只有一个Candidate会获胜)，则他就会变成Leader</p>
+<p>•节点a成为Leader后，会间隔指定时间发送Append Entries消息给他的Follower，间隔时间是由心跳超时控制的(heartbeat timeout，即第二种超时类型)，follower收到消息后会重置等待时间，这样就能阻止Follower成为candidate。</p>
+<p>•这个过程会一直持续下去直到一个Follower停止接收heatbeats，并且成为candidate为止。</p>
+<h1><span id="主流nosql数据库的比较"><strong>主流NoSQL数据库的比较</strong></span></h1><p>•Hbase数据库：银行、新能源汽车监控、人工智能</p>
+<p>•1. bigtable类型的数据存储；</p>
+<p>•2. 对数据有版本查询需求；</p>
+<p>•3. 应对超大数据量要求扩展简单的需求。</p>
+<p>•Redis数据库：文章投票、排序和分页</p>
+<p>•适用于数据变化快且数据库大小可预见(适合内存容量)的应用程序</p>
+<p>•1、会话缓存(Session Cache)</p>
+<p>•2、全页缓存(FPC)</p>
+<p>•3、队列</p>
+<p>•4、排行榜&#x2F;计数器</p>
+<p>•5、发布&#x2F;订阅</p>
+<p>•MongoDB数据库：用电信息、商品信息、<strong>文章及评论（朋友圈）</strong>、日志</p>
+<p>•1. 适用于实时的插入、更新与查询的需求，并具备应用程序实时数据存储所需的复制及高度伸缩性；</p>
+<p>•2. 非常适合文档化格式的存储及查询；</p>
+<p>•3. 高伸缩性的场景：MongoDB 非常适合由数十或者数百台服务器组成的数据库。</p>
+<p>•4. 对性能的关注超过对功能的要求。</p>
+<p>•Neo4j数据库：知识图谱、保险欺诈、社交推荐、企业图谱</p>
+<p>•适用于适合图形表达的数据，这是 Neo4j与其他nosql数据库的最显著区别；</p>
+<p>•例如：社交网络，公共交通网络，地图及网络拓扑</p>
+<p>•鉴于其明显的优缺点，Neo4j适合存储“修改较少，查询较多，没有超大节点”的图数据。</p>
+<h1><span id="各数据库逻辑结构和数据模型">各数据库逻辑结构和数据模型</span></h1><p>•MongoDB 的逻辑结构是一种层次结构，主要由：文档(document)、集合(collection)、数据库(database)这三部分组成的 。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="G:\science\learning\blog\myblog\source_posts\Nosql理论基础.assets\1672066802360.png" alt="1672066802360" class="lazyload"></p>
+<p>•在Key-value数据库系统中，key是关键字、value是值。</p>
+<p>•Key-value数据库是一种以键值对存储数据的NoSQL数据库，类似Java中的map。可以将整个数据库理解为一个大的map，每个键都会对应一个唯一的值。</p>
+<p>•SDS比C语言的字符串多了一个SDSHDR表头。里面存放free(空闲空间)、len(已用空间)、buf(缓冲区)</p>
+<table>
+<thead>
+<tr>
+<th><strong>类型</strong></th>
+<th><strong>存储的值</strong></th>
+<th><strong>读写能力</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>STRING</td>
+<td>可以保存二进制字节的序列，包括字符串、整数或者浮点数</td>
+<td>对整个字符串或者字符串的其中一部分执行操作；对整数和浮点数执行自增(increment)或者自减(decrement)操作</td>
+</tr>
+<tr>
+<td>LIST</td>
+<td>是一个线性结构，每个节点都包含了一个字符串</td>
+<td>从list两端推入或者弹出元素；根据偏移量对链表进行修剪(trim)；读取单个或者多个元素；根据值查找或者移除元素</td>
+</tr>
+<tr>
+<td>SET</td>
+<td>包含字符串的无序收集器(unordered collection)，并且被包含的每个字符串都是独一无二、各不相同的</td>
+<td>添加、获取、移除单个元素；检查一个元素是否存在于集合中；计算交集、并集、差集；从集合里面随机获取元素</td>
+</tr>
+<tr>
+<td>HASH</td>
+<td>包含键值对的无序散列表</td>
+<td>添加、获取、移除单个键值对；获取所有键值对</td>
+</tr>
+<tr>
+<td>ZSET</td>
+<td>字符串成员(member)与浮点数分值(score)之间的有序映射，元素的排列顺序由分值的大小决定</td>
+<td>添加、获取、删除单个元素；根据分值范围(range)或者成员来获取元素</td>
+</tr>
+</tbody></table>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="G:\science\learning\blog\myblog\source_posts\Nosql理论基础.assets\1672067129441.png" alt="1672067129441" class="lazyload"></p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="G:\science\learning\blog\myblog\source_posts\Nosql理论基础.assets\1672067146841.png" alt="1672067146841" class="lazyload"></p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="G:\science\learning\blog\myblog\source_posts\Nosql理论基础.assets\1672067163131.png" alt="1672067163131" class="lazyload"></p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="G:\science\learning\blog\myblog\source_posts\Nosql理论基础.assets\1672067193497.png" alt="1672067193497" class="lazyload"></p>
+<p>•Neo4j 中两个最基本的概念是节点和边</p>
+<p>•节点表示实体，边则表示实体之间的关系</p>
+<p>•节点和边都可以有自己的属性</p>
+<p>•不同实体通过各种不同的关系关联起来，形成复杂的对象图</p>
+<p>数据模型：</p>
+<p>•带标签的属性图组成：节点、联系、属性、标签</p>
+<p>•节点包含属性，节点可以看做存储属性的文件，属性是任何key-value对</p>
+<p>•节点有一个或者多个标签，标签将节点组织在一起</p>
+<p>•联系连接节点，每个联系有方向、名字、开始节点和结束节点</p>
+<p>•联系也有属性，联系的属性为联系增加了语义</p>
+<table>
+<thead>
+<tr>
+<th><strong>Row Key</strong></th>
+<th><strong>TimeStamp</strong></th>
+<th><strong>Column Family: info</strong></th>
+<th><strong>Column Family: course</strong></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>column</strong></td>
+<td><strong>value</strong></td>
+<td><strong>column</strong></td>
+<td><strong>value</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>201201</strong></td>
+<td><strong>t10</strong></td>
+<td><strong>info:S_Name</strong></td>
+<td><strong>Edward</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>t9</strong></td>
+<td><strong>info:S_Sex</strong></td>
+<td><strong>M</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>t8</strong></td>
+<td><strong>info:S_Age</strong></td>
+<td><strong>32</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>t7</strong></td>
+<td></td>
+<td></td>
+<td><strong>course:1001</strong></td>
+<td><strong>98</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>t6</strong></td>
+<td></td>
+<td></td>
+<td><strong>course:1002</strong></td>
+<td><strong>95</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>201202</strong></td>
+<td><strong>t5</strong></td>
+<td><strong>info:S_Name</strong></td>
+<td><strong>Catty</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>t4</strong></td>
+<td><strong>info:S_Sex</strong></td>
+<td><strong>F</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>t3</strong></td>
+<td><strong>info:S_Age</strong></td>
+<td><strong>23</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>t2</strong></td>
+<td></td>
+<td></td>
+<td><strong>course:1001</strong></td>
+<td><strong>95</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>t1</strong></td>
+<td></td>
+<td></td>
+<td><strong>course:1002</strong></td>
+<td><strong>86</strong></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>•列名字的格式是“<family>:<label>”，都是由字符串组成，每一张表有一个family集合，这个集合相当于关系数据库中的关系模式，只能通过改变关系模式来改变，但是label值相对于每一行来说都是可以改变的</label></family></p>
+<p>•HBase把同一个column family里面的数据存储在同一个目录下，而HBase的写操作是锁行的，每一行都是一个原子元素，都可以加锁</p>
+<p>•所有数据库的更新都有一个时间戳标记，每个更新都是一个新的版本，而HBase会保留一定数量的版本，这个值是可以设定的</p>
+<p>•客户端可以选择某个版本，或者一次获取所有版本，默认返回最新版本</p>
+<p>•HBase数据模型中三个重要概念</p>
+<p>•行键(Row Key)：HBase表的主键，表中的记录按照行键排序，行键用来检索记录的主键</p>
+<p>•时间戳(Timestamp， 64位的整数)：每次数据操作对应的时间戳，可看作是数据的版本号，不同版本通过时间戳来进行索引</p>
+<p>•列族(Column Family)：表在水平方向有一个或者多个列族组成，一个列族中可以由任意多个列组成，列族支持动态扩展，无需预先定义列的数量以及类型</p>
+<p>•通过上述三个重要概念进行三维定位一个Cell，Cell中值的数据类型是字符串。</p>
+
+	</article>
+
+	 
+    <div class="kira-post-copyright">
+        <strong>本文作者：</strong>姜将<br>
+        <strong>本文链接：</strong><a href="http://jiang54864.github.io/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/Nosql%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80/" title="http:&#x2F;&#x2F;jiang54864.github.io&#x2F;知识梳理&#x2F;Nosql理论基础&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;jiang54864.github.io&#x2F;知识梳理&#x2F;Nosql理论基础&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+  
+	<div class="kira-post-nav">
+		<nav class="post-nav">
+			              
+			<!-- 先找到与当前文字相同的目录 -->
+			   
+			<!-- 在找到当前文章所在的 index -->
+			          
+		</nav>
+	</div>
+	
+	<div class="kira-post-meta kira-rainbow">
+		
+			<a class="kirafont icon-appstore-fill -link" href="/categories/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/">知识梳理</a>
+		
+		
+			<a class="kirafont icon-tag-fill -none-link" href="/tags/nosql/" rel="tag">nosql</a>
+		
+	</div>
+	
+	<div class="kira-post-footer">
+	<link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css" />
+	<div id="gitalk"></div>
+	<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+	<script type="text/javascript">
+		var gitalk = new Gitalk({
+			clientID: '-id-',
+			clientSecret: '-key-',
+			id: 'Nosql理论基础',
+			repo: '-issue repo name-',
+			owner: '-your github username-',
+			admin: '-your github username-',
+			title: '',
+		});
+		gitalk.render('gitalk');
+	</script>
+
+</div>
+	
+</div>
+
+				</div>
+			</div>
+			<div class="kira-right-column">
+	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="回到顶部" title="回到顶部">
+		<button class="mdui-fab mdui-ripple">
+			<i class="kirafont icon-caret-up"></i>
+		</button>
+	</a>
+</div>
+
+		</div>
+	</body>
+</html>
