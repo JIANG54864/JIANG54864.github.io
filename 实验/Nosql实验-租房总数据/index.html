@@ -303,7 +303,7 @@
 		
 		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
 			<a><i class="kirafont icon-calendar-fill"></i>2023年01月24日</a>
-			<a><i class="kirafont icon-areachart"></i>3.2k 字</a>
+			<a><i class="kirafont icon-areachart"></i>3.3k 字</a>
 			<a><i class="kirafont icon-time-circle-fill"></i>大概 14 分钟</a>
 		</div>
 		<p>目录</p>
@@ -315,22 +315,22 @@
 <h1><span id="实验一-熟悉实验环境和实验数据">实验一 熟悉实验环境和实验数据</span></h1><p>1、熟悉华为 GaussDB for MongoDB 数据库的操作。</p>
 <p>2、下载并了解实验数据。</p>
 <p>由于没有弄清楚openguess和guessdb for mongo的区别，尝试用dbeaver连接的错误尝试：</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\17c2ba58debfa7889bade6bae66d4bef.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/17c2ba58debfa7889bade6bae66d4bef.png"></p>
 <p>华为云手册中使用1.4版本的robo 3t，官网的robo 3t升级成了Studio 3T，界面有了很大不同，对着教程操作困难。前往github下载之前发行的版本：</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\63b80e01b991b911640cdd9deda1736f.png"></p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\f8038a3855dac30ecd3c9ab02e5c7f67.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/63b80e01b991b911640cdd9deda1736f.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/f8038a3855dac30ecd3c9ab02e5c7f67.png"></p>
 <p>根据教程连接上云数据库后，发现自己无法创建数据库，使用shell执行use命令后无法插入文档。</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\58001ba855c2d43ca6c242a13012a155.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/58001ba855c2d43ca6c242a13012a155.png"></p>
 <p>插入文档报错：not master</p>
 <p>解决：连接的ip是从节点，更换公网ip至主节点。</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\189c81a335881abe48f4a7c855016ef2.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/189c81a335881abe48f4a7c855016ef2.png"></p>
 <p>了解实验数据：</p>
 <p>每个文档包含_id、base_info（基本信息）、city、configuration（配置条件）、district（行政区域）、lease_mode（出租模式，整租或者合租）、price（价格）、region（地区）、title（标题，内容为更具体的地址）</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\af5afdaf87fea0c2d85e5ee29e6e3a60.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/af5afdaf87fea0c2d85e5ee29e6e3a60.png"></p>
 <p>基本信息包含：面积、方位、户型、更新时间、入住方式、楼层、有无电梯、供水、供电、出租时间</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\24b333baf5694a751cff414dbe28aeca.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/24b333baf5694a751cff414dbe28aeca.png"></p>
 <p>配置条件包含：有无洗衣机、空调、衣柜、电视、冰箱、热水器、床、宽带、燃气</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\c60a39cbbff8a34d215f34084474e2bb.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/c60a39cbbff8a34d215f34084474e2bb.png"></p>
 <h1><span id="实验二-设计-mongodb-数据库-集合和文档">实验二 设计 MongoDB 数据库、集合和文档</span></h1><p>根据实验数据的特点，设计集合模式。集合和文档要求能够科学地组织和存储数据、高效方便地获取和维护数据。</p>
 <p>集合模式自由，不采用固定集合，没有最大文档数量的限制，在price上添加索引</p>
 <p>以第一行数据为例，我设计的文档为：</p>
@@ -369,24 +369,23 @@
 <h1><span id="实验三-将实验数据插入数据库中">实验三 将实验数据插入数据库中</span></h1><p>将实验数据导入实验二设计好的集合中，数据导入工具不限。</p>
 <p>尝试直接导入：</p>
 <p>我使用sudo 3t的最版本软件studio 3t进行导入。studio 3t功能强大，能够直接导入csv文件。</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\4d1d30e5870fb19f3bc91e328ebd5b54.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/4d1d30e5870fb19f3bc91e328ebd5b54.png"></p>
 <p>发现导入后嵌入式文档会变成一个字符串。于是必须一条一条循环插入。问题是这时插入的文档数据在excel文件中，不再是简单的1、2、3. . .如何读取文件中的数据是我要解决的难题。涉及到文件处理，我就得使用python了。</p>
 <p>先将xlsx文件用excel另存为为csv格式，然后用python编写代码。第一次运行了一刻钟左右之后报错了，显示值已经存在。于是我进行数据预处理。在sditio 3t中统计已经插入了23000多条数据。我找到出错的第一条数据，发现竟然是一条与第一行的列标题相同的行。而后面的数据与第一条数据开始的相同，推测这23000多条数据直接重复了一遍。于是在python代码中先进行数据清洗，去除重复的数据：</p>
 <p>raw_data &#x3D; pd.read_csv(‘rent.csv’)<br>print(‘数据清洗前数据条数：’, len(raw_data))<br># 数据清洗，去除重复值<br>data &#x3D; raw_data.drop_duplicates(keep&#x3D;’first’, inplace&#x3D;False)<br>print(‘数据清洗后数据条数：’, len(data))</p>
 <p>在这里如果针对’_id’进行去重我也尝试过，因为租房数据可能除了id以外其他条件几乎一样的房子也是有可能的，比如同一个小区相邻的的房子都出租。结果剩余的数据数量与上述处理一模一样，说明id相同的数据内容也是相同的。<br>针对与第一行的标签相同的数据导致的报错，我尝试过两种方案，一种是在json.loads方法中加入参数strict&#x3D;False，一种是先使用json.dumps方法再使用json.loads方法，都在运行15分钟左右后报错。于是我进行手动数据清洗，用excel查找xlsx文件中与列标题相同的数据，查找到3条数据，将它们删除后再另存为csv文件。注意这里还要选择编码为utf-8，否则后续python中也会报错。</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\929dc93299797fc8b54a3e04b8f1b1f2.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/929dc93299797fc8b54a3e04b8f1b1f2.png"></p>
 <p>经过这一次处理后的文件可以顺利导入了。因为导入时间过长我还写了一行代码查看进度：</p>
 <p>i +&#x3D; 1<br> print(‘已导入’, i, ‘&#x2F; 289149 条数据’)</p>
 <p>原本35w多条数据在数据清洗后剩余接近30w条数据，推测在三条与列标题相同的数据后各重复了一两万条数据。观察python运行得出1w条数据大概需要6分钟处理完，全部导入需要3个小时左右。此时已经是晚上12点了，我选择第二天早上再来看结果，所幸这一次没有再报错，近30w条数据全部导入成功。</p>
 <p>这个实验是我大学以来对“大数据”感知最深刻的实验，从来没有其他实验能占用我的电脑这么长时间，其他实验几乎都可以凭借cpu在极短时间内完成。</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\38b30378c55420e160267c4409b7418c.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/38b30378c55420e160267c4409b7418c.png"></p>
 <p>完整代码如下：</p>
-<p>from pymongo import MongoClient<br>import pandas as pd<br>import json  </p>
-<p># 连接数据库<br>username &#x3D; ‘rwuser’<br>password &#x3D; ‘mongo_SDU2022’<br>host &#x3D; ‘123.249.29.154:8635’<br>mongo_url &#x3D; ‘mongodb:&#x2F;&#x2F;{}:{}@{}’.format(username, password, host)<br>mg &#x3D; MongoClient(mongo_url)<br>db &#x3D; mg[‘JIANGJIANG’]<br>course &#x3D; db[‘rent’]<br>raw_data &#x3D; pd.read_csv(‘rent.csv’)<br>print(‘数据清洗前数据条数：’, len(raw_data))<br># 数据清洗，去除重复值<br>data &#x3D; raw_data.drop_duplicates(keep&#x3D;’first’, inplace&#x3D;False)<br>print(‘数据清洗后数据条数：’, len(data))<br># 循环插入<br>i &#x3D; 0<br>for index, row in data.iterrows():<br> # 为了预处理数据所做的尝试<br> # raw_base_info &#x3D; json.dumps(row[‘base_info’])<br> # base_info &#x3D; json.loads(raw_base_info)<br> # raw_configuration &#x3D; json.dumps(row[‘configuration’])<br> # configuration &#x3D; json.loads(raw_configuration)  </p>
-<p> # 将字符串转换为字典<br> base_info &#x3D; json.loads(row[‘base_info’], strict&#x3D;False)<br> configuration &#x3D; json.loads(row[‘configuration’], strict&#x3D;False)<br> # 嵌套字典，最终插入数据库中<br> # 此时price是字符串，将其转化为int<br> mydict &#x3D; {‘_id’: row[‘_id’], ‘base_info’: base_info, ‘city’: row[‘city’], ‘configuration’: configuration,<br> ‘district’: row[‘district’], ‘lease_mode’: row[‘lease_mode’], ‘price’: int(row[‘price’]),<br> ‘region’: row[‘region’], ‘title’: row[‘title’]}<br> course.insert_one(mydict)<br> i +&#x3D; 1<br> print(‘已导入’, i, ‘&#x2F; 289149 条数据’)<br>print(‘导入完成’)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pymongo <span class="keyword">import</span> MongoClient  </span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd  </span><br><span class="line"><span class="keyword">import</span> json  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 连接数据库  </span></span><br><span class="line">username = <span class="string">&#x27;rwuser&#x27;</span>  </span><br><span class="line">password = <span class="string">&#x27;mongo_SDU2022&#x27;</span>  </span><br><span class="line">host = <span class="string">&#x27;123.249.29.154:8635&#x27;</span>  </span><br><span class="line">mongo_url = <span class="string">&#x27;mongodb://&#123;&#125;:&#123;&#125;@&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(username, password, host)  </span><br><span class="line">mg = MongoClient(mongo_url)  </span><br><span class="line">db = mg[<span class="string">&#x27;JIANGJIANG&#x27;</span>]  </span><br><span class="line">course = db[<span class="string">&#x27;rent&#x27;</span>]  </span><br><span class="line">raw_data = pd.read_csv(<span class="string">&#x27;rent.csv&#x27;</span>)  </span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;数据清洗前数据条数：&#x27;</span>, <span class="built_in">len</span>(raw_data))  </span><br><span class="line"><span class="comment"># 数据清洗，去除重复值  </span></span><br><span class="line">data = raw_data.drop_duplicates(keep=<span class="string">&#x27;first&#x27;</span>, inplace=<span class="literal">False</span>)  </span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;数据清洗后数据条数：&#x27;</span>, <span class="built_in">len</span>(data))  </span><br><span class="line"><span class="comment"># 循环插入  </span></span><br><span class="line">i = <span class="number">0</span>  </span><br><span class="line"><span class="keyword">for</span> index, row <span class="keyword">in</span> data.iterrows():  </span><br><span class="line"> <span class="comment"># 为了预处理数据所做的尝试  </span></span><br><span class="line"> <span class="comment"># raw_base_info = json.dumps(row[&#x27;base_info&#x27;])  </span></span><br><span class="line"> <span class="comment"># base_info = json.loads(raw_base_info)  </span></span><br><span class="line"> <span class="comment"># raw_configuration = json.dumps(row[&#x27;configuration&#x27;])  </span></span><br><span class="line"> <span class="comment"># configuration = json.loads(raw_configuration)  </span></span><br><span class="line"></span><br><span class="line"> <span class="comment"># 将字符串转换为字典  </span></span><br><span class="line"> base_info = json.loads(row[<span class="string">&#x27;base_info&#x27;</span>], strict=<span class="literal">False</span>)  </span><br><span class="line"> configuration = json.loads(row[<span class="string">&#x27;configuration&#x27;</span>], strict=<span class="literal">False</span>)  </span><br><span class="line"> <span class="comment"># 嵌套字典，最终插入数据库中  </span></span><br><span class="line"> <span class="comment"># 此时price是字符串，将其转化为int  </span></span><br><span class="line"> mydict = &#123;<span class="string">&#x27;_id&#x27;</span>: row[<span class="string">&#x27;_id&#x27;</span>], <span class="string">&#x27;base_info&#x27;</span>: base_info, <span class="string">&#x27;city&#x27;</span>: row[<span class="string">&#x27;city&#x27;</span>], <span class="string">&#x27;configuration&#x27;</span>: configuration,  </span><br><span class="line"> <span class="string">&#x27;district&#x27;</span>: row[<span class="string">&#x27;district&#x27;</span>], <span class="string">&#x27;lease_mode&#x27;</span>: row[<span class="string">&#x27;lease_mode&#x27;</span>], <span class="string">&#x27;price&#x27;</span>: <span class="built_in">int</span>(row[<span class="string">&#x27;price&#x27;</span>]),  </span><br><span class="line"> <span class="string">&#x27;region&#x27;</span>: row[<span class="string">&#x27;region&#x27;</span>], <span class="string">&#x27;title&#x27;</span>: row[<span class="string">&#x27;title&#x27;</span>]&#125;  </span><br><span class="line"> course.insert_one(mydict)  </span><br><span class="line"> i += <span class="number">1</span>  </span><br><span class="line"> <span class="built_in">print</span>(<span class="string">&#x27;已导入&#x27;</span>, i, <span class="string">&#x27;/ 289149 条数据&#x27;</span>)  </span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;导入完成&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
 <p>具体代码的思路是：通过python每次迭代csv文件中的一行，利用json.loads方法将字符串转化为字典，再嵌套到每一行的大字典中，这样就可以将每一行作为一个字典插入到集合中并且保留嵌入式文档。这里还需要注意price是文本，需要转化为数字再上传，否则后面跟房租相关的查询会很麻烦。这里多亏了python中强大的pandas模块以及这学期机器学习实验反复用python来处理csv文件让我能够做出这个实验。</p>
 <p>成功导入为嵌入式文档：</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\01e83f8005e0c142aa1dd4881a02cae1.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/01e83f8005e0c142aa1dd4881a02cae1.png"></p>
 <h1><span id="实验四-使用交互式命令完成查询">实验四 使用交互式命令完成查询</span></h1><p>连接华为 GaussDB for MongoDB 数据库，使用交互式命令查询数据。需要</p>
 <p>完成以下查询：</p>
 <p>1、查询月租金高于 20000 元的房屋；</p>
@@ -397,17 +396,17 @@
 <p>1. 查询月租金高于 20000 元的房屋：</p>
 <p>db.rent.find({‘price’:{$gt:20000}})</p>
 <p>查询结果：</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\2a0db9985690b14890dfae5e90f04b05.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/2a0db9985690b14890dfae5e90f04b05.png"></p>
 <p>共查询到5139条月租金高于 20000 元的房屋：</p>
 <p>2.查询位于北京西城区出租的房屋数量：</p>
 <p>首先查询位于北京西城区的出租房屋：</p>
 <p>db.rent.find({ $and: [ { city: ‘北京’ }, { district: ‘西城’ } ] } )</p>
 <p>结果：</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\8586e32cb060992fc976419a30e54e6a.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/8586e32cb060992fc976419a30e54e6a.png"></p>
 <p>可以看到查询语句正确，结果符合北京市西城区的条件，共有2037条北京西城区的出租房屋</p>
 <p>自己统计数量：</p>
 <p>db.rent.find({ $and: [ { city: ‘北京’ }, { district: ‘西城’ } ] } )</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\2bbafa0275007f5d241325ded2a82390.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/2bbafa0275007f5d241325ded2a82390.png"></p>
 <p>结果同样是2037</p>
 <p>3. 查询每个城市租金最高的房屋信息：</p>
 <p>首先尝试：</p>
@@ -420,7 +419,7 @@
 <p>翻译：排序超出了 104857600 字节的内存限制，但未选择加入外部排序。正在中止操作。在服务器 123.249.29.154：8635 上传递 allowDiskUse：true 以选择加入。</p>
 <p>内存不够用，考虑加入索引来优化查询。</p>
 <p>db.rent.createIndex({‘price’:-1})</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\8d1e688cb8246d2bc002a04212d3eb95.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/8d1e688cb8246d2bc002a04212d3eb95.png"></p>
 <p>此时再执行之前的代码即可通过索引不超过内存限制查询出结果：</p>
 <p>db.getCollection(‘rent’).aggregate([</p>
 <p>{“$sort”: {“price”: -1}},</p>
@@ -429,58 +428,50 @@
 <p>}],{allowdiskuse:true}</p>
 <p>)</p>
 <p>结果：</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\9c63197a0513ab8d8579dc1abf238ab8.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/9c63197a0513ab8d8579dc1abf238ab8.png"></p>
 <p>尝试建立组合索引查询速度会不会更快：</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\2674ea6dac97d758bf78d469d1dc955a.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/2674ea6dac97d758bf78d469d1dc955a.png"></p>
 <p>建立组合索引的查询速度：</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\427f0711fab7b630d724201c6e371c91.png"></p>
+<p>![]427f0711fab7b630d724201c6e371c91.png)</p>
 <p>分别重复了几次发现快了一点，但差距不大，比如3.408秒优化到了3.371秒，考虑到网络差异在这个查询中几乎可以忽略。</p>
 <p>4. 查询 2022 年 6 月以后挂牌出租的房屋信息：</p>
 <p>db.rent.find({“base_info.maintain”:{“$gte”:”2022-06-01”}})</p>
 <p>或者db.rent.find({“base_info.maintain”:{“$gt”:”2022-05-31”}})</p>
 <p>结果均相同：</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\a1b3afd628d1586ab5e516a99f0e31b7.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/a1b3afd628d1586ab5e516a99f0e31b7.png"></p>
 <p>查看日期说明符合要求：</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\9cd657a8065fddb9485a9f06baaffdf0.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/9cd657a8065fddb9485a9f06baaffdf0.png"></p>
 <h1><span id="实验五-使用高级程序设计语言进行数据统计本实验是选做题">实验五 使用高级程序设计语言进行数据统计(本实验是选做题)</span></h1><p>自选高级程序设计语言，自行设计界面，完成以下数据统计并将统计信息进</p>
 <p>行展示。</p>
 <p>1、选择你关注的一个城市，按照“city”、“户型(types)”和“整租&#x2F;合租</p>
 <p>(lease_mode)”三个属性，展示房租的均价、中位数、最高价、最低价；</p>
 <p>我选择北京，首先创建一个新集合beijing，将city为北京的数据插入到其中，在studio 3t中插入两万多条数据要比python快很多很多：</p>
 <p>db.beijing.insertMany(db.rent.find({city:’北京’}).toArray())</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\18fc779cfad227ed678b78d0e17ef45b.png"></p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\e7b8c901c67042ab0b0dd9958b1deb78.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/18fc779cfad227ed678b78d0e17ef45b.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/e7b8c901c67042ab0b0dd9958b1deb78.png"></p>
 <p>因为用python连接数据库收集数据速度太慢，我选择将集合beijing导出为csv文件在本地进行实验，并且只导入后续需要的相关属性，</p>
 <p>即base_info.types,base_info.maintain,lease_mode,price。</p>
 <p>导出的csv文件如下：</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\30e4ac27a21ca8ddbb6e4b28a0170be9.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/30e4ac27a21ca8ddbb6e4b28a0170be9.png"></p>
 <p>分析数据：</p>
 <p>print(data[‘lease_mode’].unique())</p>
 <p>print(data[‘base_info.maintain’].unique())</p>
 <p>发现北京的租房数据中只有整租，没有合租，而户型足足有一两百种，于是户型与房价的关系选择不画图，用表格展示，其他画图展示。</p>
 <p>数据收集及绘图代码：</p>
-<p>import pandas as pd<br>import matplotlib.pyplot as plt<br>plt.style.use(“ggplot”)<br>data &#x3D; pd.read_csv(‘beijing.csv’)<br># 按照“city”、“户型(types)”和“整租&#x2F;合租(lease_mode)”三个属性，展示房租的均价、中位数、最高价、最低价<br># 按整租&#x2F;合租，经过数据分析只有整租<br>mean &#x3D; data[‘price’].mean()<br>median &#x3D; data[‘price’].median()<br>max_price &#x3D; data[‘price’].max()<br>min_price &#x3D; data[‘price’].min()<br>x &#x3D; [‘均价’,’中位数’,’最高价’,’最低价’]<br>y &#x3D; [mean,median,max_price,min_price]  </p>
-<p>plt.rcParams[“font.sans-serif”] &#x3D; [‘SimHei’]<br>plt.rcParams[“axes.unicode_minus”] &#x3D; False  </p>
-<p>p1 &#x3D; plt.bar(x, y, width&#x3D; 0.35, label&#x3D;’value’)<br>plt.bar_label(p1, label_type&#x3D;’edge’)<br>plt.title(“北京市整租房价”)  </p>
-<p>plt.show()<br>print(mean,median,max_price,min_price)  </p>
-<p># 按户型<br>type_mean &#x3D; data.groupby(data[‘base_info.types’])[‘price’].mean()<br>type_median &#x3D; data.groupby(data[‘base_info.types’])[‘price’].median()<br>type_max &#x3D; data.groupby(data[‘base_info.types’])[‘price’].max()<br>type_min &#x3D; data.groupby(data[‘base_info.types’])[‘price’].min()<br>df &#x3D; pd.concat([type_mean,type_median,type_max,type_min], axis&#x3D;1)<br>df.to_excel(“北京市各户型房价.xlsx”,index&#x3D;True,encoding&#x3D;’utf-8’)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd  </span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt  </span><br><span class="line">plt.style.use(<span class="string">&quot;ggplot&quot;</span>)  </span><br><span class="line">data = pd.read_csv(<span class="string">&#x27;beijing.csv&#x27;</span>)  </span><br><span class="line"><span class="comment"># 按照“city”、“户型(types)”和“整租/合租(lease_mode)”三个属性，展示房租的均价、中位数、最高价、最低价  </span></span><br><span class="line"><span class="comment"># 按整租/合租，经过数据分析只有整租  </span></span><br><span class="line">mean = data[<span class="string">&#x27;price&#x27;</span>].mean()  </span><br><span class="line">median = data[<span class="string">&#x27;price&#x27;</span>].median()  </span><br><span class="line">max_price = data[<span class="string">&#x27;price&#x27;</span>].<span class="built_in">max</span>()  </span><br><span class="line">min_price = data[<span class="string">&#x27;price&#x27;</span>].<span class="built_in">min</span>()  </span><br><span class="line">x = [<span class="string">&#x27;均价&#x27;</span>,<span class="string">&#x27;中位数&#x27;</span>,<span class="string">&#x27;最高价&#x27;</span>,<span class="string">&#x27;最低价&#x27;</span>]  </span><br><span class="line">y = [mean,median,max_price,min_price]  </span><br><span class="line"></span><br><span class="line">plt.rcParams[<span class="string">&quot;font.sans-serif&quot;</span>] = [<span class="string">&#x27;SimHei&#x27;</span>]  </span><br><span class="line">plt.rcParams[<span class="string">&quot;axes.unicode_minus&quot;</span>] = <span class="literal">False</span>  </span><br><span class="line"></span><br><span class="line">p1 = plt.bar(x, y, width= <span class="number">0.35</span>, label=<span class="string">&#x27;value&#x27;</span>)  </span><br><span class="line">plt.bar_label(p1, label_type=<span class="string">&#x27;edge&#x27;</span>)  </span><br><span class="line">plt.title(<span class="string">&quot;北京市整租房价&quot;</span>)  </span><br><span class="line"></span><br><span class="line">plt.show()  </span><br><span class="line"><span class="built_in">print</span>(mean,median,max_price,min_price)  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 按户型  </span></span><br><span class="line">type_mean = data.groupby(data[<span class="string">&#x27;base_info.types&#x27;</span>])[<span class="string">&#x27;price&#x27;</span>].mean()  </span><br><span class="line">type_median = data.groupby(data[<span class="string">&#x27;base_info.types&#x27;</span>])[<span class="string">&#x27;price&#x27;</span>].median()  </span><br><span class="line">type_max = data.groupby(data[<span class="string">&#x27;base_info.types&#x27;</span>])[<span class="string">&#x27;price&#x27;</span>].<span class="built_in">max</span>()  </span><br><span class="line">type_min = data.groupby(data[<span class="string">&#x27;base_info.types&#x27;</span>])[<span class="string">&#x27;price&#x27;</span>].<span class="built_in">min</span>()  </span><br><span class="line">df = pd.concat([type_mean,type_median,type_max,type_min], axis=<span class="number">1</span>)  </span><br><span class="line">df.to_excel(<span class="string">&quot;北京市各户型房价.xlsx&quot;</span>,index=<span class="literal">True</span>,encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
 <p>展示：</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\2111b694c79e33c387c0714d1c10e74f.png"></p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\688b57867a71bd9fd7f3cc0f6f4655db.png"></p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\f03a9a3030ae31c0787fd7a4ff37c1b9.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/2111b694c79e33c387c0714d1c10e74f.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/688b57867a71bd9fd7f3cc0f6f4655db.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/f03a9a3030ae31c0787fd7a4ff37c1b9.png"></p>
 <p>2、选择你关注的一个城市，展示出租房屋数量与月份的关系：按照房屋</p>
 <p>“maintain”和“city”两个属性进行统计。</p>
 <p>数据收集及绘图代码：</p>
-<p>import pandas as pd<br>import matplotlib.pyplot as plt<br>plt.style.use(“ggplot”)<br>data &#x3D; pd.read_csv(‘beijing.csv’)  </p>
-<p># 展示出租房屋数量与月份的关系：按照房屋“maintain”和“city”两个属性进行统计<br>data[‘mouth’] &#x3D; ‘’<br>mouth &#x3D; []<br>for index, row in data.iterrows():<br> mouth.append(row[‘base_info.maintain’][5:7])<br>data[‘mouth’] &#x3D; mouth<br>df_sum &#x3D; data.groupby(data[‘mouth’]).size()<br># print(df_sum)<br>x &#x3D; [‘3月’,’4月’,’5月’]<br>y &#x3D; [1,132,24294]  </p>
-<p>plt.rcParams[“font.sans-serif”] &#x3D; [‘SimHei’]<br>plt.rcParams[“axes.unicode_minus”] &#x3D; False</p>
-<p>explode&#x3D;[0.01,0.01,0.5]#设定各项距离圆心n个半径<br>plt.pie(y,explode&#x3D;explode,labels&#x3D;x,shadow&#x3D;True,autopct&#x3D;’%1.1f%%’)#绘制饼图<br>plt.title(“北京市出租房屋数”)  </p>
-<p>plt.show()</p>
-<p>p1 &#x3D; plt.bar(x, y, width&#x3D; 0.35, label&#x3D;’value’)<br>plt.bar_label(p1, label_type&#x3D;’edge’)<br>plt.title(“北京市出租房屋数”)  </p>
-<p>plt.show()</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd  </span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt  </span><br><span class="line">plt.style.use(<span class="string">&quot;ggplot&quot;</span>)  </span><br><span class="line">data = pd.read_csv(<span class="string">&#x27;beijing.csv&#x27;</span>)  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 展示出租房屋数量与月份的关系：按照房屋“maintain”和“city”两个属性进行统计  </span></span><br><span class="line">data[<span class="string">&#x27;mouth&#x27;</span>] = <span class="string">&#x27;&#x27;</span>  </span><br><span class="line">mouth = []  </span><br><span class="line"><span class="keyword">for</span> index, row <span class="keyword">in</span> data.iterrows():  </span><br><span class="line"> mouth.append(row[<span class="string">&#x27;base_info.maintain&#x27;</span>][<span class="number">5</span>:<span class="number">7</span>])  </span><br><span class="line">data[<span class="string">&#x27;mouth&#x27;</span>] = mouth  </span><br><span class="line">df_sum = data.groupby(data[<span class="string">&#x27;mouth&#x27;</span>]).size()  </span><br><span class="line"><span class="comment"># print(df_sum)  </span></span><br><span class="line">x = [<span class="string">&#x27;3月&#x27;</span>,<span class="string">&#x27;4月&#x27;</span>,<span class="string">&#x27;5月&#x27;</span>]  </span><br><span class="line">y = [<span class="number">1</span>,<span class="number">132</span>,<span class="number">24294</span>]  </span><br><span class="line"></span><br><span class="line">plt.rcParams[<span class="string">&quot;font.sans-serif&quot;</span>] = [<span class="string">&#x27;SimHei&#x27;</span>]  </span><br><span class="line">plt.rcParams[<span class="string">&quot;axes.unicode_minus&quot;</span>] = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">explode=[<span class="number">0.01</span>,<span class="number">0.01</span>,<span class="number">0.5</span>]<span class="comment">#设定各项距离圆心n个半径  </span></span><br><span class="line">plt.pie(y,explode=explode,labels=x,shadow=<span class="literal">True</span>,autopct=<span class="string">&#x27;%1.1f%%&#x27;</span>)\<span class="comment">#绘制饼图  </span></span><br><span class="line">plt.title(<span class="string">&quot;北京市出租房屋数&quot;</span>)  </span><br><span class="line"></span><br><span class="line">plt.show()</span><br><span class="line"></span><br><span class="line">p1 = plt.bar(x, y, width= <span class="number">0.35</span>, label=<span class="string">&#x27;value&#x27;</span>)  </span><br><span class="line">plt.bar_label(p1, label_type=<span class="string">&#x27;edge&#x27;</span>)  </span><br><span class="line">plt.title(<span class="string">&quot;北京市出租房屋数&quot;</span>)  </span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
 <p>展示：</p>
-<p><img src="G:\science\learning\blog\myblog\source_posts\Nosql实验-租房总数据.assets\04017d5f2e4c962e573fe04417598b47.png"></p>
-<p><img src="/media/e0104a7d033611d50900246645721dea.png"></p>
+<p><img src="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/04017d5f2e4c962e573fe04417598b47.png"></p>
+<p><img src="/e0104a7d033611d50900246645721dea.png"></p>
 
 	</article>
 
