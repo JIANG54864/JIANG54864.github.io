@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html 
+	lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
+<link rel="stylesheet" href="/css/layout.css">
+
+		
+		<title> 数值计算 -  姜将的个人博客</title>
+		<link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" />
+		<script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
+		<!-- lazyload -->
+		<script src="https://unpkg.com/lazysizes@5.1.0/lazysizes.min.js"></script>
+		<!-- smooth-scrolling -->
+		<script src="https://unpkg.com/smooth-scrolling.js@latest"></script>
+		<!-- highlight -->
+		<link rel="stylesheet" href="//unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/atom-one-dark.min.css" />
+		<script src="//unpkg.com/@highlightjs/cdn-assets@11.6.0/highlight.min.js"></script>
+		<!-- 预置 kiraicon -->
+		<link rel="stylesheet" href="/lib/iconfont/iconfont.css" crossorigin />
+		<link
+			rel="shortcut icon"
+			href="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"
+			type="image/png"
+		/>
+	<meta name="generator" content="Hexo 6.3.0"></head>
+
+	<body>
+		<div
+			class="kira-background"
+			style="background-image: url('https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/754977.png')"
+		></div>
+		<div class="kira-header">
+    <a
+        class="kira-drawer-button mdui-ripple"
+        title="导航栏"
+        onclick="document.querySelector('.kira-sidebar-modal').classList.add('show');document.querySelector('.kira-sidebar#sidebar').classList.add('show');"
+    >
+        <i class="kirafont icon-menu"></i>
+    </a>
+    <a href="/" title="姜将的个人博客">
+        <img
+			src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"
+			alt="姜将"
+		/>
+    </a>
+</div>
+		<div class="kira-body">
+			<div class="kira-sidebar" id="sidebar">
+	<div class="kira-avatar mdui-ripple">
+		<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg" title="姜将">
+			<img
+				src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"
+				alt="姜将"
+			/>
+		</a>
+	</div>
+	<div class="kira-count">
+		<div><span>文章</span>8</div>
+		<div><span>标签</span>10</div>
+		<div><span>分类</span>5</div>
+	</div>
+	<div class="kira-list">
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/"
+			title="回到首页"
+		>
+			<i
+				class="kirafont icon-home"
+			></i>
+			<div class="kira-list-item-content">回到首页</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/archive"
+			title="文章归档"
+		>
+			<i
+				class="kirafont icon-container"
+			></i>
+			<div class="kira-list-item-content">文章归档</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/about"
+			title="关于本人"
+		>
+			<i
+				class="kirafont icon-user"
+			></i>
+			<div class="kira-list-item-content">关于本人</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/friends"
+			title="我的朋友"
+		>
+			<i
+				class="kirafont icon-team"
+			></i>
+			<div class="kira-list-item-content">我的朋友</div>
+		</a>
+		
+	</div>
+	<aside id="kira-sidebar">
+		 <div class="kira-widget-wrap">
+	<div class="kira-widget kira-social">
+		<a
+			class="mdui-ripple"
+			href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=2792663690&website=www.oicqzone.com"
+			target="_blank"
+			mdui-tooltip="{content: 'QQ'}"
+			style="
+				color: rgb(49, 174, 255);
+				background-color: rgba(49, 174, 255, .1);
+			"
+		>
+			<i
+				class="kirafont icon-QQ"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://space.bilibili.com/262150061"
+			target="_blank"
+			mdui-tooltip="{content: '哔哩哔哩'}"
+			style="
+				color: rgb(231, 106, 141);
+				background-color: rgba(231, 106, 141, .15);
+			"
+		>
+			<i
+				class="kirafont icon-bilibili"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://github.com/JIANG54864"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .15);
+			"
+		>
+			<i
+				class="kirafont icon-github"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://gitee.com/jiangjiang2077"
+			target="_blank"
+			mdui-tooltip="{content: 'Gitee'}"
+			style="
+				color: rgb(165, 15, 15);
+				background-color: rgba(165, 15, 15, .15);
+			"
+		>
+			<i
+				class="kirafont icon-gitee"
+			></i> </a
+		>
+	</div>
+</div>
+  
+<div class="kira-widget-wrap">
+  <h3 class="kira-widget-title">分类</h3>
+  <div class="kira-widget">
+
+    <ul class="category-list">
+
+      
+
+
+      
+
+      
+
+      <li class="category-list-item">
+        <a class="category-list-link" href="/categories/others/">others</a>
+        <span class="category-list-count">2</span>
+      </li>
+
+      
+
+      <li class="category-list-item">
+        <a class="category-list-link" href="/categories/实验/">实验</a>
+        <span class="category-list-count">1</span>
+      </li>
+
+      
+
+      <li class="category-list-item">
+        <a class="category-list-link" href="/categories/数学/">数学</a>
+        <span class="category-list-count">1</span>
+      </li>
+
+      
+
+      <li class="category-list-item">
+        <a class="category-list-link" href="/categories/知识梳理/">知识梳理</a>
+        <span class="category-list-count">2</span>
+      </li>
+
+      
+
+      <li class="category-list-item">
+        <a class="category-list-link" href="/categories/编程/">编程</a>
+        <span class="category-list-count">2</span>
+      </li>
+
+      
+    </ul>
+
+  </div>
+</div>
+  
+<div class="kira-widget-wrap">
+	<div id="randomtagcloud" class="kira-widget tagcloud kira-rainbow"><a href="/tags/mongo/" style="font-size: 10px;">mongo</a> <a href="/tags/nosql/" style="font-size: 15px;">nosql</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/%E5%AE%9E%E9%AA%8C/" style="font-size: 10px;">实验</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/" style="font-size: 10px;">数据仓库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/" style="font-size: 10px;">数据挖掘</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" style="font-size: 10px;">知识梳理</a> <a href="/tags/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" style="font-size: 15px;">语言基础</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a></div>
+	
+</div>
+
+ 
+	</aside>
+	<div class="kira-copyright">
+		&copy; 2023
+		<a href="/">姜将</a
+		>
+		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &
+		<!-- TODO: github 链接 -->
+		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
+		<br />
+		
+			<a href="https://beian.miit.gov.cn/" target="_blank">鄂ICP备5201314号</a>
+		
+		
+	</div>
+</div>
+<div class="kira-sidebar-modal" id="sidebar-modal" onclick="(function(self) {
+	self.classList.remove('show');
+	document.querySelector('.kira-sidebar.show#sidebar').classList.remove('show');
+})(this)"></div>
+			<div class="kira-content">
+				<div id="kira-top-header"></div>
+				<div class="kira-main-content">
+					
+<link rel="stylesheet" href="/css/kira-image.css">
+
+<script src="/js/kira-image.js"></script>
+<div class="kira-image">
+    <div class="kira-image-modal">
+        <div class="kira-image-header">
+            <div class="kira-image-counter"></div>
+            <div class="kira-image-title"></div>
+            <div class="kira-image-operation">
+                <div class="kira-image-operation-button" id="kira-image-operation-button-zoom">
+                    <i class="kirafont icon-zoom-in"></i>
+                </div>
+                <div class="kira-image-operation-button" id="kira-image-operation-button-close">
+                    <i class="kirafont icon-close"></i>
+                </div>
+            </div>
+        </div>
+        <div class="kira-image-container">
+            <div class="kira-image-prev-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-left"></i>
+                </div>
+            </div>
+            <div class="kira-image-list">
+                <div class="kira-image-prev">
+                    <img />
+                </div>
+                <div class="kira-image-now">
+                    <img />
+                </div>
+                <div class="kira-image-next">
+                    <img />
+                </div>
+            </div>
+            <div class="kira-image-next-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="kira-post">
+	<article>
+		
+		<div
+			class="kira-post-cover"
+			style="padding-bottom: '56.25%'"
+		>
+			<img
+				data-src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/754977.png"
+				data-sizes="auto"
+				alt="数值计算"
+				class="lazyload  kira-post-cover-image"
+			/>
+			<h1>数值计算</h1>
+		</div>
+		
+		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
+			<a><i class="kirafont icon-calendar-fill"></i>2023年02月10日</a>
+			<a><i class="kirafont icon-areachart"></i>755 字</a>
+			<a><i class="kirafont icon-time-circle-fill"></i>大概 3 分钟</a>
+		</div>
+		<h1><span id="专业词汇">专业词汇</span></h1><p>interpolate 插值</p>
+<p>polynomlal 多项式</p>
+<p>monomial 单项式</p>
+<p>iterative 迭代</p>
+<p>equation 方程</p>
+<p>equivation 等效</p>
+<p>convergent 收敛</p>
+<p>normal equations 正规方程组</p>
+<p>orthogonal projector 垂直投影</p>
+<h1><span id="科学计算">科学计算</span></h1><p>适定问题(well-posed problem)</p>
+<p>需要满足如下三个条件：</p>
+<p>a solution exists, （解存在）<br>the solution is unique, （解唯一）<br>the solution’s behaviour changes continuously with the initial conditions. （解能根据初始条件连续变化）</p>
+<p>绝对误差、相对误差：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675940829020.png" alt="1675940829020" class="lazyload"></p>
+<p>误差界：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1676001860931.png" alt="1676001860931" class="lazyload"></p>
+<p>向前误差、向后误差：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675940956462.png" alt="1675940956462" class="lazyload"></p>
+<p>截断舍入、最近舍入：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675941118131.png" alt="1675941118131" class="lazyload"></p>
+<p>误差分类：数据误差、计算误差（截断误差（假设没有舍入，方法产生的误差）、舍入误差）</p>
+<p>敏感性&amp;病态性：问题是敏感的&amp;病态的：输入有误差，输出会有较大误差</p>
+<p>量化：条件数，条件数大称为病态的</p>
+<p>相对条件数的计算：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1676002651065.png" alt="1676002651065" class="lazyload"></p>
+<p>函数与其反函数的条件数互为倒数，一个大一个小</p>
+<p>绝对条件数：|Δy|&#x2F;|Δx|</p>
+<p>浮点数的性质：</p>
+<p>非规格化可以表示更多的数</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1676002865499.png" alt="1676002865499" class="lazyload"></p>
+<h1><span id="线性方程组">线性方程组</span></h1><p>特殊类型矩阵：</p>
+<p>置换矩阵：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1676003017177.png" alt="1676003017177" class="lazyload"></p>
+<p>正交矩阵：如果AAT&#x3D;E（E为单位矩阵，AT表示“矩阵A的转置矩阵”）或ATA&#x3D;E，则n阶实矩阵A称为正交矩阵。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675993198459.png" alt="1675993198459" class="lazyload"></p>
+<p>对于对称正定矩阵，有楚列斯基分解：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675993583812.png" alt="1675993583812" class="lazyload"></p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675993434164.png" alt="1675993434164" class="lazyload"></p>
+<p>向量范数：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675941510319.png" alt="1675941510319" class="lazyload"></p>
+<p>1-范数：绝对值之和</p>
+<p>2-范数：欧几里得范数，欧氏距离</p>
+<p>无穷范数：绝对值最大的元素绝对值</p>
+<p>矩阵范数：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675941788912.png" alt="1675941788912" class="lazyload"></p>
+<p>1-范数：每一列绝对值求和，取列和最大</p>
+<p>2-范数：矩阵AtA的最大特征值开平方根</p>
+<p>矩阵谱半径：矩阵最大特征值绝对值</p>
+<p>无穷范数：每一行绝对值求和，取行和最大</p>
+<p>方阵的条件数：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675942194784.png" alt="1675942194784" class="lazyload"></p>
+<p>条件数与两个范数阶数相同</p>
+<p>LU分解（高斯消去法）：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675943112310.png" alt="1675943112310" class="lazyload"></p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675943144467.png" alt="1675943144467" class="lazyload"></p>
+<p>两种迭代法：</p>
+<p>jaboci迭代法：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675943673259.png" alt="1675943673259" class="lazyload"></p>
+<p>高斯-塞德尔迭代法：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675943770880.png" alt="1675943770880" class="lazyload"></p>
+<p>松弛法：在G-S迭代法的结果上进行修正</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1676003275957.png" alt="1676003275957" class="lazyload"></p>
+<h1><span id="线性最小二乘">线性最小二乘</span></h1><p>线性最小二乘曲线拟合的基本思想：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675990809373.png" alt="1675990809373" class="lazyload"></p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675990835708.png" alt="1675990835708" class="lazyload"></p>
+<p>正规方程组:</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675992463908.png" alt="1675992463908" class="lazyload"></p>
+<p>求最小二乘解:</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675992318814.png" alt="1675992318814" class="lazyload"></p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675992507609.png" alt="1675992507609" class="lazyload"></p>
+<p>豪斯-霍尔德变换：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1676003906296.png" alt="1676003906296" class="lazyload"></p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1676004055955.png" alt="1676004055955" class="lazyload"></p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1676004260446.png" alt="1676004260446" class="lazyload"></p>
+<p>吉文斯变换：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1676004474988.png" alt="1676004474988" class="lazyload"></p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1676004491864.png" alt="1676004491864" class="lazyload"></p>
+<p>格拉-施密特变换（线性代数中所学的方法）：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1676004649609.png" alt="1676004649609" class="lazyload"></p>
+<p>奇异值分解：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675997407722.png" alt="1675997407722" class="lazyload"></p>
+<p>列满秩最小二乘解的新公式：<img data-fancybox="gallery" data-sizes="auto" data-src="/1675997656168.png" alt="1675997656168" class="lazyload"></p>
+<p>最小二乘解的一般公式：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675997684647.png" alt="1675997684647" class="lazyload"></p>
+<h1><span id="非线性方程">非线性方程</span></h1><p>二分法迭代：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675998072020.png" alt="1675998072020" class="lazyload"></p>
+<p>局部收敛条件：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675924872288.png" alt="1675924872288" class="lazyload"></p>
+<p>收敛速度：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675991280415.png" alt="1675991280415" class="lazyload"></p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675991305717.png" alt="1675991305717" class="lazyload"></p>
+<p>牛顿法迭代：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675925511457.png" alt="1675925511457" class="lazyload"></p>
+<p>割线法：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675925535201.png" alt="1675925535201" class="lazyload"></p>
+<h1><span id="插值">插值</span></h1><p>分段多项式插值函数：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675990983527.png" alt="1675990983527" class="lazyload"></p>
+<p>样条&amp;三次样条函数：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675991062263.png" alt="1675991062263" class="lazyload"></p>
+<p>三种多项式插值方法：</p>
+<p>单项式基函数：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675922004384.png" alt="1675922004384" class="lazyload"></p>
+<p>拉格朗日插值：</p>
+<p>拉格朗日基函数：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675922334492.png" alt="1675922334492" class="lazyload"></p>
+<p>例题：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675922157601.png" alt="1675922157601" class="lazyload"></p>
+<p><strong>牛顿插值</strong>：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675923504223.png" alt="1675923504223" class="lazyload"></p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675923531000.png" alt="1675923531000" class="lazyload"></p>
+<h1><span id="数值积分与数值微分">数值积分与数值微分</span></h1><p>代数精度 定义：如果对于所有次数不超过m 的多项式f (x) ，求积公式都精确成立，但对次数为m +1 的多项式不精确成立，则称该求积公式具有m 次代数精度</p>
+<p>三种牛顿-科斯特积分公式：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675998248441.png" alt="1675998248441" class="lazyload"></p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675998277348.png" alt="1675998277348" class="lazyload"></p>
+<p>复化积分公式：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1675998576362.png" alt="1675998576362" class="lazyload"></p>
+
+	</article>
+
+	 
+    <div class="kira-post-copyright">
+        <strong>本文作者：</strong>姜将<br>
+        <strong>本文链接：</strong><a href="http://jiang54864.github.io/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/" title="http:&#x2F;&#x2F;jiang54864.github.io&#x2F;数学&#x2F;数值计算&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;jiang54864.github.io&#x2F;数学&#x2F;数值计算&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+  
+	<div class="kira-post-nav">
+		<nav class="post-nav">
+			                  
+			<!-- 先找到与当前文字相同的目录 -->
+			   
+			<!-- 在找到当前文章所在的 index -->
+			          
+		</nav>
+	</div>
+	
+	<div class="kira-post-meta kira-rainbow">
+		
+			<a class="kirafont icon-appstore-fill -link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a>
+		
+		
+			<a class="kirafont icon-tag-fill -none-link" href="/tags/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" rel="tag">知识梳理</a>
+		
+	</div>
+	
+	<div class="kira-post-footer">
+	<link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css" />
+	<div id="gitalk"></div>
+	<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+	<script type="text/javascript">
+		var gitalk = new Gitalk({
+			clientID: '-id-',
+			clientSecret: '-key-',
+			id: '数值计算',
+			repo: '-issue repo name-',
+			owner: '-your github username-',
+			admin: '-your github username-',
+			title: '',
+		});
+		gitalk.render('gitalk');
+	</script>
+
+</div>
+	
+</div>
+
+				</div>
+			</div>
+			<div class="kira-right-column">
+	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="回到顶部" title="回到顶部">
+		<button class="mdui-fab mdui-ripple">
+			<i class="kirafont icon-caret-up"></i>
+		</button>
+	</a>
+</div>
+
+		</div>
+	</body>
+</html>
