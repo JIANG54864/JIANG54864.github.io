@@ -311,9 +311,11 @@
 		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
 			<a><i class="kirafont icon-calendar-fill"></i>2023年02月19日</a>
 			<a><i class="kirafont icon-areachart"></i>3.6k 字</a>
-			<a><i class="kirafont icon-time-circle-fill"></i>大概 15 分钟</a>
+			<a><i class="kirafont icon-time-circle-fill"></i>大概 16 分钟</a>
 		</div>
-		<h1><span id="几个shell编程题">几个shell编程题</span></h1><p> <strong>#!</strong> 是一个约定的标记，它告诉系统这个脚本需要什么解释器来执行，即使用哪一种 Shell。 </p>
+		<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;%- toc(page.content) %&gt;</span><br></pre></td></tr></table></figure>
+
+<h1><span id="几个shell编程题">几个shell编程题</span></h1><p> <strong>#!</strong> 是一个约定的标记，它告诉系统这个脚本需要什么解释器来执行，即使用哪一种 Shell。 </p>
 <h2><span id="1-检查进程">1、检查进程</span></h2><p>写一个shell脚本，每隔10秒，检查当前系统中有没有进程名字为“firefox”的进程，如果有的话显示“firefox 进程出现了！”并退出，返回码设置为等待的秒数。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">while true</span><br><span class="line">do</span><br><span class="line">process = `pgrep -f firefox`</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pgrep命令以名称为依据从运行进程队列中查找进程，并显示查找到的进程<span class="built_in">id</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">ps -ef | grep <span class="string">&#x27;firefox&#x27;</span> ?</span></span><br><span class="line">i=0</span><br><span class="line">if [ $&#123;#process&#125; -gt 0 ]# $&#123;#string&#125;获取字符串长度</span><br><span class="line">	then</span><br><span class="line">		echo “firefox进程出现了！”</span><br><span class="line">		echo “等待时间为：$i”</span><br><span class="line">		break</span><br><span class="line">	else</span><br><span class="line">		i = i+10</span><br><span class="line">		sleep 10</span><br><span class="line">fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
 
