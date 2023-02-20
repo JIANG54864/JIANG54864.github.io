@@ -1,602 +1,320 @@
-<!DOCTYPE html>
-<html 
-	lang="zh-CN">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		
-<link rel="stylesheet" href="/css/layout.css">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>姜将的个人博客 - Learning and thinking</title><meta name="author" content="姜将"><meta name="copyright" content="姜将"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="记录学习中的知识与收获">
+<meta property="og:type" content="website">
+<meta property="og:title" content="姜将的个人博客">
+<meta property="og:url" content="http://jiang54864.github.io/index.html">
+<meta property="og:site_name" content="姜将的个人博客">
+<meta property="og:description" content="记录学习中的知识与收获">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg">
+<meta property="article:author" content="姜将">
+<meta property="article:tag" content="博客,java,c,python,前端">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"><link rel="shortcut icon" href="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"><link rel="canonical" href="http://jiang54864.github.io/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '姜将的个人博客',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-02-20 23:31:41'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
 
-		
-		<title> 姜将的个人博客</title>
-		<link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" />
-		<script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
-		<!-- lazyload -->
-		<script src="https://unpkg.com/lazysizes@5.1.0/lazysizes.min.js"></script>
-		<!-- smooth-scrolling -->
-		<script src="https://unpkg.com/smooth-scrolling.js@latest"></script>
-		<!-- highlight -->
-		<link rel="stylesheet" href="//unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/atom-one-dark.min.css" />
-		<script src="//unpkg.com/@highlightjs/cdn-assets@11.6.0/highlight.min.js"></script>
-		<!-- 预置 kiraicon -->
-		<link rel="stylesheet" href="/lib/iconfont/iconfont.css" crossorigin />
-		<link
-			rel="shortcut icon"
-			href="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"
-			type="image/png"
-		/>
-	<meta name="generator" content="Hexo 6.3.0"></head>
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
 
-	<body>
-		<div
-			class="kira-background"
-			style="background-image: url('https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/233530HfQoX.jpg')"
-		></div>
-		<div class="kira-header">
-    <a
-        class="kira-drawer-button mdui-ripple"
-        title="导航栏"
-        onclick="document.querySelector('.kira-sidebar-modal').classList.add('show');document.querySelector('.kira-sidebar#sidebar').classList.add('show');"
-    >
-        <i class="kirafont icon-menu"></i>
-    </a>
-    <a href="/" title="姜将的个人博客">
-        <img
-			src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"
-			alt="姜将"
-		/>
-    </a>
-</div>
-		<div class="kira-body">
-			<div class="kira-sidebar" id="sidebar">
-	<div class="kira-avatar mdui-ripple">
-		<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg" title="姜将">
-			<img
-				src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"
-				alt="姜将"
-			/>
-		</a>
-	</div>
-	<div class="kira-count">
-		<div><span>文章</span>12</div>
-		<div><span>标签</span>14</div>
-		<div><span>分类</span>5</div>
-	</div>
-	<div class="kira-list">
-		
-		<a
-			class="kira-list-item mdui-ripple true"
-			href="/"
-			title="回到首页"
-		>
-			<i
-				class="kirafont icon-home"
-			></i>
-			<div class="kira-list-item-content">回到首页</div>
-		</a>
-		
-		<a
-			class="kira-list-item mdui-ripple false"
-			href="/archive"
-			title="文章归档"
-		>
-			<i
-				class="kirafont icon-container"
-			></i>
-			<div class="kira-list-item-content">文章归档</div>
-		</a>
-		
-		<a
-			class="kira-list-item mdui-ripple false"
-			href="/about"
-			title="关于本人"
-		>
-			<i
-				class="kirafont icon-user"
-			></i>
-			<div class="kira-list-item-content">关于本人</div>
-		</a>
-		
-		<a
-			class="kira-list-item mdui-ripple false"
-			href="/friends"
-			title="我的朋友"
-		>
-			<i
-				class="kirafont icon-team"
-			></i>
-			<div class="kira-list-item-content">我的朋友</div>
-		</a>
-		
-	</div>
-	<aside id="kira-sidebar">
-		 <div class="kira-widget-wrap">
-	<div class="kira-widget kira-social">
-		<a
-			class="mdui-ripple"
-			href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=2792663690&website=www.oicqzone.com"
-			target="_blank"
-			mdui-tooltip="{content: 'QQ'}"
-			style="
-				color: rgb(49, 174, 255);
-				background-color: rgba(49, 174, 255, .1);
-			"
-		>
-			<i
-				class="kirafont icon-QQ"
-			></i> </a
-		><a
-			class="mdui-ripple"
-			href="https://space.bilibili.com/262150061"
-			target="_blank"
-			mdui-tooltip="{content: '哔哩哔哩'}"
-			style="
-				color: rgb(231, 106, 141);
-				background-color: rgba(231, 106, 141, .15);
-			"
-		>
-			<i
-				class="kirafont icon-bilibili"
-			></i> </a
-		><a
-			class="mdui-ripple"
-			href="https://github.com/JIANG54864"
-			target="_blank"
-			mdui-tooltip="{content: 'GitHub'}"
-			style="
-				color: rgb(25, 23, 23);
-				background-color: rgba(25, 23, 23, .15);
-			"
-		>
-			<i
-				class="kirafont icon-github"
-			></i> </a
-		><a
-			class="mdui-ripple"
-			href="https://gitee.com/jiangjiang2077"
-			target="_blank"
-			mdui-tooltip="{content: 'Gitee'}"
-			style="
-				color: rgb(165, 15, 15);
-				background-color: rgba(165, 15, 15, .15);
-			"
-		>
-			<i
-				class="kirafont icon-gitee"
-			></i> </a
-		>
-	</div>
-</div>
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
   
-<div class="kira-widget-wrap">
-  <h3 class="kira-widget-title">分类</h3>
-  <div class="kira-widget">
-
-    <ul class="category-list">
-
-      
-
-
-      
-
-      
-
-      <li class="category-list-item">
-        <a class="category-list-link" href="/categories/others/">others</a>
-        <span class="category-list-count">2</span>
-      </li>
-
-      
-
-      <li class="category-list-item">
-        <a class="category-list-link" href="/categories/实验/">实验</a>
-        <span class="category-list-count">1</span>
-      </li>
-
-      
-
-      <li class="category-list-item">
-        <a class="category-list-link" href="/categories/数学/">数学</a>
-        <span class="category-list-count">1</span>
-      </li>
-
-      
-
-      <li class="category-list-item">
-        <a class="category-list-link" href="/categories/知识梳理/">知识梳理</a>
-        <span class="category-list-count">6</span>
-      </li>
-
-      
-
-      <li class="category-list-item">
-        <a class="category-list-link" href="/categories/编程/">编程</a>
-        <span class="category-list-count">2</span>
-      </li>
-
-      
-    </ul>
-
-  </div>
-</div>
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
   
-<div class="kira-widget-wrap">
-	<div id="randomtagcloud" class="kira-widget tagcloud kira-rainbow"><a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mongo/" style="font-size: 10px;">mongo</a> <a href="/tags/nosql/" style="font-size: 15px;">nosql</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/%E5%AE%9E%E9%AA%8C/" style="font-size: 10px;">实验</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/" style="font-size: 10px;">数据仓库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/" style="font-size: 10px;">数据挖掘</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">机器学习</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" style="font-size: 10px;">知识梳理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" style="font-size: 15px;">语言基础</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" style="font-size: 10px;">软件工程</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a></div>
-	
-</div>
-
- 
-	</aside>
-	<div class="kira-copyright">
-		&copy; 2023
-		<a href="/">姜将</a
-		>
-		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &
-		<!-- TODO: github 链接 -->
-		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
-		<br />
-		
-			<a href="https://beian.miit.gov.cn/" target="_blank">鄂ICP备5201314号</a>
-		
-		
-	</div>
-</div>
-<div class="kira-sidebar-modal" id="sidebar-modal" onclick="(function(self) {
-	self.classList.remove('show');
-	document.querySelector('.kira-sidebar.show#sidebar').classList.remove('show');
-})(this)"></div>
-			<div class="kira-content">
-				<div id="kira-top-header"></div>
-				<div class="kira-main-content">
-					<div class="kira-posts">
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-        <div class="kira-post">
-            <a href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/Linux%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/">
-                
-                <div
-                    class="kira-post-cover mdui-ripple"
-                    style="padding-bottom: '56.25%'"
-                >
-                    <img
-                        data-src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/233530HfQoX.jpg"
-                        data-sizes="auto"
-                        alt="Linux知识梳理"
-                        class="lazyload"
-                    />
-                    <h1>Linux知识梳理</h1>
-                </div>
-                
-            </a>
-
-            <div class="kira-post-meta kira-rainbow">
-                <a
-                    ><i class="kirafont icon-calendar-fill"></i>2023年02月19日</a
-                >
-                <a><i class="kirafont icon-areachart"></i>3.6k 字</a>
-                <a>
-                    <i class="kirafont icon-time-circle-fill"></i>大概
-                    15 分钟
-                </a>
-            </div>
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
     
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page fixed" id="page-header" style="background-image: url('https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/233530HfQoX.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="姜将的个人博客"><img class="site-icon" src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"/><span class="site-name">姜将的个人博客</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">姜将的个人博客</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/JIANG54864" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/Linux%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" title="Linux知识梳理">Linux知识梳理</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-02-19T11:01:38.000Z" title="发表于 2023-02-19 19:01:38">2023-02-19</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/">知识梳理</a></span></div><div class="content">几个shell编程题 #! 是一个约定的标记，它告诉系统这个脚本需要什么解释器来执行，即使用哪一种 Shell。 
+1、检查进程写一个shell脚本，每隔10秒，检查当前系统中有没有进程名字为“firefox”的进程，如果有的话显示“firefox 进程出现了！”并退出，返回码设置为等待的秒数。
+12345678910111213141516while truedoprocess = `pgrep -f firefox`#pgrep命令以名称为依据从运行进程队列中查找进程，并显示查找到的进程id#ps -ef | grep &#x27;firefox&#x27; ?i=0if [ $&#123;#process&#125; -gt 0 ]# $&#123;#string&#125;获取字符串长度	then		echo “firefox进程出现了！”		echo “等待时间为：$i”		break	else		i = i+10		sleep 10fidone
+
+2、解释这行命令的含义如果输入123，会显示什么？如果输入1234显示什么？ 
+123456#从标准输入中读取abc的值read ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" title="软件工程知识梳理">软件工程知识梳理</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-02-19T10:59:06.000Z" title="发表于 2023-02-19 18:59:06">2023-02-19</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/">知识梳理</a></span></div><div class="content">第一章 软件工程概述1.1软件工程（SE）的定义、目的、方法、作用定义：在将有关软件开发与应用的概念科学体系化的基础上，研究如何有计划、有效率、经济的开发和利用能在计算机上正确运行的软件的理论和技术工程的方法学，以及一些开发和维护软件的方法、过程、原则。是一个系统工程，既有对技术问题的分析与综合，也有对开发过程和参与者的管理。
+方法：面向对象模式，结构化模式，基于过程的模式等。
+作用：付出较低的开发成本，达到要求的软件功能，取得较好的软件性能，开发的软件易于移植，需要较低的维护费用，能按时完成开发工作，及时交付使用。
+1.2开发模式软件开发的全部过程，活动和任务的结构框架，它能直观的表达软件开发全过程，明确要完成的主要活动，任务和开发策略。
+1.3说明错误、缺陷和失败的含义及联系错误(error)：是在软件开发过程中人为产生的错误（如：需求说明中的错误，代码中的错误）
+缺陷（故障fault）：是在软件功能实现过程中产生的问题；是错误导致的结果，是在软件中一个错误的表现（如：代码写错了导致系统无法启动，一个错误可能产生多个缺陷，静态存在的）
+失败(failure)：系统违背了它应有的行为 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" title="计算机网络知识梳理">计算机网络知识梳理</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-02-19T10:50:34.000Z" title="发表于 2023-02-19 18:50:34">2023-02-19</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/">知识梳理</a></span></div><div class="content">协议总结数据链路层：
+MAC: 介质访问控制(medium access control)
+Goback N:回退n帧协议
+SN:选择性重传
+介质访问控制子层：
+ALOHA：想发就发，随机时间后重传
+时隙ALOHA(分槽ALOHA)：只在时间片开始时发送&#x2F;重传
+CSMA：载波监听多路访问协议，先听后发
+1-坚持：信道空闲马上发，信道忙继续坚持监听
+非坚持：信道空闲马上发，信道忙放弃监听，随机事件后再监听
+p-坚持：信道空闲p概率马上发，1-p概率下一个时隙再发,如果下一个时隙空闲，仍然概率p发送，1-p推迟…
+CSMA&#x2F;CD：载波监听多路访问&#x2F;碰撞检测协议
+先检测是否空闲,边发送边监听，如果冲突就停止
+CSMA&#x2F;CA：载波监听多路访问&#x2F;碰撞避免协议 ,是802.11 MAC 子层协议的核心协议
+用于无线网络，先检测是否空闲，如果空闲则发送RTS,接收方返回CTS，预约信道开始发送，接收方收到后响应ACK
+MACA 冲突避免多路访问 有RTS,CTS
+MACAW: MACA for Wireless，无线的MACA（MACA：Multip ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E6%95%B4%E7%90%86/" title="机器学习基础整理">机器学习基础整理</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-02-19T10:46:40.000Z" title="发表于 2023-02-19 18:46:40">2023-02-19</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/">知识梳理</a></span></div><div class="content">时间不多，所以不做过多整理了。
+部分数学
+先验概率P(Wj)
+后验概率P(Wj|x)
+类条件概率密度p(x|wi)
+类条件概率密度，即类别状态为  时的x的概率密度函数
+决策树：
+信息熵和信息增益：
+
+
+
+计算举例：
+CLS：随机选择
+ID3: 选出信息增益最大的属性，信息增益偏向于可能值较多的属性
+信息增益率：属性A对数据集S的信息增益与数据集S关于属性A的信息熵的比 
+C4.5:先从候选划分属性中找出信息增益Information Gain高于平均水平的属性，再从中选择增益率GainRatio最高的
+CART：基尼系数
+  
+矩阵的卷积运算：卷积核矩阵翻转180°，被卷积矩阵外围补充0构成m+n维，每个位置相乘求和
+名词解释主动学习
+主动学习是机器学习的一个子领域，在统计学领域也叫查询学习或最优实验设计。主动学习方法尝试解决样本的标注瓶颈，通过主动优先选择最有价值的未标注样本进行标注，以尽可能少的标注样本达到模型的预期性能。
+监督学习（Supervised learning）
+数据集中的每个样本有相应的“正确答案”， 根据这些样本做出预测， 分有两类： 回归问题和分类问题。
+无监督 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/" title="数值计算">数值计算</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-02-10T11:33:54.000Z" title="发表于 2023-02-10 19:33:54">2023-02-10</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a></span></div><div class="content">专业词汇interpolate 插值
+polynomlal 多项式
+monomial 单项式
+iterative 迭代
+equation 方程
+equivation 等效
+convergent 收敛
+normal equations 正规方程组
+orthogonal projector 垂直投影
+科学计算适定问题(well-posed problem)
+需要满足如下三个条件：
+a solution exists, （解存在）the solution is unique, （解唯一）the solution’s behaviour changes continuously with the initial conditions. （解能根据初始条件连续变化）
+绝对误差、相对误差：
+
+误差界：
+
+向前误差、向后误差：
+
+截断舍入、最近舍入：
+
+误差分类：数据误差、计算误差（截断误差（假设没有舍入，方法产生的误差）、舍入误差）
+敏感性&amp;病态性：问题是敏感的&amp;病态的：输入有误差，输出会有较大误差
+量化：条件数，条件数大称为病态的
+相对条件数的计算：
+
+函数与其反函数的条件数互为 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" title="数据仓库数据挖掘知识梳理">数据仓库数据挖掘知识梳理</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-02-08T07:32:52.000Z" title="发表于 2023-02-08 15:32:52">2023-02-08</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/">知识梳理</a></span></div><div class="content">1 数据分析的基本步骤有哪些？每个步骤的主要工作
+2 关于大数据的4V理论是什么？数据规模大从TB跃升到PB甚至EB。 
+数据类型多越来越多非结构化数据；音频、 食品，地理位置信息等多类型数 据对数据处理能力提出更高要求。
+数据价值高海量数据带来了巨大的商业价值。数 据之间关联性支持深层的数据挖掘。
+数据处理速度快 对数据实时处理有着极高的要求， 通过传统数据库查询方式得到的 “当前结果”很可能已经没有价值。
+3 四种基本度量尺度适用的集中趋势和离散度量方法有哪些？按照对事物计量的精确程度，可将所采用的计量尺度由低级到高级分为四个层次：定类尺度(Nominal Level)定序尺度(Ordinal Level)定距尺度(Interval Level)定比尺度(Ratio Level)
+定类数据：众数定序数据：中位数定距和定比数据：平均数（均值）众数、中位数和均值的比较
+数据的离散程度即衡量一组数据的分散程度如何定类数据：异众比率定序数据：四分位差定距和定比数据：方差和标准差相对离散程度：离散系数
+4 数据对象的相似性有哪些方法
+5 数据属性的相关性有哪些方法（斯皮尔曼等级相关系数，皮尔 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/others/%E9%9A%8F%E7%AC%94/" title="随笔">随笔</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-01-28T14:21:23.000Z" title="发表于 2023-01-28 22:21:23">2023-01-28</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/others/">others</a></span></div><div class="content">今天太晚了，本来想每天发布一篇技术博客看来今天做不到了。好消息是开学终于有消息了，虽然你软院明天才开会但是我已经从其他学院的同学那里得到了确切消息。终于可以回学校了，考研，期末，都需要好好准备，家里确实没有学习环境。
+想一想明天该做的事，计划一下。原神已经抽光原石卸载了，王者也删掉了，要是刷视频再刷到就减少王者推荐，免得让我又想下载了玩。抖音过段时间也卸了吧，本来也就不是我习惯用的软件，而且刷起来确实有点上瘾。说起游戏，荒野大镖客2前几天下回来我的电脑居然帧数贼低，原来玩得好好的，绝对是游戏的问题或者win11的问题，纯纯负优化了，也无所谓，本来也就基本上通关了。
+明天就整理整理linux的知识点或者数据仓库数据挖掘的知识点，尽量做做考研数学的书，一定好好努力不能再摆烂了！胡适之啊胡适之，你怎么能天天打牌呢。眼瞅着这寒假就结束了，大部分时间都在玩和浪费时间，和计划的相去甚远啊。然后今天12点之前睡觉，明天早点起床，调整作息，从现在开始。
+要有紧迫感，要记住自己要做到的事，要弥补过去的遗憾，实现自我价值。
+</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/Nosql%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80/" title="Nosql理论基础">Nosql理论基础</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-01-27T04:04:49.000Z" title="发表于 2023-01-27 12:04:49">2023-01-27</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/">知识梳理</a></span></div><div class="content">学习Nosql过程中对基础知识的整理。这门课最后考了97分，排名第三。
+数据一致性•一致性模型强度排序如下：
+• 线性一致性 &gt; 顺序一致性 &gt; 因果一致性 &gt; { 写后读一致性&#x2F;自读自写一致性，单调读&#x2F;写一致性，前缀一致性，先读后写一致性} 
+•强一致性•也叫即时一致性
+•假如应用1先写入了一个值到存储系统，存储系统保证后续应用1、应用2、应用3对于该值读取操作都将返回最新值
+•弱一致性•假如应用1先写入了一个值到存储系统，存储系统不能保证后续应用1，应用2，应用3对于该值的读取操作能读取到最新值。
+•最终一致性•最终一致性是弱一致性的一种特例
+•假如应用1首先写了一个值到存储系统，存储系统保证如果在应用1，应用2，应用3后续读取之前没有其它写操作更新同样的值的前提下，最终所有的读取操作都会读取到应用1写入的最新值
+•不一致性窗口：从应用1写入到后续操作应用1，应用2，应用3读取到最新值这一段时间
+•此种情况下，如果没有失败发生的话，“不一致性窗口”的大小依赖于以下的几个因素：交互延迟，系统的负载，以及复制技术中replica的个数(这个可以理解 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/%E7%BC%96%E7%A8%8B/python%E7%BC%96%E7%A8%8B%E5%A4%8D%E4%B9%A0%E9%A2%98/" title="python编程复习题">python编程复习题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-01-25T11:38:03.000Z" title="发表于 2023-01-25 19:38:03">2023-01-25</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a></span></div><div class="content">大二上学期lfb老师面向大数据的python开发课程中一些简单编程题目的记录。
+1.生日攻击生日攻击是一个著名的概率问题，在分析hash函数安全性问题时有用，是类比这样一个问题：随机选取至少多少个学生，才能使这些学生中有两个同学生日一样的概率不少于一半。用python代码写程序，用多次随机试验的方法找这个人数的下限。
+生日攻击python代码验证程序
+
+123456789101112131415161718&gt;import random&gt;days_in1year = 365&gt;try_and_loop = 10000&gt;for g in range(1,365):#range函数是常用于遍历数字的内置函数&gt;hit=0&gt;for loop_i in range(0,try_and_loop):#0到9999 对于每个人数 实验10000次 看成功多少次 即为概率&gt;birthdays=set([])&gt;for o in range(0,g):#o为0到当前实验次数，即多少个人 birthday1 = random.randint(1,days_in1y ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/" title="Nosql实验--租房总数据">Nosql实验--租房总数据</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-01-24T08:04:38.000Z" title="发表于 2023-01-24 16:04:38">2023-01-24</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%AE%9E%E9%AA%8C/">实验</a></span></div><div class="content">目录
+实验一 熟悉实验环境和实验数据
+实验二 设计 MongoDB 数据库、集合和文档
+实验三 将实验数据插入数据库中
+实验四 使用交互式命令完成查询
+实验五 使用高级程序设计语言进行数据统计(本实验是选做题)
+实验一 熟悉实验环境和实验数据1、熟悉华为 GaussDB for MongoDB 数据库的操作。
+2、下载并了解实验数据。
+由于没有弄清楚openguess和guessdb for mongo的区别，尝试用dbeaver连接的错误尝试：
+
+华为云手册中使用1.4版本的robo 3t，官网的robo 3t升级成了Studio 3T，界面有了很大不同，对着教程操作困难。前往github下载之前发行的版本：
+
+
+根据教程连接上云数据库后，发现自己无法创建数据库，使用shell执行use命令后无法插入文档。
+
+插入文档报错：not master
+解决：连接的ip是从节点，更换公网ip至主节点。
+
+了解实验数据：
+每个文档包含_id、base_info（基本信息）、city、configuration（配置条件）、district（行政区域）、lease_mode（出租模式，整租或者合 ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">姜将</div><div class="author-info__description">记录学习中的知识与收获</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/JIANG54864"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/JIANG54864" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客，如有错误还请指正</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><div class="content"><a class="title" href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/Linux%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" title="Linux知识梳理">Linux知识梳理</a><time datetime="2023-02-19T11:01:38.000Z" title="发表于 2023-02-19 19:01:38">2023-02-19</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" title="软件工程知识梳理">软件工程知识梳理</a><time datetime="2023-02-19T10:59:06.000Z" title="发表于 2023-02-19 18:59:06">2023-02-19</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" title="计算机网络知识梳理">计算机网络知识梳理</a><time datetime="2023-02-19T10:50:34.000Z" title="发表于 2023-02-19 18:50:34">2023-02-19</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E6%95%B4%E7%90%86/" title="机器学习基础整理">机器学习基础整理</a><time datetime="2023-02-19T10:46:40.000Z" title="发表于 2023-02-19 18:46:40">2023-02-19</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/" title="数值计算">数值计算</a><time datetime="2023-02-10T11:33:54.000Z" title="发表于 2023-02-10 19:33:54">2023-02-10</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
             
-        </div>
-        <div class="kira-hr"></div>
-    
-        <div class="kira-post">
-            <a href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/">
-                
-                <div
-                    class="kira-post-cover mdui-ripple"
-                    style="padding-bottom: '56.25%'"
-                >
-                    <img
-                        data-src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/233530HfQoX.jpg"
-                        data-sizes="auto"
-                        alt="软件工程知识梳理"
-                        class="lazyload"
-                    />
-                    <h1>软件工程知识梳理</h1>
-                </div>
-                
-            </a>
-
-            <div class="kira-post-meta kira-rainbow">
-                <a
-                    ><i class="kirafont icon-calendar-fill"></i>2023年02月19日</a
-                >
-                <a><i class="kirafont icon-areachart"></i>14.4k 字</a>
-                <a>
-                    <i class="kirafont icon-time-circle-fill"></i>大概
-                    58 分钟
-                </a>
             </div>
-    
-            
-        </div>
-        <div class="kira-hr"></div>
-    
-        <div class="kira-post">
-            <a href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/">
-                
-                <div
-                    class="kira-post-cover mdui-ripple"
-                    style="padding-bottom: '56.25%'"
-                >
-                    <img
-                        data-src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/233530HfQoX.jpg"
-                        data-sizes="auto"
-                        alt="计算机网络知识梳理"
-                        class="lazyload"
-                    />
-                    <h1>计算机网络知识梳理</h1>
-                </div>
-                
-            </a>
-
-            <div class="kira-post-meta kira-rainbow">
-                <a
-                    ><i class="kirafont icon-calendar-fill"></i>2023年02月19日</a
-                >
-                <a><i class="kirafont icon-areachart"></i>1.3k 字</a>
-                <a>
-                    <i class="kirafont icon-time-circle-fill"></i>大概
-                    5 分钟
-                </a>
-            </div>
-    
-            
-        </div>
-        <div class="kira-hr"></div>
-    
-        <div class="kira-post">
-            <a href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E6%95%B4%E7%90%86/">
-                
-                <div
-                    class="kira-post-cover mdui-ripple"
-                    style="padding-bottom: '56.25%'"
-                >
-                    <img
-                        data-src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/233530HfQoX.jpg"
-                        data-sizes="auto"
-                        alt="机器学习基础整理"
-                        class="lazyload"
-                    />
-                    <h1>机器学习基础整理</h1>
-                </div>
-                
-            </a>
-
-            <div class="kira-post-meta kira-rainbow">
-                <a
-                    ><i class="kirafont icon-calendar-fill"></i>2023年02月19日</a
-                >
-                <a><i class="kirafont icon-areachart"></i>9.4k 字</a>
-                <a>
-                    <i class="kirafont icon-time-circle-fill"></i>大概
-                    38 分钟
-                </a>
-            </div>
-    
-            
-        </div>
-        <div class="kira-hr"></div>
-    
-        <div class="kira-post">
-            <a href="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/">
-                
-                <div
-                    class="kira-post-cover mdui-ripple"
-                    style="padding-bottom: '56.25%'"
-                >
-                    <img
-                        data-src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/233530HfQoX.jpg"
-                        data-sizes="auto"
-                        alt="数值计算"
-                        class="lazyload"
-                    />
-                    <h1>数值计算</h1>
-                </div>
-                
-            </a>
-
-            <div class="kira-post-meta kira-rainbow">
-                <a
-                    ><i class="kirafont icon-calendar-fill"></i>2023年02月10日</a
-                >
-                <a><i class="kirafont icon-areachart"></i>755 字</a>
-                <a>
-                    <i class="kirafont icon-time-circle-fill"></i>大概
-                    3 分钟
-                </a>
-            </div>
-    
-            
-        </div>
-        <div class="kira-hr"></div>
-    
-        <div class="kira-post">
-            <a href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/">
-                
-                <div
-                    class="kira-post-cover mdui-ripple"
-                    style="padding-bottom: '56.25%'"
-                >
-                    <img
-                        data-src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/233530HfQoX.jpg"
-                        data-sizes="auto"
-                        alt="数据仓库数据挖掘知识梳理"
-                        class="lazyload"
-                    />
-                    <h1>数据仓库数据挖掘知识梳理</h1>
-                </div>
-                
-            </a>
-
-            <div class="kira-post-meta kira-rainbow">
-                <a
-                    ><i class="kirafont icon-calendar-fill"></i>2023年02月08日</a
-                >
-                <a><i class="kirafont icon-areachart"></i>15.6k 字</a>
-                <a>
-                    <i class="kirafont icon-time-circle-fill"></i>大概
-                    64 分钟
-                </a>
-            </div>
-    
-            
-        </div>
-        <div class="kira-hr"></div>
-    
-        <div class="kira-post">
-            <a href="/others/%E9%9A%8F%E7%AC%94/">
-                
-                <div
-                    class="kira-post-cover mdui-ripple"
-                    style="padding-bottom: '56.25%'"
-                >
-                    <img
-                        data-src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/233530HfQoX.jpg"
-                        data-sizes="auto"
-                        alt="随笔"
-                        class="lazyload"
-                    />
-                    <h1>随笔</h1>
-                </div>
-                
-            </a>
-
-            <div class="kira-post-meta kira-rainbow">
-                <a
-                    ><i class="kirafont icon-calendar-fill"></i>2023年01月28日</a
-                >
-                <a><i class="kirafont icon-areachart"></i>405 字</a>
-                <a>
-                    <i class="kirafont icon-time-circle-fill"></i>大概
-                    1 分钟
-                </a>
-            </div>
-    
-            
-        </div>
-        <div class="kira-hr"></div>
-    
-        <div class="kira-post">
-            <a href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/Nosql%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80/">
-                
-                <div
-                    class="kira-post-cover mdui-ripple"
-                    style="padding-bottom: '56.25%'"
-                >
-                    <img
-                        data-src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/233530HfQoX.jpg"
-                        data-sizes="auto"
-                        alt="Nosql理论基础"
-                        class="lazyload"
-                    />
-                    <h1>Nosql理论基础</h1>
-                </div>
-                
-            </a>
-
-            <div class="kira-post-meta kira-rainbow">
-                <a
-                    ><i class="kirafont icon-calendar-fill"></i>2023年01月27日</a
-                >
-                <a><i class="kirafont icon-areachart"></i>7.9k 字</a>
-                <a>
-                    <i class="kirafont icon-time-circle-fill"></i>大概
-                    32 分钟
-                </a>
-            </div>
-    
-            
-        </div>
-        <div class="kira-hr"></div>
-    
-        <div class="kira-post">
-            <a href="/%E7%BC%96%E7%A8%8B/python%E7%BC%96%E7%A8%8B%E5%A4%8D%E4%B9%A0%E9%A2%98/">
-                
-                <div
-                    class="kira-post-cover mdui-ripple"
-                    style="padding-bottom: '56.25%'"
-                >
-                    <img
-                        data-src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/233530HfQoX.jpg"
-                        data-sizes="auto"
-                        alt="python编程复习题"
-                        class="lazyload"
-                    />
-                    <h1>python编程复习题</h1>
-                </div>
-                
-            </a>
-
-            <div class="kira-post-meta kira-rainbow">
-                <a
-                    ><i class="kirafont icon-calendar-fill"></i>2023年01月25日</a
-                >
-                <a><i class="kirafont icon-areachart"></i>4.8k 字</a>
-                <a>
-                    <i class="kirafont icon-time-circle-fill"></i>大概
-                    21 分钟
-                </a>
-            </div>
-    
-            
-        </div>
-        <div class="kira-hr"></div>
-    
-        <div class="kira-post">
-            <a href="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/">
-                
-                <div
-                    class="kira-post-cover mdui-ripple"
-                    style="padding-bottom: '56.25%'"
-                >
-                    <img
-                        data-src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/233530HfQoX.jpg"
-                        data-sizes="auto"
-                        alt="Nosql实验--租房总数据"
-                        class="lazyload"
-                    />
-                    <h1>Nosql实验--租房总数据</h1>
-                </div>
-                
-            </a>
-
-            <div class="kira-post-meta kira-rainbow">
-                <a
-                    ><i class="kirafont icon-calendar-fill"></i>2023年01月24日</a
-                >
-                <a><i class="kirafont icon-areachart"></i>3.3k 字</a>
-                <a>
-                    <i class="kirafont icon-time-circle-fill"></i>大概
-                    14 分钟
-                </a>
-            </div>
-    
-            
-        </div>
-        <div class="kira-hr"></div>
-    
-</div>
-
-    <div class="kira-page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="kirafont icon-right"></i></a>
-    </div>
-
-				</div>
-			</div>
-			<div class="kira-right-column">
-	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="回到顶部" title="回到顶部">
-		<button class="mdui-fab mdui-ripple">
-			<i class="kirafont icon-caret-up"></i>
-		</button>
-	</a>
-</div>
-
-		</div>
-	</body>
-</html>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/others/"><span class="card-category-list-name">others</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AE%9E%E9%AA%8C/"><span class="card-category-list-name">实验</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%95%B0%E5%AD%A6/"><span class="card-category-list-name">数学</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/"><span class="card-category-list-name">知识梳理</span><span class="card-category-list-count">6</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%BC%96%E7%A8%8B/"><span class="card-category-list-name">编程</span><span class="card-category-list-count">2</span></a></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/linux/" style="font-size: 1.1em; color: #999">linux</a> <a href="/tags/mongo/" style="font-size: 1.1em; color: #999">mongo</a> <a href="/tags/nosql/" style="font-size: 1.3em; color: #99a1ac">nosql</a> <a href="/tags/python/" style="font-size: 1.5em; color: #99a9bf">python</a> <a href="/tags/test/" style="font-size: 1.1em; color: #999">test</a> <a href="/tags/%E5%AE%9E%E9%AA%8C/" style="font-size: 1.1em; color: #999">实验</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/" style="font-size: 1.1em; color: #999">数据仓库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/" style="font-size: 1.1em; color: #999">数据挖掘</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 1.1em; color: #999">机器学习</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" style="font-size: 1.1em; color: #999">知识梳理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 1.1em; color: #999">计算机网络</a> <a href="/tags/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" style="font-size: 1.3em; color: #99a1ac">语言基础</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" style="font-size: 1.1em; color: #999">软件工程</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 1.1em; color: #999">随笔</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/02/"><span class="card-archive-list-date">二月 2023</span><span class="card-archive-list-count">6</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/01/"><span class="card-archive-list-date">一月 2023</span><span class="card-archive-list-count">6</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">12</div></div><div class="webinfo-item"><div class="item-name">已运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2023-01-23T16:00:00.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">79.9k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2023-02-20T15:31:41.144Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 姜将</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>window.typedJSFn = {
+  init: (str) => {
+    window.typed = new Typed('#subtitle', Object.assign({
+      strings: str,
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50,
+    }, null))
+  },
+  run: (subtitleType) => {
+    if (true) {
+      if (typeof Typed === 'function') {
+        subtitleType()
+      } else {
+        getScript('https://cdn.jsdelivr.net/npm/typed.js/lib/typed.min.js').then(subtitleType)
+      }
+    } else {
+      subtitleType()
+    }
+  }
+}
+</script><script>function subtitleType () {
+  getScript('https://sdk.jinrishici.com/v2/browser/jinrishici.js').then(() => {
+    jinrishici.load(result =>{
+      if (true) {
+        const sub = ["什么都放弃不了的人，什么都改变不了","很多困难和无助都是随机的涨落的一部分","付出足够多的时间和耐心，随机过程总会收敛到和付出相对的稳态"]
+        const content = result.data.content
+        sub.unshift(content)
+        typedJSFn.init(sub)
+      } else {
+        document.getElementById('subtitle').innerHTML = result.data.content
+      }
+    })
+  })
+}
+typedJSFn.run(subtitleType)
+</script></div><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
