@@ -1,162 +1,326 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>python100个关键词 | 姜将的个人博客</title><meta name="author" content="姜将"><meta name="copyright" content="姜将"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="这篇博客是我在大二上学期lfb老师的面向大数据的python开发课程时对老师给出的关键词进行查找总结的成果。100个关键词在下方分别列出含义（以字母顺序）。 .appendappend() 方法用于在列表末尾添加新的对象。 append()方法语法： 1list.append(obj)   obj – 添加到列表末尾的对象。  该方法无返回值，但是会修改原来的列表。 以下实例展示了 append(">
-<meta property="og:type" content="article">
-<meta property="og:title" content="python100个关键词">
-<meta property="og:url" content="http://jiang54864.github.io/%E7%BC%96%E7%A8%8B/python100%E4%B8%AA%E5%85%B3%E9%94%AE%E8%AF%8D/index.html">
-<meta property="og:site_name" content="姜将的个人博客">
-<meta property="og:description" content="这篇博客是我在大二上学期lfb老师的面向大数据的python开发课程时对老师给出的关键词进行查找总结的成果。100个关键词在下方分别列出含义（以字母顺序）。 .appendappend() 方法用于在列表末尾添加新的对象。 append()方法语法： 1list.append(obj)   obj – 添加到列表末尾的对象。  该方法无返回值，但是会修改原来的列表。 以下实例展示了 append(">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg">
-<meta property="article:published_time" content="2023-01-24T07:31:48.000Z">
-<meta property="article:modified_time" content="2023-02-08T06:52:00.332Z">
-<meta property="article:author" content="姜将">
-<meta property="article:tag" content="python">
-<meta property="article:tag" content="语言基础">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"><link rel="shortcut icon" href="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"><link rel="canonical" href="http://jiang54864.github.io/%E7%BC%96%E7%A8%8B/python100%E4%B8%AA%E5%85%B3%E9%94%AE%E8%AF%8D/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
-  root: '/',
-  algolia: undefined,
-  localSearch: undefined,
-  translate: undefined,
-  noticeOutdate: undefined,
-  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
-  copy: {
-    success: '复制成功',
-    error: '复制错误',
-    noSupport: '浏览器不支持'
-  },
-  relativeDate: {
-    homepage: false,
-    post: false
-  },
-  runtime: '天',
-  date_suffix: {
-    just: '刚刚',
-    min: '分钟前',
-    hour: '小时前',
-    day: '天前',
-    month: '个月前'
-  },
-  copyright: undefined,
-  lightbox: 'fancybox',
-  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
-  source: {
-    justifiedGallery: {
-      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
-      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
-    }
-  },
-  isPhotoFigcaption: false,
-  islazyload: false,
-  isAnchor: false,
-  percent: {
-    toc: true,
-    rightside: true,
-  }
-}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
-  title: 'python100个关键词',
-  isPost: true,
-  isHome: false,
-  isHighlightShrink: false,
-  isToc: true,
-  postUpdate: '2023-02-08 14:52:00'
-}</script><noscript><style type="text/css">
-  #nav {
-    opacity: 1
-  }
-  .justified-gallery img {
-    opacity: 1
-  }
+<!DOCTYPE html>
+<html 
+	lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
+<link rel="stylesheet" href="/css/layout.css">
 
-  #recent-posts time,
-  #post-meta time {
-    display: inline !important
-  }
-</style></noscript><script>(win=>{
-    win.saveToLocal = {
-      set: function setWithExpiry(key, value, ttl) {
-        if (ttl === 0) return
-        const now = new Date()
-        const expiryDay = ttl * 86400000
-        const item = {
-          value: value,
-          expiry: now.getTime() + expiryDay,
-        }
-        localStorage.setItem(key, JSON.stringify(item))
-      },
+		
+		<title> python100个关键词 -  姜将的个人博客</title>
+		<link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" />
+		<script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
+		<!-- lazyload -->
+		<script src="https://unpkg.com/lazysizes@5.1.0/lazysizes.min.js"></script>
+		<!-- smooth-scrolling -->
+		<script src="https://unpkg.com/smooth-scrolling.js@latest"></script>
+		<!-- highlight -->
+		<link rel="stylesheet" href="//unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/atom-one-dark.min.css" />
+		<script src="//unpkg.com/@highlightjs/cdn-assets@11.6.0/highlight.min.js"></script>
+		<!-- 预置 kiraicon -->
+		<link rel="stylesheet" href="/lib/iconfont/iconfont.css" crossorigin />
+		<link
+			rel="shortcut icon"
+			href="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"
+			type="image/png"
+		/>
+	<meta name="generator" content="Hexo 6.3.0"></head>
 
-      get: function getWithExpiry(key) {
-        const itemStr = localStorage.getItem(key)
-
-        if (!itemStr) {
-          return undefined
-        }
-        const item = JSON.parse(itemStr)
-        const now = new Date()
-
-        if (now.getTime() > item.expiry) {
-          localStorage.removeItem(key)
-          return undefined
-        }
-        return item.value
-      }
-    }
+	<body>
+		<div
+			class="kira-background"
+			style="background-image: url('https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/233530HfQoX.jpg')"
+		></div>
+		<div class="kira-header">
+    <a
+        class="kira-drawer-button mdui-ripple"
+        title="导航栏"
+        onclick="document.querySelector('.kira-sidebar-modal').classList.add('show');document.querySelector('.kira-sidebar#sidebar').classList.add('show');"
+    >
+        <i class="kirafont icon-menu"></i>
+    </a>
+    <a href="/" title="姜将的个人博客">
+        <img
+			src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"
+			alt="姜将"
+		/>
+    </a>
+</div>
+		<div class="kira-body">
+			<div class="kira-sidebar" id="sidebar">
+	<div class="kira-avatar mdui-ripple">
+		<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg" title="姜将">
+			<img
+				src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"
+				alt="姜将"
+			/>
+		</a>
+	</div>
+	<div class="kira-count">
+		<div><span>文章</span>13</div>
+		<div><span>标签</span>14</div>
+		<div><span>分类</span>6</div>
+	</div>
+	<div class="kira-list">
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/"
+			title="回到首页"
+		>
+			<i
+				class="kirafont icon-home"
+			></i>
+			<div class="kira-list-item-content">回到首页</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/archive"
+			title="文章归档"
+		>
+			<i
+				class="kirafont icon-container"
+			></i>
+			<div class="kira-list-item-content">文章归档</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/about"
+			title="关于本人"
+		>
+			<i
+				class="kirafont icon-user"
+			></i>
+			<div class="kira-list-item-content">关于本人</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/friends"
+			title="我的朋友"
+		>
+			<i
+				class="kirafont icon-team"
+			></i>
+			<div class="kira-list-item-content">我的朋友</div>
+		</a>
+		
+	</div>
+	<aside id="kira-sidebar">
+		 <div class="kira-widget-wrap">
+	<div class="kira-widget kira-social">
+		<a
+			class="mdui-ripple"
+			href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=2792663690&website=www.oicqzone.com"
+			target="_blank"
+			mdui-tooltip="{content: 'QQ'}"
+			style="
+				color: rgb(49, 174, 255);
+				background-color: rgba(49, 174, 255, .1);
+			"
+		>
+			<i
+				class="kirafont icon-QQ"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://space.bilibili.com/262150061"
+			target="_blank"
+			mdui-tooltip="{content: '哔哩哔哩'}"
+			style="
+				color: rgb(231, 106, 141);
+				background-color: rgba(231, 106, 141, .15);
+			"
+		>
+			<i
+				class="kirafont icon-bilibili"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://github.com/JIANG54864"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .15);
+			"
+		>
+			<i
+				class="kirafont icon-github"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://gitee.com/jiangjiang2077"
+			target="_blank"
+			mdui-tooltip="{content: 'Gitee'}"
+			style="
+				color: rgb(165, 15, 15);
+				background-color: rgba(165, 15, 15, .15);
+			"
+		>
+			<i
+				class="kirafont icon-gitee"
+			></i> </a
+		>
+	</div>
+</div>
   
-    win.getScript = url => new Promise((resolve, reject) => {
-      const script = document.createElement('script')
-      script.src = url
-      script.async = true
-      script.onerror = reject
-      script.onload = script.onreadystatechange = function() {
-        const loadState = this.readyState
-        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
-        script.onload = script.onreadystatechange = null
-        resolve()
-      }
-      document.head.appendChild(script)
-    })
+<div class="kira-widget-wrap">
+  <h3 class="kira-widget-title">分类</h3>
+  <div class="kira-widget">
+
+    <ul class="category-list">
+
+      
+
+
+      
+
+      
+
+      <li class="category-list-item">
+        <a class="category-list-link" href="/categories/other/">other</a>
+        <span class="category-list-count">1</span>
+      </li>
+
+      
+
+      <li class="category-list-item">
+        <a class="category-list-link" href="/categories/others/">others</a>
+        <span class="category-list-count">2</span>
+      </li>
+
+      
+
+      <li class="category-list-item">
+        <a class="category-list-link" href="/categories/实验/">实验</a>
+        <span class="category-list-count">1</span>
+      </li>
+
+      
+
+      <li class="category-list-item">
+        <a class="category-list-link" href="/categories/数学/">数学</a>
+        <span class="category-list-count">1</span>
+      </li>
+
+      
+
+      <li class="category-list-item">
+        <a class="category-list-link" href="/categories/知识梳理/">知识梳理</a>
+        <span class="category-list-count">6</span>
+      </li>
+
+      
+
+      <li class="category-list-item">
+        <a class="category-list-link" href="/categories/编程/">编程</a>
+        <span class="category-list-count">2</span>
+      </li>
+
+      
+    </ul>
+
+  </div>
+</div>
   
-    win.getCSS = url => new Promise((resolve, reject) => {
-      const link = document.createElement('link')
-      link.rel = 'stylesheet'
-      link.href = url
-      link.onload = () => resolve()
-      link.onerror = () => reject()
-      document.head.appendChild(link)
-    })
-  
-      win.activateDarkMode = function () {
-        document.documentElement.setAttribute('data-theme', 'dark')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
-        }
-      }
-      win.activateLightMode = function () {
-        document.documentElement.setAttribute('data-theme', 'light')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
-        }
-      }
-      const t = saveToLocal.get('theme')
-    
-          if (t === 'dark') activateDarkMode()
-          else if (t === 'light') activateLightMode()
-        
-      const asideStatus = saveToLocal.get('aside-status')
-      if (asideStatus !== undefined) {
-        if (asideStatus === 'hide') {
-          document.documentElement.classList.add('hide-aside')
-        } else {
-          document.documentElement.classList.remove('hide-aside')
-        }
-      }
-    
-    const detectApple = () => {
-      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
-        document.documentElement.classList.add('apple')
-      }
-    }
-    detectApple()
-    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="姜将的个人博客"><img class="site-icon" src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"/><span class="site-name">姜将的个人博客</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">python100个关键词</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-01-24T07:31:48.000Z" title="发表于 2023-01-24 15:31:48">2023-01-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-02-08T06:52:00.332Z" title="更新于 2023-02-08 14:52:00">2023-02-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">18.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>62分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="python100个关键词"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>这篇博客是我在大二上学期lfb老师的面向大数据的python开发课程时对老师给出的关键词进行查找总结的成果。100个关键词在下方分别列出含义（以字母顺序）。</p>
+<div class="kira-widget-wrap">
+	<div id="randomtagcloud" class="kira-widget tagcloud kira-rainbow"><a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mongo/" style="font-size: 10px;">mongo</a> <a href="/tags/nosql/" style="font-size: 15px;">nosql</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/%E5%AE%9E%E9%AA%8C/" style="font-size: 10px;">实验</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/" style="font-size: 10px;">数据仓库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/" style="font-size: 10px;">数据挖掘</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px;">机器学习</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" style="font-size: 10px;">知识梳理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" style="font-size: 15px;">语言基础</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" style="font-size: 10px;">软件工程</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a></div>
+	
+</div>
+
+ 
+	</aside>
+	<div class="kira-copyright">
+		&copy; 2023
+		<a href="/">姜将</a
+		>
+		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &
+		<!-- TODO: github 链接 -->
+		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
+		<br />
+		
+			<a href="https://beian.miit.gov.cn/" target="_blank">鄂ICP备5201314号</a>
+		
+		
+	</div>
+</div>
+<div class="kira-sidebar-modal" id="sidebar-modal" onclick="(function(self) {
+	self.classList.remove('show');
+	document.querySelector('.kira-sidebar.show#sidebar').classList.remove('show');
+})(this)"></div>
+			<div class="kira-content">
+				<div id="kira-top-header"></div>
+				<div class="kira-main-content">
+					
+<link rel="stylesheet" href="/css/kira-image.css">
+
+<script src="/js/kira-image.js"></script>
+<div class="kira-image">
+    <div class="kira-image-modal">
+        <div class="kira-image-header">
+            <div class="kira-image-counter"></div>
+            <div class="kira-image-title"></div>
+            <div class="kira-image-operation">
+                <div class="kira-image-operation-button" id="kira-image-operation-button-zoom">
+                    <i class="kirafont icon-zoom-in"></i>
+                </div>
+                <div class="kira-image-operation-button" id="kira-image-operation-button-close">
+                    <i class="kirafont icon-close"></i>
+                </div>
+            </div>
+        </div>
+        <div class="kira-image-container">
+            <div class="kira-image-prev-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-left"></i>
+                </div>
+            </div>
+            <div class="kira-image-list">
+                <div class="kira-image-prev">
+                    <img />
+                </div>
+                <div class="kira-image-now">
+                    <img />
+                </div>
+                <div class="kira-image-next">
+                    <img />
+                </div>
+            </div>
+            <div class="kira-image-next-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="kira-post">
+	<article>
+		
+		<div
+			class="kira-post-cover"
+			style="padding-bottom: '56.25%'"
+		>
+			<img
+				data-src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/233530HfQoX.jpg"
+				data-sizes="auto"
+				alt="python100个关键词"
+				class="lazyload  kira-post-cover-image"
+			/>
+			<h1>python100个关键词</h1>
+		</div>
+		
+		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
+			<a><i class="kirafont icon-calendar-fill"></i>2023年01月24日</a>
+			<a><i class="kirafont icon-areachart"></i>18.7k 字</a>
+			<a><i class="kirafont icon-time-circle-fill"></i>大概 81 分钟</a>
+		</div>
+		<p>这篇博客是我在大二上学期lfb老师的面向大数据的python开发课程时对老师给出的关键词进行查找总结的成果。100个关键词在下方分别列出含义（以字母顺序）。</p>
 <h2><span id="append">.append</span></h2><p>append() 方法用于在列表末尾添加新的对象。</p>
 <p>append()方法语法：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list.append(obj)</span><br></pre></td></tr></table></figure>
@@ -209,7 +373,7 @@
 <p>　　t.bind(<button-1>, 函数名)  # 鼠标左键点击时调用函数</button-1></p>
 <h2><span id="cgi"><strong>cgi</strong></span></h2><p>什么是CGI<br>CGI 目前由NCSA维护，NCSA定义CGI如下：</p>
 <p><strong>CGI(Common Gateway Interface),通用网关接口</strong>,它是一段程序,运行在服务器上如：HTTP服务器，提供同客户端HTML页面的接口。</p>
-<p><img src="E:\science\noteshelf\markdown\python复习笔记\python复习笔记.assets\Cgi01.png" alt="cgiarch"></p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="E:\science\noteshelf\markdown\python复习笔记\python复习笔记.assets\Cgi01.png" alt="cgiarch" class="lazyload"></p>
 <p>为了更好的了解 CGI 是如何工作的，我们可以从在网页上点击一个链接或 URL 的流程：</p>
 <p>1、使用你的浏览器访问 URL 并连接到 HTTP web 服务器。<br>2、Web 服务器接收到请求信息后会解析 URL，并查找访问的文件在服务器上是否存在，如果存在返回文件的内容，否则返回错误信息。<br>3、浏览器从服务器上接收信息，并显示接收的文件或者错误信息。<br>CGI 程序可以是 Python 脚本，PERL 脚本，SHELL 脚本，C 或者 C++ 程序等。</p>
 <h2><span id="chdir"><strong>chdir</strong></span></h2><p>概述<br>os.chdir() 方法<strong>用于改变当前工作目录到指定的路径。</strong></p>
@@ -757,7 +921,7 @@
 <p>属性	描述<br>Dimension	控件大小；<br>Color	控件颜色；<br>Font	控件字体；<br>Anchor	锚点；<br>Relief	控件样式；<br>Bitmap	位图；<br>Cursor	光标；<br>几何管理<br>Tkinter控件有特定的几何状态管理方法，管理整个控件区域组织，以下是Tkinter公开的几何管理类：包、网格、位置</p>
 <p>几何方法	描述<br>pack()	包装；<br>grid()	网格；<br>place()	位置；</p>
 <h2><span id="tkintermessagebox">tkinter.messagebox</span></h2><p><a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/library/tkinter.messagebox.html#module-tkinter.messagebox"><code>tkinter.messagebox</code></a> 模块<strong>提供了一个模板基类以及多个常用配置的便捷方法</strong>。 消息框为模式窗口并将基于用户的选择返回 (True, False, OK, None, Yes, No) 的一个子集。 常用消息框风格和布局包括但不限于:</p>
-<p><img src="/%E7%BC%96%E7%A8%8B/python100%E4%B8%AA%E5%85%B3%E9%94%AE%E8%AF%8D/tk_msg.png" alt="../_images/tk_msg.png"></p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E7%BC%96%E7%A8%8B/python100%E4%B8%AA%E5%85%B3%E9%94%AE%E8%AF%8D/tk_msg.png" alt="../_images/tk_msg.png" class="lazyload"></p>
 <ul>
 <li><p><em>class</em> <code>tkinter.messagebox.``Message</code>(<em>master&#x3D;None</em>, **<em>options</em>)</p>
 <p>创建一个默认信息消息框。</p>
@@ -810,4 +974,74 @@
 <h2><span id="_name_">_name_</span></h2><p>在python中，每个模块都有一个叫_name_的内置变量，这个变量的值会根据该模块被使用的方式而变化：</p>
 <p>1、假设模块A.py 在另一个模块 B.py 中，被作为模块导入，则_name_的值为模块 A.py 的名称</p>
 <p>2、假设模块 A.py被直接执行，则_name_ 的值为_main_<br><strong>“if <em>name</em>&#x3D;&#x3D;’<em>main</em>‘：”的作用在于：如果直接执行含有该语句的模块，则执行该语句后续部分；若在另一个模块中调用含有该语句的模块时，该语句的后续部分不执行</strong>。这样能够使代码的运行更加简洁流畅。</p>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://jiang54864.github.io">姜将</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://jiang54864.github.io/%E7%BC%96%E7%A8%8B/python100%E4%B8%AA%E5%85%B3%E9%94%AE%E8%AF%8D/">http://jiang54864.github.io/%E7%BC%96%E7%A8%8B/python100%E4%B8%AA%E5%85%B3%E9%94%AE%E8%AF%8D/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://jiang54864.github.io" target="_blank">姜将的个人博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/python/">python</a><a class="post-meta__tags" href="/tags/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/">语言基础</a></div><div class="post_share"><div class="social-share" data-image="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/" title="Nosql实验--租房总数据"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Nosql实验--租房总数据</div></div></a></div><div class="next-post pull-right"><a href="/others/%E6%B5%8B%E8%AF%95%E5%8D%9A%E5%AE%A2/" title="测试博客"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">测试博客</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/%E7%BC%96%E7%A8%8B/python%E7%BC%96%E7%A8%8B%E5%A4%8D%E4%B9%A0%E9%A2%98/" title="python编程复习题"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-25</div><div class="title">python编程复习题</div></div></a></div><div><a href="/%E5%AE%9E%E9%AA%8C/Nosql%E5%AE%9E%E9%AA%8C-%E7%A7%9F%E6%88%BF%E6%80%BB%E6%95%B0%E6%8D%AE/" title="Nosql实验--租房总数据"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-24</div><div class="title">Nosql实验--租房总数据</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">姜将</div><div class="author-info__description">记录学习中的知识与收获</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/JIANG54864"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/JIANG54864" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客，如有错误还请指正</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">.append</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">.py</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">.pyc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">.pyo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">.pyw</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">.sort()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">accept</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">8.</span> <span class="toc-text">anacoda</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">9.</span> <span class="toc-text">argv</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">10.</span> <span class="toc-text">bind</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">11.</span> <span class="toc-text">cgi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">12.</span> <span class="toc-text">chdir</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">13.</span> <span class="toc-text">close</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">14.</span> <span class="toc-text">connect</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">15.</span> <span class="toc-text">CPython</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">16.</span> <span class="toc-text">dict[k]&#x3D;v</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">17.</span> <span class="toc-text">dir()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">18.</span> <span class="toc-text">dir(sys)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">19.</span> <span class="toc-text">Djangordocker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">20.</span> <span class="toc-text">eval</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">21.</span> <span class="toc-text">exec(‘print(“Hello”)’)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">22.</span> <span class="toc-text">Flask</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">23.</span> <span class="toc-text">from</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">24.</span> <span class="toc-text">GIL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">25.</span> <span class="toc-text">global</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">26.</span> <span class="toc-text">GPIO</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">27.</span> <span class="toc-text">help()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">28.</span> <span class="toc-text">http</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">29.</span> <span class="toc-text">id()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">30.</span> <span class="toc-text">import</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">31.</span> <span class="toc-text">import as</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">32.</span> <span class="toc-text">input</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">33.</span> <span class="toc-text">install</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">34.</span> <span class="toc-text">int()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">35.</span> <span class="toc-text">iso-9660</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">36.</span> <span class="toc-text">Kademlia</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">37.</span> <span class="toc-text">Kubernetes</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">38.</span> <span class="toc-text">len()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">39.</span> <span class="toc-text">list</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">40.</span> <span class="toc-text">listen</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">41.</span> <span class="toc-text">main()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">42.</span> <span class="toc-text">matplotlib</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">43.</span> <span class="toc-text">numpy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">44.</span> <span class="toc-text">open</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">45.</span> <span class="toc-text">openpyxl</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">46.</span> <span class="toc-text">OpenStack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">47.</span> <span class="toc-text">os</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">48.</span> <span class="toc-text">os.chdir</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">49.</span> <span class="toc-text">os.pipe</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">50.</span> <span class="toc-text">Pandas</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">51.</span> <span class="toc-text">pass</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">52.</span> <span class="toc-text">PEP 572</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">53.</span> <span class="toc-text">pip install</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">54.</span> <span class="toc-text">pip list</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">55.</span> <span class="toc-text">print</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">56.</span> <span class="toc-text">pycharm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">57.</span> <span class="toc-text">pyc文件格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">58.</span> <span class="toc-text">pyplot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">59.</span> <span class="toc-text">pypy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">60.</span> <span class="toc-text">PyQt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">61.</span> <span class="toc-text">QPython</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">62.</span> <span class="toc-text">random.choice</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">63.</span> <span class="toc-text">random.choices</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">64.</span> <span class="toc-text">re:Python 正则表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">65.</span> <span class="toc-text">readlines</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">66.</span> <span class="toc-text">recv</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">67.</span> <span class="toc-text">request</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">68.</span> <span class="toc-text">return</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">69.</span> <span class="toc-text">send</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">70.</span> <span class="toc-text">sendall</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">71.</span> <span class="toc-text">set</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">72.</span> <span class="toc-text">SIGINT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">73.</span> <span class="toc-text">sleep()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">74.</span> <span class="toc-text">socket</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">75.</span> <span class="toc-text">sort()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">76.</span> <span class="toc-text">split</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">77.</span> <span class="toc-text">sqlite3.connect</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">78.</span> <span class="toc-text">string[:]</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">79.</span> <span class="toc-text">strip()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">80.</span> <span class="toc-text">sys</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">81.</span> <span class="toc-text">sys.argv[1]</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">82.</span> <span class="toc-text">thread</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">83.</span> <span class="toc-text">threading</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">84.</span> <span class="toc-text">tika</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">85.</span> <span class="toc-text">time</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">86.</span> <span class="toc-text">Tkinter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">87.</span> <span class="toc-text">tkinter.messagebox</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">88.</span> <span class="toc-text">unicode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">89.</span> <span class="toc-text">uninstall</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">90.</span> <span class="toc-text">urllib</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">91.</span> <span class="toc-text">utf-8</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">92.</span> <span class="toc-text">virtualenv</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">93.</span> <span class="toc-text">Whoosh</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">94.</span> <span class="toc-text">with open()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">95.</span> <span class="toc-text">_name_</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><div class="content"><a class="title" href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/Linux%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" title="Linux知识梳理">Linux知识梳理</a><time datetime="2023-02-19T11:01:38.000Z" title="发表于 2023-02-19 19:01:38">2023-02-19</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" title="软件工程知识梳理">软件工程知识梳理</a><time datetime="2023-02-19T10:59:06.000Z" title="发表于 2023-02-19 18:59:06">2023-02-19</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" title="计算机网络知识梳理">计算机网络知识梳理</a><time datetime="2023-02-19T10:50:34.000Z" title="发表于 2023-02-19 18:50:34">2023-02-19</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E6%95%B4%E7%90%86/" title="机器学习基础整理">机器学习基础整理</a><time datetime="2023-02-19T10:46:40.000Z" title="发表于 2023-02-19 18:46:40">2023-02-19</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/" title="数值计算">数值计算</a><time datetime="2023-02-10T11:33:54.000Z" title="发表于 2023-02-10 19:33:54">2023-02-10</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 姜将</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"></div><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
+
+	</article>
+
+	 
+    <div class="kira-post-copyright">
+        <strong>本文作者：</strong>姜将<br>
+        <strong>本文链接：</strong><a href="http://jiang54864.github.io/%E7%BC%96%E7%A8%8B/python100%E4%B8%AA%E5%85%B3%E9%94%AE%E8%AF%8D/" title="http:&#x2F;&#x2F;jiang54864.github.io&#x2F;编程&#x2F;python100个关键词&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;jiang54864.github.io&#x2F;编程&#x2F;python100个关键词&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+  
+	<div class="kira-post-nav">
+		<nav class="post-nav">
+			                  
+			<!-- 先找到与当前文字相同的目录 -->
+			   
+			<!-- 在找到当前文章所在的 index -->
+			       
+			<!-- 下一篇文章 -->
+			<div class="new">
+				<span>下一章</span>
+				<a href="/%E7%BC%96%E7%A8%8B/python%E7%BC%96%E7%A8%8B%E5%A4%8D%E4%B9%A0%E9%A2%98/"> python编程复习题</a>
+			</div>
+			              
+		</nav>
+	</div>
+	
+	<div class="kira-post-meta kira-rainbow">
+		
+			<a class="kirafont icon-appstore-fill -link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+		
+		
+			<a class="kirafont icon-tag-fill -none-link" href="/tags/python/" rel="tag">python</a> <a class="kirafont icon-tag-fill -none-link" href="/tags/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" rel="tag">语言基础</a>
+		
+	</div>
+	
+	<div class="kira-post-footer">
+	<link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css" />
+	<div id="gitalk"></div>
+	<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+	<script type="text/javascript">
+		var gitalk = new Gitalk({
+			clientID: '-id-',
+			clientSecret: '-key-',
+			id: 'python100个关键词',
+			repo: '-issue repo name-',
+			owner: '-your github username-',
+			admin: '-your github username-',
+			title: '',
+		});
+		gitalk.render('gitalk');
+	</script>
+
+</div>
+	
+</div>
+				</div>
+			</div>
+			<div class="kira-right-column">
+	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="回到顶部" title="回到顶部">
+		<button class="mdui-fab mdui-ripple">
+			<i class="kirafont icon-caret-up"></i>
+		</button>
+	</a>
+</div>
+
+		</div>
+	</body>
+</html>
