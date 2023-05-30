@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html 
+	lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
+<link rel="stylesheet" href="/css/layout.css">
+
+		
+		<title> 多核平台下的并行计算复习题 -  姜将的个人博客</title>
+		<link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" />
+		<script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
+		<!-- lazyload -->
+		<script src="https://unpkg.com/lazysizes@5.1.0/lazysizes.min.js"></script>
+		<!-- smooth-scrolling -->
+		<script src="https://unpkg.com/smooth-scrolling.js@latest"></script>
+		<!-- highlight -->
+		<link rel="stylesheet" href="//unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/atom-one-dark.min.css" />
+		<script src="//unpkg.com/@highlightjs/cdn-assets@11.6.0/highlight.min.js"></script>
+		<!-- 预置 kiraicon -->
+		<link rel="stylesheet" href="/lib/iconfont/iconfont.css" crossorigin />
+		<link
+			rel="shortcut icon"
+			href="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"
+			type="image/png"
+		/>
+	<meta name="generator" content="Hexo 6.3.0"></head>
+
+	<body>
+		<div
+			class="kira-background"
+			style="background-image: url('https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/233530HfQoX.jpg')"
+		></div>
+		<div class="kira-header">
+    <a
+        class="kira-drawer-button mdui-ripple"
+        title="导航栏"
+        onclick="document.querySelector('.kira-sidebar-modal').classList.add('show');document.querySelector('.kira-sidebar#sidebar').classList.add('show');"
+    >
+        <i class="kirafont icon-menu"></i>
+    </a>
+    <a href="/" title="姜将的个人博客">
+        <img
+			src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"
+			alt="姜将"
+		/>
+    </a>
+</div>
+		<div class="kira-body">
+			<div class="kira-sidebar" id="sidebar">
+	<div class="kira-avatar mdui-ripple">
+		<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg" title="姜将">
+			<img
+				src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"
+				alt="姜将"
+			/>
+		</a>
+	</div>
+	<div class="kira-count">
+		<div><span>文章</span>15</div>
+		<div><span>标签</span>15</div>
+		<div><span>分类</span>5</div>
+	</div>
+	<div class="kira-list">
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/"
+			title="回到首页"
+		>
+			<i
+				class="kirafont icon-home"
+			></i>
+			<div class="kira-list-item-content">回到首页</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/archive"
+			title="文章归档"
+		>
+			<i
+				class="kirafont icon-container"
+			></i>
+			<div class="kira-list-item-content">文章归档</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/about"
+			title="关于本人"
+		>
+			<i
+				class="kirafont icon-user"
+			></i>
+			<div class="kira-list-item-content">关于本人</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/friends"
+			title="我的朋友"
+		>
+			<i
+				class="kirafont icon-team"
+			></i>
+			<div class="kira-list-item-content">我的朋友</div>
+		</a>
+		
+	</div>
+	<aside id="kira-sidebar">
+		 <div class="kira-widget-wrap">
+	<div class="kira-widget kira-social">
+		<a
+			class="mdui-ripple"
+			href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=2792663690&website=www.oicqzone.com"
+			target="_blank"
+			mdui-tooltip="{content: 'QQ'}"
+			style="
+				color: rgb(49, 174, 255);
+				background-color: rgba(49, 174, 255, .1);
+			"
+		>
+			<i
+				class="kirafont icon-QQ"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://space.bilibili.com/262150061"
+			target="_blank"
+			mdui-tooltip="{content: '哔哩哔哩'}"
+			style="
+				color: rgb(231, 106, 141);
+				background-color: rgba(231, 106, 141, .15);
+			"
+		>
+			<i
+				class="kirafont icon-bilibili"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://github.com/JIANG54864"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .15);
+			"
+		>
+			<i
+				class="kirafont icon-github"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://gitee.com/jiangjiang2077"
+			target="_blank"
+			mdui-tooltip="{content: 'Gitee'}"
+			style="
+				color: rgb(165, 15, 15);
+				background-color: rgba(165, 15, 15, .15);
+			"
+		>
+			<i
+				class="kirafont icon-gitee"
+			></i> </a
+		>
+	</div>
+</div>
+  
+<div class="kira-widget-wrap">
+  <h3 class="kira-widget-title">分类</h3>
+  <div class="kira-widget">
+
+    <ul class="category-list">
+
+      
+
+
+      
+
+      
+
+      <li class="category-list-item">
+        <a class="category-list-link" href="/categories/others/">others</a>
+        <span class="category-list-count">3</span>
+      </li>
+
+      
+
+      <li class="category-list-item">
+        <a class="category-list-link" href="/categories/实验/">实验</a>
+        <span class="category-list-count">1</span>
+      </li>
+
+      
+
+      <li class="category-list-item">
+        <a class="category-list-link" href="/categories/数学/">数学</a>
+        <span class="category-list-count">1</span>
+      </li>
+
+      
+
+      <li class="category-list-item">
+        <a class="category-list-link" href="/categories/知识梳理/">知识梳理</a>
+        <span class="category-list-count">7</span>
+      </li>
+
+      
+
+      <li class="category-list-item">
+        <a class="category-list-link" href="/categories/编程/">编程</a>
+        <span class="category-list-count">3</span>
+      </li>
+
+      
+    </ul>
+
+  </div>
+</div>
+  
+<div class="kira-widget-wrap">
+	<div id="randomtagcloud" class="kira-widget tagcloud kira-rainbow"><a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mongo/" style="font-size: 10px;">mongo</a> <a href="/tags/nosql/" style="font-size: 15px;">nosql</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/%E5%AE%9E%E9%AA%8C/" style="font-size: 10px;">实验</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/" style="font-size: 10px;">数据仓库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/" style="font-size: 10px;">数据挖掘</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px;">机器学习</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" style="font-size: 15px;">知识梳理</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" style="font-size: 15px;">语言基础</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" style="font-size: 10px;">软件工程</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a></div>
+	
+</div>
+
+ 
+	</aside>
+	<div class="kira-copyright">
+		&copy; 2023
+		<a href="/">姜将</a
+		>
+		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &
+		<!-- TODO: github 链接 -->
+		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
+		<br />
+		
+			<a href="https://beian.miit.gov.cn/" target="_blank">鄂ICP备5201314号</a>
+		
+		
+	</div>
+</div>
+<div class="kira-sidebar-modal" id="sidebar-modal" onclick="(function(self) {
+	self.classList.remove('show');
+	document.querySelector('.kira-sidebar.show#sidebar').classList.remove('show');
+})(this)"></div>
+			<div class="kira-content">
+				<div id="kira-top-header"></div>
+				<div class="kira-main-content">
+					
+<link rel="stylesheet" href="/css/kira-image.css">
+
+<script src="/js/kira-image.js"></script>
+<div class="kira-image">
+    <div class="kira-image-modal">
+        <div class="kira-image-header">
+            <div class="kira-image-counter"></div>
+            <div class="kira-image-title"></div>
+            <div class="kira-image-operation">
+                <div class="kira-image-operation-button" id="kira-image-operation-button-zoom">
+                    <i class="kirafont icon-zoom-in"></i>
+                </div>
+                <div class="kira-image-operation-button" id="kira-image-operation-button-close">
+                    <i class="kirafont icon-close"></i>
+                </div>
+            </div>
+        </div>
+        <div class="kira-image-container">
+            <div class="kira-image-prev-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-left"></i>
+                </div>
+            </div>
+            <div class="kira-image-list">
+                <div class="kira-image-prev">
+                    <img />
+                </div>
+                <div class="kira-image-now">
+                    <img />
+                </div>
+                <div class="kira-image-next">
+                    <img />
+                </div>
+            </div>
+            <div class="kira-image-next-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="kira-post">
+	<article>
+		
+		<div
+			class="kira-post-cover"
+			style="padding-bottom: '56.25%'"
+		>
+			<img
+				data-src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/233530HfQoX.jpg"
+				data-sizes="auto"
+				alt="多核平台下的并行计算复习题"
+				class="lazyload  kira-post-cover-image"
+			/>
+			<h1>多核平台下的并行计算复习题</h1>
+		</div>
+		
+		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
+			<a><i class="kirafont icon-calendar-fill"></i>2023年05月30日</a>
+			<a><i class="kirafont icon-areachart"></i>1.8k 字</a>
+			<a><i class="kirafont icon-time-circle-fill"></i>大概 8 分钟</a>
+		</div>
+		<p>1.矩阵向量乘法，行数或者列数不能被线程数整除的情况下，如何分配数据</p>
+<p>串行代码：<img data-fancybox="gallery" data-sizes="auto" data-src="/%E7%BC%96%E7%A8%8B/%E5%A4%9A%E6%A0%B8%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E9%A2%98/1685372087769.png" alt="1685372087769" class="lazyload"></p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E7%BC%96%E7%A8%8B/%E5%A4%9A%E6%A0%B8%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E9%A2%98/1685368258662.png" alt="1685368258662" class="lazyload"></p>
+<p>答案:</p>
+<p> Pthreads可整除代码 </p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E7%BC%96%E7%A8%8B/%E5%A4%9A%E6%A0%B8%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E9%A2%98/1685373258967.png" alt="1685373258967" class="lazyload"></p>
+<p> Pthreads不可整除的计算 ： 小于余数的rank多算一份，然后考虑用什么公式去划定一个范围my_first和my_last </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">q=n/p <span class="comment">//n是行数or列数，p是线程数</span></span><br><span class="line">re=n%p <span class="comment">//余数</span></span><br><span class="line"><span class="keyword">if</span> (rank&lt;re) <span class="comment">//小于余数的rank多算一份</span></span><br><span class="line">	count=q+<span class="number">1</span></span><br><span class="line">	firsti=rank*count</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">	count=q</span><br><span class="line">	firsti=rank*count+re  <span class="comment">//不需处理</span></span><br><span class="line">lasti=firsti+count<span class="number">-1</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E7%BC%96%E7%A8%8B/%E5%A4%9A%E6%A0%B8%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E9%A2%98/1685333837702.png" alt="1685333837702" class="lazyload"></p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E7%BC%96%E7%A8%8B/%E5%A4%9A%E6%A0%B8%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E9%A2%98/1685333845473.png" alt="1685333845473" class="lazyload"></p>
+<p>假设每个进程调用MPI_Reduce运算符 MPI_SUM，目标进程 0。乍一看，似乎在两次调用 MPI_Reduce 之后，b 的值将是 3，d 的值将是 6。 但是，内存位置的名称与对MPI_Reduce调用的匹配无关。调用的顺序将决定匹配，因此存储在 b 中的值将为 1+2+1 &#x3D; 4，存储在 d 中的值将为 2+1+2 &#x3D; 5。 若Process 1为目标进程，则执行结束后，d &#x3D; 1 + 2 + 1 &#x3D; 4; b &#x3D; 2 + 1 + 2 &#x3D; 5。</p>
+</li>
+</ol>
+<p>3.<img data-fancybox="gallery" data-sizes="auto" data-src="/%E7%BC%96%E7%A8%8B/%E5%A4%9A%E6%A0%B8%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E9%A2%98/1685334144681.png" alt="1685334144681" class="lazyload"></p>
+<p>加入缓存和虚拟内存不会改变SISD类型，缓存和虚拟内存只是在硬件上缓解了冯·诺依曼瓶颈，没有对指令流和数据流做出改变；</p>
+<p>加入流水线，提供单指令流，多数据流的服务，类型变为SIMD</p>
+<p>加入多发射或硬件多线程，多发射可以看作把一个线程（指令流）在多个ALU上同时启动了一部分，分裂为多个指令流，构成MIMD</p>
+<p>硬件多线程是在当前任务被阻塞时，系统试图切换到别的线程继续有用的工作，默认了多线程的存在，构成MIMD</p>
+<p>Pipelining - functional units are arranged in stages.流水线 - 功能单元分阶段布置。</p>
+<p>Multiple issue - multiple instructions can be simultaneously initiated.多发射 - 可以同时启动多个指令。</p>
+<ol start="4">
+<li>内存位置的集合，访问时间比其他一些内存位置更短。CPU 缓存通常位于同一芯片上或者访问速度比普通内存快得多的芯片上。</li>
+</ol>
+<p>Cache循环效率，按行访问按列访问哪个快？</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E7%BC%96%E7%A8%8B/%E5%A4%9A%E6%A0%B8%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E9%A2%98/1685347795893.png" alt="1685347795893" class="lazyload"><img data-fancybox="gallery" data-sizes="auto" data-src="/%E7%BC%96%E7%A8%8B/%E5%A4%9A%E6%A0%B8%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E9%A2%98/1685347810430.png" alt="1685347810430" class="lazyload"></p>
+<p>由于C语言是行主序存储，故按行访问更快。</p>
+<p>第一个双重for循环的<strong>内层循环</strong>是按行访问，cache命中率高，速度更快；</p>
+<p>第二个双重for循环的内层循环是按列访问，cache命中率低，速度更慢。</p>
+<ol start="5">
+<li></li>
+</ol>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E7%BC%96%E7%A8%8B/%E5%A4%9A%E6%A0%B8%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E9%A2%98/1685348140848.png" alt="1685348140848" class="lazyload"></p>
+<p>（取操作数，比较指数，转换其中一个操作数，相加，标准化结果，舍入，存结果）</p>
+<p>将浮点加法器分成 7 个独立的硬件或功能单元。第一个单元获取两个操作数，第二个单元比较指数，依此类推。一个功能单元的输出将输入到下一个功能单元。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E7%BC%96%E7%A8%8B/%E5%A4%9A%E6%A0%B8%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E9%A2%98/1685348483084.png" alt="1685348483084" class="lazyload"></p>
+<p>不采用流水线，1000次操作需要7000纳秒，流水线只需要999(前999次操作走完第一步流程，第1000次操作进入流水线)+7&#x3D;1006纳秒</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E7%BC%96%E7%A8%8B/%E5%A4%9A%E6%A0%B8%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E9%A2%98/1685352510219.png" alt="1685352510219" class="lazyload"></p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E7%BC%96%E7%A8%8B/%E5%A4%9A%E6%A0%B8%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E9%A2%98/1685351408483.png" alt="1685351408483" class="lazyload"></p>
+<p>a.9</p>
+<p>b.9000</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E7%BC%96%E7%A8%8B/%E5%A4%9A%E6%A0%B8%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E9%A2%98/1685352183404.png" alt="1685352183404" class="lazyload"></p>
+<p>c.999*2+9&#x3D;2007最后一个可以不按流水线</p>
+<p>6.Partitioning options分区</p>
+<p>块分区 将连续组件块分配给每个过程。<br>循环分区 以循环方式分配组件。<br>块循环分区 使用组件块的循环分布。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E7%BC%96%E7%A8%8B/%E5%A4%9A%E6%A0%B8%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E9%A2%98/1685363652984.png" alt="1685363652984" class="lazyload"></p>
+<p>7.点对点通信与集合通信</p>
+<p><strong>通信子中的所有进程都必须调用相同的集合函数。</strong><br><strong>每个进程传递给 MPI 集合通信函数的参数必须是“兼容的”。</strong></p>
+<p><strong>output_data_p参数仅用于dest_process。但是，所有进程仍然需要传入与output_data_p相对应的实际参数，即使它只是 NULL。</strong></p>
+<p><strong>点对点通信在标签和通信子的基础上进行匹配。集体通信不使用标记。它们仅根据通信子和调用顺序进行匹配。</strong></p>
+<p>8.<img data-fancybox="gallery" data-sizes="auto" data-src="/%E7%BC%96%E7%A8%8B/%E5%A4%9A%E6%A0%B8%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E9%A2%98/1685364071443.png" alt="1685364071443" class="lazyload"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;omp.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span> </span>&#123;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;_OPENMP:&quot;</span>&lt;&lt;_OPENMP;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果是_OPENMP：201511</p>
+<p>_OPENMP的输出值具有yyyymm的形式。OPENMP标准声明，只要该宏被定义，代表的是OPENMP标准的发布时间。</p>
+<p>9.<img data-fancybox="gallery" data-sizes="auto" data-src="/%E7%BC%96%E7%A8%8B/%E5%A4%9A%E6%A0%B8%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E9%A2%98/1685364201067.png" alt="1685364201067" class="lazyload"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="keyword">pragma</span> omp parallel for num_thread(thread_count) \</span></span><br><span class="line"><span class="meta">	default(none) private(i) shared(a,n)</span></span><br><span class="line">  <span class="keyword">for</span> i=<span class="number">0</span>,i&lt;=n,i++</span><br><span class="line">  	a[i]=i*(i+<span class="number">1</span>)/<span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<p>10.Cache coherence缓存一致性</p>
+<p>侦听缓存一致性：</p>
+<p>内核共享一条总线。<br>总线上传输的任何信号都可以被连接到总线的所有内核“看到”。<br>当核心 0 更新存储在其缓存中的 x 副本时，它还会在总线上广播此信息。<br>如果核心 1 正在“窥探”总线，它将看到 x 已更新，并且可以将其 x 副本标记为无效。</p>
+<p>基于目录的缓存一致性：</p>
+<p>使用称为目录的数据结构，用于存储每个缓存行的状态。<br>更新变量时，将查询该目录，并且缓存中具有该变量缓存行的核心的缓存控制器将失效。</p>
+<p>区别或联系：<br>由于广播的代价较大，基于目录的cache一致性协议比监听cache一致性协议更容易拓展，它不依赖总线。<br>基于目录的cache一致性协议更复杂，因为要维护额外的目录结构。</p>
+<p>CUDA:</p>
+<p>11.必考。 下段代码存在什么潜在的问题？如何解决？ </p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E7%BC%96%E7%A8%8B/%E5%A4%9A%E6%A0%B8%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E9%A2%98/1685374300602.png" alt="1685374300602" class="lazyload"></p>
+<p>1、取余操作（%）慢：由于CUDA没有硬件支持的取余运算，所以会把取余运算编译成20条左右的指令，会导致GPU性能很低。</p>
+<p>2、这段代码是highly divergent的，因为CUDA的GPU采用了SIMT(Single-Instruction, Multiple-Thread，单指令多线程)架构，所以无法让同一warp(线程束)的线程执行不同指令；并且GPU无法进行分支预测，所以就导致了在该warp中，if判断语句计算tid是否为偶数，会导致有<strong>一半的线程（即奇数号线程）空闲</strong>，导致<strong>分支严重</strong>，性能下降严重。<br>解决：</p>
+<p>1、用乘法计算index，去掉取余操作。</p>
+<p>2、if分支写成 index &lt; blockDim.x，连续条件判断，使得同一个warp中的线程统一执行或统一不执行该语句，大幅提升性能。<strong>让线程直接去访问偶数号的位置</strong></p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E7%BC%96%E7%A8%8B/%E5%A4%9A%E6%A0%B8%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E9%A2%98/1685375033640.png" alt="1685375033640" class="lazyload"></p>
+<p>12.代码纠错</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">	<span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; N; j++) &#123;</span><br><span class="line">		c[i][j] = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (k = <span class="number">0</span>; k &lt; N; k++)</span><br><span class="line">			c[i][j] = c[i][j] + a[i][k] * b[k][j]; <span class="comment">//k的位置！！！</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>并行</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">  <span class="function">__global__ <span class="type">void</span> <span class="title">gpu_matrixmult</span><span class="params">(<span class="type">int</span> *a, <span class="type">int</span> *b, <span class="type">int</span> *c, <span class="type">int</span> N)</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> k, sum = <span class="number">0</span>;</span><br><span class="line">	<span class="type">int</span> col = threadIdx.x + blockDim.x * blockIdx.x; </span><br><span class="line">	<span class="type">int</span> row = threadIdx.y + blockDim.y * blockIdx.y;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span>(col &lt; N &amp;&amp; row &lt; N) &#123;</span><br><span class="line">			<span class="keyword">for</span> (k = <span class="number">0</span>; k &lt; N; k++) </span><br><span class="line">          		sum += a[row * N + k] * b[k * N + col]; <span class="comment">//a矩阵的列数是b的行数</span></span><br><span class="line">			c[row * N + col] = sum;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>13.代码纠错</p>
+<p>offset&#x3D;row∗N+column</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> N 2048     <span class="comment">// size of arrays</span></span></span><br><span class="line"></span><br><span class="line">__global__void <span class="title function_">addMatrix</span> <span class="params">(<span class="type">int</span> *a, <span class="type">int</span> *b, <span class="type">int</span> *c)</span> &#123;</span><br><span class="line">	<span class="type">int</span> col = blockIdx.x*blockDim.x+threadIdx.x;</span><br><span class="line">	<span class="type">int</span> row =blockIdx.y*blockDim.y+threadIdx.y;</span><br><span class="line">	<span class="type">int</span> index = col + row * N;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> ( col &lt; N &amp;&amp; row &lt; N) c[index]= a[index] + b[index];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">	...</span><br><span class="line">	dim3 <span class="title function_">dimBlock</span> <span class="params">(<span class="number">16</span>,<span class="number">16</span>)</span>;</span><br><span class="line">	dim3 <span class="title function_">dimGrid</span> <span class="params">(N/dimBlock.x, N/dimBlock.y)</span>;</span><br><span class="line"></span><br><span class="line">	addMatrix&lt;&lt;&lt;dimGrid, dimBlock&gt;&gt;&gt;(devA, devB, devC);</span><br><span class="line">	…</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>14.CUDA计算一维向量和计算题。纠错。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E7%BC%96%E7%A8%8B/%E5%A4%9A%E6%A0%B8%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E9%A2%98/1685376022722.png" alt="1685376022722" class="lazyload"></p>
+<p>注意i的计算！！！</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="/1685375985533.png" alt="1685375985533" class="lazyload"></p>
+
+	</article>
+
+	 
+    <div class="kira-post-copyright">
+        <strong>本文作者：</strong>姜将<br>
+        <strong>本文链接：</strong><a href="http://jiang54864.github.io/%E7%BC%96%E7%A8%8B/%E5%A4%9A%E6%A0%B8%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E9%A2%98/" title="http:&#x2F;&#x2F;jiang54864.github.io&#x2F;编程&#x2F;多核平台下的并行计算复习题&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;jiang54864.github.io&#x2F;编程&#x2F;多核平台下的并行计算复习题&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+  
+	<div class="kira-post-nav">
+		<nav class="post-nav">
+			                  
+			<!-- 先找到与当前文字相同的目录 -->
+			         
+			<!-- 在找到当前文章所在的 index -->
+			        
+			<!-- 上一篇文章 -->
+			<div class="old">
+				<span>上一章</span>
+				<a href="/%E7%BC%96%E7%A8%8B/python%E7%BC%96%E7%A8%8B%E5%A4%8D%E4%B9%A0%E9%A2%98/"> python编程复习题</a>
+			</div>
+			          
+		</nav>
+	</div>
+	
+	<div class="kira-post-meta kira-rainbow">
+		
+			<a class="kirafont icon-appstore-fill -link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a>
+		
+		
+			<a class="kirafont icon-tag-fill -none-link" href="/tags/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" rel="tag">知识梳理</a>
+		
+	</div>
+	
+	<div class="kira-post-footer">
+	<link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css" />
+	<div id="gitalk"></div>
+	<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+	<script type="text/javascript">
+		var gitalk = new Gitalk({
+			clientID: '-id-',
+			clientSecret: '-key-',
+			id: '多核平台下的并行计算复习题',
+			repo: '-issue repo name-',
+			owner: '-your github username-',
+			admin: '-your github username-',
+			title: '',
+		});
+		gitalk.render('gitalk');
+	</script>
+
+</div>
+	
+</div>
+				</div>
+			</div>
+			<div class="kira-right-column">
+	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="回到顶部" title="回到顶部">
+		<button class="mdui-fab mdui-ripple">
+			<i class="kirafont icon-caret-up"></i>
+		</button>
+	</a>
+</div>
+
+		</div>
+	</body>
+</html>
