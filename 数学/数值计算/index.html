@@ -1,319 +1,161 @@
-<!DOCTYPE html>
-<html 
-	lang="zh-CN">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		
-<link rel="stylesheet" href="/css/layout.css">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>数值计算 | 姜将的个人博客</title><meta name="author" content="姜将"><meta name="copyright" content="姜将"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="专业词汇interpolate 插值 polynomlal 多项式 monomial 单项式 iterative 迭代 equation 方程 equivation 等效 convergent 收敛 normal equations 正规方程组 orthogonal projector 垂直投影 科学计算适定问题(well-posed problem) 需要满足如下三个条件： a solution">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数值计算">
+<meta property="og:url" content="http://jiang54864.github.io/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/index.html">
+<meta property="og:site_name" content="姜将的个人博客">
+<meta property="og:description" content="专业词汇interpolate 插值 polynomlal 多项式 monomial 单项式 iterative 迭代 equation 方程 equivation 等效 convergent 收敛 normal equations 正规方程组 orthogonal projector 垂直投影 科学计算适定问题(well-posed problem) 需要满足如下三个条件： a solution">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg">
+<meta property="article:published_time" content="2023-02-10T11:33:54.000Z">
+<meta property="article:modified_time" content="2023-02-10T11:35:48.465Z">
+<meta property="article:author" content="姜将">
+<meta property="article:tag" content="知识梳理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"><link rel="shortcut icon" href="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"><link rel="canonical" href="http://jiang54864.github.io/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '数值计算',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-02-10 19:35:48'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
 
-		
-		<title> 数值计算 -  姜将的个人博客</title>
-		<link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" />
-		<script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
-		<!-- lazyload -->
-		<script src="https://unpkg.com/lazysizes@5.1.0/lazysizes.min.js"></script>
-		<!-- smooth-scrolling -->
-		<script src="https://unpkg.com/smooth-scrolling.js@latest"></script>
-		<!-- highlight -->
-		<link rel="stylesheet" href="//unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/atom-one-dark.min.css" />
-		<script src="//unpkg.com/@highlightjs/cdn-assets@11.6.0/highlight.min.js"></script>
-		<!-- 预置 kiraicon -->
-		<link rel="stylesheet" href="/lib/iconfont/iconfont.css" crossorigin />
-		<link
-			rel="shortcut icon"
-			href="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"
-			type="image/png"
-		/>
-	<meta name="generator" content="Hexo 6.3.0"></head>
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
 
-	<body>
-		<div
-			class="kira-background"
-			style="background-image: url('https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/233530HfQoX.jpg')"
-		></div>
-		<div class="kira-header">
-    <a
-        class="kira-drawer-button mdui-ripple"
-        title="导航栏"
-        onclick="document.querySelector('.kira-sidebar-modal').classList.add('show');document.querySelector('.kira-sidebar#sidebar').classList.add('show');"
-    >
-        <i class="kirafont icon-menu"></i>
-    </a>
-    <a href="/" title="姜将的个人博客">
-        <img
-			src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"
-			alt="姜将"
-		/>
-    </a>
-</div>
-		<div class="kira-body">
-			<div class="kira-sidebar" id="sidebar">
-	<div class="kira-avatar mdui-ripple">
-		<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg" title="姜将">
-			<img
-				src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"
-				alt="姜将"
-			/>
-		</a>
-	</div>
-	<div class="kira-count">
-		<div><span>文章</span>15</div>
-		<div><span>标签</span>15</div>
-		<div><span>分类</span>5</div>
-	</div>
-	<div class="kira-list">
-		
-		<a
-			class="kira-list-item mdui-ripple false"
-			href="/"
-			title="回到首页"
-		>
-			<i
-				class="kirafont icon-home"
-			></i>
-			<div class="kira-list-item-content">回到首页</div>
-		</a>
-		
-		<a
-			class="kira-list-item mdui-ripple false"
-			href="/archive"
-			title="文章归档"
-		>
-			<i
-				class="kirafont icon-container"
-			></i>
-			<div class="kira-list-item-content">文章归档</div>
-		</a>
-		
-		<a
-			class="kira-list-item mdui-ripple false"
-			href="/about"
-			title="关于本人"
-		>
-			<i
-				class="kirafont icon-user"
-			></i>
-			<div class="kira-list-item-content">关于本人</div>
-		</a>
-		
-		<a
-			class="kira-list-item mdui-ripple false"
-			href="/friends"
-			title="我的朋友"
-		>
-			<i
-				class="kirafont icon-team"
-			></i>
-			<div class="kira-list-item-content">我的朋友</div>
-		</a>
-		
-	</div>
-	<aside id="kira-sidebar">
-		 <div class="kira-widget-wrap">
-	<div class="kira-widget kira-social">
-		<a
-			class="mdui-ripple"
-			href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=2792663690&website=www.oicqzone.com"
-			target="_blank"
-			mdui-tooltip="{content: 'QQ'}"
-			style="
-				color: rgb(49, 174, 255);
-				background-color: rgba(49, 174, 255, .1);
-			"
-		>
-			<i
-				class="kirafont icon-QQ"
-			></i> </a
-		><a
-			class="mdui-ripple"
-			href="https://space.bilibili.com/262150061"
-			target="_blank"
-			mdui-tooltip="{content: '哔哩哔哩'}"
-			style="
-				color: rgb(231, 106, 141);
-				background-color: rgba(231, 106, 141, .15);
-			"
-		>
-			<i
-				class="kirafont icon-bilibili"
-			></i> </a
-		><a
-			class="mdui-ripple"
-			href="https://github.com/JIANG54864"
-			target="_blank"
-			mdui-tooltip="{content: 'GitHub'}"
-			style="
-				color: rgb(25, 23, 23);
-				background-color: rgba(25, 23, 23, .15);
-			"
-		>
-			<i
-				class="kirafont icon-github"
-			></i> </a
-		><a
-			class="mdui-ripple"
-			href="https://gitee.com/jiangjiang2077"
-			target="_blank"
-			mdui-tooltip="{content: 'Gitee'}"
-			style="
-				color: rgb(165, 15, 15);
-				background-color: rgba(165, 15, 15, .15);
-			"
-		>
-			<i
-				class="kirafont icon-gitee"
-			></i> </a
-		>
-	</div>
-</div>
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
   
-<div class="kira-widget-wrap">
-  <h3 class="kira-widget-title">分类</h3>
-  <div class="kira-widget">
-
-    <ul class="category-list">
-
-      
-
-
-      
-
-      
-
-      <li class="category-list-item">
-        <a class="category-list-link" href="/categories/others/">others</a>
-        <span class="category-list-count">3</span>
-      </li>
-
-      
-
-      <li class="category-list-item">
-        <a class="category-list-link" href="/categories/实验/">实验</a>
-        <span class="category-list-count">1</span>
-      </li>
-
-      
-
-      <li class="category-list-item">
-        <a class="category-list-link" href="/categories/数学/">数学</a>
-        <span class="category-list-count">1</span>
-      </li>
-
-      
-
-      <li class="category-list-item">
-        <a class="category-list-link" href="/categories/知识梳理/">知识梳理</a>
-        <span class="category-list-count">7</span>
-      </li>
-
-      
-
-      <li class="category-list-item">
-        <a class="category-list-link" href="/categories/编程/">编程</a>
-        <span class="category-list-count">3</span>
-      </li>
-
-      
-    </ul>
-
-  </div>
-</div>
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
   
-<div class="kira-widget-wrap">
-	<div id="randomtagcloud" class="kira-widget tagcloud kira-rainbow"><a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mongo/" style="font-size: 10px;">mongo</a> <a href="/tags/nosql/" style="font-size: 15px;">nosql</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/test/" style="font-size: 10px;">test</a> <a href="/tags/%E5%AE%9E%E9%AA%8C/" style="font-size: 10px;">实验</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/" style="font-size: 10px;">数据仓库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/" style="font-size: 10px;">数据挖掘</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 15px;">机器学习</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" style="font-size: 15px;">知识梳理</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" style="font-size: 15px;">语言基础</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" style="font-size: 10px;">软件工程</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a></div>
-	
-</div>
-
- 
-	</aside>
-	<div class="kira-copyright">
-		&copy; 2023
-		<a href="/">姜将</a
-		>
-		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &
-		<!-- TODO: github 链接 -->
-		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
-		<br />
-		
-			<a href="https://beian.miit.gov.cn/" target="_blank">鄂ICP备5201314号</a>
-		
-		
-	</div>
-</div>
-<div class="kira-sidebar-modal" id="sidebar-modal" onclick="(function(self) {
-	self.classList.remove('show');
-	document.querySelector('.kira-sidebar.show#sidebar').classList.remove('show');
-})(this)"></div>
-			<div class="kira-content">
-				<div id="kira-top-header"></div>
-				<div class="kira-main-content">
-					
-<link rel="stylesheet" href="/css/kira-image.css">
-
-<script src="/js/kira-image.js"></script>
-<div class="kira-image">
-    <div class="kira-image-modal">
-        <div class="kira-image-header">
-            <div class="kira-image-counter"></div>
-            <div class="kira-image-title"></div>
-            <div class="kira-image-operation">
-                <div class="kira-image-operation-button" id="kira-image-operation-button-zoom">
-                    <i class="kirafont icon-zoom-in"></i>
-                </div>
-                <div class="kira-image-operation-button" id="kira-image-operation-button-close">
-                    <i class="kirafont icon-close"></i>
-                </div>
-            </div>
-        </div>
-        <div class="kira-image-container">
-            <div class="kira-image-prev-button-panel">
-                <div class="kira-image-exchange-button">
-                    <i class="kirafont icon-left"></i>
-                </div>
-            </div>
-            <div class="kira-image-list">
-                <div class="kira-image-prev">
-                    <img />
-                </div>
-                <div class="kira-image-now">
-                    <img />
-                </div>
-                <div class="kira-image-next">
-                    <img />
-                </div>
-            </div>
-            <div class="kira-image-next-button-panel">
-                <div class="kira-image-exchange-button">
-                    <i class="kirafont icon-right"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="kira-post">
-	<article>
-		
-		<div
-			class="kira-post-cover"
-			style="padding-bottom: '56.25%'"
-		>
-			<img
-				data-src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/233530HfQoX.jpg"
-				data-sizes="auto"
-				alt="数值计算"
-				class="lazyload  kira-post-cover-image"
-			/>
-			<h1>数值计算</h1>
-		</div>
-		
-		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
-			<a><i class="kirafont icon-calendar-fill"></i>2023年02月10日</a>
-			<a><i class="kirafont icon-areachart"></i>755 字</a>
-			<a><i class="kirafont icon-time-circle-fill"></i>大概 3 分钟</a>
-		</div>
-		<h1><span id="专业词汇">专业词汇</span></h1><p>interpolate 插值</p>
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="姜将的个人博客"><img class="site-icon" src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg"/><span class="site-name">姜将的个人博客</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">数值计算</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-02-10T11:33:54.000Z" title="发表于 2023-02-10 19:33:54">2023-02-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-02-10T11:35:48.465Z" title="更新于 2023-02-10 19:35:48">2023-02-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">755</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="数值计算"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1><span id="专业词汇">专业词汇</span></h1><p>interpolate 插值</p>
 <p>polynomlal 多项式</p>
 <p>monomial 单项式</p>
 <p>iterative 迭代</p>
@@ -326,171 +168,107 @@
 <p>需要满足如下三个条件：</p>
 <p>a solution exists, （解存在）<br>the solution is unique, （解唯一）<br>the solution’s behaviour changes continuously with the initial conditions. （解能根据初始条件连续变化）</p>
 <p>绝对误差、相对误差：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675940829020.png" alt="1675940829020" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675940829020.png" alt="1675940829020"></p>
 <p>误差界：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676001860931.png" alt="1676001860931" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676001860931.png" alt="1676001860931"></p>
 <p>向前误差、向后误差：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675940956462.png" alt="1675940956462" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675940956462.png" alt="1675940956462"></p>
 <p>截断舍入、最近舍入：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675941118131.png" alt="1675941118131" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675941118131.png" alt="1675941118131"></p>
 <p>误差分类：数据误差、计算误差（截断误差（假设没有舍入，方法产生的误差）、舍入误差）</p>
 <p>敏感性&amp;病态性：问题是敏感的&amp;病态的：输入有误差，输出会有较大误差</p>
 <p>量化：条件数，条件数大称为病态的</p>
 <p>相对条件数的计算：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676002651065.png" alt="1676002651065" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676002651065.png" alt="1676002651065"></p>
 <p>函数与其反函数的条件数互为倒数，一个大一个小</p>
 <p>绝对条件数：|Δy|&#x2F;|Δx|</p>
 <p>浮点数的性质：</p>
 <p>非规格化可以表示更多的数</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676002865499.png" alt="1676002865499" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676002865499.png" alt="1676002865499"></p>
 <h1><span id="线性方程组">线性方程组</span></h1><p>特殊类型矩阵：</p>
 <p>置换矩阵：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676003017177.png" alt="1676003017177" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676003017177.png" alt="1676003017177"></p>
 <p>正交矩阵：如果AAT&#x3D;E（E为单位矩阵，AT表示“矩阵A的转置矩阵”）或ATA&#x3D;E，则n阶实矩阵A称为正交矩阵。</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675993198459.png" alt="1675993198459" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675993198459.png" alt="1675993198459"></p>
 <p>对于对称正定矩阵，有楚列斯基分解：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675993583812.png" alt="1675993583812" class="lazyload"></p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675993434164.png" alt="1675993434164" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675993583812.png" alt="1675993583812"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675993434164.png" alt="1675993434164"></p>
 <p>向量范数：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675941510319.png" alt="1675941510319" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675941510319.png" alt="1675941510319"></p>
 <p>1-范数：绝对值之和</p>
 <p>2-范数：欧几里得范数，欧氏距离</p>
 <p>无穷范数：绝对值最大的元素绝对值</p>
 <p>矩阵范数：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675941788912.png" alt="1675941788912" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675941788912.png" alt="1675941788912"></p>
 <p>1-范数：每一列绝对值求和，取列和最大</p>
 <p>2-范数：矩阵AtA的最大特征值开平方根</p>
 <p>矩阵谱半径：矩阵最大特征值绝对值</p>
 <p>无穷范数：每一行绝对值求和，取行和最大</p>
 <p>方阵的条件数：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675942194784.png" alt="1675942194784" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675942194784.png" alt="1675942194784"></p>
 <p>条件数与两个范数阶数相同</p>
 <p>LU分解（高斯消去法）：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675943112310.png" alt="1675943112310" class="lazyload"></p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675943144467.png" alt="1675943144467" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675943112310.png" alt="1675943112310"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675943144467.png" alt="1675943144467"></p>
 <p>两种迭代法：</p>
 <p>jaboci迭代法：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675943673259.png" alt="1675943673259" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675943673259.png" alt="1675943673259"></p>
 <p>高斯-塞德尔迭代法：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675943770880.png" alt="1675943770880" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675943770880.png" alt="1675943770880"></p>
 <p>松弛法：在G-S迭代法的结果上进行修正</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676003275957.png" alt="1676003275957" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676003275957.png" alt="1676003275957"></p>
 <h1><span id="线性最小二乘">线性最小二乘</span></h1><p>线性最小二乘曲线拟合的基本思想：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675990809373.png" alt="1675990809373" class="lazyload"></p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675990835708.png" alt="1675990835708" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675990809373.png" alt="1675990809373"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675990835708.png" alt="1675990835708"></p>
 <p>正规方程组:</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675992463908.png" alt="1675992463908" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675992463908.png" alt="1675992463908"></p>
 <p>求最小二乘解:</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675992318814.png" alt="1675992318814" class="lazyload"></p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675992507609.png" alt="1675992507609" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675992318814.png" alt="1675992318814"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675992507609.png" alt="1675992507609"></p>
 <p>豪斯-霍尔德变换：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676003906296.png" alt="1676003906296" class="lazyload"></p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676004055955.png" alt="1676004055955" class="lazyload"></p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676004260446.png" alt="1676004260446" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676003906296.png" alt="1676003906296"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676004055955.png" alt="1676004055955"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676004260446.png" alt="1676004260446"></p>
 <p>吉文斯变换：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676004474988.png" alt="1676004474988" class="lazyload"></p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676004491864.png" alt="1676004491864" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676004474988.png" alt="1676004474988"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676004491864.png" alt="1676004491864"></p>
 <p>格拉-施密特变换（线性代数中所学的方法）：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676004649609.png" alt="1676004649609" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676004649609.png" alt="1676004649609"></p>
 <p>奇异值分解：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675997407722.png" alt="1675997407722" class="lazyload"></p>
-<p>列满秩最小二乘解的新公式：<img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675997656168.png" alt="1675997656168" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675997407722.png" alt="1675997407722"></p>
+<p>列满秩最小二乘解的新公式：<img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675997656168.png" alt="1675997656168"></p>
 <p>最小二乘解的一般公式：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675997684647.png" alt="1675997684647" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675997684647.png" alt="1675997684647"></p>
 <h1><span id="非线性方程">非线性方程</span></h1><p>二分法迭代：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675998072020.png" alt="1675998072020" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675998072020.png" alt="1675998072020"></p>
 <p>局部收敛条件：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675924872288.png" alt="1675924872288" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675924872288.png" alt="1675924872288"></p>
 <p>收敛速度：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675991280415.png" alt="1675991280415" class="lazyload"></p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675991305717.png" alt="1675991305717" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675991280415.png" alt="1675991280415"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675991305717.png" alt="1675991305717"></p>
 <p>牛顿法迭代：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675925511457.png" alt="1675925511457" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675925511457.png" alt="1675925511457"></p>
 <p>割线法：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675925535201.png" alt="1675925535201" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675925535201.png" alt="1675925535201"></p>
 <h1><span id="插值">插值</span></h1><p>分段多项式插值函数：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675990983527.png" alt="1675990983527" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675990983527.png" alt="1675990983527"></p>
 <p>样条&amp;三次样条函数：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675991062263.png" alt="1675991062263" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675991062263.png" alt="1675991062263"></p>
 <p>三种多项式插值方法：</p>
 <p>单项式基函数：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675922004384.png" alt="1675922004384" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675922004384.png" alt="1675922004384"></p>
 <p>拉格朗日插值：</p>
 <p>拉格朗日基函数：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675922334492.png" alt="1675922334492" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675922334492.png" alt="1675922334492"></p>
 <p>例题：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675922157601.png" alt="1675922157601" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675922157601.png" alt="1675922157601"></p>
 <p><strong>牛顿插值</strong>：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675923504223.png" alt="1675923504223" class="lazyload"></p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675923531000.png" alt="1675923531000" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675923504223.png" alt="1675923504223"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675923531000.png" alt="1675923531000"></p>
 <h1><span id="数值积分与数值微分">数值积分与数值微分</span></h1><p>代数精度 定义：如果对于所有次数不超过m 的多项式f (x) ，求积公式都精确成立，但对次数为m +1 的多项式不精确成立，则称该求积公式具有m 次代数精度</p>
 <p>三种牛顿-科斯特积分公式：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675998248441.png" alt="1675998248441" class="lazyload"></p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675998277348.png" alt="1675998277348" class="lazyload"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675998248441.png" alt="1675998248441"></p>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675998277348.png" alt="1675998277348"></p>
 <p>复化积分公式：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675998576362.png" alt="1675998576362" class="lazyload"></p>
-
-	</article>
-
-	 
-    <div class="kira-post-copyright">
-        <strong>本文作者：</strong>姜将<br>
-        <strong>本文链接：</strong><a href="http://jiang54864.github.io/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/" title="http:&#x2F;&#x2F;jiang54864.github.io&#x2F;数学&#x2F;数值计算&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;jiang54864.github.io&#x2F;数学&#x2F;数值计算&#x2F;</a><br>
-        
-            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
-        
-    </div>
-
-  
-	<div class="kira-post-nav">
-		<nav class="post-nav">
-			      
-			<!-- 先找到与当前文字相同的目录 -->
-			   
-			<!-- 在找到当前文章所在的 index -->
-			                      
-		</nav>
-	</div>
-	
-	<div class="kira-post-meta kira-rainbow">
-		
-			<a class="kirafont icon-appstore-fill -link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a>
-		
-		
-			<a class="kirafont icon-tag-fill -none-link" href="/tags/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" rel="tag">知识梳理</a>
-		
-	</div>
-	
-	<div class="kira-post-footer">
-	<link rel="stylesheet" href="https://unpkg.com/gitalk@latest/dist/gitalk.css" />
-	<div id="gitalk"></div>
-	<script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
-	<script type="text/javascript">
-		var gitalk = new Gitalk({
-			clientID: '-id-',
-			clientSecret: '-key-',
-			id: '数值计算',
-			repo: '-issue repo name-',
-			owner: '-your github username-',
-			admin: '-your github username-',
-			title: '',
-		});
-		gitalk.render('gitalk');
-	</script>
-
-</div>
-	
-</div>
-				</div>
-			</div>
-			<div class="kira-right-column">
-	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="回到顶部" title="回到顶部">
-		<button class="mdui-fab mdui-ripple">
-			<i class="kirafont icon-caret-up"></i>
-		</button>
-	</a>
-</div>
-
-		</div>
-	</body>
-</html>
+<p><img src="/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675998576362.png" alt="1675998576362"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://jiang54864.github.io">姜将</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://jiang54864.github.io/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/">http://jiang54864.github.io/%E6%95%B0%E5%AD%A6/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://jiang54864.github.io" target="_blank">姜将的个人博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/">知识梳理</a></div><div class="post_share"><div class="social-share" data-image="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E6%95%B4%E7%90%86/" title="机器学习基础整理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">机器学习基础整理</div></div></a></div><div class="next-post pull-right"><a href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" title="数据仓库数据挖掘知识梳理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">数据仓库数据挖掘知识梳理</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/%E7%BC%96%E7%A8%8B/%E5%A4%9A%E6%A0%B8%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E9%A2%98/" title="多核平台下的并行计算复习题"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-30</div><div class="title">多核平台下的并行计算复习题</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://raw.githubusercontent.com/JIANG54864/PictureCDN/main/blog/profile.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">姜将</div><div class="author-info__description">记录学习中的知识与收获</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/JIANG54864"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/JIANG54864" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客，如有错误还请指正</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">专业词汇</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">科学计算</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">线性方程组</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">线性最小二乘</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">非线性方程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">插值</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">数值积分与数值微分</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><div class="content"><a class="title" href="/%E7%BC%96%E7%A8%8B/%E5%A4%9A%E6%A0%B8%E5%B9%B3%E5%8F%B0%E4%B8%8B%E7%9A%84%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%A4%8D%E4%B9%A0%E9%A2%98/" title="多核平台下的并行计算复习题">多核平台下的并行计算复习题</a><time datetime="2023-05-30T15:10:01.000Z" title="发表于 2023-05-30 23:10:01">2023-05-30</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" title="编译原理知识梳理">编译原理知识梳理</a><time datetime="2023-05-26T13:22:38.000Z" title="发表于 2023-05-26 21:22:38">2023-05-26</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/others/%E4%B8%8EChatgpt%E8%81%8A%E8%81%8A%E5%A4%A9/" title="与Chatgpt聊聊天">与Chatgpt聊聊天</a><time datetime="2023-03-06T15:50:26.000Z" title="发表于 2023-03-06 23:50:26">2023-03-06</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/Linux%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" title="Linux知识梳理">Linux知识梳理</a><time datetime="2023-02-19T11:01:38.000Z" title="发表于 2023-02-19 19:01:38">2023-02-19</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" title="软件工程知识梳理">软件工程知识梳理</a><time datetime="2023-02-19T10:59:06.000Z" title="发表于 2023-02-19 18:59:06">2023-02-19</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 姜将</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"></div><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
