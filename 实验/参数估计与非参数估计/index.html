@@ -1,0 +1,544 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>参数估计与非参数估计 | 姜将的个人博客</title><meta name="author" content="姜将"><meta name="copyright" content="姜将"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本实验包括三个部分，一是求解最大似然估计的均值和方差，二是Parzen 窗估计和设计分类器及KNN概率密度估计，三是KNN方法来构建一个分类器。以上三个实验的数据及完整代码：https:&#x2F;&#x2F;github.com&#x2F;JIANG54864&#x2F;ml_exp&#x2F;tree&#x2F;main&#x2F;exp2 一、  最大似然估计【实验内容及说明】       类1   类2      样本 x1 x2 x3 x1 x2 x3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="参数估计与非参数估计">
+<meta property="og:url" content="http://jiang54864.github.io/%E5%AE%9E%E9%AA%8C/%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1%E4%B8%8E%E9%9D%9E%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1/index.html">
+<meta property="og:site_name" content="姜将的个人博客">
+<meta property="og:description" content="本实验包括三个部分，一是求解最大似然估计的均值和方差，二是Parzen 窗估计和设计分类器及KNN概率密度估计，三是KNN方法来构建一个分类器。以上三个实验的数据及完整代码：https:&#x2F;&#x2F;github.com&#x2F;JIANG54864&#x2F;ml_exp&#x2F;tree&#x2F;main&#x2F;exp2 一、  最大似然估计【实验内容及说明】       类1   类2      样本 x1 x2 x3 x1 x2 x3">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg">
+<meta property="article:published_time" content="2025-02-12T07:53:06.000Z">
+<meta property="article:modified_time" content="2025-02-12T10:46:37.496Z">
+<meta property="article:author" content="姜将">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg"><link rel="shortcut icon" href="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg"><link rel="canonical" href="http://jiang54864.github.io/%E5%AE%9E%E9%AA%8C/%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1%E4%B8%8E%E9%9D%9E%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '参数估计与非参数估计',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-02-12 18:46:37'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="姜将的个人博客"><img class="site-icon" src="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg"/><span class="site-name">姜将的个人博客</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">参数估计与非参数估计</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-02-12T07:53:06.000Z" title="发表于 2025-02-12 15:53:06">2025-02-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-02-12T10:46:37.496Z" title="更新于 2025-02-12 18:46:37">2025-02-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AE%9E%E9%AA%8C/">实验</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="参数估计与非参数估计"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>本实验包括三个部分，一是求解最大似然估计的均值和方差，二是Parzen 窗估计和设计分类器及KNN概率密度估计，三是KNN方法来构建一个分类器。以上三个实验的数据及完整代码：<a target="_blank" rel="noopener" href="https://github.com/JIANG54864/ml_exp/tree/main/exp2">https://github.com/JIANG54864/ml_exp/tree/main/exp2</a></p>
+<h1 id="一、-最大似然估计"><a href="#一、-最大似然估计" class="headerlink" title="一、  最大似然估计"></a><strong>一、</strong>  <strong>最大似然估计</strong></h1><p><strong>【实验内容及说明】</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>类1</th>
+<th></th>
+<th></th>
+<th>类2</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>样本</td>
+<td>x1</td>
+<td>x2</td>
+<td>x3</td>
+<td>x1</td>
+<td>x2</td>
+<td>x3</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0.76</td>
+<td>-2.1</td>
+<td>-1.9</td>
+<td>0.49</td>
+<td>0.0012</td>
+<td>-0.065</td>
+</tr>
+<tr>
+<td>2</td>
+<td>-1</td>
+<td>-2.6</td>
+<td>0.87</td>
+<td>0.054</td>
+<td>-0.063</td>
+<td>-0.12</td>
+</tr>
+<tr>
+<td>3</td>
+<td>-5.3</td>
+<td>-0.15</td>
+<td>-1.6</td>
+<td>0.47</td>
+<td>0.034</td>
+<td>-0.35</td>
+</tr>
+<tr>
+<td>4</td>
+<td>0.89</td>
+<td>-4.7</td>
+<td>-0.029</td>
+<td>0.69</td>
+<td>0.1</td>
+<td>0.17</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1.9</td>
+<td>2.2</td>
+<td>-0.23</td>
+<td>0.55</td>
+<td>-0.18</td>
+<td>-0.011</td>
+</tr>
+<tr>
+<td>6</td>
+<td>-0.3</td>
+<td>-0.87</td>
+<td>0.27</td>
+<td>0.61</td>
+<td>0.12</td>
+<td>-0.27</td>
+</tr>
+<tr>
+<td>7</td>
+<td>-0.087</td>
+<td>0.58</td>
+<td>0.42</td>
+<td>0.58</td>
+<td>0.089</td>
+<td>-0.4</td>
+</tr>
+<tr>
+<td>8</td>
+<td>-3.3</td>
+<td>-3.4</td>
+<td>-0.2</td>
+<td>0.27</td>
+<td>-0.04</td>
+<td>-0.31</td>
+</tr>
+<tr>
+<td>9</td>
+<td>-0.32</td>
+<td>1.7</td>
+<td>1.3</td>
+<td>0.055</td>
+<td>-0.035</td>
+<td>0.38</td>
+</tr>
+<tr>
+<td>10</td>
+<td>0.71</td>
+<td>0.23</td>
+<td>0.39</td>
+<td>0.53</td>
+<td>0.011</td>
+<td>-0.15</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>使用上面给出的三维数据：<br>(1)编写程序，对类 1 和类 2 中的三个特征<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAaCAMAAABmdEcLAAAAAXNSR0IArs4c6QAAAGNQTFRFAAAAAAAAAAA6AABmADpmADqQAGaQAGa2OgAAOgBmOma2OpDbZgAAZjoAZpDbZrbbZrb/kDoAkDo6kLb/kNvbkNv/tmYAtmY6tv//25A625Bm27aQ2////7Zm/9uQ//+2///bEFIFigAAAAF0Uk5TAEDm2GYAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAZdEVYdFNvZnR3YXJlAE1pY3Jvc29mdCBPZmZpY2V/7TVxAAAAcElEQVQoU91QRxKAIAwMVhQbFooF+P8rFRx0wB+YQ8pmUwF+KxxlAgxNFn/h2itMzPjEFje04EP4Aobq6CeH7+Ed3aKoiM+0dFUMEWclAZYKedF0Y7ky6QAUthpUJeIJ+R4h7G73iqFkm0KIfzZ1+RPM7wTlwKFULQAAAABJRU5ErkJggg==" alt="img">分别求解最大似然估计的均值<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAaCAMAAAC0JE1TAAAAAXNSR0IArs4c6QAAAF1QTFRFAAAAAAAAAAA6AABmADpmADqQAGa2OgAAOgA6Ojo6Oma2OpDbZgAAZgA6ZmaQZpCQZpDbZrb/kDoAkJA6kNv/tmYAtmY6tv//25A627Zm2////7Zm/9uQ//+2///bUpCACgAAAAF0Uk5TAEDm2GYAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAZdEVYdFNvZnR3YXJlAE1pY3Jvc29mdCBPZmZpY2V/7TVxAAAAeElEQVQoU7VQWRaDIAwkbtRdqLgRuP8xDQQrF2i+mMySeQjx7zHF+jthy299JeTG1es+gZMebnqot5IbiPCaTRYUqYYm0keIRRkDWBA3j8CUewAoyYIys2zANw0ov82yxyX4W6ioDXQUg5+3r7Acw5MyGeicyf/wBjMABjiePItHAAAAAElFTkSuQmCC" alt="img">和方差<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAA0CAMAAAC5Djg0AAAAAXNSR0IArs4c6QAAAG9QTFRFAAAAAAAAAAA6AABmADo6ADpmADqQAGa2OgAAOjpmOjqQOma2OpDbZgAAZjoAZjo6Zma2ZrbbZrb/kDoAkDo6kGY6kLbbkNv/tmYAtmY6ttv/tv//25A627Zm27aQ2////7Zm/9uQ/9u2//+2///b3BwOSgAAAAF0Uk5TAEDm2GYAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAZdEVYdFNvZnR3YXJlAE1pY3Jvc29mdCBPZmZpY2V/7TVxAAAAp0lEQVQ4T+2Q3Q6CMAyFNxWt4sQ5f4YCOtb3f0bbMUDJrk1M6AUJpyff2akQ8/z7BdqLlPlz2gKNFg5OqXJo9ml5cDcgB8trHdlYZtf2EP/c9tEx8Kx5X+/464tbilyOz8CmAElDSpUL4Y7B7yC7owkur3gd0r3aENT2+T3ZLjnaLr6jyMyGbjmOA0Z5NYF4xXI1toxlDPlqCKTPQTrxSqeqzdrPLvAGZ8UIxW2gvCsAAAAASUVORK5CYII=" alt="img">。<br>(2)编写程序，处理二维数据的情形<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHQAAAA0CAMAAABsHOx5AAAAAXNSR0IArs4c6QAAAKJQTFRFAAAAAAAAAAA6AABmADo6ADpmADqQAGaQAGa2OgAAOgA6OgBmOjpmOjqQOmaQOma2OpCQOpC2OpDbZgAAZjoAZjpmZmYAZmY6ZpDbZrbbZrb/kDoAkDo6kGY6kGZmkJC2kLb/kNvbkNv/tmYAtmY6tpA6tpBmttvbttv/tv//25A625Bm25CQ27Zm27a22////7Zm/9uQ/9u2/9vb//+2///bv+14MgAAAAF0Uk5TAEDm2GYAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAZdEVYdFNvZnR3YXJlAE1pY3Jvc29mdCBPZmZpY2V/7TVxAAACc0lEQVRYR+1VW3sTIRCFrYmljVWz8ZKsVRu2NaHGhbj8/7/mMAPLXkhMv74yD3wJyzkznLnAWLasQFYgK5AVyApkBbICWYGsQKfA8f6u6cmhFr8uFWeE9DDNg23YKTJ9sx46Oa7ep7y2Jecb+ACcV3s8MEF6mORL98tKOJ4m08g0sLZE0NhMya/dniq25HOKJIit6Iv5CkuKLOlAe9qhW3P7Ga+o5piNE6GhN+G1wNimZCHsAb+t8Eoj0/MD6iZJB4+k+45oNKfA6N6OzD6JYmtrXsBpW4WvNZ/t4S+FlQxFLtsSTrclaheQSadMUSZidGptxPr7zlagQVv6j8+wubTfKFs+XccVn+3QwQ+I21YbJiEmc4tlFJBpp0juzefeiAVsIYPoasZWb+tQU7gNIdhHJwfTrpzNzRaCWYaUBuQJpyF8ByQfCvMwcsok71oFzyl39iA+NsdPLmqN0s4bn9LzThHrzZ+ULpGoQO+m/TLD7T8oUKexdImQxQOo7OysU5Rm6JTqyQhYe07bVey7fiwe61Lqkv0BVP6fU/OOavc3hk1ktDp1YyExVj/ERkn0vUupOx+a4UwhhXo8UGcQmebXjX3En7FlIAvyaq9Iu0TL+C0ZeiG2zLyxT1/4Rv8EPKJlmL3UGYSUs3vOZ6SS51IFjCwj3IqhTIZDmLhGhAoPw+GN4Isd5Oau8U7jwKcRTMOhT9k1Knrzlh6D/ROoNE3iWKdYnxMjsuHQTA785DMzpiMkFjWaH1WT2JBs5ObSpy1xB3gUe7Kp0ROJgPC0qZBPT/O3Hjziz5c/4g4Zb5qQlr2ALAXPe1mBrEBWICvwCgX+AXa4RDvEn2aqAAAAAElFTkSuQmCC" alt="img">。对类 1 和类 2 中任意两个特征的组合分别求解最大似然估计的均值<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAaCAMAAAC0JE1TAAAAAXNSR0IArs4c6QAAAF1QTFRFAAAAAAAAAAA6AABmADpmADqQAGa2OgAAOgA6Ojo6Oma2OpDbZgAAZgA6ZmaQZpCQZpDbZrb/kDoAkJA6kNv/tmYAtmY6tv//25A627Zm2////7Zm/9uQ//+2///bUpCACgAAAAF0Uk5TAEDm2GYAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAZdEVYdFNvZnR3YXJlAE1pY3Jvc29mdCBPZmZpY2V/7TVxAAAAeElEQVQoU7VQWRaDIAwkbtRdqLgRuP8xDQQrF2i+mMySeQjx7zHF+jthy299JeTG1es+gZMebnqot5IbiPCaTRYUqYYm0keIRRkDWBA3j8CUewAoyYIys2zANw0ov82yxyX4W6ioDXQUg5+3r7Acw5MyGeicyf/wBjMABjiePItHAAAAAElFTkSuQmCC" alt="img">和方差<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAaCAMAAABb5iZtAAAAAXNSR0IArs4c6QAAAGZQTFRFAAAAAAAAAAA6AABmADpmADqQAGa2OgAAOjpmOmaQOpDbZgAAZjoAZjpmZjqQZrbbZrb/kDoAkDo6kLbbkNv/tmYAtmY6ttv/tv//25A627Zm27aQ2////7Zm/9uQ/9u2//+2///bJkPC0AAAAAF0Uk5TAEDm2GYAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAZdEVYdFNvZnR3YXJlAE1pY3Jvc29mdCBPZmZpY2V/7TVxAAAAcklEQVQoU6VPSQ6AIBATd8V9R0Xg/58UBjVDPBl7KJkpLcXzfmFN/PoOUFPYiyLbYVYd7LfKjhiqJRYxbDnJNUtq2JzBYtyDdTDSIKukEY4bHZFhjac65YYzHKBwe1mWs2ZBocnTC54cr5L+1eT1je+LE/MWBTwBINYgAAAAAElFTkSuQmCC" alt="img">（每个类有3种可能）。<br>(3)编写程序，处理三维数据的情形<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHQAAAA0CAMAAABsHOx5AAAAAXNSR0IArs4c6QAAAKJQTFRFAAAAAAAAAAA6AABmADo6ADpmADqQAGaQAGa2OgAAOgA6OgBmOjpmOjqQOmaQOma2OpCQOpC2OpDbZgAAZjoAZjpmZmYAZmY6ZpDbZrbbZrb/kDoAkDo6kGY6kGZmkJC2kLb/kNvbkNv/tmYAtmY6tpA6tpBmttvbttv/tv//25A625Bm25CQ27Zm27a22////7Zm/9uQ/9u2/9vb//+2///bv+14MgAAAAF0Uk5TAEDm2GYAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAZdEVYdFNvZnR3YXJlAE1pY3Jvc29mdCBPZmZpY2V/7TVxAAACc0lEQVRYR+1VW3sTIRCFrYmljVWz8ZKsVRu2NaHGhbj8/7/mMAPLXkhMv74yD3wJyzkznLnAWLasQFYgK5AVyApkBbICWYGsQKfA8f6u6cmhFr8uFWeE9DDNg23YKTJ9sx46Oa7ep7y2Jecb+ACcV3s8MEF6mORL98tKOJ4m08g0sLZE0NhMya/dniq25HOKJIit6Iv5CkuKLOlAe9qhW3P7Ga+o5piNE6GhN+G1wNimZCHsAb+t8Eoj0/MD6iZJB4+k+45oNKfA6N6OzD6JYmtrXsBpW4WvNZ/t4S+FlQxFLtsSTrclaheQSadMUSZidGptxPr7zlagQVv6j8+wubTfKFs+XccVn+3QwQ+I21YbJiEmc4tlFJBpp0juzefeiAVsIYPoasZWb+tQU7gNIdhHJwfTrpzNzRaCWYaUBuQJpyF8ByQfCvMwcsok71oFzyl39iA+NsdPLmqN0s4bn9LzThHrzZ+ULpGoQO+m/TLD7T8oUKexdImQxQOo7OysU5Rm6JTqyQhYe07bVey7fiwe61Lqkv0BVP6fU/OOavc3hk1ktDp1YyExVj/ERkn0vUupOx+a4UwhhXo8UGcQmebXjX3En7FlIAvyaq9Iu0TL+C0ZeiG2zLyxT1/4Rv8EPKJlmL3UGYSUs3vOZ6SS51IFjCwj3IqhTIZDmLhGhAoPw+GN4Isd5Oau8U7jwKcRTMOhT9k1Knrzlh6D/ROoNE3iWKdYnxMjsuHQTA785DMzpiMkFjWaH1WT2JBs5ObSpy1xB3gUe7Kp0ROJgPC0qZBPT/O3Hjziz5c/4g4Zb5qQlr2ALAXPe1mBrEBWICvwCgX+AXa4RDvEn2aqAAAAAElFTkSuQmCC" alt="img">。对类 1 和类 2 中三个特征求解最大似然估计的均值<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAaCAMAAAC0JE1TAAAAAXNSR0IArs4c6QAAAF1QTFRFAAAAAAAAAAA6AABmADpmADqQAGa2OgAAOgA6Ojo6Oma2OpDbZgAAZgA6ZmaQZpCQZpDbZrb/kDoAkJA6kNv/tmYAtmY6tv//25A627Zm2////7Zm/9uQ//+2///bUpCACgAAAAF0Uk5TAEDm2GYAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAZdEVYdFNvZnR3YXJlAE1pY3Jvc29mdCBPZmZpY2V/7TVxAAAAeElEQVQoU7VQWRaDIAwkbtRdqLgRuP8xDQQrF2i+mMySeQjx7zHF+jthy299JeTG1es+gZMebnqot5IbiPCaTRYUqYYm0keIRRkDWBA3j8CUewAoyYIys2zANw0ov82yxyX4W6ioDXQUg5+3r7Acw5MyGeicyf/wBjMABjiePItHAAAAAElFTkSuQmCC" alt="img">和方差<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAaCAMAAABb5iZtAAAAAXNSR0IArs4c6QAAAGZQTFRFAAAAAAAAAAA6AABmADpmADqQAGa2OgAAOjpmOmaQOpDbZgAAZjoAZjpmZjqQZrbbZrb/kDoAkDo6kLbbkNv/tmYAtmY6ttv/tv//25A627Zm27aQ2////7Zm/9uQ/9u2//+2///bJkPC0AAAAAF0Uk5TAEDm2GYAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAZdEVYdFNvZnR3YXJlAE1pY3Jvc29mdCBPZmZpY2V/7TVxAAAAcklEQVQoU6VPSQ6AIBATd8V9R0Xg/58UBjVDPBl7KJkpLcXzfmFN/PoOUFPYiyLbYVYd7LfKjhiqJRYxbDnJNUtq2JzBYtyDdTDSIKukEY4bHZFhjac65YYzHKBwe1mWs2ZBocnTC54cr5L+1eT1je+LE/MWBTwBINYgAAAAAElFTkSuQmCC" alt="img">。<br>(4)假设该三维高斯模型是可分离的，即<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAA0CAMAAAAUo+LYAAAAAXNSR0IArs4c6QAAAKhQTFRFAAAAAAAAAAA6AABmADo6ADpmADqQAGa2OgAAOgA6OjoAOjpmOjqQOmZmOmaQOma2OpDbZgAAZgA6ZgBmZjoAZjo6ZmaQZma2ZpC2ZpDbZraQZrbbZrb/kDoAkDo6kDpmkGY6kGZmkLa2kLb/kNv/tmYAtmY6tpBmtrZmttv/tv//25A625Bm25CQ27Zm27aQ29uQ2////7Zm/9uQ/9u2/9vb//+2///b+ducgQAAAAF0Uk5TAEDm2GYAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAZdEVYdFNvZnR3YXJlAE1pY3Jvc29mdCBPZmZpY2V/7TVxAAADnklEQVRoQ+1Z7XbTMAy1y7oFGBuBDhhbtgFNt+KRsWTE7/9m2JblfFRJ3DTmHM5J/tVynesr6VpWGJufmYGZgZmBmYGZgf+HAXm7bYB9ueP8/JnG72MrPnX8eUJKZPK+sZpMrlgRXZNv8LOJ4+Co05NdfO2N1GcM2/pmTMN2/uonBZpmWs+UyaCteL2eBlzHKmXcDA6Ylvc42MeWhg0QQRFdvCXYt7v2snXlxDT8lzER0eVFt3c9bUGpzhcEvk130DJPW8571jiUb4oRcc5Y8Zle2ddGevBQsPb/1NplzNVDpSdj3jaZULkyDepwXhRU3E0DOtzSufFVrp1mHo8QLyLuo5QBnVhERpZSiDOZeoBWxYOZPOD+MvbZ2iin2qVlAhwXlx6rWHUfcH9Q0JCJReSfkaT+7mzW+tCDhL2nuMjLvQLVrO9XHdZAy7sIMoYImDE2maB8CE4cum0SXi44f7fSE1XumsjWI6cPp6bIlRvOl98/Qm2Ru/XKFab5LuhxthRBN7NdOD2pnwV5dPLMBKAVJgvqI2W83LIM6QRdgpnHW7WhKyoMxtkq0DeDdSrklg1pU8LZEYMfdm2lRTNtQVs2yFJ5pM2BFkhMd14AuVBwykRvwI4Yb6HkW9V0oPE4pwrVkTYEnatKZuABWgCt4lht0hIFlRFIoIPmYhqBUbo+0mZBF5BK7Jet0KmYhlioHy04AgdUFS/6Z6UettojD6NRNqse0gZ01neKGYhKooz/Da+NEQN64zSjAt08jLKGS+u2dguhbTvDezg6GMWiT/bU3K389sCvn9R7FcTHy8aIim95/9VdC2snolgo5chQdOAVZotm82irWgiE7Ua3HjDrMP0RdG82Fit+tlXKqrstebRQR359RBmW6+q0rB/jT0qpj4zk3a9FEzSrbCa9NQAE3bZhYTRZhWDvd+59mKQ7yY2gyUAEXSQvgX82ri6arEKAF1UuRDXpAF3GZD1pWgikLeU6juCpzq2d1fcbMCr0u16OdpSuwLQgz0doIdA2lrn7ymTXC7lRRdHiS63R1nH/tOFBUdLXQtBRYxMu4PWiIzRZD+i+FkINdMjbOBYpLU67Qfe0EMoPa+aaeOFuzAoqxcjjGxVEdMXQ10JgWcSPftjtB+0wVXXIfjk9MDtsLw+KqsmfsEQrQfW/eHrvLXR/WgmIxxXOG66ZGP5LQIBX+N2q9yOiPbv9deuw1VSd8A++bh2Kcf7/zMA4Bv4C509xUne+xqMAAAAASUVORK5CYII=" alt="img">，编写程序估计类 1 和类 2 中的均值和协方差矩阵中的参数。<br>(5)比较前 4 种方法计算出来的每一个特征的均值<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAaCAMAAABmdEcLAAAAAXNSR0IArs4c6QAAAFpQTFRFAAAAAAAAAAA6AABmADpmADqQAGa2OgAAOgA6OgBmOjo6Oma2OpDbZgAAZpCQZpDbZrb/kDoAkLb/kNv/tmYAtmY6tv//25A627aQ2////7Zm/9uQ//+2///bOP0rFAAAAAF0Uk5TAEDm2GYAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAZdEVYdFNvZnR3YXJlAE1pY3Jvc29mdCBPZmZpY2V/7TVxAAAAgUlEQVQoU92PaxKDMAiEl9o2WuMjmtgazP2vWSSOOh7B/QEM880uALfV0lggude8fxipB5bmfbz8fYwAGwE3ZV7XmzLvi0lq1D0bsWFztQm02nit0voUWmO5k0DB5ZAPPcfkqJ7B1WrG5RES9cqoIVle7XOsKjn7GwB3YgLVO38a/lQVBlHdDNVAAAAAAElFTkSuQmCC" alt="img">的异同，并加以解释。<br>(6)比较前 4 种方法计算出来的每一个特征的方差<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAaCAMAAABmdEcLAAAAAXNSR0IArs4c6QAAAGBQTFRFAAAAAAAAAAA6AABmADo6ADpmADqQAGa2OgAAOgBmOma2OpDbZgAAZjo6ZrbbZrb/kDoAkGY6kLb/kNv/tmYAtmY6ttv/tv//25A627Zm27aQ2////7Zm/9uQ//+2///bDey9OgAAAAF0Uk5TAEDm2GYAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAZdEVYdFNvZnR3YXJlAE1pY3Jvc29mdCBPZmZpY2V/7TVxAAAAfElEQVQoU92P0RqCMAiFIdNWTltGZerG+7+lgGnLR+hcnA/+cdgG8L/ioXEouq5fjK58cthagORPIwBVYh9R8ZKKDvcVyIiWC5+UR1dLmfw3lbySHtXJnIOcvp1Fk7cb+YZ4bG1tPOuyXFP2hIWTZTNxqIfuFz3wshuydgYWogVMu8J46AAAAABJRU5ErkJggg==" alt="img">的异同，并加以解释。 </p>
+<p><strong>【正文】</strong></p>
+<p>概率论中学过，最大似然估计是一种参数估计的方法，利用已知样本结果，反推最大可能导致这样结果的参数值，有了这些参数值就可以用来做贝叶斯决策或者其它任务。最大似然估计的均值和方差定义和代码计算如下（多维情况，一维情况简单计算均值和方差即可）：</p>
+<p>$ \bar\mu = \frac{1}{n}\sum_{k=1}^{n}\bar{x_k} $</p>
+<p>故均值可用以下函数计算：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">avg = pd.Series(index=vectors.columns, dtype=<span class="built_in">float</span>)</span><br><span class="line">    <span class="keyword">for</span> column <span class="keyword">in</span> vectors.columns:</span><br><span class="line">        <span class="comment"># 计算每个特征的平均值</span></span><br><span class="line">        avg[column] = vectors[column].mean()</span><br><span class="line">    <span class="keyword">return</span> np.array(avg)</span><br></pre></td></tr></table></figure>
+<p>$ \bar\Sigma=\frac{1}{n}\sum_{k=1}^{n}{(\bar{x_k}-\bar\mu)(\bar{x_k}-\bar\mu)^T} $</p>
+<p>方差可用以下函数计算：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">calculateCov</span>(<span class="params">vectors: pd.DataFrame</span>):</span><br><span class="line">    mu = np.matrix(calculateAvg(vectors)).T</span><br><span class="line">    dimension = vectors.shape[<span class="number">1</span>]</span><br><span class="line">    Cov = np.zeros((dimension, dimension))</span><br><span class="line">    <span class="keyword">for</span> index, row <span class="keyword">in</span> vectors.iterrows():</span><br><span class="line">        xi = np.matrix(row).T</span><br><span class="line">        diff = xi - mu</span><br><span class="line">        Cov += diff * diff.T</span><br><span class="line">    <span class="keyword">return</span> Cov / vectors.shape[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<p> 三维高斯模型是可分离的，即当三维高斯模型的协方差矩阵是对角矩阵时，各特征间相互独立，联合概率分布可分解为各特征边缘分布的乘积。此时，协方差矩阵的非对角线元素（协方差）为零，对角线元素为各特征的方差。这意味着各维度之间没有相关性，模型参数估计时仅需考虑各维度自身的均值和方差。 </p>
+<p>关于均值和方差的比较，均值相同，所有方法均采用样本均值，与协方差结构无关。方差相同，差异仅体现在协方差项（非对角线元素）的存在与否，方差估计为样本方差，仅依赖各维度数据，与协方差矩阵是否包含非零协方差无关。</p>
+<h1 id="二、非参数估计"><a href="#二、非参数估计" class="headerlink" title="二、非参数估计"></a><strong>二、非参数估计</strong></h1><p> <strong>【实验内容及说明】</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th>类1</th>
+<th></th>
+<th></th>
+<th>类2</th>
+<th></th>
+<th></th>
+<th>类3</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>样本</td>
+<td>x1</td>
+<td>x2</td>
+<td>x3</td>
+<td>x1</td>
+<td>x2</td>
+<td>x3</td>
+<td>x1</td>
+<td>x2</td>
+<td>x3</td>
+</tr>
+<tr>
+<td>1</td>
+<td>-1.63</td>
+<td>1.31</td>
+<td>0.28</td>
+<td>1.03</td>
+<td>-2.18</td>
+<td>0.08</td>
+<td>0.68</td>
+<td>0.14</td>
+<td>2.17</td>
+</tr>
+<tr>
+<td>2</td>
+<td>-0.78</td>
+<td>0.58</td>
+<td>1.52</td>
+<td>1.96</td>
+<td>1.27</td>
+<td>0.45</td>
+<td>1.41</td>
+<td>0.92</td>
+<td>0.13</td>
+</tr>
+<tr>
+<td>3</td>
+<td>5.73</td>
+<td>0.21</td>
+<td>-0.81</td>
+<td>3.12</td>
+<td>0.13</td>
+<td>0.16</td>
+<td>1.22</td>
+<td>0.69</td>
+<td>0.99</td>
+</tr>
+<tr>
+<td>4</td>
+<td>-4.32</td>
+<td>1.18</td>
+<td>-0.44</td>
+<td>1.23</td>
+<td>-0.21</td>
+<td>-0.11</td>
+<td>2.46</td>
+<td>-0.38</td>
+<td>1.45</td>
+</tr>
+<tr>
+<td>5</td>
+<td>-6.2</td>
+<td>0.82</td>
+<td>0.07</td>
+<td>1.39</td>
+<td>-1.44</td>
+<td>-0.19</td>
+<td>0.85</td>
+<td>0.87</td>
+<td>0.79</td>
+</tr>
+<tr>
+<td>6</td>
+<td>2.77</td>
+<td>3.16</td>
+<td>0.65</td>
+<td>0.82</td>
+<td>0.34</td>
+<td>-0.16</td>
+<td>2.51</td>
+<td>1.35</td>
+<td>3.22</td>
+</tr>
+<tr>
+<td>7</td>
+<td>4.38</td>
+<td>2.42</td>
+<td>2.20</td>
+<td>0.94</td>
+<td>-1.38</td>
+<td>-0.21</td>
+<td>0.60</td>
+<td>1.31</td>
+<td>2.44</td>
+</tr>
+<tr>
+<td>8</td>
+<td>6.21</td>
+<td>2.01</td>
+<td>0.91</td>
+<td>1.28</td>
+<td>-0.12</td>
+<td>0.17</td>
+<td>0.64</td>
+<td>0.97</td>
+<td>2.19</td>
+</tr>
+<tr>
+<td>9</td>
+<td>-0.96</td>
+<td>1.93</td>
+<td>1.54</td>
+<td>2.31</td>
+<td>0.011</td>
+<td>0.14</td>
+<td>1.36</td>
+<td>0.99</td>
+<td>0.58</td>
+</tr>
+<tr>
+<td>10</td>
+<td>-0.19</td>
+<td>1.94</td>
+<td>-0.26</td>
+<td>1.94</td>
+<td>0.26</td>
+<td>0.08</td>
+<td>0.66</td>
+<td>0.88</td>
+<td>0.51</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Parzen 窗估计：<br>使用上面表格中的数据进行 Parzen 窗估计和设计分类器。窗函数为一个球形的高斯函数如下所示：<br><img src="data:image/png;base64,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" alt="img"><br>编写程序，使用 Parzen 窗估计方法对任意一个的测试样本点<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAaCAMAAABW+FYqAAAAAXNSR0IArs4c6QAAAFFQTFRFAAAAAAAAAAA6AABmADpmAGaQAGa2OgAAOma2OpDbZjoAZpDbZrbbZrb/kDoAkDo6kNvbkNv/tmYAtmY6tv//25A625Bm/7Zm/9uQ//+2///bqUwrAwAAAAF0Uk5TAEDm2GYAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAAZdEVYdFNvZnR3YXJlAE1pY3Jvc29mdCBPZmZpY2V/7TVxAAAAUElEQVQoU2NgGHRAmJFFhEGKj0mQgUGMR4KdU4ofyAIBKT5WYV6Yc4UYOeAuFwephQBJLka4EmEBPjaosCgngxCziChQSpSJm4FBgh1EUgIANKwCnXNm8kYAAAAASUVORK5CYII=" alt="img">进行分类。对分类器的训练则使用表格中的三维数据。令h = 1，分类样本点为$(0.5,1.0,0.0)^𝑡，(0.31,1.51,-0.50)^𝑡，(-0.3,0.44, -0.1)^𝑡$ 。</p>
+<p>k-近邻概率密度估计：<br>对上面表格中的数据使用k-近邻方法进行概率密度估计：<br>1)   编写程序，对于一维的情况，当有 n 个数据样本点时，进行k-近邻概率密度估计。对表格中的类3的特征𝑥1，用程序画出当 k=1，3，5 时的概率密度估计结果。<br>2)   编写程序，对于二维的情况，当有 n 个数据样本点时，进行k-近邻概率密度估计。对表格中的类2的特征$(𝑥1, 𝑥2)^𝑡$，用程序画出当 k=1，3，5 时的概率密度估计结果。<br>3)   编写程序，对表格中的3个类别的三维特征，使用k-近邻概率密度估计方法。并且对下列点处的概率密度进行估计：$ (-0.41,0.82,0.88)^𝑡，(0.14,0.72, 4.1)^𝑡，(-0.81,0.61, -0.38)^𝑡$。 </p>
+<p><strong>【正文】</strong></p>
+<p>在参数估计中，我们总是假设概率密度函数的参数形式已知，但在现实世界中我们一般给出的概率密度的形式很少符合实际情况。</p>
+<p>“非参数化方法”(non- parametric method)能处理任意的概率分布而不必假设密度的参数形式已知。</p>
+<p>在模式识别中有多种令人感兴趣的非参数化方法。其中之一是如何从训练样本中估计概率密度函数$p(x|w_j)$。如果这种估计的结果是可靠的话那么在设计分类器时估计出的结果就可以认为是真正的概率密度。另一种方法讨论如何直接估计后验概率$P(w_j|x)$。这种方法的实现方式与所设计的算法直接相关，比如说“最近邻规则”就省略了概率估计这一步而直接进行判别函数的设计。</p>
+<p>对于Parzen 窗估计，窗函数已给出，直接计算即可：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">window</span>(<span class="params">sample: pd.Series, trainSample: pd.Series, h</span>):</span><br><span class="line">    vector_s = np.matrix(sample).T<span class="comment"># 转置</span></span><br><span class="line">    vector_ts = np.matrix(trainSample).T</span><br><span class="line">    diff = vector_s - vector_ts <span class="comment"># 差值</span></span><br><span class="line">    <span class="keyword">return</span> math.exp(-diff.T * diff / (<span class="number">2</span> * h ** <span class="number">2</span>)) <span class="comment"># 按公式算</span></span><br></pre></td></tr></table></figure>
+<p>遍历训练集中的每一行，调用window函数计算测试样本与训练样本之间的窗函数值，并累加到似然值中，计算平均似然值并返回：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">Parzen</span>(<span class="params">sample: pd.Series, trainSet: pd.DataFrame</span>):</span><br><span class="line">    likelihood = <span class="number">0.0</span></span><br><span class="line">    <span class="keyword">for</span> index, row <span class="keyword">in</span> trainSet.iterrows():</span><br><span class="line">        likelihood += window(sample, row, <span class="number">1</span>)</span><br><span class="line">    likelihood = likelihood / <span class="built_in">len</span>(trainSet) <span class="comment">#取平均值</span></span><br><span class="line">    <span class="keyword">return</span> likelihood</span><br></pre></td></tr></table></figure>
+<p>计算样本在三个不同训练集上的条件概率密度。比较三个条件概率密度，输出样本属于概率密度最大的类别即可完成分类。</p>
+<p>使用k-近邻方法进行概率密度估计时可以选择欧式距离或者马氏距离，欧氏距离适合特征独立、数据分布均匀、计算资源有限的场景。马氏距离适合特征相关性强、数据分布复杂、对准确性要求较高的场景。</p>
+<p>欧式距离：$d(x,y)=\sqrt{\sum\limits_{i=1}^n(x_i-y_i)^2}$</p>
+<p>马氏距离：$d(x,y)=\sqrt{(x-y)^TS^{-1}(x-y)}$，其中S是协方差矩阵</p>
+<p>观察上面给出的数据，可以得出分布是比较均匀的，并且为了简化计算，就先使用欧氏距离了。</p>
+<p>一维：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">one_dimension_KNN</span>(<span class="params">testData: <span class="built_in">float</span>, trainSet: pd.Series, k: <span class="built_in">int</span></span>):</span><br><span class="line">    distance = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(trainSet.shape[<span class="number">0</span>]): <span class="comment"># 遍历训练集，shape[0]表示数据的行数</span></span><br><span class="line">        d = np.<span class="built_in">abs</span>(testData - trainSet[i])</span><br><span class="line">        distance.append(d)</span><br><span class="line">    distance.sort()</span><br><span class="line">    posterior = (k / trainSet.shape[<span class="number">0</span>]) / (<span class="number">2</span> * distance[k - <span class="number">1</span>])</span><br><span class="line">    <span class="comment"># 分子 k / trainSet.shape[0] 表示标点周围最近的 k 个样本，占训练集总样本的比例。分母 2 * distance[k - 1] 表示目标点附近的区间长度。</span></span><br><span class="line">    <span class="comment"># 相除得到概率密度</span></span><br><span class="line">    <span class="keyword">return</span> posterior</span><br></pre></td></tr></table></figure>
+<p>二维：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">two_dimension_KNN</span>(<span class="params">x1: np.matrix, x2: np.matrix, trainSet: pd.DataFrame, k: <span class="built_in">int</span></span>):</span><br><span class="line">    posteriorMatrix = np.zeros((x1.shape[<span class="number">0</span>], x1.shape[<span class="number">1</span>]))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(x1.shape[<span class="number">0</span>]):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(x1.shape[<span class="number">1</span>]):</span><br><span class="line">            distance = []</span><br><span class="line">            <span class="keyword">for</span> index, row <span class="keyword">in</span> trainSet.iterrows():</span><br><span class="line">                d = np.sqrt((x1[i, j] - row[<span class="number">0</span>]) ** <span class="number">2</span> + (x2[i, j] - row[<span class="number">1</span>]) ** <span class="number">2</span>)</span><br><span class="line">                distance.append(d)</span><br><span class="line">            distance.sort()</span><br><span class="line">            posterior = (k / trainSet.shape[<span class="number">0</span>]) / (np.pi * (distance[k - <span class="number">1</span>] ** <span class="number">2</span>) + np.spacing(<span class="number">1</span>))</span><br><span class="line">            <span class="comment"># 同样是计算距离，只不过是二维欧氏距离</span></span><br><span class="line">            posteriorMatrix[i, j] = posterior</span><br><span class="line">    <span class="keyword">return</span> posteriorMatrix</span><br></pre></td></tr></table></figure>
+<p>三维：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">three_dimension_KNN</span>(<span class="params">testData: np.matrix, k: <span class="built_in">int</span></span>):</span><br><span class="line">    distance = [[], [], []]</span><br><span class="line">    posterior = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(trainSet)):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(trainSet[i].shape[<span class="number">0</span>]):</span><br><span class="line">            <span class="comment"># 仍然是计算欧氏距离，只不过是三维</span></span><br><span class="line">            d = np.sqrt((testData[<span class="number">0</span>, <span class="number">0</span>] - trainSet[i].iloc[j][<span class="string">&#x27;x1&#x27;</span>]) ** <span class="number">2</span> +</span><br><span class="line">                        (testData[<span class="number">1</span>, <span class="number">0</span>] - trainSet[i].iloc[j][<span class="string">&#x27;x2&#x27;</span>]) ** <span class="number">2</span> +</span><br><span class="line">                        (testData[<span class="number">2</span>, <span class="number">0</span>] - trainSet[i].iloc[j][<span class="string">&#x27;x3&#x27;</span>]) ** <span class="number">2</span>)</span><br><span class="line">            distance[i].append(d)</span><br><span class="line">        distance[i].sort()</span><br><span class="line">        V = <span class="number">4</span> * np.pi * (distance[i][k - <span class="number">1</span>] ** <span class="number">3</span>) / <span class="number">3</span> <span class="comment"># 计算球体体积</span></span><br><span class="line">        posterior.append(k / (trainSet[i].shape[<span class="number">0</span>]) / V)</span><br></pre></td></tr></table></figure>
+<p>分类时，对每个类求条件概率密度，最大的即为数据点预测的类</p>
+<h1 id="三、KNN实战"><a href="#三、KNN实战" class="headerlink" title="三、KNN实战"></a>三、KNN实战</h1><p>现有一诊断数据集diagnosis_result.csv，共有100条数据，数据格式如下图所示：</p>
+<p><img src="data:image/png;base64,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" alt="img"></p>
+<p>id代表序列，diagnosis_result表示Negative/Positive(阴性或阳性)，需要通过后面8个属性特征来判断诊断结果为阴性或阳性。用学过的<strong>KNN方法</strong>来构建一个分类器，判断一个样本的诊断结果，KNN 模型需要<strong>自己实现</strong>，不可使用现成的第三方库</p>
+<p><strong>【正文】</strong></p>
+<p>首先进行归一化处理，为了后续接受新数据进行预测，还要保存各特征的最大最小值以便对新数据进行归一化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 归一化，先获取最大值最小值</span></span><br><span class="line"><span class="comment"># 获取除了 &#x27;id&#x27; 和 &#x27;result&#x27; 之外的特征名称</span></span><br><span class="line">feature_keys = [col <span class="keyword">for</span> col <span class="keyword">in</span> reader.fieldnames <span class="keyword">if</span> col <span class="keyword">not</span> <span class="keyword">in</span> [<span class="string">&#x27;id&#x27;</span>, <span class="string">&#x27;diagnosis_result&#x27;</span>]]</span><br><span class="line"><span class="comment"># print(feature_keys)</span></span><br><span class="line">max_min_values = &#123;&#125;  <span class="comment"># 存储各特征的最大最小值</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> key <span class="keyword">in</span> feature_keys:</span><br><span class="line">    values = [<span class="built_in">float</span>(data[key]) <span class="keyword">for</span> data <span class="keyword">in</span> datas]</span><br><span class="line">    max_val = <span class="built_in">max</span>(values)</span><br><span class="line">    min_val = <span class="built_in">min</span>(values)</span><br><span class="line">    max_min_values[key] = (max_val, min_val)  <span class="comment"># 保存到字典</span></span><br><span class="line">    <span class="comment"># 归一化处理</span></span><br><span class="line">    <span class="keyword">for</span> data <span class="keyword">in</span> datas:</span><br><span class="line">        data[key] = (<span class="built_in">float</span>(data[key]) - min_val) / (max_val - min_val)</span><br></pre></td></tr></table></figure>
+<p>计算测试数据与训练集中每个数据的距离，按距离从小到大排序，并取前K个最近的数据。<br>对这K个数据进行加权平均，距离越小权重越大。根据加权结果返回分类结果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">knn</span>(<span class="params">data</span>):</span><br><span class="line">    res = [</span><br><span class="line">        &#123;<span class="string">&quot;result&quot;</span>: train[<span class="string">&quot;diagnosis_result&quot;</span>], <span class="string">&quot;distance&quot;</span>: distance(data, train)&#125;</span><br><span class="line">        <span class="keyword">for</span> train <span class="keyword">in</span> train_set</span><br><span class="line">    ]</span><br><span class="line">    res = <span class="built_in">sorted</span>(res, key=<span class="keyword">lambda</span> item: item[<span class="string">&#x27;distance&#x27;</span>])</span><br><span class="line">    res2 = res[<span class="number">0</span>:k]</span><br><span class="line">    result = &#123;<span class="string">&#x27;Positive&#x27;</span>: <span class="number">0</span>, <span class="string">&#x27;Negative&#x27;</span>: <span class="number">0</span>&#125;</span><br><span class="line">    sum_dist = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> r1 <span class="keyword">in</span> res2:</span><br><span class="line">        sum_dist += r1[<span class="string">&#x27;distance&#x27;</span>]</span><br><span class="line">    <span class="comment"># 逐个分类加和</span></span><br><span class="line">    <span class="keyword">for</span> r2 <span class="keyword">in</span> res2:</span><br><span class="line">        result[r2[<span class="string">&quot;result&quot;</span>]] += <span class="number">1</span> - (r2[<span class="string">&quot;distance&quot;</span>] / sum_dist)</span><br><span class="line">    <span class="keyword">if</span> result[<span class="string">&#x27;Positive&#x27;</span>] &gt; result[<span class="string">&#x27;Negative&#x27;</span>]:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;Positive&#x27;</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;Negative&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>对新数据进行预测：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">predict_new_data</span>(<span class="params">new_data</span>):</span><br><span class="line">    normalized_data = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> key <span class="keyword">in</span> feature_keys:</span><br><span class="line">        max_val, min_val = max_min_values[key]</span><br><span class="line">        normalized_data[key] = (<span class="built_in">float</span>(new_data[key]) - min_val) / (max_val - min_val)</span><br><span class="line">    normalized_data[<span class="string">&#x27;diagnosis_result&#x27;</span>] = <span class="string">&#x27;Unknown&#x27;</span></span><br><span class="line">    <span class="keyword">return</span> knn(normalized_data)</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://jiang54864.github.io">姜将</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://jiang54864.github.io/%E5%AE%9E%E9%AA%8C/%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1%E4%B8%8E%E9%9D%9E%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1/">http://jiang54864.github.io/%E5%AE%9E%E9%AA%8C/%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1%E4%B8%8E%E9%9D%9E%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://jiang54864.github.io" target="_blank">姜将的个人博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></div><div class="post_share"><div class="social-share" data-image="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/%E5%AE%9E%E9%AA%8C/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%86%B3%E7%AD%96%E8%AE%BA%E9%A2%84%E6%B5%8B%E8%B4%B7%E6%AC%BE%E8%BF%9D%E7%BA%A6/" title="贝叶斯决策论预测贷款违约"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">贝叶斯决策论预测贷款违约</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/others/%E4%B8%8EChatgpt%E8%81%8A%E8%81%8A%E5%A4%A9/" title="与Chatgpt聊聊天"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-06</div><div class="title">与Chatgpt聊聊天</div></div></a></div><div><a href="/%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%EF%BC%9A%E5%9F%BA%E4%BA%8Epython%E7%9A%84%E7%90%86%E8%AE%BA%E4%B8%8E%E5%AE%9E%E7%8E%B0%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" title="《深度学习入门：基于python的理论与实现》读书笔记"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-08</div><div class="title">《深度学习入门：基于python的理论与实现》读书笔记</div></div></a></div><div><a href="/%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E8%BF%9B%E9%98%B6%EF%BC%9A%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E5%A4%84%E7%90%86%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" title="《深度学习进阶：自然语言处理处理》读书笔记"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-08</div><div class="title">《深度学习进阶：自然语言处理处理》读书笔记</div></div></a></div><div><a href="/%E7%AC%94%E8%AE%B0/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E6%95%B4%E7%90%86/" title="机器学习基础整理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-19</div><div class="title">机器学习基础整理</div></div></a></div><div><a href="/%E7%AC%94%E8%AE%B0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" title="自然语言处理知识梳理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-13</div><div class="title">自然语言处理知识梳理</div></div></a></div><div><a href="/%E5%AE%9E%E9%AA%8C/%E5%80%9F%E5%8A%A9ollama%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8Cqwen2-5/" title="借助ollama本地运行各种开源大模型"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-12</div><div class="title">借助ollama本地运行各种开源大模型</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">姜将</div><div class="author-info__description">记录学习中的知识与收获</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/JIANG54864"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/JIANG54864" target="_blank" title="我的Github主页"><i class="fab fa-github"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=2792663690&amp;website=www.oicqzone.com" target="_blank" title="点击添加我的QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="https://www.helloimg.com/i/2025/01/25/6794f016e9b99.png" target="_blank" title="点击添加我的微信"><i class="fab fa-weixin"></i></a><a class="social-icon" href="https://space.bilibili.com/262150061" target="_blank" title="我的Bilibili主页"><i class="fab fa-bilibili"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客网站！若有需要，可通过上方联系方式找到我。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81-%E6%9C%80%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1"><span class="toc-number">1.</span> <span class="toc-text">一、  最大似然估计</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E9%9D%9E%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1"><span class="toc-number">2.</span> <span class="toc-text">二、非参数估计</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81KNN%E5%AE%9E%E6%88%98"><span class="toc-number">3.</span> <span class="toc-text">三、KNN实战</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/%E5%AE%9E%E9%AA%8C/%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1%E4%B8%8E%E9%9D%9E%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1/" title="参数估计与非参数估计">参数估计与非参数估计</a><time datetime="2025-02-12T07:53:06.000Z" title="发表于 2025-02-12 15:53:06">2025-02-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/%E5%AE%9E%E9%AA%8C/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%86%B3%E7%AD%96%E8%AE%BA%E9%A2%84%E6%B5%8B%E8%B4%B7%E6%AC%BE%E8%BF%9D%E7%BA%A6/" title="贝叶斯决策论预测贷款违约">贝叶斯决策论预测贷款违约</a><time datetime="2025-02-11T04:14:12.000Z" title="发表于 2025-02-11 12:14:12">2025-02-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/%E5%AE%9E%E9%AA%8C/%E8%A3%85%E7%B3%BB%E7%BB%9F%E8%AE%B0%E5%BD%95/" title="装系统记录">装系统记录</a><time datetime="2025-02-10T14:50:02.000Z" title="发表于 2025-02-10 22:50:02">2025-02-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/%E5%AE%9E%E9%AA%8C/%E5%80%9F%E5%8A%A9ollama%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8Cqwen2-5/" title="借助ollama本地运行各种开源大模型">借助ollama本地运行各种开源大模型</a><time datetime="2025-01-12T08:37:49.000Z" title="发表于 2025-01-12 16:37:49">2025-01-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/others/2024%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" title="2024年度总结">2024年度总结</a><time datetime="2025-01-01T05:26:53.000Z" title="发表于 2025-01-01 13:26:53">2025-01-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By 姜将</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="true"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
