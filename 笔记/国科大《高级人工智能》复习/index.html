@@ -1,0 +1,522 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>国科大《高级人工智能》复习 | 姜将的个人博客</title><meta name="author" content="姜将"><meta name="copyright" content="姜将"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="大哲学家沈老师上的部分很值得一听，时不时会引起一些思考。  三大学派 符号主义逻辑的基本概念设计通用问题求解器是一个伟大的算法问题 知识表示：把用自然语言表达的基本的数学公理表达为形式化的符号语言知识推理：以形式化语言表述的知识库和查询为输入，需要一个自动化的算法，自动运行以得到最终的答案 什么是所谓“正确的推理”：逻辑蕴含 模型是可以评估的结构化世界 逻辑体系是用于判断结论是否在某一个模型中成立">
+<meta property="og:type" content="article">
+<meta property="og:title" content="国科大《高级人工智能》复习">
+<meta property="og:url" content="http://jiang54864.github.io/%E7%AC%94%E8%AE%B0/%E5%9B%BD%E7%A7%91%E5%A4%A7%E3%80%8A%E9%AB%98%E7%BA%A7%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E3%80%8B%E5%A4%8D%E4%B9%A0/index.html">
+<meta property="og:site_name" content="姜将的个人博客">
+<meta property="og:description" content="大哲学家沈老师上的部分很值得一听，时不时会引起一些思考。  三大学派 符号主义逻辑的基本概念设计通用问题求解器是一个伟大的算法问题 知识表示：把用自然语言表达的基本的数学公理表达为形式化的符号语言知识推理：以形式化语言表述的知识库和查询为输入，需要一个自动化的算法，自动运行以得到最终的答案 什么是所谓“正确的推理”：逻辑蕴含 模型是可以评估的结构化世界 逻辑体系是用于判断结论是否在某一个模型中成立">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg">
+<meta property="article:published_time" content="2026-02-17T15:04:17.000Z">
+<meta property="article:modified_time" content="2026-02-17T15:12:08.979Z">
+<meta property="article:author" content="姜将">
+<meta property="article:tag" content="博客,java,c,python,前端">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg"><link rel="shortcut icon" href="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg"><link rel="canonical" href="http://jiang54864.github.io/%E7%AC%94%E8%AE%B0/%E5%9B%BD%E7%A7%91%E5%A4%A7%E3%80%8A%E9%AB%98%E7%BA%A7%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E3%80%8B%E5%A4%8D%E4%B9%A0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '国科大《高级人工智能》复习',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-02-17 23:12:08'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">34</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="姜将的个人博客"><img class="site-icon" src="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg"/><span class="site-name">姜将的个人博客</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">国科大《高级人工智能》复习</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-02-17T15:04:17.000Z" title="发表于 2026-02-17 23:04:17">2026-02-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-02-17T15:12:08.979Z" title="更新于 2026-02-17 23:12:08">2026-02-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">10.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>34分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="国科大《高级人工智能》复习"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>大哲学家沈老师上的部分很值得一听，时不时会引起一些思考。</p>
+<p><img src="1769093573227.png" alt="1769093573227"></p>
+<p>三大学派<img src="1769400365945.png" alt="1769400365945"></p>
+<h1 id="符号主义"><a href="#符号主义" class="headerlink" title="符号主义"></a>符号主义</h1><h2 id="逻辑的基本概念"><a href="#逻辑的基本概念" class="headerlink" title="逻辑的基本概念"></a>逻辑的基本概念</h2><p>设计通用问题求解器是一个伟大的算法问题</p>
+<p>知识表示：把用自然语言表达的基本的数学公理表达为<strong>形式化的符号语言</strong><br>知识推理：以形式化语言表述的知识库和查询为输入，需要一个自动化的算法，自动运行以得到最终的答案</p>
+<p>什么是所谓“正确的推理”：逻辑蕴含</p>
+<p>模型是可以评估的结构化世界</p>
+<p>逻辑体系是用于判断结论是否在某一个模型中成立的语言体系</p>
+<p>句子 (Sentence) 是由符号按照特定规则构成的表达式，表达的内容为需要被判定真假的信息；语法 (Syntax) 定义了句子的表达结构和规则；</p>
+<p><strong>如果有一个句子 α 在模型 m 中为真，则称 m 满足 α，或 m 是 α 的一个模型，并用符号 M(α) 表示所有满足 α 的模型的集合。</strong></p>
+<p>逻辑的语义蕴含实质是定义了一组逻辑句子与一个新句子之间的所谓的“正确推理”的关系。此时，这组逻辑句子，我们称为知识库 (Knowledge Base)，记作 KB，它是一个<strong>包含了多个逻辑句子的集合</strong>；这个新的句子，记作 α。那么，KB 与 α 之间的语义蕴含关系定义为：</p>
+<p><strong>KB 蕴含句子 α，记为 KB |= α，当且仅当，在所有 KB 为真的世界中，α 也为真。或者说，对于任意的模型，如果它使 KB 为真的同时使 α 也为真，则此时 KB 蕴含 α。</strong></p>
+<p><strong>KB |= α 当且仅当M(KB) ⊆ M(α).</strong></p>
+<p>先证 ⇒：<br>∀m ∈ M(KB), 因为 KB |= α, 可推出 m 也使 α 为真, 所以 m ∈ M(α),所以 M(KB) ⊆ M(α).<br>再证 ⇐：<br>∀m ∈ M(KB), m ∈ M(α), 对于所有 m 来说, 使得 KB 为真, α 也为真, 根据定义即 KB |= α.</p>
+<p><img src="1769096590742.png" alt="1769096590742"></p>
+<p>KB |= α 直观理解就是：在使 KB 为真的世界 (worlds) 里面 α 也全都要为真。</p>
+<h2 id="命题逻辑"><a href="#命题逻辑" class="headerlink" title="命题逻辑"></a>命题逻辑</h2><p>BNF范式：</p>
+<p>命题句子 → 原子命题句子 | 复合命题句子<br>原子命题句子 → True | False | P | Q | R . . .<br>复合命题句子 → (命题句子) | [命题句子]<br>| ¬命题句子<br>| 命题句子 ∧ 命题句子<br>| 命题句子 ∨ 命题句子<br>| 命题句子 ⇒ 命题句子<br>| 命题句子 ⇔ 命题句子</p>
+<p>命题 (Proposition)，是一个要么为真，要么为假的陈述句，不考虑模棱两可的表述。</p>
+<p>原子命题 (Atomic Propositions) 是最小命题，指无法被进一步分解的简单陈述句，其真值为“真”(True) 或“假”(False)，且不随时间或语境变化。真值会随日期改变这类命题被称为流命题 (Fluent)）。<br>原子命题通常用大写字母（如 P,Q,R）表示，以便在形式化系统中处理。</p>
+<p>连接词的作用是将命题与命题连接起来，形成一个复合命题 (Complex Propositions)，被连接词连接的命题可以是一个简单的原子命题，也可以是一个复合命题。</p>
+<p><img src="1769097746553.png" alt="1769097746553"></p>
+<p>连接词的运算顺序为：¬, ∧, ∨, ⇒, ⇔。</p>
+<p>⇒ 表示“条件”，<strong>只有当命题 P 为真而命题 Q 为假时，复合命题P ⇒ Q 才为假</strong>，否则为真；</p>
+<p><img src="1769150262450.png" alt="1769150262450"></p>
+<p>逻辑中的连接词 ∧, ∨ 和集合运算中的 ∩, ∪ 的含义是完全不同的。不过，它们也有如下的联系：<br>M(P ∧ Q) = M(P) ∩ M(Q)<br>M(P ∨ Q) = M(P) ∪ M(Q)<br>从上式中可以看出，所有能同时使 P 和 Q 成立的模型的集合，是 P所有模型的集合与 Q 所有模型的集合的交集。同样，所有能至少使 P 或 Q其中一个命题成立的模型的集合，是 P 所有模型的集合与 Q 所有模型的<br>集合的并集。<br>蕴含符号 |= 和形式逻辑连接词 ⇒ 的区别也值得注意。KB |= α 并不是一个合法的复杂句子，因为 |= 不是合法的连接词（连接词只有五个）。|= 表达了两个句子之间的一种关系，而 ⇒ 是用于知识表示的连接词。</p>
+<p>句子的真值指派 (Truth Assignment)：给定一个命题逻辑的句子 α，给 α 中的每个原子命题指定一个确定的真值，被指定的这个真值的组合称为一次真值指派。如果在某个真值指派下，句子为真，则这个真值指派就是该句子的一个模型。</p>
+<p><strong>两个句子 α, β 逻辑等价（记作 α ≡ β），当且仅当 α |= β且β |= α</strong></p>
+<p><strong>α ≡ β 当且仅当 M(α) = M(β)</strong>。如果两个句子逻辑等价，那么在任意的真值指派下，此两个句子的真假始终保持一致。</p>
+<p><img src="1769153547576.png" alt="1769153547576"></p>
+<p>∧ 的交换律 (Commutativity of ∧)<br>(α ∧ β) ≡ (β ∧ α)<br>∨ 的交换律 (Commutativity of ∨)<br>(α ∨ β) ≡ (β ∨ α)<br>∧ 的结合律 (Associativity of ∧)<br>((α ∧ β) ∧ γ) ≡ (α ∧ (β ∧ γ))<br>∨ 的结合律 (Associativity of ∨)<br>((α ∨ β) ∨ γ) ≡ (α ∨ (β ∨ γ))<br>双重否定消除(Double negation elimination)<br>¬(¬α) ≡ α<br>逆否命题 (Contraposition)<br>(α ⇒ β) ≡ (¬β ⇒ ¬α)<br>蕴含消除 (Implication elimination)<br><strong>(α ⇒ β) ≡ (¬α ∨ β)</strong><br>双条件消除(Biconditional elimination)<br><strong>(α ⇔ β) ≡ ((α ⇒ β) ∧ (β ⇒ α))</strong><br>德摩根律 (De Morgan)<br>¬(α ∧ β) ≡ (¬α ∨ ¬β)<br>¬(α ∨ β) ≡ (¬α ∧ ¬β)<br>分配律 (Distributivity)<br>(α ∧ (β ∨ γ)) ≡ ((α ∧ β) ∨ (α ∧ γ))<br>(α ∨ (β ∧ γ)) ≡ ((α ∨ β) ∧ (α ∨ γ))</p>
+<p>句子在所有真值指派下都为真时，被称为该句子是永真的。</p>
+<p>若存在一个真值指派，句子在这个指派中为真，那么它是可满足的 (Satisfiable)。</p>
+<p>任何原子命题一定是可满足的。<br>如果一个句子在任何真值指派中都不为真，那么它是不可满足的 (Unsatisfiable)。</p>
+<p><strong>KB |= α 当且仅当(KB ⇒ α)是永真的</strong><br>其中，(KB ⇒ α) 表示的句子是 (α1 ∧· · ·∧αk ⇒ α)，这里 α1 · · · αk是 KB 中的所有句子。</p>
+<p>先证 ⇒:<br>因为 KB |= α 所以 M(KB) ⊆ M(α), ∀m ∈ M(KB), m ∈ M(α), 即KB 为真, α 为真。<br>KB ⇒ α 永真。<br>再证 ⇐:<br>1) 若 M(KB) ̸= ∅ 则 ∀m ∈ M(KB), 因为 KB ⇒ α 永真, 所以m ∈ M(α), 可推出 M(KB) ⊆ M(α), 即 KB |= α.</p>
+<p>2) 若 M(KB) = ∅ 则不存在 m 能使 KB 为真, 又因为 ∅ ⊆ M(α) 所以 M(KB) ⊆ M(α), 即 KB |= α。<br>证毕.</p>
+<p><strong>KB |= α 当且仅当(KB ∧ ¬α)是不可满足的</strong></p>
+<p>先证 ⇒:<br>假设 KB |= α，这意味着 M(KB) ⊆ M(α)。换句话说，任何使 KB 为真的模型也会使 α 为真。<br>如果 KB ∧ ¬α 是可满足的，那么存在一个模型 m 使得 KB 和 ¬α 同时为真。这意味着 m /∈ M(α) 且 m ∈ M(KB)，与 M(KB) ⊆ M(α) 矛盾。<br>因此，KB ∧ ¬α 一定是不可满足的。<br>再证 ⇐:<br>假设 (KB ∧¬α) 是不可满足的。这意味着不存在任何模型 m 使得 KB和 ¬α 同时为真。<br>因此，任何使 KB 为真的模型 m 必须使 α 也为真，即 M(KB) ⊆M(α)。<br>因此，KB |= α。<br>综上所述，KB |= α 当且仅当 (KB ∧ ¬α) 是不可满足的。<br>证毕。</p>
+<h3 id="形式推演"><a href="#形式推演" class="headerlink" title="形式推演"></a>形式推演</h3><p><strong>形式可推演性：A 是在命题逻辑中由 Σ 形式可推演（或形式可证明）的，记作Σ ⊢ A,当且仅当 Σ ⊢ A 能由（有限次使用）命题逻辑的形式推演规则生成。</strong></p>
+<p>对于一个形式推演系统，如果它从知识库中推导出的所有结论都能被知识库蕴含，就称这个推演体系具有可靠性，即：若 KB ⊢ α，则 KB |= α。它代表了通过这个推演体系推理出来的结论一定是正确的。</p>
+<p>对于一个形式推演体系，如果它能推导出所有被知识库蕴含的结论，就称这个推演体系具有完备性，即：若 KB |= α，则 KB ⊢ α。代表了这个推演体系可以推出所有正确的结论。</p>
+<p>文字 (Literals)是一个原子命题或是一个原子命题的否定。</p>
+<p>在归结原理推演系统中，文字是最基本的构成元素。文字包括正文字和负文字。原子命题是正文字，而原子命题的否定是负文字。</p>
+<p>互补文字 (Complementary Literals)是两个互为否定的文字，即同一个原子命题的正文字和负文字共同构成一组互补文字。</p>
+<p>子句 (Clauses)是用析取连接的文字，一般形式为：ℓ1 ∨ ℓ2 ∨ · · · ∨ ℓk，其中，ℓi 为文字 (i = 1, 2, · · · , k)。</p>
+<p>合取范式 (Conjunctive Normal Form, CNF)是用合取连接的子句，一般形式为：C1 ∧ C2 ∧ · · · ∧ Cm其中，Ci 为子句 (i = 1, 2, · · · , m)。</p>
+<p>归结原理的推演过程概括为两步：<br>• 首先，将知识库 KB 和待判断的句子 α 都转换为合取范式；<br>• 然后，不断使用归结规则来判断 α 是否能够通过 KB 推出。</p>
+<p>将句子 ¬C ⇔ (A ∨ B) 转换成合取范式。<br>1) 使用双条件消除规律消除 ⇔：<br>(¬C ⇒ (A ∨ B)) ∧ ((A ∨ B) ⇒ ¬C)<br>2) 使用蕴含消除规律消除 ⇒：<br>(¬¬C ∨ A ∨ B) ∧ (¬(A ∨ B) ∨ ¬C)<br>3) 使用德摩根律和双重否定消除规律，消除多余的 ¬ 并把 ¬ 挪到子句<br>里面的文字上：<br>(C ∨ A ∨ B) ∧ ((¬A ∧ ¬B) ∨ ¬C)<br>4) 使用分配律，用 ∨ 把括号内为 ∧ 的命题拆分：<br>(C ∨ A ∨ B) ∧ (¬A ∨ ¬C) ∧ (¬B ∨ ¬C)</p>
+<p>两个子句的归结规则 :<br>$\frac{\ell<em>1 \vee \cdots \vee \ell_k, \quad m_1 \vee \cdots \vee m_n}{\ell_1 \vee \cdots \vee \ell</em>{i-1} \vee \ell<em>{i+1} \vee \cdots \vee \ell_k \vee m_1 \vee \cdots \vee m</em>{j-1} \vee m_{j+1} \vee \cdots \vee m_n}$<br>其中 <strong>ℓi 和 mj</strong> 是互补文字。横线上的是已知条件，横线下的是能推演出的结论（推演出来的没有 ℓi 和 mj了）。</p>
+<p>上面的式子中，已知条件里的第一个子句中的 ℓi 和第二个子句中的 mj互为互补文字，在归结规则中能够被抵消掉，因此能让两个子句推演出一个新的子句。这个过程被称为归结。例如：</p>
+<p>$\frac{A \lor B, \quad \neg B}{A}$</p>
+<p><strong>若 KB ⊬ ∅，KB ⊢ α当且仅当{KB, ¬α} ⊢ ∅。其中 ⊢ 仅使用归结法则获得新子句。</strong></p>
+<p>证明思路：{¬α, α} ⊢ ∅</p>
+<p>当 KB 无法使用归结原理推演得到空子句，即这个知识库是一致的，不会包含矛盾（例如同时包含 A和¬A）时，那么 KB ⊢ α 的充要条件就是 {KB, ¬α} 的合取范式能够在有限次使用归结规则后得到空子句（<strong>其实就是推出矛盾</strong>）。</p>
+<p>一个验证句子 α 是否能够被知识库 KB 推理出来的算法：</p>
+<p>1) 构建合取范式：<br>将 KB 的所有子句与 ¬α 合取，构建<strong>一个</strong>大的初始合取范式。<br>2) 反复迭代归结：<br>对合取范式中的子句使用归结规则，生成新子句，然后将原子句和新子句合并称新的子句集合。<br>3) 判断终止条件：<br>如果在某次归结中生成空子句 ∅，则 KB ⊢ α 成立；如果无法进一步归结出新的子句且所有迭代过程中都未出现空子句，则 KB ⊢ α 不成立。</p>
+<p>必考：归结原理的可靠性、完备性证明</p>
+<p>证明归结原理是可靠的，只需证明每一次单独的归结步骤是可靠的</p>
+<p>证明.<br>不失一般性，记 A 为 l1 ∨ · · · ∨ li−1 ∨ li+1 ∨ · · · ∨ lk，B 为 m1 ∨ · · · ∨mj−1 ∨ mj+1 ∨ · · · ∨ mn，C 为 li。那么也就是证明：(A ∨ C) ∧ (B ∨ ¬C) |= A ∨ B.</p>
+<p>从真值表中可以看出，当 (A ∨ C) ∧ (B ∨ ¬C) 为真时，A ∨ B 也为真。因此，我们证明了 (A ∨ C) ∧ (B ∨ ¬C) |= A ∨ B。也就是说，我们证明了归结原理的可靠性。</p>
+<p>要证明归结原理的完备性，也就是证明若 KB |= α，则 KB ⊢ α。<br>设 S = {KB, ¬α}，RC(S) 是 S 经过所有可能的归结操作后，得到的所有子句集合（包含 S 中原有的所有子句）。那么 KB ⊢ α 当且仅当∅ ∈RC(S)。此外，根据蕴含的性质，<strong>KB |= α 当且仅当(KB∧¬α)是不可满足的</strong>。因此，我们只需证明：若(KB ∧ ¬α)是不可满足的，则∅ ∈ RC(S)</p>
+<p>中译中：只需证明若KB |= α，则{KB, ¬α}推演出矛盾</p>
+<p>逆否命题：若∅ /∈ RC(S)，则(KB ∧ ¬α)是可满足的</p>
+<p>证明.<br>针对 S 中的原子命题 R1, R2, · · · , Rl，我们构造如下的真值指派：<br>• 首先，因为 RC(S) 中不包含空集，因此 RC(S) 中不包含永假的子句。<br>• 从 i = 1 到 l，顺序的指派 R1, R2, · · · , Rl 的真值：<br>– 如果 RC(S) 中包含一个子句，此子句包含 ¬Ri，且此子句的其它文字都已经被指派为 False（在之前的步骤中进行的）或不包含其它文字，则把 Ri 指派为 False；<br>– 否则，把 Ri 指派为 True。<br>• 我们用反证法证明：这个真值指派使得 RC(S) 中的子句都为真。假设，在此过程的第 i 步，我们这样来指派 Ri 使得某个子句 C 为 False，且假设这是首次出现 False 的子句；此时，子句 C 只能是如下两种形式之一：</p>
+<p>False ∨ False ∨ · · · ∨ False ∨ Ri或者False ∨ False ∨ · · · ∨ False ∨ ¬Ri</p>
+<p>显然，如果 RC(S) 中只包含以上两个子句之一，子句 C 是不可能在此真值指派中为 False 的。只有在此两个子句同时存在时，它们其中的一个才为 False。因此，RC(S) 此时应同时包含了以上两个子句。<br>• 以上两个子句显然是满足归结条件的，也就是说，它们归结后的子句也应该在 RC(S) 中；同时，该归结得到的新子句已经被指派为 False了，这与我们之前的假设矛盾。<br>证毕。</p>
+<p>通过以上步骤，我们成功给出了一个使 RC(S) 为真的真值指派，这说明它是可满足的。也因此，我们证明了最初想要证明的结论，也就是归结原理是完备的。</p>
+<p><strong>归结完备性极简版：</strong></p>
+<p><strong>反设</strong>：推不出空子句。<br><strong>构造</strong>：按变量顺序赋值——<strong>能赋假就赋假，除非赋假会让某子句”死透”（只剩一个正文字且其他字都假了）</strong>。<br><strong>矛盾</strong>：若所有子句都真，则原式可满足（与”有矛盾”冲突）；若某子句假，则它必含可归结的一对，消去后得到<strong>更短的假子句</strong>，无限归结必得∅，与反设矛盾。</p>
+<p><strong>结论</strong>：真矛盾必能归结出空子句。</p>
+<h3 id="Modus-Ponens-规则"><a href="#Modus-Ponens-规则" class="headerlink" title="Modus Ponens 规则"></a>Modus Ponens 规则</h3><p>确定子句只有如下两种形式：</p>
+<ol>
+<li>一个正文字，比如 A。</li>
+<li>(多个正文字的合取) ⇒ 正文字，比如 C ∧D ⇒ B（等价于 ¬C∨¬D ∨B）。</li>
+</ol>
+<p>Modus Ponens 规则：</p>
+<p>$\frac{a_1, \dots, a_n, \quad a_1 \land \dots \land a_n \Rightarrow \beta}{\beta}$</p>
+<p>这里，a1, · · · , an 都是正文字。</p>
+<p>前向推理是从文字和子句开始，逐步推出结论，被称为数据驱动型推演；后向推理则是从结论逆推，搜寻是否有能满足结论的子句，称为目标驱动型推演。</p>
+<p>既可靠又完备</p>
+<p>可靠性的证明：真值表</p>
+<p>完备性的证明：</p>
+<p>RC(KB) 是 KB 里面的子句以及所有可以根据 Modus Ponens 规则从KB 推演出来的子句的集合。<br>1) 构造如下的真值指派 m：对于任意的正文字 a，<strong>a 指派为 True 当且仅当 a ∈ RC(KB)。</strong><br>2) 接下来，证明：在 m 下，KB 为真，也就是反证：若此时 KB 为False，那么必存在一个确定子句，在 m 下为 False。<br>i) 若该子句为 a1 ∧ · · · ∧ ak ⇒ b, 也就是说，在 m 中，a1, · · · , ak 均为True，且 b 为 False。根据 1) 中的定义，ai ∈ RC(KB) (i = 1, · · · , k)。又根据 Modus Ponens 规则，b ∈ RC(KB)。根据 1) 中的定义，在 m 中，b 为 True。推出矛盾。<br>ii) 若该子句为 b，在 m 下为 False，则 b /∈ RC(KB)，矛盾。<br>3) 若 KB |= α，根据蕴含的定义，在 m 中，α 为真；则根据 1) 中的<br>定义，α ∈ RC(KB)。<br>也就是说：KB ⊢ α。<br>证毕。</p>
+<p>限制：知识库的每个句子都有且只有一个正文字</p>
+<h2 id="一阶谓词逻辑"><a href="#一阶谓词逻辑" class="headerlink" title="一阶谓词逻辑"></a>一阶谓词逻辑</h2><p>BNF 范式：</p>
+<p>句子 → 原子句子 | 复杂句子<br>原子句子 → 谓词(项1, . . . , 项n) | 项1 = 项2<br>复杂句子 → (句子) | [句子]<br>| ¬句子<br>| 句子 ∧ 句子<br>| 句子 ∨ 句子<br>| 句子 ⇒ 句子<br>| 句子 ⇔ 句子<br>| 量词<br>变量, · · · , 变量<br>句子<br>项 → 函数(项1, . . . , 项n)<br>| 常量 | 变量<br>量词 → ∀ | ∃<br>常量 → A | Z | LZ | · · ·<br>变量 → a | c | z | · · ·<br>谓词 → True | False | Parent | After | · · ·<br>函数 → Fatherof | Motherof | · · ·</p>
+<p>常量 (Constants)是用来指称<strong>特定对象</strong>的符号，一般用大写字母来表示。</p>
+<p>变量 (Variables)是用来表示<strong>任意对象</strong>的符号，一般用小写字母来表示。</p>
+<p>函数 (Functions)是指称对象与对象之间的映射关系的符号。一般使用首字母大写的一个单词或一串字符来表示。</p>
+<p>谓词 (Predicates)是一种特殊的函数，输出只可能为 True 或者False，和命题逻辑中的原子命题相对应。</p>
+<p>连接词 (Connectives)用于连接不同句子，与命题逻辑中的连接词相同。</p>
+<p>量词 (Quantifiers)包括全称量词 ∀ 和存在量词 ∃，对变量起修饰作用。</p>
+<p>等号 (Equality)代表了两件事物是完全相同的。</p>
+<p>原子句子是由一个谓词，或者一个等号连接两个项组成的句子。复杂句子是使用连接词连接的原子句子。</p>
+<p>一阶谓词逻辑的归结原理有可能不停机</p>
+<h3 id="与命题逻辑的区别"><a href="#与命题逻辑的区别" class="headerlink" title="与命题逻辑的区别"></a>与命题逻辑的区别</h3><p>命题逻辑中，我们在讨论一个句子的模型的时候，我们只需要对句子中的每个原子命题都做真值指派。一阶谓词逻辑中，我们并不能直接指派原子句子的真假，我们只能对原子句子涉及的常量、函数、谓词做一次解释。</p>
+<p>对于一个原子句子，在对其中的常量、函数、谓词做完一次解释之后，所指派的对象在该论域中确实符合所指派的关系，那么这个解释就是该原子句子的一个模型；否则，此解释不是该原子句子的模型。这就是一阶谓词逻辑中原子句子的模型的定义。</p>
+<h3 id="一阶谓词逻辑的合取范式"><a href="#一阶谓词逻辑的合取范式" class="headerlink" title="一阶谓词逻辑的合取范式"></a>一阶谓词逻辑的合取范式</h3><p>将句子转换为合取范式形式；去掉存在量词，只保留全称量词</p>
+<p>1.用双条件(α ⇔ β) ≡ ((α ⇒ β) ∧ (β ⇒ α))和蕴含消除(α ⇒ β) ≡ (¬α ∨ β)消除 ⇒ 和 ⇔</p>
+<p>2.内化 ¬：运用 ¬∀x p ≡ ∃x ¬p，¬∃x p ≡ ∀x ¬p，双重否定消除规律，德摩根律等规律</p>
+<p>3.改变变量符号，让每一个<strong>存在量词</strong>都修饰一个不同的变量</p>
+<p>4.用包含全称量词变量的函数来替代所有存在量词变量</p>
+<p>5.消去全称量词符号</p>
+<p>6.使用分配律，用 ∨ 把括号内为 ∧ 的句子拆分</p>
+<p>一个替换是指，将一阶谓词逻辑句子中的某些变量替换为常量、函数或者其他变量的过程，事实上该过程也可以视作一次赋值。替换通常被记作：θ = {x1/t1, x2/t2, · · · , xn/tn}，xi 是一阶谓词逻辑句子中的变量；ti 是任意项，可以是常量、函数或者变量，要求 xi ̸= ti，即不能将变量替换为自己</p>
+<p>对于句子 α, β 和替换 θ，若 αθ 和 βθ 是两个相同的字符串，则 θ是 α, β 的合一算子，即 UNIFY(α, β) = θ。</p>
+<p>一阶谓词逻辑中归结原理的规则是两个经过实例化的替换 θ 后为互补文字的句子可以消去。不过，消去的代价是，得到的结果也是需要经过 θ 的替换操作的</p>
+<p>$\frac{l<em>1 \lor \cdots \lor l_k, \quad m_1 \lor \cdots \lor m_n}{(l_1 \lor \cdots \lor l</em>{i-1} \lor l<em>{i+1} \lor \cdots \lor l_k \lor m_1 \lor \cdots \lor m</em>{j-1} \lor m_{j+1} \lor \cdots \lor m_n)\theta}$</p>
+<p> 其中 UNIFY(<em>li</em>,¬<em>mj</em>)=<em>θ</em> 。 </p>
+<h3 id="prolog编程"><a href="#prolog编程" class="headerlink" title="prolog编程"></a>prolog编程</h3><p>Head :- Body. 等价于逻辑公式 Body ⇒ Head，表示“如果 Body 成立，则 Head 成立”。</p>
+<p>?- parent(tom, lily). 查询 Tom 是否是 Lily 的父母，系统输出 true。</p>
+<p>以计算阶乘为例：</p>
+<p>% 设置一个谓词 f(N,F)，表示 F 是 N 的阶乘<br>f(0, 1).    % 0 的阶乘为 1<br>f(N, F) :-    % 若以下条件成立，则 F 为 N 的阶乘<br>N &gt; 0,    % N 大于 0<br>N1 is N - 1,    % N1 = N - 1<br>f(N1, F1),    % F1 是 N1 的阶乘<br>F is F1 * N.    % 递归计算</p>
+<p>加载此知识库后，可有两种常见用法：<br>% 用法一：判断阶乘<br>?- f(5, 120).    % 输入：让程序判断 5 的阶乘是不是 120<br>true.    % 自动输出：判断成立<br>% 用法二：计算阶乘<br><strong>?- f(5, W).    % 输入：计算 5 的阶乘，W 为变量</strong><br><strong>W = 120.    % 自动输出：W 的取值</strong></p>
+<p>不可靠：例如无限递归 A = f(A)</p>
+<p>不完备：受“规则顺序”和“搜索策略”的影响，有时会导致推理卡死，无限循环</p>
+<h1 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h1><p>第一种搜索问题：给定一个初始状态和终止状态，我们希望找到从初始状态到终止状态的一条路径。这种搜索称为状态搜索。<br>第二种搜索问题：给出一个函数 f(x)，我们希望找到使目标函数最小的自变量 x。这种搜索称为最优化搜 索。<br>第三种搜索问题：针对双（多）方博弈问题的策略搜索，这种搜索称为对抗搜索。</p>
+<h2 id="状态搜索"><a href="#状态搜索" class="headerlink" title="状态搜索"></a>状态搜索</h2><p>初始状态、动作集合、转移模型、目标测试、路径成本五个要素</p>
+<p>树搜索</p>
+<p>将根节点视为初始状态，任意的树节点都代表一个状态，长出树枝的过程就是执行动作或扩展路径的过程。同时，我们将所有即将长出新树枝的节点称为前沿 (Fringe)，每次都前沿中选取出一个节点：首先检查它是否是目标状态，如是，则停止搜索；若不是，则扩展此节点的后续状态，将这些后续状态放入前沿。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">// 树搜索算法主函数</span><br><span class="line">// 输入：problem - 问题定义，fringe - 边缘节点集合（待探索节点容器）</span><br><span class="line">// 输出：返回找到的解节点，或失败</span><br><span class="line">function Tree-Search(problem, fringe) returns a solution, or failure</span><br><span class="line"></span><br><span class="line">    // 将初始状态创建为节点，并插入边缘集合</span><br><span class="line">    // Make-Node: 创建初始节点</span><br><span class="line">    // Insert: 将节点插入边缘集合（具体方式取决于搜索策略）</span><br><span class="line">    fringe ← Insert(Make-Node(Initial-State[problem]), fringe)</span><br><span class="line"></span><br><span class="line">    // 开始主搜索循环</span><br><span class="line">    loop do</span><br><span class="line">        // 如果边缘集合为空，说明没有更多节点可探索，返回失败</span><br><span class="line">        if fringe is empty then return failure</span><br><span class="line">        </span><br><span class="line">        // 从边缘集合中移除前端的节点（具体移除方式取决于搜索策略）</span><br><span class="line">        node ← Remove-Front(fringe)</span><br><span class="line">        </span><br><span class="line">        // 检查当前节点是否为目标状态</span><br><span class="line">        if Goal-Test(problem, State[node]) then return node</span><br><span class="line">        </span><br><span class="line">        // 扩展当前节点，获取所有后继节点，并将它们插入边缘集合</span><br><span class="line">        // Expand: 扩展节点，生成所有合法的后继节点</span><br><span class="line">        // InsertAll: 将所有后继节点插入边缘集合</span><br><span class="line">        fringe ← InsertAll(Expand(node, problem), fringe)</span><br><span class="line"></span><br><span class="line">// 节点扩展函数</span><br><span class="line">// 输入：node - 当前要扩展的节点，problem - 问题定义</span><br><span class="line">// 输出：返回当前节点的所有后继节点集合</span><br><span class="line">function Expand(node, problem) returns a set of nodes</span><br><span class="line"></span><br><span class="line">    // 初始化后继节点集合为空</span><br><span class="line">    successors ← the empty set</span><br><span class="line">    </span><br><span class="line">    // 遍历当前节点状态的所有可能动作和结果状态</span><br><span class="line">    // Successor-Fn: 后继函数，返回（动作，结果状态）对的列表</span><br><span class="line">    for each action, result in Successor-Fn(problem, State[node]) do</span><br><span class="line">        </span><br><span class="line">        // 为新状态创建一个节点对象</span><br><span class="line">        s ← a new Node</span><br><span class="line">        </span><br><span class="line">        // 设置新节点的父节点为当前节点</span><br><span class="line">        Parent-Node[s] ← node</span><br><span class="line">        </span><br><span class="line">        // 记录从父节点到该节点的动作</span><br><span class="line">        Action[s] ← action</span><br><span class="line">        </span><br><span class="line">        // 记录新节点的状态（即执行动作后的结果状态）</span><br><span class="line">        State[s] ← result</span><br><span class="line">        </span><br><span class="line">        // 计算新节点的路径代价：</span><br><span class="line">        // 父节点的路径代价 + 从父节点执行动作到新节点的单步代价</span><br><span class="line">        Path-Cost[s] ← Path-Cost[node] + Step-Cost(node, action, s)</span><br><span class="line">        </span><br><span class="line">        // 设置新节点的深度：父节点深度 + 1</span><br><span class="line">        Depth[s] ← Depth[node] + 1</span><br><span class="line">        </span><br><span class="line">        // 将新节点加入后继节点集合</span><br><span class="line">        add s to successors</span><br><span class="line">    </span><br><span class="line">    // 返回所有生成的后继节点</span><br><span class="line">    return successors</span><br></pre></td></tr></table></figure>
+<p>图搜索：新增了一个名为 closed的数据结构，用于储存已经被扩展过的状态；并且只对不在此集合中的状态进行扩展，这样就可以避免重复探索同一个状态。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function Graph-Search(problem, fringe) returns a solution, or failure</span><br><span class="line">	//储存已经被扩展过的状态</span><br><span class="line">	closed ← an empty set</span><br><span class="line">    fringe ← Insert(Make-Node(Initial-State[problem]), fringe)</span><br><span class="line">    loop do</span><br><span class="line">        if fringe is empty then return failure</span><br><span class="line">        node ← Remove-Front(fringe)</span><br><span class="line">        if Goal-Test(problem, State[node]) then return node</span><br><span class="line">        //只对不在closed中的状态进行扩展</span><br><span class="line">        if State[node] is not in closed then</span><br><span class="line">        	add State[node] to closed</span><br><span class="line">        	fringe ← InsertAll(Expand(node, problem), fringe)</span><br></pre></td></tr></table></figure>
+<p>图搜索虽然避免重复探索同一个状态，但是这些相同状态的父节点可能不同，也就是说：这些状态相同的节点代表了不同的到达这个状态的路径。因此，图搜索并不能穷尽所有路径的可能，在某些情况下找不到到达终止状态的最优路径。也就是说，图搜索可能保证算法的完备性，但并不能保证算法的最优性。</p>
+<p>图分离性，指的是：在图搜索过程中，前沿总是将已访问的节点和未访问的节点分离开。也就是说，在图搜索过程中，从任意一个的已访问的节点到任意一个未访问节点的任意一条路径上都必有一个节点在前沿中。</p>
+<h3 id="搜索策略"><a href="#搜索策略" class="headerlink" title="搜索策略"></a>搜索策略</h3><p>深度限制搜索 (Depth-limited Search)<br>设置了最大深度的深度优先搜索，可以提高深度优先搜索的速度，但如果设置的深度太浅，可能会找不到解。</p>
+<p>迭代深度搜索 (Iterative Deepening Search)<br>解决了深度限制搜索不完备的问题。迭代增加深度，对不同的深度使<br>用深度限制搜索，直至找到解。</p>
+<p>一致代价搜索 (Uniform Cost Search)<br>对于前沿中的每个状态 n，记 g(n) 为从初始状态沿着路径到n 所消耗的总路径成本，在扩展时，从前沿中优先选取 g(n) 最小的节点进行扩展。</p>
+<p>评估不同的搜索策略：</p>
+<p>• 完备性 (Completeness) ：如果存在解决方案，是否一定能找到。<strong>不需要最优</strong><br>• 时间复杂度 (Time Complexity)：扩展/生成节点的数量。<br>• 空间复杂度 (Space Complexity)：在前沿中需要存储的最大的节点数。<br>• 最优性 (Optimality)：该策略是否总能找到最优（如：成本最低）的解决方案。</p>
+<p>时间和空间复杂度将通过以下变量来计算：</p>
+<p>• b    搜索树中所有节点的最大的度。<br>• d    最优解决方案的深度。<br>• m    搜索树的最大可能的深度。</p>
+<p><img src="1769322069443.png" alt="1769322069443"></p>
+<p>有信息搜索也被称为启发式搜索</p>
+<p>以 g(n) 表示从初始状态到当前状态的路径成本总和，以 h(n) 表示对当前状态到目标状态的路径成本总和的估计。h(n) 被称为启发式函数 (Heuristic Function)</p>
+<p>贪婪算法使用 h(n) 对节点排序，并挑选 h(n) 最小的节点扩展。</p>
+<p>A* 搜索使用 f(n) = g(n) + h(n) 作为排序的函数</p>
+<p>启发函数是可采纳的：乐观估计，不过高估计<br>一致的：全局估计不超过经过中间节点的局部估计<br>一致是比可采纳更严格的限制，如果一个启发式函数是一致的，那么它必定是可采纳的。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>可采纳的启发式函数</th>
+<th>一致的启发式函数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>树搜索</td>
+<td><strong>一定找到最优路径</strong></td>
+<td><strong>一定找到最优路径</strong></td>
+</tr>
+<tr>
+<td>图搜索</td>
+<td>不保证找到最优路径</td>
+<td><strong>一定找到最优路径</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li><p>启发函数是可采纳的，那么A* 树搜索是最优的（证明：假设存在一个次优解 G′ 已经存在于前沿中）</p>
+</li>
+<li><p>如果启发函数是一致的，A* 图搜索是最优的。</p>
+</li>
+</ul>
+<h2 id="最优化搜索"><a href="#最优化搜索" class="headerlink" title="最优化搜索"></a>最优化搜索</h2><p>贪婪算法是比较当前状态和相邻状态的取值，如果当前状态的函数取值比它的一个某个邻居状态差时，我们就可以把当前状态移动到这个邻居状态，以处于一个更好的状态。</p>
+<p>爬山算法</p>
+<p>从一个随机状态开始，随后选取更好的相邻状态作为当前状态，并不断重复该过程只会比较直接相邻的状态。适合离散状态空间的最优化问题</p>
+<p>梯度法</p>
+<p>梯度方向是目标函数增大最快的方向，梯度的反方向是目标函数减小最快的方向。</p>
+<p><img src="1769325955459.png" alt="1769325955459"></p>
+<p>∇f 代表目标函数在 (x1, y1, x2, y2, x3, y3) 处的梯度，x 为参数向量(x1, y1, x2, y2, x3, y3)，而 α 代表步长 (Step Size)。步长太小，可能会导致搜索到最优值的过程比较慢；如果步长过大，则可能导致算法不收敛，来回震荡。</p>
+<p>束搜索</p>
+<p>• 从 k 个随机生成的状态开始，生成此 k 个状态的所有后续状态。<br>• 若其中有目标状态，则算法终止。<br>• 否则，从整个后续状态中选择 k 个最佳的后续，重复此过程。</p>
+<p>在束搜索运行过程中，有用信息会在不同的搜索进程中传递。如果在<br>选出的 k 个最佳状态中，有两个或以上的状态来自于同一个前驱状态，那就意味肯定至少已经有一个来自初始点不好的搜索进程被放弃了，从而将算力资源集中到了最有可能找到最优值的区域。</p>
+<p>以上三个贪婪算法均可能陷入局部最优解，而无法找到全局最优解。</p>
+<h2 id="对抗搜索"><a href="#对抗搜索" class="headerlink" title="对抗搜索"></a>对抗搜索</h2><p>极小极大搜索算法 (Minimax)</p>
+<p>假设对手总能做出理性最优的动作</p>
+<p>$MINIMAX(s) =\begin{cases}<br>\text{UTILITY}(s) &amp; \text{if TERMINAL-TEST}(s) \<br>\max<em>{a \in \text{Actions}(s)} \text{MINIMAX}(\text{RESULT}(s, a)) &amp; \text{if PLAYER}(s) = \text{MAX} \<br>\min</em>{a \in \text{Actions}(s)} \text{MINIMAX}(\text{RESULT}(s, a)) &amp; \text{if PLAYER}(s) = \text{MIN}<br>\end{cases}$</p>
+<p>计算不同状态下 MINIMAX 值的过程其实是一种递归算法，我们知道处于终结状态时确定的效用值，然后根据上一个状态的采取动作的玩家是谁，选取公式来倒推出上一个状态的极小极大值，然后以此类推，用这种方式把对抗搜索问题中每个状态的 MINIMAX 值都计算出来。因此，采取动作的玩家可以根据后继状态的 MINIMAX 值来决定当前的最优策略。</p>
+<p><img src="1769327606366.png" alt="1769327606366"></p>
+<p>极小极大搜索算法案例示意图，其中 MAX 先行动，MIN 后行动，字<br>母代表 MAX 和 MIN 可能采取的动作，黑色数字代表终结状态下的 MINIMAX 值，蓝色数字代表了递归得到的 MINIMAX 值，红色字母代表在极小极大搜索算法的过程中的最优游戏策略。</p>
+<p>多人情景下的改进：无论采取哪个动作所获取的最佳效用相同；对于其它维的数值，设置为在对应维度下的最小值。可以视为：每个参与者都假设了其他参与者都会在保证各自收益最大化的前提下针对自己，让自己永远处于一个收益最小的情况。</p>
+<p>Alpha-Beta 剪枝算法</p>
+<p>对于 MAX 节点（玩家节点），如果当前的估值 v &gt; α，则将 α 值更新为 v；如果 v ≥ β，则剪除该分支。<br>对于 MIN 节点（对手节点），如果当前的估值 v &lt; β，则将 β 值更新为 v；如果 v ≤ α，则剪除该分支。</p>
+<p>例子：<img src="1769608551264.png" alt="1769608551264"></p>
+<p>可以让搜索的深度更深</p>
+<h1 id="联结主义"><a href="#联结主义" class="headerlink" title="联结主义"></a>联结主义</h1><p>四要素：模型的基本假设，目标函数，怎么训练(算法)，怎么预测</p>
+<p>决策树</p>
+<p>优化目标：H(Dk) 在所有叶节点上的均值，H(Dk) 表示以Dk 中样本的类别标签的分布计算的信息熵</p>
+<p>训练方法：目标函数对模型的参数是不可导，采用贪心算法来进行决策树的构建。</p>
+<p>预测：将样本所落入叶节点对应的类别标签作为新样本的预测值</p>
+<p><img src="1769329854957.png" alt="1769329854957"></p>
+<p>信息熵量化数据的混乱度 </p>
+<p>回归树</p>
+<p><img src="1769329945459.png" alt="1769329945459"></p>
+<p>渐进梯度回归森林 (Gradient Boost Regression Trees,GBRT)也被称<br>为渐进梯度决策森林 (Gradient Boost Decision Trees,GBDT) 或多决策累加回归森林 (Multiple Additive Regression Trees,MART)</p>
+<p>当发现前面几棵树的整体预测出现误差后，就再构造一棵树来对已生成的树的误差进行修正。</p>
+<p><img src="1769330178719.png" alt="1769330178719"></p>
+<p>逻辑回归</p>
+<p><img src="1769331113659.png" alt="1769331113659"></p>
+<p>集成学习</p>
+<p><img src="1769331515828.png" alt="1769331515828"></p>
+<p>AdaBoost：增加每一次训练后分类不准的样本的权重，从而在下一次训练中，让分类器多去优化还无法被准确分类的训练样本。随着迭代次数增加，分类不准的样本会越来越少，也意味着整体模型的预测能力越来越强。串行、自适应地组合大量“弱”且简单的模型，构建出极其强大的预测模型。</p>
+<p>BP网络基于<strong>梯度下降</strong>，通过<strong>前向计算</strong>得到输出误差，再利用<strong>链式求导</strong>将误差反向传播至各层，按<strong>$\Delta w_{ij} = -\eta \delta_j x_i$</strong> 更新权重，直至收敛。其关键是<strong>误差的反向传递</strong>与<strong>权重的逐层修正</strong>。</p>
+<p><img src="1769674221390.png" alt="1769674221390"></p>
+<p>残差神经网络的基本原理和网络结构</p>
+<p>概念：</p>
+<p><strong>1. 什么是序列标注</strong><br>给输入序列（如句子）的<strong>每个元素</strong>（字/词）分配一个标签的 NLP 任务。特点是输入输出<strong>等长一一对应</strong>。<br>典型应用：命名实体识别（NER，如标注”北京”为地点）、词性标注（POS，如标注”跑”为动词）、中文分词。</p>
+<hr>
+<p><strong>2. 什么是机器翻译</strong><br>利用计算机将<strong>一种自然语言自动转换为另一种语言</strong>的技术。<br>发展经历了规则驱动→统计机器翻译（SMT）→神经网络机器翻译（NMT，基于Seq2Seq/Transformer）。<br>评价指标常用 BLEU 分数，核心难点在于处理语言间的结构差异和歧义。</p>
+<hr>
+<p><strong>3. 什么是大语言模型（LLM）</strong><br>基于<strong>Transformer 架构</strong>，在海量无标注文本上通过自监督学习预训练，具有<strong>数十亿至数千亿参数</strong>的神经网络模型。<br>具备<strong>上下文学习（In-context Learning）</strong>、指令遵循和涌现能力（如推理、摘要）。  </p>
+<p><strong>4. 什么是 Token，和汉字的区别</strong><br><strong>Token</strong> 是 LLM 处理文本的<strong>最小数字单位</strong>（可为子词、词或字符），经分词器（Tokenizer）将文本映射为整数 ID。<br><strong>区别</strong>：  </p>
+<ul>
+<li>汉字是人类语义最小单位（一字一词义）  </li>
+<li>Token 是模型计算单位，<strong>粒度不一定对齐</strong>。例如 GPT-4 中”苹果”=2 token，”的”=1 token，生僻字可能是 3-4 个 token。</li>
+</ul>
+<hr>
+<p><strong>5. 为什么不同大模型 token 不同</strong><br>取决于<strong>分词算法和训练语料</strong>：  </p>
+<ul>
+<li><strong>算法差异</strong>：GPT 用 BPE（Byte Pair Encoding），BERT 用 WordPiece，T5 用 SentencePiece，切分规则不同。  </li>
+<li><strong>词表差异</strong>：不同模型在构建词汇表时统计的高频子词组合不同，导致同一句话的 token 数不同（如 Claude 与文心一言对中文切分粒度不同）。</li>
+</ul>
+<hr>
+<p><strong>6. 缓解幻觉（Hallucination）的方法</strong><br>幻觉指模型生成<strong>看似合理但违背事实</strong>的内容。缓解方法：  </p>
+<ul>
+<li><strong>RAG</strong>：外挂知识库，让模型基于检索到的真实文档生成。  </li>
+<li><strong>知识注入</strong>：训练时加入知识图谱或事实性约束。  </li>
+<li><strong>推理优化</strong>：Chain-of-Thought（思维链）引导逐步验证；Self-Consistency（多次采样投票）。  </li>
+<li><strong>后处理</strong>：事实核查模块、要求模型提供引用来源（attribution）。</li>
+</ul>
+<hr>
+<p><strong>7. 什么是 RAG</strong><br><strong>检索增强生成（Retrieval-Augmented Generation）</strong>，将<strong>信息检索系统</strong>与<strong>生成模型</strong>结合的框架。<br><strong>流程</strong>：用户提问 → 向数据库/搜索引擎检索相关文档 → 将检索结果与问题拼接为 Prompt → LLM 基于这些证据生成答案。<br><strong>优势</strong>：突破模型训练数据的时效限制（解决知识 cutoff），显著提高答案的事实准确性，且答案可溯源。</p>
+<h1 id="行为主义"><a href="#行为主义" class="headerlink" title="行为主义"></a>行为主义</h1><h2 id="演化计算"><a href="#演化计算" class="headerlink" title="演化计算"></a>演化计算</h2><p>蚁群优化算法</p>
+<p>基本原理：每个蚂蚁对应一个计算智能体；蚂蚁依概率选择候选位置进行移动；在经过的路径上留下“信息素”（Pheromone）；“信息素”随时间挥发； “信息素”浓度大的路径在后续的选择中会以更高的概率被选取</p>
+<p>算法过程（以旅行商问题为例）<img src="1769401349201.png" alt="1769401349201"></p>
+<p><img src="1769400767912.png" alt="1769400767912"></p>
+<p><strong>对于解空间为连续的优化问题不适用</strong></p>
+<p>粒子群优化算法</p>
+<p>每个粒子代表待求解问题搜索解空间中的一个潜在解，它相当于一只<br>鸟，“飞行信息”包括粒子当前的位置和速度两个状态量。 每个粒子都可以获得其邻域内其它个体的信息，对所经过的位置进行评价，并根据这些信息和位置速度更新规则，改变自身的两个状态量。<img src="1769404096193.png" alt="1769404096193"><img src="1769404128392.png" alt="1769404128392"></p>
+<p><strong>适用于求解连续解空间的优化问题</strong></p>
+<h2 id="强化学习"><a href="#强化学习" class="headerlink" title="强化学习"></a>强化学习</h2><p>乐观初值法：为每个行为赋一个高的初始估值<br> 好处：初期每个行为都有较大机会被explore</p>
+<p>UCB Upper-Confidence-Bound</p>
+<p>$A<em>t \doteq \operatorname*{argmax}</em>{a} \left[ Q_t(a) + c\sqrt{\frac{\ln t}{N_t(a)}} \right]$</p>
+<p>$N_t(a)$表示时刻t之前行为a被选择的次数</p>
+<p>选择潜力大的行为：依据估值的置信上界进行行为选择<br> 第一项表示当前估值要高，e.g., 接近greedy action<br> 第二项表示不确定性要高，e.g., 被选择的次数少<br> 参数c用来控制exploration的程度</p>
+<p>贝尔曼方程</p>
+<p>$v<em>{\pi}(s)= \sum</em>{a} \pi(a|s) \sum<em>{s’,r} p(s’, r|s, a) \left[ r + \gamma v</em>{\pi}(s’) \right], \quad  s \in \mathcal{S}$</p>
+<p>当前状态的价值 = 所有可能动作下，（即时奖励 + 折扣后的未来价值）的期望</p>
+<p>更新规则</p>
+<p>$v<em>{k+1}(s) = \sum</em>{a} \pi(a|s) \sum<em>{s’,r} p(s’, r|s, a) \left[ r + \gamma v</em>{k}(s’) \right]$</p>
+<h2 id="博弈"><a href="#博弈" class="headerlink" title="博弈"></a>博弈</h2><p>局中人（Player）<br> 在博弈中有权决定自己行动方案的博弈参加者<br> 局中人不一定是具体的人，如球队、军队、企业<br> 博弈中利益完全一致的参与者只能看成一个局中人</p>
+<p>针对局中人2的策略t，若局中人1用策略s产生的收益大于或等于其任何其他策略，则称策略s是局中人1对局中人2的策略t的最佳应对。</p>
+<p>如果一个局中人的某个策略对其它局中人的任何策略都是最佳应对，那么这个策略就是该局中人的占优策略。</p>
+<p>如果一个局势下，每个局中人的策略都是相对其他局中人当前策略的最佳应对，则称该局势是一个纳什均衡。</p>
+<p>纳什均衡就是博弈的一个均衡解；是一个僵局。</p>
+<p>帕累托最优：对于一组策略选择（局势），若不存在其他策略选择使所有参与者得到至少和目前一样高的回报，且至少一个参与者会得到严格较高的回报，则这组策略选择为帕累托最优</p>
+<p>社会最优：使参与者的回报之和最大的策略选择（局势）</p>
+<p>社会最优的结果一定也是帕累托最优的结果，帕累托最优不一定是社会最优</p>
+<p>首价密封报价拍卖： 所有竞拍者在同一时间以书面形式提交自己的报价，彼此不知道其他人的出价。  出价最高的竞拍者赢得拍卖。 </p>
+<p>纳什均衡：每个竞拍者的报价<strong>低于其对商品的估价</strong><img src="1769420775229.png" alt="1769420775229"></p>
+<p><img src="1769420802972.png" alt="1769420802972"></p>
+<p>次价密封报价拍卖：所有竞拍者在同一时间以书面形式提交自己的报价，彼此不知道其他人的出价。 获胜者支付的价格是<strong>第二高的报价</strong>（而非自己的报价）。 </p>
+<p>纳什均衡：每个竞拍者会倾向于采用其<strong>对商品的估价</strong>进行报价<img src="1769421080702.png" alt="1769421080702"></p>
+<p>maxmin策略：最大化自己最坏情况时的效用（收益）<img src="1769426430225.png" alt="1769426430225"></p>
+<p>minmax策略：最小化对手的最大收益（收益）<img src="1769427725909.png" alt="1769427725909"></p>
+<p>零和博弈情况下,minmax和maxmin是对偶的,minmax策略和maxmin策略等价于纳什均衡策略.</p>
+<p> 成功匹配的估价之和，称为匹配的效用</p>
+<p>最优匹配：效用最大的匹配。最优匹配对于个体而言不一定最优。</p>
+<p><img src="1769428480698.png" alt="1769428480698"></p>
+<p>市场结清(Market-Clearing)：每个卖方和买方都成交了</p>
+<p>给定买方报价的情况下，如果卖方的某种价格使得对应的买方偏好图中存在完全匹配，则称卖方的这组价格为市场结清价格</p>
+<p><img src="1769428790304.png" alt="1769428790304"></p>
+<p>本科学过</p>
+<p>市场结清价格总是存在；市场结清价格使得买卖双方总效用最优</p>
+<p>对于结局中未参与配对的边，如果边的两个端点获得的收益之和小于1，则称这条边为不稳定边<br>不稳定边的存在意味着其两个端点可以通过改变报价而改变结局<br>如果一个结局中不存在不稳定边，则称该结局为稳定结局</p>
+<p><img src="1769429336761.png" alt="1769429336761"></p>
+<p><img src="1769429383257.png" alt="1769429383257"></p>
+<p>给定一个结局，如果结局中的任意一个参与配对的边都满足纳什议价解的条件，则称该结局是均衡结局</p>
+<p>均衡结局一定是稳定结局</p>
+<h2 id="因果学习"><a href="#因果学习" class="headerlink" title="因果学习"></a>因果学习</h2><p>𝒅 -分离用于确定因果模型图中任意一对节点是否独立</p>
+<p><img src="1769430835578.png" alt="1769430835578"></p>
+<p>总结：d-分离需要阻断所有的路径。如何阻断：有链式结构和分叉结构的中间结点，或者对撞节点及其子孙节点都没有</p>
+<p>后门准则<img src="1769435078603.png" alt="1769435078603"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://jiang54864.github.io">姜将</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://jiang54864.github.io/%E7%AC%94%E8%AE%B0/%E5%9B%BD%E7%A7%91%E5%A4%A7%E3%80%8A%E9%AB%98%E7%BA%A7%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E3%80%8B%E5%A4%8D%E4%B9%A0/">http://jiang54864.github.io/%E7%AC%94%E8%AE%B0/%E5%9B%BD%E7%A7%91%E5%A4%A7%E3%80%8A%E9%AB%98%E7%BA%A7%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E3%80%8B%E5%A4%8D%E4%B9%A0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://jiang54864.github.io" target="_blank">姜将的个人博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/uncategorized/%E5%9B%BD%E7%A7%91%E5%A4%A7%E8%87%AA%E5%8A%A8%E8%AF%BE%E7%A8%8B%E8%AF%84%E4%BC%B0/" title="国科大自动课程评估"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">国科大自动课程评估</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">姜将</div><div class="author-info__description">记录学习中的知识与收获</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">34</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/JIANG54864"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=2792663690&amp;website=www.oicqzone.com" target="_blank" title="点击添加我的QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="https://www.helloimg.com/i/2025/01/25/6794f016e9b99.png" target="_blank" title="点击添加我的微信"><i class="fab fa-weixin"></i></a><a class="social-icon" href="mailto:jiangsw2022@163.com" target="_blank" title="给我发邮件"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客网站！若有需要，可通过上方联系方式找到我。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%A6%E5%8F%B7%E4%B8%BB%E4%B9%89"><span class="toc-number">1.</span> <span class="toc-text">符号主义</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">逻辑的基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E9%A2%98%E9%80%BB%E8%BE%91"><span class="toc-number">1.2.</span> <span class="toc-text">命题逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BD%A2%E5%BC%8F%E6%8E%A8%E6%BC%94"><span class="toc-number">1.2.1.</span> <span class="toc-text">形式推演</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Modus-Ponens-%E8%A7%84%E5%88%99"><span class="toc-number">1.2.2.</span> <span class="toc-text">Modus Ponens 规则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E9%98%B6%E8%B0%93%E8%AF%8D%E9%80%BB%E8%BE%91"><span class="toc-number">1.3.</span> <span class="toc-text">一阶谓词逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8E%E5%91%BD%E9%A2%98%E9%80%BB%E8%BE%91%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.3.1.</span> <span class="toc-text">与命题逻辑的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E9%98%B6%E8%B0%93%E8%AF%8D%E9%80%BB%E8%BE%91%E7%9A%84%E5%90%88%E5%8F%96%E8%8C%83%E5%BC%8F"><span class="toc-number">1.3.2.</span> <span class="toc-text">一阶谓词逻辑的合取范式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#prolog%E7%BC%96%E7%A8%8B"><span class="toc-number">1.3.3.</span> <span class="toc-text">prolog编程</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2"><span class="toc-number">2.</span> <span class="toc-text">搜索</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E6%90%9C%E7%B4%A2"><span class="toc-number">2.1.</span> <span class="toc-text">状态搜索</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2%E7%AD%96%E7%95%A5"><span class="toc-number">2.1.1.</span> <span class="toc-text">搜索策略</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E4%BC%98%E5%8C%96%E6%90%9C%E7%B4%A2"><span class="toc-number">2.2.</span> <span class="toc-text">最优化搜索</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E6%8A%97%E6%90%9C%E7%B4%A2"><span class="toc-number">2.3.</span> <span class="toc-text">对抗搜索</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%81%94%E7%BB%93%E4%B8%BB%E4%B9%89"><span class="toc-number">3.</span> <span class="toc-text">联结主义</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A1%8C%E4%B8%BA%E4%B8%BB%E4%B9%89"><span class="toc-number">4.</span> <span class="toc-text">行为主义</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%94%E5%8C%96%E8%AE%A1%E7%AE%97"><span class="toc-number">4.1.</span> <span class="toc-text">演化计算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="toc-number">4.2.</span> <span class="toc-text">强化学习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%9A%E5%BC%88"><span class="toc-number">4.3.</span> <span class="toc-text">博弈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%A0%E6%9E%9C%E5%AD%A6%E4%B9%A0"><span class="toc-number">4.4.</span> <span class="toc-text">因果学习</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/%E7%AC%94%E8%AE%B0/%E5%9B%BD%E7%A7%91%E5%A4%A7%E3%80%8A%E9%AB%98%E7%BA%A7%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E3%80%8B%E5%A4%8D%E4%B9%A0/" title="国科大《高级人工智能》复习">国科大《高级人工智能》复习</a><time datetime="2026-02-17T15:04:17.000Z" title="发表于 2026-02-17 23:04:17">2026-02-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/uncategorized/%E5%9B%BD%E7%A7%91%E5%A4%A7%E8%87%AA%E5%8A%A8%E8%AF%BE%E7%A8%8B%E8%AF%84%E4%BC%B0/" title="国科大自动课程评估">国科大自动课程评估</a><time datetime="2025-12-27T11:39:38.000Z" title="发表于 2025-12-27 19:39:38">2025-12-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/%E7%AC%94%E8%AE%B0/%E3%80%8A%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%8B%E9%83%A8%E5%88%86%E7%AC%94%E8%AE%B0/" title="《动手学深度学习》部分笔记">《动手学深度学习》部分笔记</a><time datetime="2025-03-21T01:34:53.000Z" title="发表于 2025-03-21 09:34:53">2025-03-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/%E7%AC%94%E8%AE%B0/%E7%90%86%E8%A7%A3transformer%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84/" title="理解transformer网络结构">理解transformer网络结构</a><time datetime="2025-03-02T07:39:08.000Z" title="发表于 2025-03-02 15:39:08">2025-03-02</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/%E5%AE%9E%E9%AA%8C/%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0%E9%A2%84%E6%B5%8B%E7%94%9F%E8%BF%98%E8%80%85/" title="集成学习预测生还者">集成学习预测生还者</a><time datetime="2025-02-17T11:37:32.000Z" title="发表于 2025-02-17 19:37:32">2025-02-17</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By 姜将</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="true"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
