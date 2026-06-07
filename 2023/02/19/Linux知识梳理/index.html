@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Linux知识梳理 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="几个shell编程题 #! 是一个约定的标记，它告诉系统这个脚本需要什么解释器来执行，即使用哪一种 Shell。  1、检查进程写一个shell脚本，每隔10秒，检查当前系统中有没有进程名字为“firefox”的进程，如果有的话显示“firefox 进程出现了！”并退出，返回码设置为等待的秒数。 12345678910111213141516while truedoprocess &#x3D; &#96;pgrep">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux知识梳理">
+<meta property="og:url" content="http://example.com/2023/02/19/Linux%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="几个shell编程题 #! 是一个约定的标记，它告诉系统这个脚本需要什么解释器来执行，即使用哪一种 Shell。  1、检查进程写一个shell脚本，每隔10秒，检查当前系统中有没有进程名字为“firefox”的进程，如果有的话显示“firefox 进程出现了！”并退出，返回码设置为等待的秒数。 12345678910111213141516while truedoprocess &#x3D; &#96;pgrep">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2023/02/19/Linux%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/20191127103856900.png">
+<meta property="article:published_time" content="2023-02-19T11:01:38.000Z">
+<meta property="article:modified_time" content="2026-06-07T13:57:07.382Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/02/19/Linux%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/20191127103856900.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">[object Object]</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Linux知识梳理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/02/19/Linux%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" class="article-date">
+  <time class="dt-published" datetime="2023-02-19T11:01:38.000Z" itemprop="datePublished">2023-02-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Linux知识梳理
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="几个shell编程题"><a href="#几个shell编程题" class="headerlink" title="几个shell编程题"></a>几个shell编程题</h1><p> <strong>#!</strong> 是一个约定的标记，它告诉系统这个脚本需要什么解释器来执行，即使用哪一种 Shell。 </p>
+<h2 id="1、检查进程"><a href="#1、检查进程" class="headerlink" title="1、检查进程"></a>1、检查进程</h2><p>写一个shell脚本，每隔10秒，检查当前系统中有没有进程名字为“firefox”的进程，如果有的话显示“firefox 进程出现了！”并退出，返回码设置为等待的秒数。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">while true</span><br><span class="line">do</span><br><span class="line">process = `pgrep -f firefox`</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">pgrep命令以名称为依据从运行进程队列中查找进程，并显示查找到的进程<span class="built_in">id</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">ps -ef | grep <span class="string">&#x27;firefox&#x27;</span> ?</span></span><br><span class="line">i=0</span><br><span class="line">if [ $&#123;#process&#125; -gt 0 ]# $&#123;#string&#125;获取字符串长度</span><br><span class="line">	then</span><br><span class="line">		echo “firefox进程出现了！”</span><br><span class="line">		echo “等待时间为：$i”</span><br><span class="line">		break</span><br><span class="line">	else</span><br><span class="line">		i = i+10</span><br><span class="line">		sleep 10</span><br><span class="line">fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<h2 id="2、解释这行命令的含义"><a href="#2、解释这行命令的含义" class="headerlink" title="2、解释这行命令的含义"></a>2、解释这行命令的含义</h2><p>如果输入123，会显示什么？如果输入1234显示什么？ </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">从标准输入中读取abc的值</span></span><br><span class="line">read abc;    </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">若abc小于999，则res为too small。否则，res为ok</span></span><br><span class="line">test $abc -lt 999 &amp;&amp; res=&#x27;too small&#x27; || res=ok;    </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">输出res</span></span><br><span class="line">echo $res;  </span><br></pre></td></tr></table></figure>
+<h2 id="3、求矩形面积"><a href="#3、求矩形面积" class="headerlink" title="3、求矩形面积"></a>3、求矩形面积</h2><p>编写一个Shell脚本，求矩形面积。长、宽参数从命令行传入。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">read width height</span><br><span class="line">area=$(($width*$height))</span><br><span class="line">echo $area</span><br></pre></td></tr></table></figure>
+<h2 id="4、监视用户是否登录"><a href="#4、监视用户是否登录" class="headerlink" title="4、监视用户是否登录"></a>4、监视用户是否登录</h2><p>写一个脚本，持续监视用户stu是否登录，如果登录了，就每隔1分钟把你的用户名和QQ号码发给他，重复发送3次为止。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">while true</span><br><span class="line">do</span><br><span class="line">	user=`who | grep -w “stu”`</span><br><span class="line">	if [ $&#123;#user&#125; -gt 0 ]</span><br><span class="line">	then</span><br><span class="line"><span class="meta prompt_">	#</span><span class="language-bash">或者不用循环，重复三次</span></span><br><span class="line">		i=0</span><br><span class="line">		while [  “$i” –lt 5  ]</span><br><span class="line">			do</span><br><span class="line">				echo “please enter message and press ctrl + D”</span><br><span class="line">				write stu</span><br><span class="line">				i=$((i+1))</span><br><span class="line">				sleep 60</span><br><span class="line">			done</span><br><span class="line">	fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<h2 id="5、给出下脚本的执行结果"><a href="#5、给出下脚本的执行结果" class="headerlink" title="5、给出下脚本的执行结果"></a>5、给出下脚本的执行结果</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">i=1</span><br><span class="line">while  [  “$i” –lt 5  ]</span><br><span class="line">	do</span><br><span class="line">		j=$((i*i))</span><br><span class="line">    		echo “$j”</span><br><span class="line">   	 	i=$((i+1))</span><br><span class="line">  	done</span><br></pre></td></tr></table></figure>
+<p>运行结果为：<br>1<br>4<br>9<br>16</p>
+<h2 id="6、试解释以下命令或命令组的含义"><a href="#6、试解释以下命令或命令组的含义" class="headerlink" title="6、试解释以下命令或命令组的含义"></a>6、试解释以下命令或命令组的含义</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">grep ‘789’  lppasswd  |  <span class="built_in">wc</span> –l</span>	</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">统计带有789的密码个数（实际上这个命令根本执行不了）</span></span><br><span class="line">ls –l | grep ‘^d’		</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">列出<span class="built_in">ls</span> -l输出的内容中，d开头的内容</span></span><br><span class="line">ls -d ?[!y]*[e-f]		</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">任意单个字符+非y字符+任意多个字符+e或f结尾</span></span><br><span class="line">echo $HOME		</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">输出用户的主目录</span></span><br><span class="line">cat file1 file2   &gt; cat.out   2&gt; cat.err		</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">将file1，2的内容输出至cat.out，并将错误信息输出到cat.err</span></span><br></pre></td></tr></table></figure>
+<h2 id="7、权限问题"><a href="#7、权限问题" class="headerlink" title="7、权限问题"></a>7、权限问题</h2><p>假设使用ls命令: $ls –lR 显示下列信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash"><span class="built_in">ls</span> –lR</span></span><br><span class="line">drwxr-xr-x      3  judy  finance   ….     jobs</span><br><span class="line">./jobs:</span><br><span class="line">drwxrwxrwx   2  judy  finance   ….     work</span><br><span class="line">./work:</span><br><span class="line">-rw–r-- r--     1  judy  finance   ….      joblog</span><br></pre></td></tr></table></figure>
+<p>用户 Fred是 finance 组的成员, Fred是否可以拷贝 joblog 文件到自己的目录下?简述理由。<br>可以拷贝文件，因为joblog的同组用户有读权限，对work目录和jobs目录有执行权限，并且对自己的目录有写权限，所以可以复制。</p>
+<h2 id="8-计算两个数的最大公约数"><a href="#8-计算两个数的最大公约数" class="headerlink" title="8.计算两个数的最大公约数"></a>8.计算两个数的最大公约数</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">read -p &quot;请输入两个正整数，以空格键分割，按enter键结束：&quot; x y</span><br><span class="line">big=0</span><br><span class="line">small=0</span><br><span class="line">if (( $x &gt; $y ))</span><br><span class="line">then</span><br><span class="line">	small=y</span><br><span class="line">else</span><br><span class="line">	small=x</span><br><span class="line">	fi</span><br><span class="line">z=1</span><br><span class="line">for (( i=1;i&lt;=small;i++ ))</span><br><span class="line">do</span><br><span class="line">	if(( x%i==0&amp;&amp;y%i==0 ))</span><br><span class="line">	then</span><br><span class="line">		z=$i</span><br><span class="line">	fi</span><br><span class="line">done</span><br><span class="line">echo &quot;$x 和 $y 的最大公约数是：$z&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="9-找最大数和第二大数"><a href="#9-找最大数和第二大数" class="headerlink" title="9.找最大数和第二大数"></a>9.找最大数和第二大数</h2><p>输入一系列数，输出最大的数和第二大的数,回忆诸多排序算法，用冒泡排序的思想轻松解决:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">read -a num -p &quot;请输入一系列整数，以空格分隔，按enter键结束：&quot;</span><br><span class="line">maxnum=$&#123;num[0]&#125;</span><br><span class="line">secnum=$&#123;num[0]&#125;</span><br><span class="line">for (( i=0;i&lt;$&#123;#num[*]&#125;;i++ ))</span><br><span class="line">do</span><br><span class="line">	if (($&#123;num[i]&#125;&gt;$maxnum))</span><br><span class="line">	then</span><br><span class="line">		secnum=$maxnum</span><br><span class="line">		maxnum=$&#123;num[i]&#125;</span><br><span class="line">	else </span><br><span class="line"><span class="meta prompt_">		if(($</span><span class="language-bash">&#123;num[i]&#125;&gt;<span class="variable">$secnum</span>))</span></span><br><span class="line">		then</span><br><span class="line">			secnum=$&#123;num[i]&#125;</span><br><span class="line">		fi</span><br><span class="line">	fi</span><br><span class="line">done</span><br><span class="line">echo -e &quot;最大数：$maxnum\n第二大数：$secnum&quot;</span><br></pre></td></tr></table></figure>
+<p>事实上，大一上的水平怎么可能要求用数组呢，：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">maxnum=$1</span><br><span class="line">secnum=$1</span><br><span class="line">for i in $@</span><br><span class="line">do</span><br><span class="line">	if ((i&gt;$maxnum))</span><br><span class="line">	then</span><br><span class="line">		secnum=$maxnum</span><br><span class="line">		maxnum=$&#123;num[i]&#125;</span><br><span class="line">	else </span><br><span class="line"><span class="meta prompt_">		if((i&gt;</span><span class="language-bash"><span class="variable">$secnum</span>))</span></span><br><span class="line">		then</span><br><span class="line">			secnum=$i</span><br><span class="line">		fi</span><br><span class="line">	fi</span><br><span class="line">done</span><br><span class="line">echo -e &quot;最大数：$maxnum\n第二大数：$secnum&quot;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">以上内容编写为脚本，参数通过执行脚本输入：</span></span><br><span class="line">sh shell.sh 1 2 3 4 5 6 7 8 9 10</span><br></pre></td></tr></table></figure>
+<p>$# 是传给脚本的参数个数<br>$0 是脚本本身的名字<br>$1 是传递给该shell脚本的第一个参数<br>$2 是传递给该shell脚本的第二个参数<br>$@ 是传给脚本的所有参数的列表<br>$* 是以一个单字符串显示所有向脚本传递的参数，与位置变量不同，参数可超过9个</p>
+<p>$$ 是脚本运行的当前进程ID号<br>$? 是显示最后命令的退出状态，0表示没有错误，其他表示有错误</p>
+<h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><p>注：<strong># 是系统管理员的命令提示符,$是普通用户的命令提示符</strong></p>
+<p>$login: UserName<br>$password: [your password] </p>
+<p>登录</p>
+<p>$<strong>〈Ctrl-d〉</strong><br>$ exit<br>$ logout<br> 退出：</p>
+<p>date    显示日期和时间</p>
+<p>date -s 20041229   设置日期  </p>
+<p>date -s 12:23:23    设置时间  </p>
+<p>cal [month] [year]  显示日历  </p>
+<p>cal   只显示当前月份信息  </p>
+<p>pwd：（print working directory）     显示当前工作目录  </p>
+<p>ln [-s] target [link name]  为文件建立一个链接文件</p>
+<p>CST: China Standard Time</p>
+<p>who  显示登陆到系统的所有用户的详细信息<br>cd   可从任何位置返回主目录（用户joe：/home/joe     root用户：/root）</p>
+<p>“.”，代表当前目录<br> “..”，代表当前目录的父目录</p>
+<p>cat [-n] filename  将文件的文本内容一次全部显示在屏幕上 -n :打印行号</p>
+<p>alias ls=’ls —color=auto’ 给变量取别名<br>unalias cp  取消别名</p>
+<p>whoami  显示当前用户有效帐号<br>ls  显示该目录或路径下所包含的文件及目录列表，以及文件的相关信息<br>touch  以当前时间创建文件或更新已有文件的时间戳</p>
+<p>more  分屏显示文件内容<br>less   对文件或其它输出进行分页显示<br>wc  该命令能够统计文件中的字符数、单词数和行数。</p>
+<p>id  显示用户 id 以及群组 id<br>chmod 改变权限</p>
+<p>cp  复制文件</p>
+<p>mv  对文件进行名称更改或路径迁移</p>
+<p>whereis  显示指令的二进制码、原始码与在线手册说明文件的存放目录</p>
+<p><strong>grep  对文本文件的内容进行模式查找</strong></p>
+<p>grep [-option] pattern  files</p>
+<p>pattern匹配模式：<br>若匹配模式中包含字符串参数，则最好用引号括起，以免引起歧义</p>
+<p>正则表达式：</p>
+<p>^                只匹配行首，用在字符串前面<br>$                只匹配行尾，用在字符串后面<br>X*               0个或多个字符X<br>.                只匹配任意单字符<br>[字符表]         字符表中的任意字符<br>[‘^’字符表]       任意不在字符表中的字符<br>\                屏蔽其后的特殊字符的特殊含义<br>{n}            前导的正则表达式重复n次<br>{min,max}      前导的正则表达式重复min~max次</p>
+<p><strong>pgrep  找某进程</strong></p>
+<p>rm  删除文件或目录<br>mkdir  创建目录</p>
+<p>rmdir 删除目录</p>
+<p>ping  检测主机<br>find  在指定目录下查找文件</p>
+<p>sleep 延迟一段时间</p>
+<p>chroot 更换根目录<br>top  实时显示 process 的动态</p>
+<p>wget  下载文件的命令</p>
+<p>dmesg  显示开机信息</p>
+<p>locate   在这个数据库文件中进行检索文件名<br>mail  发送 E-mail<br>wall  所有在线用户会收到以下信息：<br>write  若一用户在线，可用 write 命令发送信息。<br>mesg  决定是否接受 write、wall 命令发送的消息，<br>man  是一个帮助命令,可以通过这个命令显示需要命令信息。<br>help  查询内建命令的帮助文档<br>w  显示目前登入系统的用户信息<br>su  变更使用者（swich user）</p>
+<p>sudo  以系统管理者的身份执行指令</p>
+<p>last  显示用户最近的登录信息<br>du  显示目录或文件的大小<br>df  显示磁盘使用情况<br>tail 显示文件末尾<br>head 查看文件开头部分的内容。</p>
+<p>mount  挂载Linux系统外的文件</p>
+<p>ps  用于列出当前进程清单</p>
+<p>job  显示后台任务的执行情况</p>
+<p>command &amp;  末尾加&amp;符号将进程交给后台执行</p>
+<p>fg %jobID  进程恢复到前台</p>
+<p>bg %jobID  进程恢复到后台</p>
+<p>nohup {command|script}  &amp;   使进程在用户退出后仍能继续执行</p>
+<h1 id="细节概念"><a href="#细节概念" class="headerlink" title="细节概念"></a>细节概念</h1><p>Linux是<strong>多用户、多任务、抢占式</strong>操作系统，原著者Linus，是开源操作系统。<br>Linux操作系统基本组成：内核、SHELL、System Applications</p>
+<p>三种引号：</p>
+<p>单引号括起来的所有字符都作为普通字符出现</p>
+<p>由双引号括起来的字符，除$、\、引号几种符号具有其特殊功能外，其余字符都作为普通字符对待</p>
+<p>反引号括起来的内容被Shell解释为命令行</p>
+<p>输入文件 —　标准输入 – stdin         0<br>输出文件 —　标准输出 – stdout         1<br>错误输出文件 —标准错误输出 – stderr 2</p>
+<p>kernel：</p>
+<p>管理程序的运行，管理对文件系统的读写，管理存储器，管理输入、输出，管理网络。 </p>
+<p>操作系统发展简史<br>批处理系统  多道程序系统  分时系统<br>实时系统  通用操作系统  个人机系统<br>网络操作系统  分布式系统</p>
+<p>操作系统定义<br>操作系统是计算机系统的基本系统软件。操作系统负责控制、管理计算机的所有软件、硬件资源，是唯一直接和硬件打交道的软件系统，同时还为计算机用户提供良好的界面。因此，操作系统直接面对所有硬件、软件和用户，它是协调计算机各组成部分之间、人机之间关系的重要软件系统。</p>
+<p>输出重定向中，&gt; 的意思是覆盖, &gt;&gt;的意思是追加</p>
+<p>硬链接（ Hard Link）<br>原文件名和链接文件名都指向相同的物理位址。 (i-node number )<br>如果删除硬链接文件的源文件，硬链接文件仍然存在，而且保留了原有的内容<br>硬链接不能跨越文件系统<br>符号链接（ Symbolic Link）<br>它的内容是它所链接的文件的路径名<br>由于存放的是源文件的路径名，因而如果删除符号链接文件的源文件，符号链接文件将无法找到原有资料。<br>能够跨越文件系统</p>
+<p>在移动文件时不需要被移动文件的权限，但需其<strong>所在目录具有写权限</strong>。<br>在目录下增删文件、子目录时要有<strong>目录的写权限</strong>（touch,rm,mkdir,rmdir）<br>用ls列目录要有目录的读权限<br><strong>进入目录或将该目录作路径分量时(cd)要有目录的执行权限</strong>，故要使用任一个文件，必须有该文件及找到该文件的路径上所有目录分量的执行权限。<br>仅当要打开一个文件时，即执行涉及到文件内容的操作时，才需要文件的许可。</p>
+<p> bash shell支持C式for循环 ：  for  (( i=0;i&lt;5;i++ ))</p>
+<h1 id="复习题"><a href="#复习题" class="headerlink" title="复习题"></a>复习题</h1><p>一、填空题：</p>
+<p>1、ls、cp等命令文件一般位于哪个目录：  <strong><em>/bin</em></strong></p>
+<p>2、在Linux系统中,第一个启动的进程是： <strong><em>init</em></strong>   其编号为：<strong><em>1</em></strong>  。</p>
+<p>3、给出文件的三种类型的名称 <strong><em>普通文件、目录文件、设备文件</em></strong> 。</p>
+<p>4、当前用户是stu，当前目录在/home/stu/mydir/，则执行cd ../..命令后当前目录是   <strong><em>/home</em></strong> ，再执行cd命令后当前目录是    <strong><em>/home/stu</em></strong>  。</p>
+<p>5、<strong><em>env</em></strong>    命令可以显示环境变量？。</p>
+<p>6、在多用户环境下，管理员在关机重启机器之前一般可以使用  <strong><em>wall</em></strong>  命令通知所有在线用户注意存盘退出。</p>
+<p>7、<strong><em>root</em></strong>     用户具有系统的最大权限。</p>
+<p>二、选择题。<br>1、我们实验使用的shell是哪个？ <strong><em>D</em></strong><br>A、bsh B、ksh C、csh <strong><em>D、bash</em></strong><br>2、可以分页显示文件内容的命令是<strong><em>C_</em></strong>。<br>A、pwd B、cat <strong><em>C、more</em></strong> D、page<br>3、bash中默认已有的变量一般不包括（A ）。<br><strong><em>A、find</em></strong> B、PWD C、HOME D、USER。<br>4、从标准输入读入值并赋予一个变量的命令是（C ）<br>A、out B、scan <strong><em>C、read</em></strong> D、in<br>5、 下列哪个命令可将文本文件f.txt拷贝为f.bak?(B )<br>A、cp f.txt | f.bak <strong><em>B、cat f.txt&gt;f.bak</em></strong> C、cp f.txt &gt;f.bak D、ls f.txt f.bak</p>
+<p>三、 判断题。</p>
+<p>1、Linux是多任务操作系统。（ ✔ ）</p>
+<p>2、Linux 是多用户操作系统。（ ✔ ）</p>
+<p>三、简答下列问题。</p>
+<p>1、解释read命令的功能，举例说明其用法。</p>
+<p><strong><em>read命令是从标准输入读入变量值，例如：</em></strong><br><strong><em>read var1 var2</em></strong><br><strong><em>hello world（注：var1为hello，var2为world）</em></strong><br><strong><em>read var1 var2</em></strong><br><strong><em>hello world 0.0（注：var1为hello，var2为world！0.0）</em></strong><br><strong><em>read var1 var2</em></strong><br><strong><em>hello（注：var1为hello，var2为空)</em></strong></p>
+<p>2、如果当前目录下只有一个文件abc123，解释echo abc*和echo xyz=abc*命令的输出。</p>
+<p><strong><em>“echo abc\</em>”命令会输出abc123，“echo xyz=abc*”命令会输出xyz=abc*。*</strong><br><strong><em>出现这种结果的原因为，“\</em>”既可以作为通配符，也可以作为字符。由于目录下的文件只有abc123，那么在“echo abc”时，*作为通配符，匹配的结果就是abc123。而由于目录下没有以xyz=abc开头的文件，所以在“echo xyz=abc”时，<em>是作为一个字符串进行输出的。</em></strong></p>
+<p>3、画图示意操作系统、硬件和应用软件关系。</p>
+<p> <img src="20191127103856900.png" alt="在这里插入图片描述"> </p>
+<p>五、根据以下小题的要求写出相应的命令或命令组。 </p>
+<p>1、显示当前目录下文件名以abc开头同时以123结尾的文件。</p>
+<p> <strong>ls | grep “^abc.*123$”</strong> </p>
+<p>2、把文本文件file1复制为file2，然后在file2尾部增加一行内容为“END”。设置权限，自己的文件file1，只允许自己完全访问和使用，自己之外的人仅有读权限。</p>
+<p><strong><em>cp file1 file2</em></strong><br><strong><em>echo “END” &gt;&gt; file2</em></strong><br><strong><em>chmod 744 file1</em></strong></p>
+<p>3、假设myprog.sh是你所写的一个脚本程序，写出命令在后台执行它。</p>
+<p>sh myprog.sh &amp;</p>
+<p>4、用命令或命令组合列出当前目录下的所有目录文件（不列出其他文件）。</p>
+<p> <strong><em>ls -d \</em>/*</strong>  </p>
+<p>5、在上一级目录的子目录src中建立一个空文件，文件名叫my_logfile。</p>
+<p>touch ../src/my_logfile</p>
+<p>6、在当前路径下建立 /letters/mail的符号链接m-soft。</p>
+<p>ln -s  /letters/mail ./m-soft</p>
+<p>7、在屏幕上显示字符串“$abc”。</p>
+<p>echo \$abc</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/02/19/Linux%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" data-id="cmq3vhofx000ba0qv4gve7tlp" data-title="Linux知识梳理" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/03/06/%E4%B8%8EChatgpt%E8%81%8A%E8%81%8A%E5%A4%A9/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          与Chatgpt聊聊天
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/02/19/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">软件工程知识梳理</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/others/">others</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/paper/">paper</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%9E%E9%AA%8C/">实验</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Agent/" rel="tag">Agent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LLM/" rel="tag">LLM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Latex/" rel="tag">Latex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongo/" rel="tag">mongo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E9%AA%8C/" rel="tag">实验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" rel="tag">并行计算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/" rel="tag">数据仓库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/" rel="tag">数据挖掘</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A4%BE%E4%BC%9A%E7%A7%91%E5%AD%A6-%E5%8D%9A%E5%BC%88%E8%AE%BA/" rel="tag">社会科学&amp;博弈论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" rel="tag">语言基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" rel="tag">软件工程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Agent/" style="font-size: 10px;">Agent</a> <a href="/tags/LLM/" style="font-size: 16.67px;">LLM</a> <a href="/tags/Latex/" style="font-size: 10px;">Latex</a> <a href="/tags/c/" style="font-size: 10px;">c++</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mongo/" style="font-size: 10px;">mongo</a> <a href="/tags/nosql/" style="font-size: 13.33px;">nosql</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/web/" style="font-size: 10px;">web</a> <a href="/tags/%E5%AE%9E%E9%AA%8C/" style="font-size: 10px;">实验</a> <a href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" style="font-size: 10px;">并行计算</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/" style="font-size: 10px;">数据仓库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/" style="font-size: 10px;">数据挖掘</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 20px;">机器学习</a> <a href="/tags/%E7%A4%BE%E4%BC%9A%E7%A7%91%E5%AD%A6-%E5%8D%9A%E5%BC%88%E8%AE%BA/" style="font-size: 10px;">社会科学&博弈论</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" style="font-size: 16.67px;">语言基础</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" style="font-size: 10px;">软件工程</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/06/">June 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/04/">April 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/02/">February 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/12/">December 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">March 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">February 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/01/">January 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/06/07/%E5%89%8D%E6%AE%B5%E6%97%B6%E9%97%B4%E7%9C%8B%E7%9A%84skill%E3%80%81OPD%E3%80%81%E4%BF%A1%E7%94%A8%E5%88%86%E9%85%8D%E8%AE%BA%E6%96%87/">前段时间看的skill、OPD、信用分配论文</a>
+          </li>
+        
+          <li>
+            <a href="/2026/04/29/%E5%89%8D%E6%AE%B5%E6%97%B6%E9%97%B4%E7%9C%8B%E7%9A%84Agentic%20RL%E8%AE%BA%E6%96%87/">前段时间看的Agentic RL论文</a>
+          </li>
+        
+          <li>
+            <a href="/2026/02/17/%E5%9B%BD%E7%A7%91%E5%A4%A7%E3%80%8A%E9%AB%98%E7%BA%A7%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E3%80%8B%E5%A4%8D%E4%B9%A0/">国科大《高级人工智能》复习</a>
+          </li>
+        
+          <li>
+            <a href="/2025/12/27/%E5%9B%BD%E7%A7%91%E5%A4%A7%E8%87%AA%E5%8A%A8%E8%AF%BE%E7%A8%8B%E8%AF%84%E4%BC%B0/">国科大自动课程评估</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/21/%E3%80%8A%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%8B%E9%83%A8%E5%88%86%E7%AC%94%E8%AE%B0/">《动手学深度学习》部分笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>计算机网络知识梳理 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="协议总结数据链路层： MAC: 介质访问控制(medium access control) Goback N:回退n帧协议 SN:选择性重传 介质访问控制子层： ALOHA：想发就发，随机时间后重传 时隙ALOHA(分槽ALOHA)：只在时间片开始时发送&#x2F;重传 CSMA：载波监听多路访问协议，先听后发 1-坚持：信道空闲马上发，信道忙继续坚持监听 非坚持：信道空闲马上发，信道忙放弃监听，随机事件后">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络知识梳理">
+<meta property="og:url" content="http://example.com/2023/02/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="协议总结数据链路层： MAC: 介质访问控制(medium access control) Goback N:回退n帧协议 SN:选择性重传 介质访问控制子层： ALOHA：想发就发，随机时间后重传 时隙ALOHA(分槽ALOHA)：只在时间片开始时发送&#x2F;重传 CSMA：载波监听多路访问协议，先听后发 1-坚持：信道空闲马上发，信道忙继续坚持监听 非坚持：信道空闲马上发，信道忙放弃监听，随机事件后">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2023/02/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/1676784921030.png">
+<meta property="article:published_time" content="2023-02-19T10:50:34.000Z">
+<meta property="article:modified_time" content="2026-06-07T13:57:08.501Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/02/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/1676784921030.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">[object Object]</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-计算机网络知识梳理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/02/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" class="article-date">
+  <time class="dt-published" datetime="2023-02-19T10:50:34.000Z" itemprop="datePublished">2023-02-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      计算机网络知识梳理
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="协议总结"><a href="#协议总结" class="headerlink" title="协议总结"></a>协议总结</h1><p><strong>数据链路层：</strong></p>
+<p>MAC: 介质访问控制(medium access control)</p>
+<p>Goback N:回退n帧协议</p>
+<p>SN:选择性重传</p>
+<p><strong>介质访问控制子层：</strong></p>
+<p>ALOHA：想发就发，随机时间后重传</p>
+<p>时隙ALOHA(分槽ALOHA)：只在时间片开始时发送/重传</p>
+<p>CSMA：载波监听多路访问协议，先听后发</p>
+<p>1-坚持：信道空闲马上发，信道忙继续坚持监听</p>
+<p>非坚持：信道空闲马上发，信道忙放弃监听，随机事件后再监听</p>
+<p>p-坚持：信道空闲p概率马上发，1-p概率下一个时隙再发,如果下一个时隙空闲，仍然概率p发送，1-p推迟…</p>
+<p>CSMA/CD：载波监听多路访问/碰撞检测协议</p>
+<p>先检测是否空闲,边发送边监听，如果冲突就停止</p>
+<p>CSMA/CA：载波监听多路访问/碰撞避免协议 ,是802.11 MAC 子层协议的核心协议</p>
+<p>用于无线网络，先检测是否空闲，如果空闲则发送RTS,接收方返回CTS，预约信道开始发送，接收方收到后响应ACK</p>
+<p>MACA 冲突避免多路访问 有RTS,CTS</p>
+<p>MACAW: MACA for Wireless，无线的MACA（MACA：Multiple Access with Collision Avoidance ，避免冲突的多路访问）。 </p>
+<p><strong>网络层：</strong></p>
+<p><strong>路由算法：</strong></p>
+<p>DV:距离矢量路由算法</p>
+<p>只与邻居节点交换信息，存到目标节点的最短距离和下一跳</p>
+<p>LSP:链路状态路由算法</p>
+<p>泛洪，每个节点知道完整的网络拓补图</p>
+<p><strong>内部网关协议：</strong></p>
+<p>OSPF：开放最短路径优先协议，使用LSP算法</p>
+<p>使用洪泛法向自治系统内所有路由器广播链路状态，采用IP</p>
+<p>OSPF属于网络层（考研大纲）还是传输层有争议</p>
+<p><strong>网络层控制协议</strong>：</p>
+<p>ICMP:网络层控制协议报告差错和异常情况</p>
+<p><strong>其他:</strong></p>
+<p>RED：网络层拥塞控制协议，超过某个阈值时路由器随机丢弃一小部分数据包</p>
+<p>CIDR：不分abc类划分子网</p>
+<p>NAT：网络地址转换，自治系统内外使用两套ip地址</p>
+<p>ARP:完成主机或路由器ip地址到mac地址的转换</p>
+<p>DHCP：局域网中DHCP服务器动态给主机分配ip地址、子网掩码等等</p>
+<p><strong>传输层：</strong></p>
+<p>UDP：不可靠，无连接，适用于传输小文件</p>
+<p>TCP：可靠，面向连接，适用于传输大文件</p>
+<p><strong>应用层：</strong></p>
+<p><strong>内部网关协议：</strong></p>
+<p>RIP:早期的域间路由协议，使用DV算法</p>
+<p><strong>外部网关协议：</strong></p>
+<p>BGP：不同自治系统之间交换到达某自治系统要经过的路径，采用TCP</p>
+<p>其他：</p>
+<p>DNS：域名系统</p>
+<p>HTTP:超文本传输协议，浏览器向万维网服务器请求万维网文档</p>
+<h1 id="一些其它概念"><a href="#一些其它概念" class="headerlink" title="一些其它概念"></a>一些其它概念</h1><p>1db（分贝）=10log10S/N（以10为底对数）</p>
+<p>(每秒 2B 次采样)最大数据速率=2Blog2V（比特/秒）</p>
+<p>最大数据传输率=Blog2(1+S/N)（比特/秒）</p>
+<p>AP:Access Point接入点，如无线路由器，基站</p>
+<p>Internet：由网络通信设备、通信线路及基于共同通信协议TCP/IP的多个计算机网络系统互联而构成的全球性计算机网络，是无特定网络疆界的网络互联的集合。</p>
+<p>计算机网络的目的：资源共享 （和数据通信）</p>
+<p>NRZ:低电平表示为 0，高电平表示为1</p>
+<p>NRZI:0 时信号不发生变化，1 时信号跳变</p>
+<p>曼彻斯特：码元中间的跳变，高到低为1，低到高为0，码元开始是否跳变来调整</p>
+<p>差分曼彻斯特：码元开始的跳变，有跳变为0，无跳变为1，码元中间一定跳变</p>
+<p>IEEE 802.3 ：以太网介质访问控制协议 （CSMA/CD）及物理层技术规范</p>
+<p>IEEE 802.11：无线局域网（WLAN）的介质访问控制协议及物理层技术规范</p>
+<p>IEEE 802.15：采用蓝牙技术的无线个人网（Wireless Personal Area Networks，WPAN）技术规范</p>
+<p>IEEE 802.16：宽带无线连接工作组</p>
+<p>IBA:因特网体系结构委员会</p>
+<p>IETF:因特网工程任务组</p>
+<p>RFC上升为因特网正式标准：因特网草案、建议标准、草案标准、因特网标准</p>
+<p>ATM:异步传输模式(Asynchronous Transfer Mode)</p>
+<p>PDU协议数据单元：物理层的 PDU是数据位（bit），数据链路层的 PDU是数据帧（frame），网络层的PDU是数据包（packet），传输层的 PDU是数据段（segment），其他更高层次的PDU是数据（data）</p>
+<p>邮件系统使用的协议：SMTP、IMAP、POP</p>
+<p>如果IP数据报不分片，分片标志DF（Don’t Fragment）会被设置为1。分片标志MF（More Fragment）设置为0。</p>
+<h1 id="典型问题"><a href="#典型问题" class="headerlink" title="典型问题"></a>典型问题</h1><p>哪些ip可以分给主机？</p>
+<p><img src="1676784921030.png" alt="1676784921030"></p>
+<p>在一个总线拓扑结构的以太网中，有A、B、C、D四台主机，若A向B发送数据，则（ ）<br>四台主机都能收到数据 例如载波监听碰撞检测：边发送边监听</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/02/19/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" data-id="cmq3vhogk002ua0qv93tx0fc9" data-title="计算机网络知识梳理" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/02/19/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          软件工程知识梳理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/02/19/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E6%95%B4%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">机器学习基础整理</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/others/">others</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/paper/">paper</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%9E%E9%AA%8C/">实验</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Agent/" rel="tag">Agent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LLM/" rel="tag">LLM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Latex/" rel="tag">Latex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongo/" rel="tag">mongo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E9%AA%8C/" rel="tag">实验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" rel="tag">并行计算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/" rel="tag">数据仓库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/" rel="tag">数据挖掘</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A4%BE%E4%BC%9A%E7%A7%91%E5%AD%A6-%E5%8D%9A%E5%BC%88%E8%AE%BA/" rel="tag">社会科学&amp;博弈论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" rel="tag">语言基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" rel="tag">软件工程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Agent/" style="font-size: 10px;">Agent</a> <a href="/tags/LLM/" style="font-size: 16.67px;">LLM</a> <a href="/tags/Latex/" style="font-size: 10px;">Latex</a> <a href="/tags/c/" style="font-size: 10px;">c++</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mongo/" style="font-size: 10px;">mongo</a> <a href="/tags/nosql/" style="font-size: 13.33px;">nosql</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/web/" style="font-size: 10px;">web</a> <a href="/tags/%E5%AE%9E%E9%AA%8C/" style="font-size: 10px;">实验</a> <a href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" style="font-size: 10px;">并行计算</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/" style="font-size: 10px;">数据仓库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/" style="font-size: 10px;">数据挖掘</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 20px;">机器学习</a> <a href="/tags/%E7%A4%BE%E4%BC%9A%E7%A7%91%E5%AD%A6-%E5%8D%9A%E5%BC%88%E8%AE%BA/" style="font-size: 10px;">社会科学&博弈论</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" style="font-size: 16.67px;">语言基础</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" style="font-size: 10px;">软件工程</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/06/">June 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/04/">April 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/02/">February 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/12/">December 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">March 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">February 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/01/">January 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/06/07/%E5%89%8D%E6%AE%B5%E6%97%B6%E9%97%B4%E7%9C%8B%E7%9A%84skill%E3%80%81OPD%E3%80%81%E4%BF%A1%E7%94%A8%E5%88%86%E9%85%8D%E8%AE%BA%E6%96%87/">前段时间看的skill、OPD、信用分配论文</a>
+          </li>
+        
+          <li>
+            <a href="/2026/04/29/%E5%89%8D%E6%AE%B5%E6%97%B6%E9%97%B4%E7%9C%8B%E7%9A%84Agentic%20RL%E8%AE%BA%E6%96%87/">前段时间看的Agentic RL论文</a>
+          </li>
+        
+          <li>
+            <a href="/2026/02/17/%E5%9B%BD%E7%A7%91%E5%A4%A7%E3%80%8A%E9%AB%98%E7%BA%A7%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E3%80%8B%E5%A4%8D%E4%B9%A0/">国科大《高级人工智能》复习</a>
+          </li>
+        
+          <li>
+            <a href="/2025/12/27/%E5%9B%BD%E7%A7%91%E5%A4%A7%E8%87%AA%E5%8A%A8%E8%AF%BE%E7%A8%8B%E8%AF%84%E4%BC%B0/">国科大自动课程评估</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/21/%E3%80%8A%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%8B%E9%83%A8%E5%88%86%E7%AC%94%E8%AE%B0/">《动手学深度学习》部分笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

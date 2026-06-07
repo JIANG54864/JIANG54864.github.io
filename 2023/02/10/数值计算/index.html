@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>数值计算 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="专业词汇interpolate 插值 polynomlal 多项式 monomial 单项式 iterative 迭代 equation 方程 equivation 等效 convergent 收敛 normal equations 正规方程组 orthogonal projector 垂直投影 科学计算适定问题(well-posed problem) 需要满足如下三个条件： a solution">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数值计算">
+<meta property="og:url" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="专业词汇interpolate 插值 polynomlal 多项式 monomial 单项式 iterative 迭代 equation 方程 equivation 等效 convergent 收敛 normal equations 正规方程组 orthogonal projector 垂直投影 科学计算适定问题(well-posed problem) 需要满足如下三个条件： a solution">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675940829020.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676001860931.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675940956462.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675941118131.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676002651065.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676002865499.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676003017177.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675993198459.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675993583812.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675993434164.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675941510319.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675941788912.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675942194784.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675943112310.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675943144467.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675943673259.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675943770880.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676003275957.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675990809373.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675990835708.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675992463908.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675992318814.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675992507609.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676003906296.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676004055955.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676004260446.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676004474988.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676004491864.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1676004649609.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675997407722.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675997656168.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675997684647.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675998072020.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675924872288.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675991280415.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675991305717.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675925511457.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675925535201.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675990983527.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675991062263.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675922004384.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675922334492.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675922157601.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675923504223.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675923531000.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675998248441.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675998277348.png">
+<meta property="og:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675998576362.png">
+<meta property="article:published_time" content="2023-02-10T11:33:54.000Z">
+<meta property="article:modified_time" content="2026-06-07T13:57:07.886Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/1675940829020.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">[object Object]</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-数值计算" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/" class="article-date">
+  <time class="dt-published" datetime="2023-02-10T11:33:54.000Z" itemprop="datePublished">2023-02-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      数值计算
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="专业词汇"><a href="#专业词汇" class="headerlink" title="专业词汇"></a>专业词汇</h1><p>interpolate 插值</p>
+<p>polynomlal 多项式</p>
+<p>monomial 单项式</p>
+<p>iterative 迭代</p>
+<p>equation 方程</p>
+<p>equivation 等效</p>
+<p>convergent 收敛</p>
+<p>normal equations 正规方程组</p>
+<p>orthogonal projector 垂直投影</p>
+<h1 id="科学计算"><a href="#科学计算" class="headerlink" title="科学计算"></a>科学计算</h1><p>适定问题(well-posed problem)</p>
+<p>需要满足如下三个条件：</p>
+<p>a solution exists, （解存在）<br>the solution is unique, （解唯一）<br>the solution’s behaviour changes continuously with the initial conditions. （解能根据初始条件连续变化）</p>
+<p>绝对误差、相对误差：</p>
+<p><img src="1675940829020.png" alt="1675940829020"></p>
+<p>误差界：</p>
+<p><img src="1676001860931.png" alt="1676001860931"></p>
+<p>向前误差、向后误差：</p>
+<p><img src="1675940956462.png" alt="1675940956462"></p>
+<p>截断舍入、最近舍入：</p>
+<p><img src="1675941118131.png" alt="1675941118131"></p>
+<p>误差分类：数据误差、计算误差（截断误差（假设没有舍入，方法产生的误差）、舍入误差）</p>
+<p>敏感性&amp;病态性：问题是敏感的&amp;病态的：输入有误差，输出会有较大误差</p>
+<p>量化：条件数，条件数大称为病态的</p>
+<p>相对条件数的计算：</p>
+<p><img src="1676002651065.png" alt="1676002651065"></p>
+<p>函数与其反函数的条件数互为倒数，一个大一个小</p>
+<p>绝对条件数：|Δy|/|Δx|</p>
+<p>浮点数的性质：</p>
+<p>非规格化可以表示更多的数</p>
+<p><img src="1676002865499.png" alt="1676002865499"></p>
+<h1 id="线性方程组"><a href="#线性方程组" class="headerlink" title="线性方程组"></a>线性方程组</h1><p>特殊类型矩阵：</p>
+<p>置换矩阵：</p>
+<p><img src="1676003017177.png" alt="1676003017177"></p>
+<p>正交矩阵：如果AAT=E（E为单位矩阵，AT表示“矩阵A的转置矩阵”）或ATA=E，则n阶实矩阵A称为正交矩阵。</p>
+<p><img src="1675993198459.png" alt="1675993198459"></p>
+<p>对于对称正定矩阵，有楚列斯基分解：</p>
+<p><img src="1675993583812.png" alt="1675993583812"></p>
+<p><img src="1675993434164.png" alt="1675993434164"></p>
+<p>向量范数：</p>
+<p><img src="1675941510319.png" alt="1675941510319"></p>
+<p>1-范数：绝对值之和</p>
+<p>2-范数：欧几里得范数，欧氏距离</p>
+<p>无穷范数：绝对值最大的元素绝对值</p>
+<p>矩阵范数：</p>
+<p><img src="1675941788912.png" alt="1675941788912"></p>
+<p>1-范数：每一列绝对值求和，取列和最大</p>
+<p>2-范数：矩阵AtA的最大特征值开平方根</p>
+<p>矩阵谱半径：矩阵最大特征值绝对值</p>
+<p>无穷范数：每一行绝对值求和，取行和最大</p>
+<p>方阵的条件数：</p>
+<p><img src="1675942194784.png" alt="1675942194784"></p>
+<p>条件数与两个范数阶数相同</p>
+<p>LU分解（高斯消去法）：</p>
+<p><img src="1675943112310.png" alt="1675943112310"></p>
+<p><img src="1675943144467.png" alt="1675943144467"></p>
+<p>两种迭代法：</p>
+<p>jaboci迭代法：</p>
+<p><img src="1675943673259.png" alt="1675943673259"></p>
+<p>高斯-塞德尔迭代法：</p>
+<p><img src="1675943770880.png" alt="1675943770880"></p>
+<p>松弛法：在G-S迭代法的结果上进行修正</p>
+<p><img src="1676003275957.png" alt="1676003275957"></p>
+<h1 id="线性最小二乘"><a href="#线性最小二乘" class="headerlink" title="线性最小二乘"></a>线性最小二乘</h1><p>线性最小二乘曲线拟合的基本思想：</p>
+<p><img src="1675990809373.png" alt="1675990809373"></p>
+<p><img src="1675990835708.png" alt="1675990835708"></p>
+<p>正规方程组:</p>
+<p><img src="1675992463908.png" alt="1675992463908"></p>
+<p>求最小二乘解:</p>
+<p><img src="1675992318814.png" alt="1675992318814"></p>
+<p><img src="1675992507609.png" alt="1675992507609"></p>
+<p>豪斯-霍尔德变换：</p>
+<p><img src="1676003906296.png" alt="1676003906296"></p>
+<p><img src="1676004055955.png" alt="1676004055955"></p>
+<p><img src="1676004260446.png" alt="1676004260446"></p>
+<p>吉文斯变换：</p>
+<p><img src="1676004474988.png" alt="1676004474988"></p>
+<p><img src="1676004491864.png" alt="1676004491864"></p>
+<p>格拉-施密特变换（线性代数中所学的方法）：</p>
+<p><img src="1676004649609.png" alt="1676004649609"></p>
+<p>奇异值分解：</p>
+<p><img src="1675997407722.png" alt="1675997407722"></p>
+<p>列满秩最小二乘解的新公式：<img src="1675997656168.png" alt="1675997656168"></p>
+<p>最小二乘解的一般公式：</p>
+<p><img src="1675997684647.png" alt="1675997684647"></p>
+<h1 id="非线性方程"><a href="#非线性方程" class="headerlink" title="非线性方程"></a>非线性方程</h1><p>二分法迭代：</p>
+<p><img src="1675998072020.png" alt="1675998072020"></p>
+<p>局部收敛条件：</p>
+<p><img src="1675924872288.png" alt="1675924872288"></p>
+<p>收敛速度：</p>
+<p><img src="1675991280415.png" alt="1675991280415"></p>
+<p><img src="1675991305717.png" alt="1675991305717"></p>
+<p>牛顿法迭代：</p>
+<p><img src="1675925511457.png" alt="1675925511457"></p>
+<p>割线法：</p>
+<p><img src="1675925535201.png" alt="1675925535201"></p>
+<h1 id="插值"><a href="#插值" class="headerlink" title="插值"></a>插值</h1><p>分段多项式插值函数：</p>
+<p><img src="1675990983527.png" alt="1675990983527"></p>
+<p>样条&amp;三次样条函数：</p>
+<p><img src="1675991062263.png" alt="1675991062263"></p>
+<p>三种多项式插值方法：</p>
+<p>单项式基函数：</p>
+<p><img src="1675922004384.png" alt="1675922004384"></p>
+<p>拉格朗日插值：</p>
+<p>拉格朗日基函数：</p>
+<p><img src="1675922334492.png" alt="1675922334492"></p>
+<p>例题：</p>
+<p><img src="1675922157601.png" alt="1675922157601"></p>
+<p><strong>牛顿插值</strong>：</p>
+<p><img src="1675923504223.png" alt="1675923504223"></p>
+<p><img src="1675923531000.png" alt="1675923531000"></p>
+<h1 id="数值积分与数值微分"><a href="#数值积分与数值微分" class="headerlink" title="数值积分与数值微分"></a>数值积分与数值微分</h1><p>代数精度 定义：如果对于所有次数不超过m 的多项式f (x) ，求积公式都精确成立，但对次数为m +1 的多项式不精确成立，则称该求积公式具有m 次代数精度</p>
+<p>三种牛顿-科斯特积分公式：</p>
+<p><img src="1675998248441.png" alt="1675998248441"></p>
+<p><img src="1675998277348.png" alt="1675998277348"></p>
+<p>复化积分公式：</p>
+<p><img src="1675998576362.png" alt="1675998576362"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/02/10/%E6%95%B0%E5%80%BC%E8%AE%A1%E7%AE%97/" data-id="cmq3vhogf0026a0qv6v81dmrl" data-title="数值计算" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2023/02/19/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E6%95%B4%E7%90%86/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          机器学习基础整理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/02/08/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">数据仓库数据挖掘知识梳理</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/others/">others</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/paper/">paper</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%9E%E9%AA%8C/">实验</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Agent/" rel="tag">Agent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LLM/" rel="tag">LLM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Latex/" rel="tag">Latex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongo/" rel="tag">mongo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E9%AA%8C/" rel="tag">实验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" rel="tag">并行计算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/" rel="tag">数据仓库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/" rel="tag">数据挖掘</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A4%BE%E4%BC%9A%E7%A7%91%E5%AD%A6-%E5%8D%9A%E5%BC%88%E8%AE%BA/" rel="tag">社会科学&amp;博弈论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" rel="tag">语言基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" rel="tag">软件工程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Agent/" style="font-size: 10px;">Agent</a> <a href="/tags/LLM/" style="font-size: 16.67px;">LLM</a> <a href="/tags/Latex/" style="font-size: 10px;">Latex</a> <a href="/tags/c/" style="font-size: 10px;">c++</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mongo/" style="font-size: 10px;">mongo</a> <a href="/tags/nosql/" style="font-size: 13.33px;">nosql</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/web/" style="font-size: 10px;">web</a> <a href="/tags/%E5%AE%9E%E9%AA%8C/" style="font-size: 10px;">实验</a> <a href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" style="font-size: 10px;">并行计算</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/" style="font-size: 10px;">数据仓库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/" style="font-size: 10px;">数据挖掘</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 20px;">机器学习</a> <a href="/tags/%E7%A4%BE%E4%BC%9A%E7%A7%91%E5%AD%A6-%E5%8D%9A%E5%BC%88%E8%AE%BA/" style="font-size: 10px;">社会科学&博弈论</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" style="font-size: 16.67px;">语言基础</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" style="font-size: 10px;">软件工程</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/06/">June 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/04/">April 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/02/">February 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/12/">December 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">March 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">February 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/01/">January 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/06/07/%E5%89%8D%E6%AE%B5%E6%97%B6%E9%97%B4%E7%9C%8B%E7%9A%84skill%E3%80%81OPD%E3%80%81%E4%BF%A1%E7%94%A8%E5%88%86%E9%85%8D%E8%AE%BA%E6%96%87/">前段时间看的skill、OPD、信用分配论文</a>
+          </li>
+        
+          <li>
+            <a href="/2026/04/29/%E5%89%8D%E6%AE%B5%E6%97%B6%E9%97%B4%E7%9C%8B%E7%9A%84Agentic%20RL%E8%AE%BA%E6%96%87/">前段时间看的Agentic RL论文</a>
+          </li>
+        
+          <li>
+            <a href="/2026/02/17/%E5%9B%BD%E7%A7%91%E5%A4%A7%E3%80%8A%E9%AB%98%E7%BA%A7%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E3%80%8B%E5%A4%8D%E4%B9%A0/">国科大《高级人工智能》复习</a>
+          </li>
+        
+          <li>
+            <a href="/2025/12/27/%E5%9B%BD%E7%A7%91%E5%A4%A7%E8%87%AA%E5%8A%A8%E8%AF%BE%E7%A8%8B%E8%AF%84%E4%BC%B0/">国科大自动课程评估</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/21/%E3%80%8A%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%8B%E9%83%A8%E5%88%86%E7%AC%94%E8%AE%B0/">《动手学深度学习》部分笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

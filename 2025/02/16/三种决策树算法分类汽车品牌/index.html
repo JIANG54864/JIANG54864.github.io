@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>三种决策树算法分类汽车品牌 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="完整代码及数据集：https:&#x2F;&#x2F;github.com&#x2F;JIANG54864&#x2F;ml_exp&#x2F;tree&#x2F;main&#x2F;exp4 【实验说明】  本实验通过汽车数据集cars.csv来实现对决策树进一步的了解。其中，汽车数据集包含3个品牌(即美国、欧洲、日本)的汽车的信息。该数据集的目标是使用诸如油耗、汽缸数、立方英寸、马力、重量、到60迈的时间、制造年份等特征找到汽车的品牌。 数据集内包含3类汽车数据，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="三种决策树算法分类汽车品牌">
+<meta property="og:url" content="http://example.com/2025/02/16/%E4%B8%89%E7%A7%8D%E5%86%B3%E7%AD%96%E6%A0%91%E7%AE%97%E6%B3%95%E5%88%86%E7%B1%BB%E6%B1%BD%E8%BD%A6%E5%93%81%E7%89%8C/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="完整代码及数据集：https:&#x2F;&#x2F;github.com&#x2F;JIANG54864&#x2F;ml_exp&#x2F;tree&#x2F;main&#x2F;exp4 【实验说明】  本实验通过汽车数据集cars.csv来实现对决策树进一步的了解。其中，汽车数据集包含3个品牌(即美国、欧洲、日本)的汽车的信息。该数据集的目标是使用诸如油耗、汽缸数、立方英寸、马力、重量、到60迈的时间、制造年份等特征找到汽车的品牌。 数据集内包含3类汽车数据，">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2025/02/16/%E4%B8%89%E7%A7%8D%E5%86%B3%E7%AD%96%E6%A0%91%E7%AE%97%E6%B3%95%E5%88%86%E7%B1%BB%E6%B1%BD%E8%BD%A6%E5%93%81%E7%89%8C/Figure_1.png">
+<meta property="article:published_time" content="2025-02-16T15:25:10.000Z">
+<meta property="article:modified_time" content="2026-06-07T13:57:07.696Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2025/02/16/%E4%B8%89%E7%A7%8D%E5%86%B3%E7%AD%96%E6%A0%91%E7%AE%97%E6%B3%95%E5%88%86%E7%B1%BB%E6%B1%BD%E8%BD%A6%E5%93%81%E7%89%8C/Figure_1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">[object Object]</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-三种决策树算法分类汽车品牌" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/02/16/%E4%B8%89%E7%A7%8D%E5%86%B3%E7%AD%96%E6%A0%91%E7%AE%97%E6%B3%95%E5%88%86%E7%B1%BB%E6%B1%BD%E8%BD%A6%E5%93%81%E7%89%8C/" class="article-date">
+  <time class="dt-published" datetime="2025-02-16T15:25:10.000Z" itemprop="datePublished">2025-02-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%AE%9E%E9%AA%8C/">实验</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      三种决策树算法分类汽车品牌
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>完整代码及数据集：<a target="_blank" rel="noopener" href="https://github.com/JIANG54864/ml_exp/tree/main/exp4">https://github.com/JIANG54864/ml_exp/tree/main/exp4</a></p>
+<p><strong>【实验说明】</strong> </p>
+<p>本实验通过汽车数据集cars.csv来实现对决策树进一步的了解。其中，汽车数据集包含3个品牌(即美国、欧洲、日本)的汽车的信息。该数据集的目标是使用诸如油耗、汽缸数、立方英寸、马力、重量、到60迈的时间、制造年份等特征找到汽车的品牌。</p>
+<p>数据集内包含3类汽车数据，每条记录都有7项特征：油耗（mgp）、汽缸数（cylinders）、立方英寸（cubicinch）、马力（hp）、重量（weightlbs）、提速到60迈的时间（time-to-60）、制造年份（year），可以通过这7个特征预测汽车属于（US.， Europe.， Japan.）三个中的哪一品牌。</p>
+<p>本实验将五分之四的数据集作为训练集对决策树模型进行训练；将剩余五分之一的数据集作为测试集，采用训练好的决策树模型对其进行预测。训练集与测试集的数据随机选取。本实验采用准确率(accuracy)作为模型的评估函数：预测结果正确的数量占样本总数。 决策树模型需要自己实现，不可使用已有的第三方库；</p>
+<p>2.（选做）：另外，给出3个可视化预测结果。<br>3.决策树算法可以分别尝试ID3，C4.5，cart树，并评判效果。<br>4.（选做）：对你的决策树模型进行预剪枝与后剪枝<br>5.（选做）：分别做c4.5和cart树的剪枝并比较不同。</p>
+<p> <strong>【正文】</strong> </p>
+<p>首先实现ID3算法，ID3算法只适用于离散值，因此先将数据离散化。先看一下数据的大致分布：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sb.pairplot(Data.dropna(), hue=<span class="string">&#x27;brand&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="Figure_1.png" alt="Figure_1"></p>
+<p>从对角线上观察每个特征的分布，第一个特征和最后一个特征勉强可以分为三个区间，其余特征只能分为两个区间，以此为依据进行分箱。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> col <span class="keyword">in</span> [<span class="string">&#x27;mpg&#x27;</span>, <span class="string">&#x27;year&#x27;</span>]:</span><br><span class="line">    Data[col] = pd.qcut(Data[col], q=<span class="number">3</span>, labels=[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>])</span><br><span class="line"><span class="keyword">for</span> col <span class="keyword">in</span> [<span class="string">&#x27;cylinders&#x27;</span>, <span class="string">&#x27;cubicinches&#x27;</span>, <span class="string">&#x27;hp&#x27;</span>, <span class="string">&#x27;weightlbs&#x27;</span>, <span class="string">&#x27;time-to-60&#x27;</span>]:</span><br><span class="line">    Data[col] = pd.qcut(Data[col], q=<span class="number">2</span>, labels=[<span class="number">0</span>, <span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+<p>对于决策树，最重要的就是划分选择。ID3算法通过信息熵、信息增益来划分。</p>
+<p>信息熵（熵不纯度、信息量不纯度）定义如下：</p>
+<p>$Ent(D)=-\sum\limits_{i=1}^np_ilogp_i$</p>
+<p>如果所有模式的样本都来自同一类别，则不纯度为零，否则是大于零的正值，当所有类别以等概率出现时，熵值取最大值。（信息熵衡量的是系统的不确定性，先验概率越小，事件发生的概率越低，其对信息熵的贡献越大，因此使用对数来放大这种不确定性。最终取负值是为了使信息熵为正数，符合熵的定义。）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(kinds.shape[<span class="number">0</span>]):</span><br><span class="line">    prior_probability = kinds[i] / total</span><br><span class="line">    Entropy += (prior_probability * np.log2(prior_probability))</span><br><span class="line"><span class="keyword">return</span> -Entropy</span><br></pre></td></tr></table></figure>
+<p>假定离散属性a有V个可能的取值，若使用a来对样本集D进行划分，则会产生V个分支结点，其中第v个分支结点包含了D中所有在属性a上取值为$a^v$的样本，记为$D^v$，我们可计算出D的信息熵，再考虑到不同的分支结点所包含的样本数不同，给分支结点赋予权重$|D^v|/|D|$，即样本数越多的分支结点的影响越大，于是可计算出用属性a对样本集D进行划分所获得的“信息增益”(information gain)</p>
+<p>$Gain(D,a)=Ent(D)-\sum\limits_{v=1}^V\frac{|D^v|}{|D|}Ent(D)$</p>
+<p>一般而言，信息增益越大，则意味着使用属性a来进行划分所获得的“纯度提升”越大。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">InfoGain</span>(<span class="params">data: pd.DataFrame, label: <span class="built_in">str</span>, forecast_label: <span class="built_in">str</span></span>) -&gt; <span class="built_in">float</span>:</span><br><span class="line">    total_entropy = CulEntropy(data, forecast_label)</span><br><span class="line">    gain = total_entropy</span><br><span class="line">    sub_frame = data[[label, <span class="string">&#x27;brand&#x27;</span>]] </span><br><span class="line">    group = sub_frame.groupby(label)</span><br><span class="line">    <span class="keyword">for</span> key, df <span class="keyword">in</span> group:</span><br><span class="line">        gain -= (df.shape[<span class="number">0</span>] / data.shape[<span class="number">0</span>]) * CulEntropy(df, <span class="string">&#x27;brand&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> gain</span><br></pre></td></tr></table></figure>
+<p>递归创建决策树：如果当前分支下的实例只有一种分类，则返回该分类。遍历所有特征，选择信息增益最大的特征作为当前节点的划分特征（如果所有特征的信息增益都为0，则返回数据集中数量最多的类别）。注意最佳特征可能有多个，对每个取值，筛选出 data 中 bestFeature 等于 value 的子数据集。递归地为该子数据集构建子树。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">createmyID3Tree</span>(<span class="params">data: pd.DataFrame</span>) -&gt; <span class="built_in">dict</span>:</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(data[<span class="string">&#x27;brand&#x27;</span>].value_counts()) == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> data[<span class="string">&#x27;brand&#x27;</span>].iloc[<span class="number">0</span>]</span><br><span class="line">    bestGain = <span class="number">0</span></span><br><span class="line">    bestFeature = -<span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> column <span class="keyword">in</span> data: </span><br><span class="line">        <span class="keyword">if</span> column != <span class="string">&#x27;brand&#x27;</span>:</span><br><span class="line">            gain = InfoGain(data, column, <span class="string">&#x27;brand&#x27;</span>)</span><br><span class="line">            <span class="keyword">if</span> bestGain &lt; gain:</span><br><span class="line">                bestGain = gain</span><br><span class="line">                bestFeature = column</span><br><span class="line">    <span class="keyword">if</span> bestFeature == -<span class="number">1</span>:</span><br><span class="line">        valueCount = data[<span class="string">&#x27;brand&#x27;</span>].value_counts()</span><br><span class="line">        <span class="keyword">return</span> valueCount.index[<span class="number">0</span>]</span><br><span class="line">    myTree = &#123;bestFeature: &#123;&#125;&#125; <span class="comment"># </span></span><br><span class="line">    valueList = <span class="built_in">set</span>(data[bestFeature])</span><br><span class="line">    <span class="keyword">for</span> value <span class="keyword">in</span> valueList:</span><br><span class="line">        myTree[bestFeature][value] = createmyID3Tree(data[data[bestFeature] == value])</span><br><span class="line">    <span class="keyword">return</span> myTree</span><br></pre></td></tr></table></figure>
+<p>至此，我们就可以使用训练好的决策树进行预测了，如果子树是分支节点，则递归预测，如果子树是叶节点，则直接返回类别。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">decision</span>(<span class="params">tree: <span class="built_in">dict</span>, testVector: pd.Series</span>):</span><br><span class="line">    forecastLabel = <span class="number">0</span></span><br><span class="line">    firstFeature = <span class="built_in">next</span>(<span class="built_in">iter</span>(tree))</span><br><span class="line">    childTree = tree[firstFeature]</span><br><span class="line">    <span class="keyword">for</span> key <span class="keyword">in</span> childTree.keys():</span><br><span class="line">        <span class="keyword">if</span> testVector[firstFeature] == key:</span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">type</span>(childTree[key]) == <span class="built_in">dict</span>:</span><br><span class="line">                forecastLabel = decision(childTree[key], testVector)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                forecastLabel = childTree[key]</span><br><span class="line">    <span class="keyword">return</span> forecastLabel</span><br></pre></td></tr></table></figure>
+<p>前文提到了ID3算法用的信息增益，此外著名的决策树算法还有C4.5、CART，这两种算法并不需要对数据进行离散化。信息增益准则对可取值数目较多的属性有所偏好，为减少这种偏好可能带来的不利影响，C4.5算法不直接使用信息增益，而是使用“增益率”(gain ratio )来选择最优划分属性</p>
+<p>$GainRatio=\frac{Gain(D,a)}{IV(a)}$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">GainRatio</span>(<span class="params">data: pd.DataFrame, label: <span class="built_in">str</span>, forecast_label: <span class="built_in">str</span></span>) -&gt; <span class="built_in">float</span>:</span><br><span class="line">    info_gain = InfoGain(data, label, forecast_label)</span><br><span class="line">    intrinsic_info = CulIntrinsicInfo(data, label)</span><br><span class="line">    <span class="keyword">if</span> intrinsic_info == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">return</span> info_gain / intrinsic_info</span><br></pre></td></tr></table></figure>
+<p>其中$IV(a)=-\sum\limits_{v=1}^V\frac{|D^v|}{|D|}log_2\frac{|D^v|}{|D|}$称为属性a的 “固有值” (intrinsic value)。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">CulIntrinsicInfo</span>(<span class="params">data: pd.DataFrame, label: <span class="built_in">str</span></span>) -&gt; <span class="built_in">float</span>:</span><br><span class="line">    total = data.shape[<span class="number">0</span>]</span><br><span class="line">    kinds = data[label].value_counts()</span><br><span class="line">    intrinsic_info = <span class="number">0.0</span></span><br><span class="line">    <span class="keyword">for</span> count <span class="keyword">in</span> kinds: </span><br><span class="line">        prior_probability = count / total</span><br><span class="line">        safe_prob = np.where(prior_probability == <span class="number">0</span>, <span class="number">1</span>, prior_probability)</span><br><span class="line">        intrinsic_info -= prior_probability * np.log2(safe_prob)</span><br><span class="line">    <span class="keyword">return</span> intrinsic_info</span><br></pre></td></tr></table></figure>
+<p>属性a的可能取值数目越多(即V 越大)，则 IV (a)的值通常会越大。</p>
+<p>增益率准则对可取值数目较少的属性有所偏好，因此C4.5算法并不是直接选择增益率最大的候选划分属性，而是先从候选划分属性中找出信息增益高于平均水平的属性，再从中选择增益率最高的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 计算所有特征的信息增益</span></span><br><span class="line">info_gains = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> column <span class="keyword">in</span> data.columns:</span><br><span class="line">    <span class="keyword">if</span> column != <span class="string">&#x27;brand&#x27;</span>:</span><br><span class="line">        info_gains[column] = InfoGain(data, column, <span class="string">&#x27;brand&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算信息增益的平均值</span></span><br><span class="line">avg_info_gain = np.mean(<span class="built_in">list</span>(info_gains.values()))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 筛选出信息增益高于平均值的特征</span></span><br><span class="line">candidate_features = [feature <span class="keyword">for</span> feature, gain <span class="keyword">in</span> info_gains.items() <span class="keyword">if</span> gain &gt; avg_info_gain]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果没有特征满足条件，则返回数据集中数量最多的类别</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> candidate_features:</span><br><span class="line">    valueCount = data[<span class="string">&#x27;brand&#x27;</span>].value_counts()</span><br><span class="line">    <span class="keyword">return</span> valueCount.index[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从候选特征中选择增益率最高的特征</span></span><br><span class="line">bestGainRatio = <span class="number">0</span></span><br><span class="line">bestFeature = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> feature <span class="keyword">in</span> candidate_features:</span><br><span class="line">    gain_ratio = GainRatio(data, feature, <span class="string">&#x27;brand&#x27;</span>)</span><br><span class="line">    <span class="keyword">if</span> gain_ratio &gt; bestGainRatio:</span><br><span class="line">        bestGainRatio = gain_ratio</span><br><span class="line">        bestFeature = feature</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果所有特征的增益率都为0，则返回数据集中数量最多的类别</span></span><br><span class="line"><span class="keyword">if</span> bestFeature <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">    valueCount = data[<span class="string">&#x27;brand&#x27;</span>].value_counts()</span><br><span class="line">    <span class="keyword">return</span> valueCount.index[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<p>CART决策树选择使得划分后基尼指数最小的属性作为最优划分属性。</p>
+<p>数据集的纯度可用基尼值来度量：<br>$Gini(D)=\sum\limits<em>{k=1}^n\sum\limits</em>{k^{‘}\neq{k}}p<em>kp</em>{k^{‘}}=1-\sum\limits_{k=1}^n{p_k}^2$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">CulGini</span>(<span class="params">data: pd.DataFrame, forecast_label: <span class="built_in">str</span></span>) -&gt; <span class="built_in">float</span>:</span><br><span class="line">    total = data.shape[<span class="number">0</span>]</span><br><span class="line">    kinds = data[forecast_label].value_counts()</span><br><span class="line">    gini = <span class="number">1.0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(kinds.shape[<span class="number">0</span>]):</span><br><span class="line">        prior_probability = kinds[i] / total</span><br><span class="line">        gini -= prior_probability ** <span class="number">2</span></span><br><span class="line">    <span class="keyword">return</span> gini</span><br></pre></td></tr></table></figure>
+<p>直观来说，Gini(D)反映了从数据集D中随机抽取两个样本，其类别标记不一致的概率。因此Gini(D)越小，则数据集D的纯度越高。属性a 的基尼指数定义为</p>
+<p>$GiniIndex(D,a)=\sum\limits_{v=1}^V\frac{|D^v|}{|D|}Gini(D^v)$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">GiniIndex</span>(<span class="params">data: pd.DataFrame, label: <span class="built_in">str</span>, forecast_label: <span class="built_in">str</span></span>) -&gt; <span class="built_in">float</span>:</span><br><span class="line">    gain = <span class="number">0</span></span><br><span class="line">    sub_frame = data[[label, forecast_label]]</span><br><span class="line">    group = sub_frame.groupby(label)</span><br><span class="line">    <span class="keyword">for</span> key, df <span class="keyword">in</span> group:</span><br><span class="line">        gain += (df.shape[<span class="number">0</span>] / data.shape[<span class="number">0</span>]) * CulGini(df, forecast_label)</span><br><span class="line">    <span class="keyword">return</span> gain</span><br></pre></td></tr></table></figure>
+<p>CART算法构建的决策树是二叉树，与前两个算法的多叉树不同。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">min_gini = <span class="built_in">float</span>(<span class="string">&#x27;inf&#x27;</span>)</span><br><span class="line">best_feature = <span class="literal">None</span></span><br><span class="line"><span class="keyword">for</span> feature <span class="keyword">in</span> data.columns.drop(label):</span><br><span class="line">    current_gini = GiniIndex(data, label, feature)</span><br><span class="line">    <span class="keyword">if</span> current_gini &lt; min_gini:</span><br><span class="line">        min_gini = current_gini</span><br><span class="line">        best_feature = feature</span><br><span class="line"><span class="keyword">if</span> best_feature <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&#x27;class&#x27;</span>: data[label].mode()[<span class="number">0</span>]&#125;</span><br><span class="line">best_threshold = find_best_split(data, best_feature, label)</span><br><span class="line">left_data = data[data[best_feature] &lt;= best_threshold].drop(columns=[best_feature])</span><br><span class="line">right_data = data[data[best_feature] &gt; best_threshold].drop(columns=[best_feature])</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> &#123;</span><br><span class="line">    best_feature: &#123;</span><br><span class="line">        <span class="string">&#x27;threshold&#x27;</span>: best_threshold,</span><br><span class="line">        <span class="string">&#x27;left&#x27;</span>: createmyCartTree(left_data, label, depth - <span class="number">1</span>),</span><br><span class="line">        <span class="string">&#x27;right&#x27;</span>: createmyCartTree(right_data, label, depth - <span class="number">1</span>)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>在划分时，寻找一个最佳阈值进行二分：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">values = <span class="built_in">sorted</span>(data[feature].unique())</span><br><span class="line">best_gini = <span class="built_in">float</span>(<span class="string">&#x27;inf&#x27;</span>)</span><br><span class="line">best_threshold = values[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="built_in">len</span>(values)):</span><br><span class="line">    threshold = (values[i-<span class="number">1</span>] + values[i]) / <span class="number">2</span></span><br><span class="line">    left = data[data[feature] &lt;= threshold]</span><br><span class="line">    right = data[data[feature] &gt; threshold]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(left) == <span class="number">0</span> <span class="keyword">or</span> <span class="built_in">len</span>(right) == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    total = <span class="built_in">len</span>(left) + <span class="built_in">len</span>(right)</span><br><span class="line">    gini = (<span class="built_in">len</span>(left)/total)*CulGini(left, label) + (<span class="built_in">len</span>(right)/total)*CulGini(right, label)</span><br><span class="line">    <span class="keyword">if</span> gini &lt; best_gini:</span><br><span class="line">        best_gini = gini</span><br><span class="line">        best_threshold = threshold</span><br></pre></td></tr></table></figure>
+<p>由于CART容易过拟合，故还加上了预剪枝操作</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 样本数不足或达到最大深度</span></span><br><span class="line"> <span class="keyword">if</span> <span class="built_in">len</span>(data) &lt; min_samples <span class="keyword">or</span> max_depth &lt;= <span class="number">1</span>:</span><br><span class="line">     <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"> <span class="comment"># 当前节点纯度足够高</span></span><br><span class="line"> <span class="keyword">if</span> CulGini(data, label) &lt; <span class="number">0.1</span>:  <span class="comment"># 可调阈值</span></span><br><span class="line">     <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"> <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+<p>总的来说，三种算法的准确度差距不是特别大。</p>
+<p>参考文献：</p>
+<p>  [1] 周志华 著. 机器学习[M]. 北京: 清华大学出版社, 2016. </p>
+<p> [2] Richard O. Duda, Peter E. Hart, David G. Stork 著；李宏东，等 译. 模式分类（原书第2版）[M]. 北京: 机械工业出版社, 2003. </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/02/16/%E4%B8%89%E7%A7%8D%E5%86%B3%E7%AD%96%E6%A0%91%E7%AE%97%E6%B3%95%E5%88%86%E7%B1%BB%E6%B1%BD%E8%BD%A6%E5%93%81%E7%89%8C/" data-id="cmq3vhog60015a0qv3aox9wmf" data-title="三种决策树算法分类汽车品牌" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2025/02/17/%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0%E9%A2%84%E6%B5%8B%E7%94%9F%E8%BF%98%E8%80%85/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          集成学习预测生还者
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2025/02/14/BP%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%AF%86%E5%88%AB%E6%95%B0%E5%AD%97/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">BP神经网络识别数字</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/others/">others</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/paper/">paper</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%9E%E9%AA%8C/">实验</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Agent/" rel="tag">Agent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LLM/" rel="tag">LLM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Latex/" rel="tag">Latex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongo/" rel="tag">mongo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E9%AA%8C/" rel="tag">实验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" rel="tag">并行计算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/" rel="tag">数据仓库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/" rel="tag">数据挖掘</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A4%BE%E4%BC%9A%E7%A7%91%E5%AD%A6-%E5%8D%9A%E5%BC%88%E8%AE%BA/" rel="tag">社会科学&amp;博弈论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" rel="tag">语言基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" rel="tag">软件工程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Agent/" style="font-size: 10px;">Agent</a> <a href="/tags/LLM/" style="font-size: 16.67px;">LLM</a> <a href="/tags/Latex/" style="font-size: 10px;">Latex</a> <a href="/tags/c/" style="font-size: 10px;">c++</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mongo/" style="font-size: 10px;">mongo</a> <a href="/tags/nosql/" style="font-size: 13.33px;">nosql</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/web/" style="font-size: 10px;">web</a> <a href="/tags/%E5%AE%9E%E9%AA%8C/" style="font-size: 10px;">实验</a> <a href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" style="font-size: 10px;">并行计算</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/" style="font-size: 10px;">数据仓库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/" style="font-size: 10px;">数据挖掘</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 20px;">机器学习</a> <a href="/tags/%E7%A4%BE%E4%BC%9A%E7%A7%91%E5%AD%A6-%E5%8D%9A%E5%BC%88%E8%AE%BA/" style="font-size: 10px;">社会科学&博弈论</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" style="font-size: 16.67px;">语言基础</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" style="font-size: 10px;">软件工程</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/06/">June 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/04/">April 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/02/">February 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/12/">December 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">March 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">February 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/01/">January 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/06/07/%E5%89%8D%E6%AE%B5%E6%97%B6%E9%97%B4%E7%9C%8B%E7%9A%84skill%E3%80%81OPD%E3%80%81%E4%BF%A1%E7%94%A8%E5%88%86%E9%85%8D%E8%AE%BA%E6%96%87/">前段时间看的skill、OPD、信用分配论文</a>
+          </li>
+        
+          <li>
+            <a href="/2026/04/29/%E5%89%8D%E6%AE%B5%E6%97%B6%E9%97%B4%E7%9C%8B%E7%9A%84Agentic%20RL%E8%AE%BA%E6%96%87/">前段时间看的Agentic RL论文</a>
+          </li>
+        
+          <li>
+            <a href="/2026/02/17/%E5%9B%BD%E7%A7%91%E5%A4%A7%E3%80%8A%E9%AB%98%E7%BA%A7%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E3%80%8B%E5%A4%8D%E4%B9%A0/">国科大《高级人工智能》复习</a>
+          </li>
+        
+          <li>
+            <a href="/2025/12/27/%E5%9B%BD%E7%A7%91%E5%A4%A7%E8%87%AA%E5%8A%A8%E8%AF%BE%E7%A8%8B%E8%AF%84%E4%BC%B0/">国科大自动课程评估</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/21/%E3%80%8A%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%8B%E9%83%A8%E5%88%86%E7%AC%94%E8%AE%B0/">《动手学深度学习》部分笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

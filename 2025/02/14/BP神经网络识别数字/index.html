@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>BP神经网络识别数字 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="完整代码：https:&#x2F;&#x2F;github.com&#x2F;JIANG54864&#x2F;ml_exp&#x2F;tree&#x2F;main&#x2F;exp3 数据集较大，请通过网盘下载。 【实验内容及说明】 MNIST数据集是一个大型手写数字数据集。通常用于训练各种图像处理系统。该数据集还广泛用于机器学习领域的培训和测试。MNIST手写数字识别模型的主要任务是：输入一张手写数字的图像，然后识别图像中手写的是哪个数字。 mnist_train">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BP神经网络识别数字">
+<meta property="og:url" content="http://example.com/2025/02/14/BP%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%AF%86%E5%88%AB%E6%95%B0%E5%AD%97/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="完整代码：https:&#x2F;&#x2F;github.com&#x2F;JIANG54864&#x2F;ml_exp&#x2F;tree&#x2F;main&#x2F;exp3 数据集较大，请通过网盘下载。 【实验内容及说明】 MNIST数据集是一个大型手写数字数据集。通常用于训练各种图像处理系统。该数据集还广泛用于机器学习领域的培训和测试。MNIST手写数字识别模型的主要任务是：输入一张手写数字的图像，然后识别图像中手写的是哪个数字。 mnist_train">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-02-14T15:10:15.000Z">
+<meta property="article:modified_time" content="2026-06-07T13:57:07.341Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">[object Object]</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-BP神经网络识别数字" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/02/14/BP%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%AF%86%E5%88%AB%E6%95%B0%E5%AD%97/" class="article-date">
+  <time class="dt-published" datetime="2025-02-14T15:10:15.000Z" itemprop="datePublished">2025-02-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%AE%9E%E9%AA%8C/">实验</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      BP神经网络识别数字
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>完整代码：<a target="_blank" rel="noopener" href="https://github.com/JIANG54864/ml_exp/tree/main/exp3">https://github.com/JIANG54864/ml_exp/tree/main/exp3</a></p>
+<p>数据集较大，请通过<a target="_blank" rel="noopener" href="https://www.alipan.com/s/ooEYzSQLQEK">网盘</a>下载。</p>
+<p><strong>【实验内容及说明】</strong></p>
+<p>MNIST数据集是一个大型手写数字数据集。通常用于训练各种图像处理系统。该数据集还广泛用于机器学习领域的培训和测试。MNIST手写数字识别模型的主要任务是：输入一张手写数字的图像，然后识别图像中手写的是哪个数字。</p>
+<p>mnist_train.csv文件包含60,000个训练实例和标签。mnist_test.csv包含10,000个测试例子和标签。数据集中每一行由785个值组成：第一个值是标签（从0到9的数字），其余784个值是每个位置的像素值（从0到255的数字）。</p>
+<p>可将训练样本划分为59000 张样本的训练集和1000 张样本的验证集，测试集可只取1000 张测试样本。其中每个样本表示 28×28 像素的灰度照片，所有照片分属10个不同的类别。 </p>
+<p>(1) 用神经网络对给定的数据集进行分类，画出loss图，给出在测试集上的精确度；<br>(2) 不能使用 pytorch 等框架，也不能使用库函数，所有算法都要自己实现；<br>(3)整个神经网络包括 3 层——输入层，隐藏层，输出层。输入层有 28*28个神经元，隐藏层有 50个神经元，输出层有 10 个神经元（对应 10 个类别）。<br>(4) 附加：可以试着修改隐藏层神经元数，层数，学习率，正则化权重等参数探究参数对实验结果的影响。 </p>
+<p> <strong>【正文】</strong></p>
+<p> 先处理一下数据，测试集同理</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">data_file = <span class="built_in">open</span>(<span class="string">&quot;input/mnist_train.csv&quot;</span>, <span class="string">&quot;r&quot;</span>)</span><br><span class="line">    data_list = data_file.readlines()[<span class="number">1</span>:] <span class="comment"># 跳过第一行标题行</span></span><br><span class="line">    data_file.close()</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 随机打乱数据</span></span><br><span class="line">    np.random.shuffle(data_list)</span><br><span class="line">    <span class="comment"># 划分为59000张训练集和1000张验证集</span></span><br><span class="line">    train_data = data_list[:<span class="number">59000</span>]</span><br><span class="line">    validation_data = data_list[<span class="number">59000</span>:<span class="number">60000</span>]</span><br></pre></td></tr></table></figure>
+<p>重点：定义一个神经网络的类。每个样本表示 28×28 像素的灰度照片，故输入层应该有 28*28个神经元。所有照片分属10个不同的类别（10个数字），故输出层应该有 10 个神经元。隐藏层神经元可以灵活一点，先用题目给的50个好了。除此之外还应该有激活函数、权重矩阵等等。激活函数我分别用经典的sigmod和relu函数做了测试。链接权重，使用了正态分布随机数进行初始化，均值为 0，标准差为隐藏层节点数的平方根的倒数，确保权重值范围与隐藏层节点数成反比，避免梯度爆炸或消失。最后一个参数为矩阵形状。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, inputnodes, hiddennodes, outputnodes, learningrate</span>):</span><br><span class="line">    self.inodes = inputnodes</span><br><span class="line">    self.hnodes = hiddennodes</span><br><span class="line">    self.onodes = outputnodes</span><br><span class="line">    self.lr = learningrate</span><br><span class="line">    self.activation_func = <span class="keyword">lambda</span> x: <span class="number">1</span> / (<span class="number">1</span> + np.exp(-x)) </span><br><span class="line">    self.wih = np.random.normal(<span class="number">0.0</span>, <span class="built_in">pow</span>(self.hnodes, -<span class="number">0.5</span>), (self.hnodes, self.inodes))</span><br><span class="line">    self.who = np.random.normal(<span class="number">0.0</span>, <span class="built_in">pow</span>(self.hnodes, -<span class="number">0.5</span>), (self.onodes, self.hnodes))</span><br></pre></td></tr></table></figure>
+<p>在一次计算中，通过前向传播计算隐藏层和输出层的输出，接着计算输出误差和损失，并通过反向传播更新权重，其中y * (1 - y)为sigmoid函数y(x)的导数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">train</span>(<span class="params">self, input_list, target_list</span>):</span><br><span class="line">       inputs = np.array(input_list, ndmin=<span class="number">2</span>).T </span><br><span class="line">       targets = np.array(target_list, ndmin=<span class="number">2</span>).T</span><br><span class="line">       hidden_inputs = np.dot(self.wih, inputs)</span><br><span class="line">       hidden_outputs = self.activation_func(hidden_inputs)</span><br><span class="line">       final_inputs = np.dot(self.who, hidden_outputs)</span><br><span class="line">       final_output = self.activation_func(final_inputs)</span><br><span class="line">       output_errors = targets - final_output</span><br><span class="line">       loss = np.sqrt(np.<span class="built_in">sum</span>(np.square(final_output - targets)) / <span class="built_in">len</span>(final_output))</span><br><span class="line">       hidden_errors = np.dot(self.who.T, output_errors)</span><br><span class="line">       self.who += self.lr * np.dot((output_errors * final_output * (<span class="number">1.0</span> - final_output)),</span><br><span class="line">                                    np.transpose(hidden_outputs)) </span><br><span class="line">       self.wih += self.lr * np.dot((hidden_errors * hidden_outputs * (<span class="number">1.0</span> - hidden_outputs)), np.transpose(inputs))</span><br><span class="line">       <span class="keyword">return</span> loss</span><br></pre></td></tr></table></figure>
+<p>如果使用relu函数，相应部分修改为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">output_gradient = final_output &gt; <span class="number">0</span></span><br><span class="line">hidden_gradient = hidden_outputs &gt; <span class="number">0</span></span><br><span class="line"></span><br><span class="line">self.who += self.lr * np.dot((output_errors * output_gradient),np.transpose(hidden_outputs))</span><br><span class="line">self.wih += self.lr * np.dot((hidden_errors * hidden_gradient), np.transpose(inputs))</span><br></pre></td></tr></table></figure>
+<p>一轮训练，将输入数据归一化，targets将正确数字对应位置值设为0.99，其余元素设为0.01，并计算此轮训练的平均损失函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">epoch_loss = <span class="number">0</span></span><br><span class="line">      <span class="keyword">for</span> record <span class="keyword">in</span> train_data:</span><br><span class="line">          all_values = record.split(<span class="string">&#x27;,&#x27;</span>)</span><br><span class="line">          inputs = (np.asfarray(all_values[<span class="number">1</span>:]) / <span class="number">255.0</span> * <span class="number">0.99</span>) + <span class="number">0.01</span> <span class="comment"># 归一化</span></span><br><span class="line">          targets = np.zeros(output_nodes) + <span class="number">0.01</span></span><br><span class="line">          targets[<span class="built_in">int</span>(all_values[<span class="number">0</span>])] = <span class="number">0.99</span></span><br><span class="line">          loss = mynet.train(inputs, targets)</span><br><span class="line">          epoch_loss += loss</span><br><span class="line">      avg_loss = epoch_loss / <span class="built_in">len</span>(train_data)</span><br><span class="line">      epoch_losses.append(avg_loss)</span><br></pre></td></tr></table></figure>
+<p>每轮训练后，在验证集上评估模型，借此可以调整超参数以及决定何时停止训练。我修改隐藏层神经元数和学习率，显然，隐藏层神经元数越多，拟合能力越强，收敛速度越慢，资源消耗也越大；学习率越高，收敛速度越快；如果隐藏层神经元数太多，会导致过拟合的问题，学习率太高，可能会振荡而无法收敛。训练10轮后已经达到很高的准确率，此后再训练到20轮提升很小。增加一层隐藏层，学习率需要降低一个数量级，否则直接就跳过最优解了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">correct = <span class="number">0</span></span><br><span class="line">      <span class="keyword">for</span> record <span class="keyword">in</span> validation_data:</span><br><span class="line">          all_values = record.split(<span class="string">&#x27;,&#x27;</span>)</span><br><span class="line">          inputs = (np.asfarray(all_values[<span class="number">1</span>:]) / <span class="number">255.0</span> * <span class="number">0.99</span>) + <span class="number">0.01</span></span><br><span class="line">          targets = np.zeros(output_nodes) + <span class="number">0.01</span></span><br><span class="line">          targets[<span class="built_in">int</span>(all_values[<span class="number">0</span>])] = <span class="number">0.99</span></span><br><span class="line">          predict_result_percent = mynet.query(inputs)</span><br><span class="line">          predict_result = predict_result_percent.argmax()</span><br><span class="line">          <span class="keyword">if</span> predict_result == <span class="built_in">int</span>(all_values[<span class="number">0</span>]):</span><br><span class="line">              correct += <span class="number">1</span></span><br><span class="line">      accuracy = correct / <span class="built_in">len</span>(validation_data)</span><br><span class="line">      validation_accuracies.append(accuracy)</span><br><span class="line">      <span class="built_in">print</span>(<span class="string">f&quot;Epoch <span class="subst">&#123;i+<span class="number">1</span>&#125;</span>, Loss: <span class="subst">&#123;avg_loss:<span class="number">.4</span>f&#125;</span>, Validation Accuracy: <span class="subst">&#123;accuracy:<span class="number">.4</span>f&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>测试，绘图等等这里就不赘述了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/02/14/BP%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%AF%86%E5%88%AB%E6%95%B0%E5%AD%97/" data-id="cmq3vhofr0003a0qv1cy93s9m" data-title="BP神经网络识别数字" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2025/02/16/%E4%B8%89%E7%A7%8D%E5%86%B3%E7%AD%96%E6%A0%91%E7%AE%97%E6%B3%95%E5%88%86%E7%B1%BB%E6%B1%BD%E8%BD%A6%E5%93%81%E7%89%8C/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          三种决策树算法分类汽车品牌
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2025/02/12/%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1%E4%B8%8E%E9%9D%9E%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">参数估计与非参数估计</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/others/">others</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/paper/">paper</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%9E%E9%AA%8C/">实验</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Agent/" rel="tag">Agent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/LLM/" rel="tag">LLM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Latex/" rel="tag">Latex</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c/" rel="tag">c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongo/" rel="tag">mongo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AE%9E%E9%AA%8C/" rel="tag">实验</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" rel="tag">并行计算</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/" rel="tag">数据仓库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/" rel="tag">数据挖掘</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A4%BE%E4%BC%9A%E7%A7%91%E5%AD%A6-%E5%8D%9A%E5%BC%88%E8%AE%BA/" rel="tag">社会科学&amp;博弈论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" rel="tag">编译原理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" rel="tag">语言基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" rel="tag">软件工程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Agent/" style="font-size: 10px;">Agent</a> <a href="/tags/LLM/" style="font-size: 16.67px;">LLM</a> <a href="/tags/Latex/" style="font-size: 10px;">Latex</a> <a href="/tags/c/" style="font-size: 10px;">c++</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mongo/" style="font-size: 10px;">mongo</a> <a href="/tags/nosql/" style="font-size: 13.33px;">nosql</a> <a href="/tags/python/" style="font-size: 16.67px;">python</a> <a href="/tags/web/" style="font-size: 10px;">web</a> <a href="/tags/%E5%AE%9E%E9%AA%8C/" style="font-size: 10px;">实验</a> <a href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" style="font-size: 10px;">并行计算</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93/" style="font-size: 10px;">数据仓库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/" style="font-size: 10px;">数据挖掘</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 20px;">机器学习</a> <a href="/tags/%E7%A4%BE%E4%BC%9A%E7%A7%91%E5%AD%A6-%E5%8D%9A%E5%BC%88%E8%AE%BA/" style="font-size: 10px;">社会科学&博弈论</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 10px;">算法</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" style="font-size: 16.67px;">语言基础</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" style="font-size: 10px;">软件工程</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 10px;">随笔</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/06/">June 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/04/">April 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/02/">February 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/12/">December 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">March 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">February 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/01/">January 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/03/">March 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/06/">June 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/05/">May 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/01/">January 2023</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/06/07/%E5%89%8D%E6%AE%B5%E6%97%B6%E9%97%B4%E7%9C%8B%E7%9A%84skill%E3%80%81OPD%E3%80%81%E4%BF%A1%E7%94%A8%E5%88%86%E9%85%8D%E8%AE%BA%E6%96%87/">前段时间看的skill、OPD、信用分配论文</a>
+          </li>
+        
+          <li>
+            <a href="/2026/04/29/%E5%89%8D%E6%AE%B5%E6%97%B6%E9%97%B4%E7%9C%8B%E7%9A%84Agentic%20RL%E8%AE%BA%E6%96%87/">前段时间看的Agentic RL论文</a>
+          </li>
+        
+          <li>
+            <a href="/2026/02/17/%E5%9B%BD%E7%A7%91%E5%A4%A7%E3%80%8A%E9%AB%98%E7%BA%A7%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E3%80%8B%E5%A4%8D%E4%B9%A0/">国科大《高级人工智能》复习</a>
+          </li>
+        
+          <li>
+            <a href="/2025/12/27/%E5%9B%BD%E7%A7%91%E5%A4%A7%E8%87%AA%E5%8A%A8%E8%AF%BE%E7%A8%8B%E8%AF%84%E4%BC%B0/">国科大自动课程评估</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/21/%E3%80%8A%E5%8A%A8%E6%89%8B%E5%AD%A6%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E3%80%8B%E9%83%A8%E5%88%86%E7%AC%94%E8%AE%B0/">《动手学深度学习》部分笔记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
