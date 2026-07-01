@@ -1,0 +1,371 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>主流大模型是如何训练agent能力的 | 姜将的个人博客</title><meta name="author" content="姜将"><meta name="copyright" content="姜将"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="主流大模型是如何训练agent能力的本博客只讨论了对于小参数通用agent模型训练可能会有启发的内容。原生多模态，百万上下文（与此相关的大同小异的稀疏注意力），coding agent能力相关内容没有列出。 GLM5.2参考：https:&#x2F;&#x2F;z\.ai&#x2F;blog&#x2F;glm\-5\.2 1. 长周期任务 RL：从 group-wise 优化转向 critic-based PPO这一段是最重要的： RL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="主流大模型是如何训练agent能力的">
+<meta property="og:url" content="http://jiang54864.github.io/%E7%AC%94%E8%AE%B0/%E4%B8%BB%E6%B5%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%98%AF%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83agent%E8%83%BD%E5%8A%9B%E7%9A%84/index.html">
+<meta property="og:site_name" content="姜将的个人博客">
+<meta property="og:description" content="主流大模型是如何训练agent能力的本博客只讨论了对于小参数通用agent模型训练可能会有启发的内容。原生多模态，百万上下文（与此相关的大同小异的稀疏注意力），coding agent能力相关内容没有列出。 GLM5.2参考：https:&#x2F;&#x2F;z\.ai&#x2F;blog&#x2F;glm\-5\.2 1. 长周期任务 RL：从 group-wise 优化转向 critic-based PPO这一段是最重要的： RL">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg">
+<meta property="article:published_time" content="2026-07-01T15:13:47.000Z">
+<meta property="article:modified_time" content="2026-07-01T15:43:14.487Z">
+<meta property="article:author" content="姜将">
+<meta property="article:tag" content="LLM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg"><link rel="shortcut icon" href="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg"><link rel="canonical" href="http://jiang54864.github.io/%E7%AC%94%E8%AE%B0/%E4%B8%BB%E6%B5%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%98%AF%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83agent%E8%83%BD%E5%8A%9B%E7%9A%84/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '主流大模型是如何训练agent能力的',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-07-01 23:43:14'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">37</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">23</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="姜将的个人博客"><img class="site-icon" src="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg"/><span class="site-name">姜将的个人博客</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">主流大模型是如何训练agent能力的</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-07-01T15:13:47.000Z" title="发表于 2026-07-01 23:13:47">2026-07-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-07-01T15:43:14.487Z" title="更新于 2026-07-01 23:43:14">2026-07-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="主流大模型是如何训练agent能力的"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="主流大模型是如何训练agent能力的"><a href="#主流大模型是如何训练agent能力的" class="headerlink" title="主流大模型是如何训练agent能力的"></a>主流大模型是如何训练agent能力的</h1><p>本博客只讨论了对于小参数通用agent模型训练可能会有启发的内容。原生多模态，百万上下文（与此相关的大同小异的稀疏注意力），coding agent能力相关内容没有列出。</p>
+<h1 id="GLM5-2"><a href="#GLM5-2" class="headerlink" title="GLM5.2"></a>GLM5.2</h1><p>参考：<a target="_blank" rel="noopener" href="https://z\.ai/blog/glm\-5\.2">https://z\.ai/blog/glm\-5\.2</a></p>
+<h2 id="1-长周期任务-RL：从-group-wise-优化转向-critic-based-PPO"><a href="#1-长周期任务-RL：从-group-wise-优化转向-critic-based-PPO" class="headerlink" title="1. 长周期任务 RL：从 group-wise 优化转向 critic-based PPO"></a><strong>1. 长周期任务 RL：从 group-wise 优化转向 critic-based PPO</strong></h2><p>这一段是最重要的：</p>
+<p><strong>RL for Long-Horizon Tasks</strong>. For GLM-5.2, long-horizon tasks produce substantially longer execution traces, and once a super-long trajectory is split by compaction into multiple sub-traces, different rollouts under the same prompt yield different numbers of trainable traces with highly variable lengths. We therefore move from group-wise optimization to a critic-based PPO formulation that learns from individual rollouts, relying on a critic to estimate token-level advantages rather than group-relative comparisons. This single-rollout formulation fits compaction naturally, as it places no constraint on how many traces a prompt produces or on their relative lengths: we bring compaction into training by including all compacted sub-traces as trainable trajectories, and apply a token-level loss to address their length imbalance.</p>
+<p>长周期任务会产生很长的执行轨迹。经过 compaction 后，一条超长轨迹可能被切成多个子轨迹，不同 rollout 产生的可训练 trace 数量和长度也会不同。传统 group-wise optimization 对这种情况不友好。ppo这种单轨迹采样方案能够天然适配压缩处理，原因在于该方案不会对单个提示词生成的轨迹数量以及各轨迹之间的相对长度做出任何限制：我们将所有经过压缩处理的子轨迹作为可训练轨迹纳入训练流程，并采用token级损失函数来解决轨迹长度不均衡的问题。</p>
+<p>GLM-5.2 改用 critic-based PPO：</p>
+<ul>
+<li><p>以单条 rollout 为学习单位；</p>
+</li>
+<li><p>通过 critic 估计 token-level advantages；</p>
+</li>
+<li><p>不要求同一 prompt 下的不同 trace 数量或长度一致；</p>
+</li>
+<li><p>将 compacted sub-traces 全部纳入可训练轨迹；</p>
+</li>
+<li><p>使用 token-level loss 处理长度不均衡。</p>
+</li>
+</ul>
+<p>这是一项面向真实 agent 长轨迹的 RL 训练改造。</p>
+<p>为什么数量、长度不同的trace对grpo不友好？比较的粒度不统一。</p>
+<p>slime中如果一个超长轨迹压缩后形成数量不等的子轨迹，会在所有n_samples_per_prompt * rollout_batch_size整批中比较，slime中的相关代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> **_post_process_rewards**(*self*, *samples*: <span class="built_in">list</span>[Sample] | <span class="built_in">list</span>[<span class="built_in">list</span>[Sample]]):</span><br><span class="line">        *<span class="keyword">if</span>* *self*.custom_reward_post_process_func <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            *<span class="keyword">return</span>* *self*.custom_reward_post_process_func(*self*.args, *samples*)</span><br><span class="line"></span><br><span class="line">        raw_rewards = [sample.get_reward_value(*self*.args) *<span class="keyword">for</span>* sample *<span class="keyword">in</span>* *samples*]</span><br><span class="line">        *<span class="keyword">if</span>* (</span><br><span class="line">            *self*.args.advantage_estimator <span class="keyword">in</span> [<span class="string">&quot;grpo&quot;</span>, <span class="string">&quot;gspo&quot;</span>, <span class="string">&quot;cispo&quot;</span>, <span class="string">&quot;reinforce_plus_plus_baseline&quot;</span>]</span><br><span class="line">            <span class="keyword">and</span> *self*.args.rewards_normalization</span><br><span class="line">        ):</span><br><span class="line">            *<span class="comment"># group norm*</span></span><br><span class="line">            rewards = torch.tensor(raw_rewards, *dtype*=torch.<span class="built_in">float</span>)</span><br><span class="line">            *<span class="keyword">if</span>* rewards.shape[-<span class="number">1</span>] == *self*.args.n_samples_per_prompt * *self*.args.rollout_batch_size:</span><br><span class="line">                rewards = rewards.reshape(-<span class="number">1</span>, *self*.args.n_samples_per_prompt)</span><br><span class="line">            *<span class="keyword">else</span>*:</span><br><span class="line">                *<span class="comment"># when samples count are not equal in each group*</span></span><br><span class="line">                rewards = rewards.view(-<span class="number">1</span>, rewards.shape[-<span class="number">1</span>])</span><br><span class="line">            mean = rewards.mean(*dim*=-<span class="number">1</span>, *keepdim*=<span class="literal">True</span>)</span><br><span class="line">            rewards = rewards - mean</span><br><span class="line"></span><br><span class="line">            *<span class="keyword">if</span>* *self*.args.advantage_estimator <span class="keyword">in</span> [<span class="string">&quot;grpo&quot;</span>, <span class="string">&quot;gspo&quot;</span>, <span class="string">&quot;cispo&quot;</span>] <span class="keyword">and</span> *self*.args.grpo_std_normalization:</span><br><span class="line">                std = rewards.std(*dim*=-<span class="number">1</span>, *keepdim*=<span class="literal">True</span>)</span><br><span class="line">                rewards = rewards / (std + <span class="number">1e-6</span>)</span><br><span class="line"></span><br><span class="line">            *<span class="keyword">return</span>* raw_rewards, rewards.flatten().tolist()</span><br><span class="line"></span><br><span class="line">        *<span class="keyword">return</span>* raw_rewards, raw_rewards</span><br></pre></td></tr></table></figure>
+<h2 id="2-Anti-hack：防止-coding-RL-奖励黑客"><a href="#2-Anti-hack：防止-coding-RL-奖励黑客" class="headerlink" title="2. Anti-hack：防止 coding RL 奖励黑客"></a><strong>2. Anti-hack：防止 coding RL 奖励黑客</strong></h2><p>这一点在qwen3.7的博客中也有提到</p>
+<p>编程任务的 reward 往往是可验证的 pass/fail 信号，因此模型可能学会“刷奖励”而不是真正解决问题。文中列出的作弊方式包括：</p>
+<ul>
+<li><p>读取隐藏测试或评测文件；</p>
+</li>
+<li><p>从 reference、上游 commit 或 GitHub 直接复制答案；</p>
+</li>
+<li><p>使用 curl 等方式拉取目标源代码或解法；</p>
+</li>
+<li><p>串联读取 secret cases 后直接构造输出。</p>
+</li>
+</ul>
+<p>GLM-5.2 引入 anti-hack module，用于 RL 训练和评测：</p>
+<ul>
+<li><p>第一阶段用规则过滤器高召回地标记可疑行为；</p>
+</li>
+<li><p>第二阶段用 LLM judge 判断意图，提高精确率；</p>
+</li>
+<li><p>在线监控每一步 tool call；</p>
+</li>
+<li><p>发现 hack 后阻断该调用，并返回 dummy information；</p>
+</li>
+<li><p>不直接终止整条 rollout，而是允许模型继续执行。</p>
+</li>
+</ul>
+<p>这种设计避免了作弊轨迹污染训练信号，同时减少因直接中断 rollout 带来的训练不稳定和模型崩溃风险。</p>
+<h2 id="GLM5的后训练流程（5-1、5-2的博客并没有介绍训练流程）"><a href="#GLM5的后训练流程（5-1、5-2的博客并没有介绍训练流程）" class="headerlink" title="GLM5的后训练流程（5.1、5.2的博客并没有介绍训练流程）"></a>GLM5的后训练流程（5.1、5.2的博客并没有介绍训练流程）</h2><p>参考：<a target="_blank" rel="noopener" href="https://arxiv\.org/abs/2602\.15763">https://arxiv\.org/abs/2602\.15763</a></p>
+<p><img src="1782920473773.png" alt="1782920473773"></p>
+<p>Overall SFT → Reasoning RL（第一段） → Agentic RL（第二段） → General RL（第三段） → On-Policy Cross-Stage Distillation（OPD，独立最终阶段）</p>
+<p>多轮 RL 训练容易出现 “学会写代码但聊天变笨”，最后一步蒸馏兜底：</p>
+<ol>
+<li><p>将 SFT、推理 RL、智能体 RL 阶段的旧模型全部作为教师模型；</p>
+</li>
+<li><p>训练时混合各阶段任务数据，让 GLM-5 主模型复刻之前所有能力；</p>
+</li>
+</ol>
+<h1 id="Deepseek-V4"><a href="#Deepseek-V4" class="headerlink" title="Deepseek V4"></a>Deepseek V4</h1><p>参考：<a target="_blank" rel="noopener" href="https://arxiv\.org/abs/2606\.19348">https://arxiv\.org/abs/2606\.19348</a> </p>
+<h2 id="1-后训练流程：各领域独立微调-强化学习（GRPO），随后OPD整合能力"><a href="#1-后训练流程：各领域独立微调-强化学习（GRPO），随后OPD整合能力" class="headerlink" title="1.后训练流程：各领域独立微调+强化学习（GRPO），随后OPD整合能力"></a>1.后训练流程：各领域独立微调+强化学习（GRPO），随后OPD整合能力</h2><p>$\mathcal{L}<em>{\mathrm{OPD}}(\theta)=\sum</em>{i=1}^{N} w<em>i \cdot D</em>{\mathrm{KL}}!\left(\pi<em>\theta \,|\, \pi</em>{E_i}\right).$</p>
+<p>wi代表每位专家的权重，通常由专家的相对重要性决定。计算反KL损失DKL（ πθ∥πEi）需要从学生πθ中抽样训练轨迹以保持策略学习。底层逻辑确保统一策略πθ选择性地从当前任务上下文相关的专业专家处学习（例如，数学推理任务与数学专家对齐，编程任务与编程专家对齐）。通过这种机制，来自物理上不同的专家权重知识通过logits级对齐整合到统一的参数空间中，实际上规避了传统权重合并或混合强化学习技术中常见的性能下降。在此阶段，采用十多种涵盖不同领域的教师模型（数学、代码编程、Agent 工具调用、通用指令对齐...），以提炼出单一学生模型。</p>
+<h2 id="2-优化器"><a href="#2-优化器" class="headerlink" title="2.优化器"></a>2.优化器</h2><p>绝大部分 2D 权重矩阵（MoE 专家、注意力层、CSA/HCA、mHC 主体矩阵等）用 Muon；仅少量特殊模块固定 AdamW：词嵌入层、预测头、所有 RMSNorm 权重、mHC 静态偏置与门控参数。</p>
+<p>即使不考虑训练速度，Muon（或者 Muon + AdamW 混合优化器）训练出的模型在泛化能力、长尾知识记忆和曲率稳定性上的上限，依然要强于纯 AdamW。AdamW 所谓的“更细更新粒度”在大尺度矩阵优化上，很多时候反而成了导致局部过拟合和长尾学习停滞的“副作用”。</p>
+<p>但是需要注意他们做了一些定制化的改造：通用改造：两段 Newton-Schulz 迭代、混合 ZeRO 分布式兼容、BF16 梯度通信、取消 QK 裁剪；后训练独有 Muon 配套改动：FP4 量化感知训练联动、蒸馏阶段权重按需加载、百万上下文并行梯度重计算。</p>
+<h2 id="3-生产级的沙箱环境"><a href="#3-生产级的沙箱环境" class="headerlink" title="3.生产级的沙箱环境"></a>3.生产级的沙箱环境</h2><p>分布式生产级真实操作系统沙盒集群，数十万并发，带完整容错、隔离、集群调度，既用于Agentic训练也用于评测。</p>
+<p>关于模拟环境，qwen最近的新工作也可以参考：<a target="_blank" rel="noopener" href="https://mp\.weixin\.qq\.com/s/NV9WGpGsfFz35jww5agM9g">https://mp\.weixin\.qq\.com/s/NV9WGpGsfFz35jww5agM9g</a></p>
+<h2 id="4-生成式奖励模型"><a href="#4-生成式奖励模型" class="headerlink" title="4.生成式奖励模型"></a>4.生成式奖励模型</h2><p>易于验证的任务可借助简单的基于规则的验证器或测试用例实现高效优化。难以验证的任务传统上依赖基于人类反馈的强化学习（RLHF），该方式需要大量人工标注来训练标量奖励模型。dpsk v4摒弃了这类传统基于标量的奖励模型。与之不同，针对难以核验的任务，我们整理构建了评分准则引导的强化学习数据集，并采用生成式奖励模型（GRM）对策略轨迹进行评估。关键在于，我们直接对生成式奖励模型（GRM）本身开展强化学习优化。在该框架下，策略网络原生充当生成式奖励模型，能够在优化模型常规生成能力的同时，联合优化模型的评估（判别）能力。通过整合上述两类功能，模型的内部推理能力会自然融入评估流程，进而得到稳定性极强的打分结果。除此之外，该方法仅需少量多样化人工标注数据就能取得更优效果，原因是模型可依托自身逻辑在各类复杂任务上完成泛化适配。</p>
+<h2 id="5-工具调用"><a href="#5-工具调用" class="headerlink" title="5.工具调用"></a>5.工具调用</h2><p><img src="image1.png" alt="img"></p>
+<p>基于 XML 格式实现工具调用，实验结果表明，XML 格式能够有效规避转义异常问题、降低工具调用出错概率，为模型与工具之间的交互提供稳定性更强的交互接口。（开始标签、结束标签清楚，而json的括号嵌套更容易出错）</p>
+<p>工具调用场景留存全部轮次的完整推理历史，跨用户消息分段也不例外。这使得该模型在长时序智能体任务中能够维持连贯、递进式的思维链路。通用对话：当用户发送新消息时，会舍弃之前轮次的推理内容，以此精简上下文，适用于持续保留推理轨迹收益有限的场景。</p>
+<h2 id="6-主模型同样包揽辅助任务"><a href="#6-主模型同样包揽辅助任务" class="headerlink" title="6.主模型同样包揽辅助任务"></a>6.主模型同样包揽辅助任务</h2><p><img src="image.png" alt="img"></p>
+<p>由于技术报告中只有一小段，线上服务的代码也未开源，工作流程包含推测：整体串行，部分并行（生成搜索关键词、判断信息权威性等级、识别问题所属领域等）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">task = *messages*[*index*].get(<span class="string">&quot;task&quot;</span>)</span><br><span class="line">    *<span class="keyword">if</span>* task <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">        *<span class="comment"># Task special token for internal classification tasks*</span></span><br><span class="line">        *<span class="keyword">assert</span>* task <span class="keyword">in</span> VALID_TASKS, <span class="string">f&quot;Invalid task: &#x27;<span class="subst">&#123;task&#125;</span>&#x27;. Valid tasks are: <span class="subst">&#123;<span class="built_in">list</span>(VALID_TASKS)&#125;</span>&quot;</span></span><br><span class="line">        task_sp_token = DS_TASK_SP_TOKENS[task]</span><br><span class="line"></span><br><span class="line">        *<span class="keyword">if</span>* task != <span class="string">&quot;action&quot;</span>:</span><br><span class="line">            *<span class="comment"># Non-action tasks: append task sp token directly after the message*</span></span><br><span class="line">            prompt += task_sp_token</span><br><span class="line">        *<span class="keyword">else</span>*:</span><br><span class="line">            *<span class="comment"># Action task: append Assistant + thinking token + action sp token*</span></span><br><span class="line">            prompt += ASSISTANT_SP_TOKEN</span><br><span class="line">            prompt += thinking_end_token *<span class="keyword">if</span>* *thinking_mode* != <span class="string">&quot;thinking&quot;</span> *<span class="keyword">else</span>* thinking_start_token</span><br><span class="line">            prompt += task_sp_token</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">[</span></span><br><span class="line">  <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;role&quot;</span><span class="punctuation">:</span> <span class="string">&quot;system&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;content&quot;</span><span class="punctuation">:</span> <span class="string">&quot;该助手为DeepSeek-V3，由深度求索公司创造。\n今天是2025年10月17日，星期五。&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;role&quot;</span><span class="punctuation">:</span> <span class="string">&quot;latest_reminder&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;content&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2024-11-15,上海市,App,中文&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;role&quot;</span><span class="punctuation">:</span> <span class="string">&quot;user&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;content&quot;</span><span class="punctuation">:</span> <span class="string">&quot;热海大滚锅是世界著名温泉吗&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;role&quot;</span><span class="punctuation">:</span> <span class="string">&quot;assistant&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;content&quot;</span><span class="punctuation">:</span> <span class="string">&quot;。。。&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;mask&quot;</span><span class="punctuation">:</span> <span class="number">1</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;role&quot;</span><span class="punctuation">:</span> <span class="string">&quot;user&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;content&quot;</span><span class="punctuation">:</span> <span class="string">&quot;世界著名温泉有哪些&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;task&quot;</span><span class="punctuation">:</span> <span class="string">&quot;action&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;role&quot;</span><span class="punctuation">:</span> <span class="string">&quot;assistant&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;content&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Search&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
+<p>推测：用户开启了智能搜索功能，会插入”task”: “action”，先判断要不要搜索，其它辅助任务适当并行，主任务生成回答后，生成标题。</p>
+<p>技术报告中没有提怎么训练，推测是在agent相关的专家模型中进行训练的（微调、rl），或者单独训一个专家，甚至在sft阶段就已经加入相关数据。</p>
+<p>最大的好处就是可以复用kv cache。</p>
+<h1 id="Qwen3-7"><a href="#Qwen3-7" class="headerlink" title="Qwen3.7"></a>Qwen3.7</h1><p>参考：<a target="_blank" rel="noopener" href="https://qwen\.ai/blog?id=qwen3\.7">https://qwen\.ai/blog?id=qwen3\.7</a></p>
+<p>技术报告待发布</p>
+<h2 id="智能体扩展"><a href="#智能体扩展" class="headerlink" title="智能体扩展"></a>智能体扩展</h2><p>在 Qwen3.5 中引入的环境扩展方法基础上，Qwen3.7 进一步大幅扩展了智能体训练环境的质量与多样性。正如语言模型从多样化的预训练文本中获得泛化能力，我们发现智能体能力同样可以从多样化的训练环境中实现泛化。</p>
+<p>如下图所示，这种环境扩展带来了清晰且稳定的性能提升轨迹，Qwen3.7-Max 在综合排名中位列前三，接近 Claude-4.6-Opus-Max 的水平。值得注意的是，我们评测中所有基准测试所涉及的环境均为训练中从未出现过的全新领域外环境。</p>
+<p>我们还观察到扩展行为中一个显著的可预测性：任意基准子集上的性能增益高度一致，可以可靠地预测其余基准或整体平均值的相对增益，表明环境扩展驱动的是真正的能力泛化，而非针对特定基准的提升。关于扩展动态和方法论的进一步分析将在即将发布的技术报告中详细介绍。</p>
+<p>qwen3.5中的基础设施：<a target="_blank" rel="noopener" href="https://qwen\.ai/blog?id=qwen3\.5">https://qwen\.ai/blog?id=qwen3\.5</a></p>
+<p>在视觉与语言组件上解耦并行策略，利用稀疏激活实现跨模块计算重叠，原生 FP8 流水线对激活、MoE 路由与 GEMM 运算采用低精度，并通过运行时监控在敏感层保持 BF16。</p>
+<p>可扩展的异步强化学习框架，全面覆盖文本、多模态及多轮交互场景。通过训推分离架构的解耦式设计，提升硬件利用率，实现动态负载均衡和细粒度的故障恢复。配合 FP8 训推、Rollout 路由回放、投机采样以及多轮 Rollout 锁定等技术，进一步优化了系统吞吐，提高了训推一致性。在严格控制样本陈旧性的基础上有效缓解了数据长尾问题，提高了训练曲线的稳定性和性能上限。此外，框架面向原生智能体工作流设计，能够实现稳定、无缝的多轮环境交互，消除了框架层的调度中断。这种解耦设计使得系统能够扩展百万级规模的 Agent 脚手架与环境，从而显著增强模型的泛化能力。</p>
+<p><img src="image 3.png" alt="img"></p>
+<h2 id="跨框架泛化能力"><a href="#跨框架泛化能力" class="headerlink" title="跨框架泛化能力"></a>跨框架泛化能力</h2><p>Rollout 环境基础设施将每个训练实例解耦为三个正交组件——任务（Task）、运行框架（Harness）与验证器（Verifier），这些组件可自由重组。兼容多种运行框架及其迭代版本，并将环境立足于真实场景而非合成替代品。这种解耦设计实现了组合式扩展：同一任务能以极低的边际成本，与不同类型、不同版本的框架及验证器相匹配。更关键的是，它赋能了跨框架与跨验证器的强化学习（RL）训练——使模型在多变的框架配置下处理同源任务，从而迫使其学习具备泛化能力的解题策略，而非依赖特定框架的捷径。</p>
+<p>此外还提到了用于RL训练中的反奖励作弊</p>
+<h2 id="qwen3的训练流程（已经是一年前的了，但后续没有技术报告或博客说明训练流程）"><a href="#qwen3的训练流程（已经是一年前的了，但后续没有技术报告或博客说明训练流程）" class="headerlink" title="qwen3的训练流程（已经是一年前的了，但后续没有技术报告或博客说明训练流程）"></a>qwen3的训练流程（已经是一年前的了，但后续没有技术报告或博客说明训练流程）</h2><p><img src="4ac2c445df5aa8084aa10ac4ed1ea875.png" alt="img"></p>
+<h3 id="路线-1：旗舰大模型——4-步精细微调"><a href="#路线-1：旗舰大模型——4-步精细微调" class="headerlink" title="路线 1：旗舰大模型——4 步精细微调"></a>路线 1：旗舰大模型——4 步精细微调</h3><ol>
+<li><p>阶段 1：长思维冷启动 收集海量奥数、代码、逻辑难题，强制 AI 学习完整分步推理，先打好 “会思考” 底子。</p>
+</li>
+<li><p>阶段 2：推理强化学习（RL） 只用难题训练，用打分机制让 AI 不断优化解题思路</p>
+</li>
+<li><p>阶段 3：双模式融合 同时喂 “深度思考” 和 “快速回答” 两类数据，让同一个模型学会两种工作方式，支持指令切换模式。</p>
+</li>
+<li><p>阶段 4：通用全场景强化学习 覆盖写作、工具调用、翻译、长文档、人机对话 20 多种场景，修复幻觉、规范格式、提升对话自然度。</p>
+</li>
+</ol>
+<h3 id="路线-2：轻量小模型（0-6B-30B-MoE）——-强到弱蒸馏"><a href="#路线-2：轻量小模型（0-6B-30B-MoE）——-强到弱蒸馏" class="headerlink" title="路线 2：轻量小模型（0.6B~30B MoE）—— 强到弱蒸馏"></a>路线 2：轻量小模型（0.6B~30B MoE）—— 强到弱蒸馏</h3><p>不用重复走上面 4 步完整训练，直接用 超大号 “老师模型” 带小模型，分两步蒸馏：</p>
+<ol>
+<li><p>离线蒸馏：拿老师思考 / 不思考两种回答喂给小模型打底；</p>
+</li>
+<li><p>在线蒸馏：小模型自己做题，再对齐大模型的思路。 （最早在技术报告中提到opd的）</p>
+</li>
+</ol>
+<h1 id="Kimi-K2-5（2-6、2-7几乎没有技术细节）"><a href="#Kimi-K2-5（2-6、2-7几乎没有技术细节）" class="headerlink" title="Kimi K2.5（2.6、2.7几乎没有技术细节）"></a>Kimi K2.5（2.6、2.7几乎没有技术细节）</h1><p>参考：<a target="_blank" rel="noopener" href="https://arxiv\.org/abs/2602\.02276">https://arxiv\.org/abs/2602\.02276</a></p>
+<p>后训练：SFT+RL，主要侧重多模态数据的训练，然后Agent Swarm 并行智能体 PARL 强化学习。RL用的是PPO变体。</p>
+<h3 id="多任务专属奖励函数"><a href="#多任务专属奖励函数" class="headerlink" title="多任务专属奖励函数"></a>多任务专属奖励函数</h3><ul>
+<li><p>文字推理：规则化可验证答案奖励</p>
+</li>
+<li><p>图像任务：IoU 分割、高斯距离计数、编辑距离 OCR 奖励</p>
+</li>
+<li><p>通用对话：生成奖励模型 GRM，精细评估有用性、格式、逻辑完整度</p>
+</li>
+</ul>
+<h3 id="专项训练：Agent-Swarm-并行智能体-PARL-强化学习"><a href="#专项训练：Agent-Swarm-并行智能体-PARL-强化学习" class="headerlink" title="专项训练：Agent Swarm 并行智能体 PARL 强化学习"></a>专项训练：Agent Swarm 并行智能体 PARL 强化学习</h3><p>前面是基础图文 + 通用工具能力，这一步专门训练 AI “组队并行干活”，是 K2.5 独有流程</p>
+<h3 id="模型架构拆分训练"><a href="#模型架构拆分训练" class="headerlink" title="模型架构拆分训练"></a>模型架构拆分训练</h3><ul>
+<li><p><strong>协调器 Orchestrator</strong>：唯一可训练模块，负责拆任务、创建子 AI、分配工作、汇总结果</p>
+</li>
+<li><p><strong>所有子智能体 Sub-agent</strong>：全程冻结不更新，避免多智能体联合训练不稳定、责任混淆问题</p>
+</li>
+</ul>
+<h3 id="三元复合奖励函数（平衡并行、完成度、最终质量）"><a href="#三元复合奖励函数（平衡并行、完成度、最终质量）" class="headerlink" title="三元复合奖励函数（平衡并行、完成度、最终质量）"></a>三元复合奖励函数（平衡并行、完成度、最终质量）</h3><p>rPARL=λ1⋅rparallel+λ2⋅rfinish+rperf</p>
+<ol>
+<li><p>rparallel：鼓励创建子 AI，防止模型只会串行单干（串行塌陷）</p>
+</li>
+<li><p>rfinish：惩罚乱建无效子 AI，要求子任务必须有实质产出（虚假并行）</p>
+</li>
+<li><p>rperf：最终任务正确率、完整度主奖励</p>
+</li>
+</ol>
+<p>训练后期 λ1、λ2 逐步衰减，让模型优先追求结果质量</p>
+<h3 id="训练约束：关键步数（Critical-Steps）"><a href="#训练约束：关键步数（Critical-Steps）" class="headerlink" title="训练约束：关键步数（Critical Steps）"></a>训练约束：关键步数（Critical Steps）</h3><p>不统计总执行步数，只算并行分支最长耗时那条路径，倒逼模型合理拆分任务，真正缩短耗时，而不是无脑堆子 AI</p>
+<h1 id="Long-Cat2-0"><a href="#Long-Cat2-0" class="headerlink" title="Long Cat2.0"></a>Long Cat2.0</h1><p>参考：<a target="_blank" rel="noopener" href="https://longcat\.chat/blog/longcat\-2\.0/">https://longcat\.chat/blog/longcat\-2\.0/</a></p>
+<p>依然是熟悉的多教师在线蒸馏，专家训练应该也是sft+rl。</p>
+<p><img src="image 2.png" alt="img"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://jiang54864.github.io">姜将</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://jiang54864.github.io/%E7%AC%94%E8%AE%B0/%E4%B8%BB%E6%B5%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%98%AF%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83agent%E8%83%BD%E5%8A%9B%E7%9A%84/">http://jiang54864.github.io/%E7%AC%94%E8%AE%B0/%E4%B8%BB%E6%B5%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%98%AF%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83agent%E8%83%BD%E5%8A%9B%E7%9A%84/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://jiang54864.github.io" target="_blank">姜将的个人博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/LLM/">LLM</a></div><div class="post_share"><div class="social-share" data-image="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/uncategorized/%E5%89%8D%E6%AE%B5%E6%97%B6%E9%97%B4%E7%9C%8B%E7%9A%84skill%E3%80%81OPD%E3%80%81%E4%BF%A1%E7%94%A8%E5%88%86%E9%85%8D%E8%AE%BA%E6%96%87/" title="前段时间看的skill、OPD、信用分配论文"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">前段时间看的skill、OPD、信用分配论文</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/%E5%AE%9E%E9%AA%8C/%E5%80%9F%E5%8A%A9ollama%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8Cqwen2-5/" title="借助ollama本地运行各种开源大模型"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-12</div><div class="title">借助ollama本地运行各种开源大模型</div></div></a></div><div><a href="/paper/%E5%89%8D%E6%AE%B5%E6%97%B6%E9%97%B4%E7%9C%8B%E7%9A%84Agentic%20RL%E8%AE%BA%E6%96%87/" title="前段时间看的Agentic RL论文"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-29</div><div class="title">前段时间看的Agentic RL论文</div></div></a></div><div><a href="/%E7%AC%94%E8%AE%B0/%E7%90%86%E8%A7%A3transformer%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84/" title="理解transformer网络结构"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-02</div><div class="title">理解transformer网络结构</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">姜将</div><div class="author-info__description">记录学习中的知识与收获</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">37</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">23</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/JIANG54864"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=2792663690&amp;website=www.oicqzone.com" target="_blank" title="点击添加我的QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="https://www.helloimg.com/i/2025/01/25/6794f016e9b99.png" target="_blank" title="点击添加我的微信"><i class="fab fa-weixin"></i></a><a class="social-icon" href="mailto:jiangsw2022@163.com" target="_blank" title="给我发邮件"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客网站！若有需要，可通过上方联系方式找到我。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BB%E6%B5%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%98%AF%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83agent%E8%83%BD%E5%8A%9B%E7%9A%84"><span class="toc-number">1.</span> <span class="toc-text">主流大模型是如何训练agent能力的</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#GLM5-2"><span class="toc-number">2.</span> <span class="toc-text">GLM5.2</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%95%BF%E5%91%A8%E6%9C%9F%E4%BB%BB%E5%8A%A1-RL%EF%BC%9A%E4%BB%8E-group-wise-%E4%BC%98%E5%8C%96%E8%BD%AC%E5%90%91-critic-based-PPO"><span class="toc-number">2.1.</span> <span class="toc-text">1. 长周期任务 RL：从 group-wise 优化转向 critic-based PPO</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Anti-hack%EF%BC%9A%E9%98%B2%E6%AD%A2-coding-RL-%E5%A5%96%E5%8A%B1%E9%BB%91%E5%AE%A2"><span class="toc-number">2.2.</span> <span class="toc-text">2. Anti-hack：防止 coding RL 奖励黑客</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GLM5%E7%9A%84%E5%90%8E%E8%AE%AD%E7%BB%83%E6%B5%81%E7%A8%8B%EF%BC%885-1%E3%80%815-2%E7%9A%84%E5%8D%9A%E5%AE%A2%E5%B9%B6%E6%B2%A1%E6%9C%89%E4%BB%8B%E7%BB%8D%E8%AE%AD%E7%BB%83%E6%B5%81%E7%A8%8B%EF%BC%89"><span class="toc-number">2.3.</span> <span class="toc-text">GLM5的后训练流程（5.1、5.2的博客并没有介绍训练流程）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Deepseek-V4"><span class="toc-number">3.</span> <span class="toc-text">Deepseek V4</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%90%8E%E8%AE%AD%E7%BB%83%E6%B5%81%E7%A8%8B%EF%BC%9A%E5%90%84%E9%A2%86%E5%9F%9F%E7%8B%AC%E7%AB%8B%E5%BE%AE%E8%B0%83-%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88GRPO%EF%BC%89%EF%BC%8C%E9%9A%8F%E5%90%8EOPD%E6%95%B4%E5%90%88%E8%83%BD%E5%8A%9B"><span class="toc-number">3.1.</span> <span class="toc-text">1.后训练流程：各领域独立微调+强化学习（GRPO），随后OPD整合能力</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BC%98%E5%8C%96%E5%99%A8"><span class="toc-number">3.2.</span> <span class="toc-text">2.优化器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%94%9F%E4%BA%A7%E7%BA%A7%E7%9A%84%E6%B2%99%E7%AE%B1%E7%8E%AF%E5%A2%83"><span class="toc-number">3.3.</span> <span class="toc-text">3.生产级的沙箱环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E7%94%9F%E6%88%90%E5%BC%8F%E5%A5%96%E5%8A%B1%E6%A8%A1%E5%9E%8B"><span class="toc-number">3.4.</span> <span class="toc-text">4.生成式奖励模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8"><span class="toc-number">3.5.</span> <span class="toc-text">5.工具调用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E4%B8%BB%E6%A8%A1%E5%9E%8B%E5%90%8C%E6%A0%B7%E5%8C%85%E6%8F%BD%E8%BE%85%E5%8A%A9%E4%BB%BB%E5%8A%A1"><span class="toc-number">3.6.</span> <span class="toc-text">6.主模型同样包揽辅助任务</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Qwen3-7"><span class="toc-number">4.</span> <span class="toc-text">Qwen3.7</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%99%BA%E8%83%BD%E4%BD%93%E6%89%A9%E5%B1%95"><span class="toc-number">4.1.</span> <span class="toc-text">智能体扩展</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%A8%E6%A1%86%E6%9E%B6%E6%B3%9B%E5%8C%96%E8%83%BD%E5%8A%9B"><span class="toc-number">4.2.</span> <span class="toc-text">跨框架泛化能力</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#qwen3%E7%9A%84%E8%AE%AD%E7%BB%83%E6%B5%81%E7%A8%8B%EF%BC%88%E5%B7%B2%E7%BB%8F%E6%98%AF%E4%B8%80%E5%B9%B4%E5%89%8D%E7%9A%84%E4%BA%86%EF%BC%8C%E4%BD%86%E5%90%8E%E7%BB%AD%E6%B2%A1%E6%9C%89%E6%8A%80%E6%9C%AF%E6%8A%A5%E5%91%8A%E6%88%96%E5%8D%9A%E5%AE%A2%E8%AF%B4%E6%98%8E%E8%AE%AD%E7%BB%83%E6%B5%81%E7%A8%8B%EF%BC%89"><span class="toc-number">4.3.</span> <span class="toc-text">qwen3的训练流程（已经是一年前的了，但后续没有技术报告或博客说明训练流程）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E7%BA%BF-1%EF%BC%9A%E6%97%97%E8%88%B0%E5%A4%A7%E6%A8%A1%E5%9E%8B%E2%80%94%E2%80%944-%E6%AD%A5%E7%B2%BE%E7%BB%86%E5%BE%AE%E8%B0%83"><span class="toc-number">4.3.1.</span> <span class="toc-text">路线 1：旗舰大模型——4 步精细微调</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%AF%E7%BA%BF-2%EF%BC%9A%E8%BD%BB%E9%87%8F%E5%B0%8F%E6%A8%A1%E5%9E%8B%EF%BC%880-6B-30B-MoE%EF%BC%89%E2%80%94%E2%80%94-%E5%BC%BA%E5%88%B0%E5%BC%B1%E8%92%B8%E9%A6%8F"><span class="toc-number">4.3.2.</span> <span class="toc-text">路线 2：轻量小模型（0.6B~30B MoE）—— 强到弱蒸馏</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kimi-K2-5%EF%BC%882-6%E3%80%812-7%E5%87%A0%E4%B9%8E%E6%B2%A1%E6%9C%89%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">Kimi K2.5（2.6、2.7几乎没有技术细节）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E4%BB%BB%E5%8A%A1%E4%B8%93%E5%B1%9E%E5%A5%96%E5%8A%B1%E5%87%BD%E6%95%B0"><span class="toc-number">5.0.1.</span> <span class="toc-text">多任务专属奖励函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%93%E9%A1%B9%E8%AE%AD%E7%BB%83%EF%BC%9AAgent-Swarm-%E5%B9%B6%E8%A1%8C%E6%99%BA%E8%83%BD%E4%BD%93-PARL-%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="toc-number">5.0.2.</span> <span class="toc-text">专项训练：Agent Swarm 并行智能体 PARL 强化学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E6%9E%B6%E6%9E%84%E6%8B%86%E5%88%86%E8%AE%AD%E7%BB%83"><span class="toc-number">5.0.3.</span> <span class="toc-text">模型架构拆分训练</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E5%85%83%E5%A4%8D%E5%90%88%E5%A5%96%E5%8A%B1%E5%87%BD%E6%95%B0%EF%BC%88%E5%B9%B3%E8%A1%A1%E5%B9%B6%E8%A1%8C%E3%80%81%E5%AE%8C%E6%88%90%E5%BA%A6%E3%80%81%E6%9C%80%E7%BB%88%E8%B4%A8%E9%87%8F%EF%BC%89"><span class="toc-number">5.0.4.</span> <span class="toc-text">三元复合奖励函数（平衡并行、完成度、最终质量）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83%E7%BA%A6%E6%9D%9F%EF%BC%9A%E5%85%B3%E9%94%AE%E6%AD%A5%E6%95%B0%EF%BC%88Critical-Steps%EF%BC%89"><span class="toc-number">5.0.5.</span> <span class="toc-text">训练约束：关键步数（Critical Steps）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Long-Cat2-0"><span class="toc-number">6.</span> <span class="toc-text">Long Cat2.0</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/%E7%AC%94%E8%AE%B0/%E4%B8%BB%E6%B5%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%98%AF%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83agent%E8%83%BD%E5%8A%9B%E7%9A%84/" title="主流大模型是如何训练agent能力的">主流大模型是如何训练agent能力的</a><time datetime="2026-07-01T15:13:47.000Z" title="发表于 2026-07-01 23:13:47">2026-07-01</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/uncategorized/%E5%89%8D%E6%AE%B5%E6%97%B6%E9%97%B4%E7%9C%8B%E7%9A%84skill%E3%80%81OPD%E3%80%81%E4%BF%A1%E7%94%A8%E5%88%86%E9%85%8D%E8%AE%BA%E6%96%87/" title="前段时间看的skill、OPD、信用分配论文">前段时间看的skill、OPD、信用分配论文</a><time datetime="2026-06-07T14:19:43.000Z" title="发表于 2026-06-07 22:19:43">2026-06-07</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/paper/%E5%89%8D%E6%AE%B5%E6%97%B6%E9%97%B4%E7%9C%8B%E7%9A%84Agentic%20RL%E8%AE%BA%E6%96%87/" title="前段时间看的Agentic RL论文">前段时间看的Agentic RL论文</a><time datetime="2026-04-29T13:53:59.000Z" title="发表于 2026-04-29 21:53:59">2026-04-29</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/%E7%AC%94%E8%AE%B0/%E5%9B%BD%E7%A7%91%E5%A4%A7%E3%80%8A%E9%AB%98%E7%BA%A7%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E3%80%8B%E5%A4%8D%E4%B9%A0/" title="国科大《高级人工智能》复习">国科大《高级人工智能》复习</a><time datetime="2026-02-17T15:04:17.000Z" title="发表于 2026-02-17 23:04:17">2026-02-17</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/uncategorized/%E5%9B%BD%E7%A7%91%E5%A4%A7%E8%87%AA%E5%8A%A8%E8%AF%BE%E7%A8%8B%E8%AF%84%E4%BC%B0/" title="国科大自动课程评估">国科大自动课程评估</a><time datetime="2025-12-27T11:39:38.000Z" title="发表于 2025-12-27 19:39:38">2025-12-27</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By 姜将</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="true"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
