@@ -1,0 +1,870 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>多模态大模型梳理 | 姜将的个人博客</title><meta name="author" content="姜将"><meta name="copyright" content="姜将"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="多模态大模型进展梳理多模态大模型相比纯文本大模型，在输入输出上多了对多模态数据的支持。最主流的就是增加了对图像、视频输入的视觉语言模型，视觉语言模型的基础上增加对语音的输入输出支持，则是Omni（全能）模型。但主流的开源Omni模型并非真正的全能，它缺少了对图像视频等视觉数据的输出功能。此外还有相对小众一些的TTS（文本转语音，能力是Omni模型的子集），ASR（自动语音识别）等多模态大模型。本文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多模态大模型梳理">
+<meta property="og:url" content="http://jiang54864.github.io/%E7%AC%94%E8%AE%B0/%E5%A4%9A%E6%A8%A1%E6%80%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%A2%B3%E7%90%86/index.html">
+<meta property="og:site_name" content="姜将的个人博客">
+<meta property="og:description" content="多模态大模型进展梳理多模态大模型相比纯文本大模型，在输入输出上多了对多模态数据的支持。最主流的就是增加了对图像、视频输入的视觉语言模型，视觉语言模型的基础上增加对语音的输入输出支持，则是Omni（全能）模型。但主流的开源Omni模型并非真正的全能，它缺少了对图像视频等视觉数据的输出功能。此外还有相对小众一些的TTS（文本转语音，能力是Omni模型的子集），ASR（自动语音识别）等多模态大模型。本文">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg">
+<meta property="article:published_time" content="2026-07-22T15:40:38.000Z">
+<meta property="article:modified_time" content="2026-07-22T15:45:39.252Z">
+<meta property="article:author" content="姜将">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="VLM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg"><link rel="shortcut icon" href="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg"><link rel="canonical" href="http://jiang54864.github.io/%E7%AC%94%E8%AE%B0/%E5%A4%9A%E6%A8%A1%E6%80%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%A2%B3%E7%90%86/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '多模态大模型梳理',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-07-22 23:45:39'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">38</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">24</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="姜将的个人博客"><img class="site-icon" src="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg"/><span class="site-name">姜将的个人博客</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">多模态大模型梳理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-07-22T15:40:38.000Z" title="发表于 2026-07-22 23:40:38">2026-07-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-07-22T15:45:39.252Z" title="更新于 2026-07-22 23:45:39">2026-07-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">13.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>46分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="多模态大模型梳理"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="多模态大模型进展梳理"><a href="#多模态大模型进展梳理" class="headerlink" title="多模态大模型进展梳理"></a>多模态大模型进展梳理</h1><p>多模态大模型相比纯文本大模型，在输入输出上多了对多模态数据的支持。最主流的就是增加了对图像、视频输入的视觉语言模型，视觉语言模型的基础上增加对语音的输入输出支持，则是Omni（全能）模型。但主流的开源Omni模型并非真正的全能，它缺少了对图像视频等视觉数据的输出功能。此外还有相对小众一些的TTS（文本转语音，能力是Omni模型的子集），ASR（自动语音识别）等多模态大模型。本文梳理了主流的开源多模态大模型的技术报告和技术博客中的信息，从主流的Qwen VL系列，到当前的诸多原生多模态大模型，重点关注模型结构和训练流程，并穿插一些自己的启发。</p>
+<h1 id="Qwen-VL（2023，基于-Qwen-7B）"><a href="#Qwen-VL（2023，基于-Qwen-7B）" class="headerlink" title="Qwen-VL（2023，基于 Qwen-7B）"></a>Qwen-VL（2023，基于 Qwen-7B）</h1><p>参考：<a target="_blank" rel="noopener" href="https://arxiv\.org/abs/2308\.12966">https://arxiv\.org/abs/2308\.12966</a></p>
+<p>第一代，思路很”经典组合式”，几乎是 BLIP-2 路线的加强版。</p>
+<p><strong>结构</strong></p>
+<ul>
+<li><p><strong>视觉编码器</strong>：Openclip 的 <strong>ViT-bigG</strong>（约 1.9B），输入固定分辨率（第一阶段 224，后期 448）。</p>
+</li>
+<li><p><strong>连接器</strong>：一个<strong>单层 cross-attention 的 position-aware VL Adapter</strong>——用 <strong>256 个可学习 query</strong> 把变长图像特征压成<strong>固定 256 个 token</strong>（和 BLIP-2 Q-Former 同宗），并且给 query 加了 2D 绝对位置编码以保留空间信息。</p>
+</li>
+<li><p><strong>主干</strong>：Qwen-7B。</p>
+</li>
+<li><p>用 <code>&lt;img&gt;...&lt;/img&gt;</code> 特殊 token 包裹视觉 token，用 <code>&lt;box&gt;</code> 支持 grounding/检测框输出。</p>
+</li>
+</ul>
+<p><strong>训练流程（三阶段，靠冻结/解冻控制）</strong></p>
+<ol>
+<li><p><strong>预训练</strong>：冻结 LLM，只训 ViT + Adapter，大规模弱标注图文对，224 分辨率。</p>
+</li>
+<li><p><strong>多任务预训练</strong>：全解冻，分辨率提到 448，加 VQA、grounding、OCR、caption 等多任务、交错图文数据。</p>
+</li>
+<li><p><strong>SFT</strong>：冻结 ViT，训 LLM + Adapter，做指令对齐。</p>
+</li>
+</ol>
+<p><strong>这一代的特征/局限</strong>：固定分辨率（丢细节）、Q-Former 式压缩有信息瓶颈、纯图像不支持视频。技术报告还给出了图文训练不会废掉文字能力：多模态训练后，纯文字问答、理解任务效果不降反升的结论，这一点在kimi k2.5中也有提到。</p>
+<hr>
+<h1 id="Qwen2-VL（2024，基于-Qwen2）——-三个奠基性改动"><a href="#Qwen2-VL（2024，基于-Qwen2）——-三个奠基性改动" class="headerlink" title="Qwen2-VL（2024，基于 Qwen2）—— 三个奠基性改动"></a>Qwen2-VL（2024，基于 Qwen2）—— 三个奠基性改动</h1><p>参考：<a target="_blank" rel="noopener" href="https://arxiv\.org/abs/2409\.12191">https://arxiv\.org/abs/2409\.12191</a></p>
+<p>这一代确立了后面所有版本的骨架，是变化最大的一次。</p>
+<p><strong>结构</strong></p>
+<ul>
+<li><p><strong>视觉编码器</strong>：放弃 ViT-bigG，改用<strong>从头训练的 ViT（约 675M）</strong>，并引入 <strong>Naive Dynamic Resolution（原生动态分辨率）</strong>——不再 resize 到固定尺寸，图像按原始分辨率切 patch，patch 数随图大小变化。原图比例完整保留。大图自动多用一点算力存细节，小图自动压缩少占显存；ViT 内部把绝对位置嵌入换成 <strong>2D-RoPE</strong>。</p>
+</li>
+<li><p><strong>连接器</strong>：从 Q-Former <strong>换成简单的 MLP</strong>，并做 <strong>2×2 相邻特征压缩</strong>（把 4 个 patch 合成 1 个 token 再投影），用 <code>&lt;|vision_start|&gt;</code> / <code>&lt;|vision_end|&gt;</code> 包裹。这是”连接器变轻”的关键一步——放弃 query 压缩，回归 MLP。</p>
+</li>
+<li><p><strong>主干位置编码</strong>：提出 <strong>M-RoPE（Multimodal RoPE）</strong>，把位置 ID 拆成 <strong>（时间 t， 高 h， 宽 w）</strong> 三元组，文本让三者相等退化回 1D RoPE（不伤文本能力），图像共享 t、用二维坐标填 h/w，视频 t 随帧递增。这是多模态位置编码的里程碑。</p>
+</li>
+</ul>
+<p>图片、视频一套统一处理流程，视频每秒抽 2 帧，用 3D 卷积同时抓画面 + 时间信息；单张图直接当成两帧相同画面，不用分开两套训练逻辑，图文视频训练数据混在一起训练，兼顾看图和看片能力。</p>
+<p>参数量：Qwen2-VL-2B，Qwen2-VL-7B，Qwen2-VL-72B</p>
+<p><strong>能力扩展</strong>：首次原生支持<strong>视频</strong>（动态帧率采样）、多语言 OCR、更强 grounding。</p>
+<p><strong>训练流程</strong>：延续Qwen VL，”ViT 预训练对齐 → 全参数联合预训练 → 指令微调”的多阶段，但因为动态分辨率，全程不再固定尺寸。</p>
+<p><strong>Qwen2-VL = 换 MLP 连接器 + 原生动态分辨率 + M-RoPE + 支持视频</strong>，四代里最本质的一跳。</p>
+<hr>
+<h1 id="Qwen2-5-VL（2025-初）——-在-Qwen2-VL-骨架上做”时间”和”效率”的精修"><a href="#Qwen2-5-VL（2025-初）——-在-Qwen2-VL-骨架上做”时间”和”效率”的精修" class="headerlink" title="Qwen2.5-VL（2025 初）—— 在 Qwen2-VL 骨架上做”时间”和”效率”的精修"></a>Qwen2.5-VL（2025 初）—— 在 Qwen2-VL 骨架上做”时间”和”效率”的精修</h1><p>参考：<a target="_blank" rel="noopener" href="https://arxiv\.org/abs/2502\.13923">https://arxiv\.org/abs/2502\.13923</a></p>
+<p>结构大框架没变（动态分辨率 + MLP + M-RoPE），改的是细节和训练规模。</p>
+<p><strong>结构改动</strong></p>
+<ul>
+<li><p><strong>ViT 内部引入 Window Attention</strong>：大部分层用窗口注意力、少数层用全局注意力，让计算量随分辨率<strong>近似线性增长</strong>而非平方，大幅提升高分辨率/长视频效率。ViT 结构也向 LLM 对齐（用 SwiGLU、RMSNorm）。</p>
+</li>
+<li><p><strong>绝对时间对齐的 M-RoPE（常称 T-RoPE / MRoPE-abs-time）</strong>：把 M-RoPE 的<strong>时间分量和真实秒数挂钩</strong>，而不再是”第几帧”的序号。好处是能吃不同 FPS 的视频、并支持<strong>秒级时间定位（temporal grounding）</strong>——回答”事件发生在第几秒”。</p>
+</li>
+<li><p><strong>动态 FPS 采样</strong>：训练时在时间维也做动态采样，增强对不同帧率的鲁棒性。</p>
+</li>
+</ul>
+<p><strong>训练：</strong>三阶段预训练。阶段 1：视觉预训练，只更新视觉编码器 ViT；LLM、跨融合模块全部冻结不动。阶段 2：多模态联合预训练（全参数解冻），ViT、跨模态融合层、Qwen2.5 LLM 全部参数放开，端到端联合训练。阶段 3：长上下文预训练（全参数更新）</p>
+<p>后训练：全程冻结视觉 ViT，只更新融合层与 LLM，分为 SFT 监督微调、DPO 偏好优化两大步骤。</p>
+<p>SFT数据过滤流水线</p>
+<ol>
+<li><p>第一层：领域分层分类 专用分类模型把所有问答划分 8 大领域、30 个子类别（代码 / 文档 / 定位等），分领域单独清洗。</p>
+</li>
+<li><p>第二层：领域定制双重过滤</p>
+</li>
+</ol>
+<ul>
+<li><p>规则过滤：剔除残缺回答、重复内容、图文不匹配、有害提问；</p>
+</li>
+<li><p>模型打分过滤：自研奖励模型评估问题难度、答案正确性、图文结合度，低分样本直接删除。</p>
+</li>
+</ul>
+<p>针对数学、代码、复杂图表推理任务，拒绝采样强化推理</p>
+<ol>
+<li><p>先用中间版模型批量生成答案；</p>
+</li>
+<li><p>仅保留和标准答案完全匹配、思维链完整样本；</p>
+</li>
+<li><p>过滤混语种、超长重复输出；</p>
+</li>
+<li><p>只保留视觉信息充分融入推理步骤的数据，强化 CoT 多步思考能力。</p>
+</li>
+</ol>
+<p>参数量：3B，7B，72B</p>
+<p><strong>Qwen2.5-VL = Window Attention 提效 + 时间对齐到绝对秒 + 文档/长视频/GUI agent 能力强化</strong>。</p>
+<hr>
+<h1 id="Qwen2-5-Omni"><a href="#Qwen2-5-Omni" class="headerlink" title="Qwen2.5-Omni"></a>Qwen2.5-Omni</h1><p>参考：<a target="_blank" rel="noopener" href="https://arxiv\.org/abs/2503\.20215">https://arxiv\.org/abs/2503\.20215</a></p>
+<p><img src="image.png" alt="img"></p>
+<ul>
+<li><p>Thinker：负责接收图片、声音、文字、视频，理解内容、逻辑推理、写出文字答案；</p>
+</li>
+<li><p>Talker：直接拿Thinker的思考结果，单独生成流畅语音，两条输出通道互不干扰，能同步出文字 + 声音。</p>
+</li>
+</ul>
+<p>Talker 用双轨生成语音，再搭配滑动窗口 DiT 模型，专门解决 “刚发指令要等很久才出声” 的卡顿问题，大幅缩短语音首包延迟。</p>
+<p>TMRoPE 时间对齐位置编码（解决视频音画不同步）</p>
+<p>视频既有画面又有声音，之前 AI 分不清哪段画面配哪段音频，理解容易错位。 TMRoPE 给每一段画面、每一段声音打上时间坐标：</p>
+<ul>
+<li><p>画面有宽、高、时间三个维度标记；</p>
+</li>
+<li><p>音频每 40 毫秒一个时间编号；</p>
+</li>
+<li><p>视频按 2 秒一段拆开，画面信息放前面、音频放后面穿插排列，强制音画时间对齐。 AI 能精准对应 “几秒画面配几秒声音”，看懂视频里视听结合的信息（比如人说话的表情 + 台词）。</p>
+</li>
+</ul>
+<p>分块流式处理，降低实时延迟：不管图片、音频、视频编码器，全部改成分块处理，不用一次性加载完整内容：音频按 2 秒一块计算注意力；图片压缩相邻小块减少计算量；语音转波形用滑动窗口，只看前后少量片段，不用读取全部历史，实时对话、直播视频交互更流畅。</p>
+<p>一、预训练阶段</p>
+<ol>
+<li><p>Thinker 主干 LLM：加载现成 Qwen2.5 权重，初始完全冻结；</p>
+</li>
+<li><p>视觉编码器：复用 Qwen2.5-VL ViT，带视觉 adapter；</p>
+</li>
+<li><p>音频编码器：初始化 Whisper-large-v3，带音频 adapter；</p>
+</li>
+<li><p>Talker 语音分支：预训练阶段全程不参与训练，完全冻结，只在后训练阶段开启优化。</p>
+</li>
+</ol>
+<p>阶段 1：模态适配器预热（锁 LLM，只训视听编码器 + 适配器）</p>
+<ol>
+<li><p>冻结模块</p>
+<ul>
+<li><p>Thinker 内部 Qwen2.5 语言主干（所有 Transformer 层、词表嵌入全锁死，不更新）；</p>
+</li>
+<li><p>Talker 语音生成分支整体冻结。</p>
+</li>
+</ul>
+</li>
+<li><p>可训练模块 ① 视觉编码器配套视觉适配器（adapter）； ② 音频编码器配套音频适配器（adapter）； ③ 视听编码器主体网络（ViT/Whisper 音频 Encoder）。</p>
+</li>
+<li><p>训练数据：图文、音文配对数据，目标让图像 / 音频特征通过 adapter 对齐 LLM 语义空间，不改动语言底层能力。</p>
+</li>
+<li><p>序列限制：最大 8192 tokens。</p>
+</li>
+</ol>
+<p>阶段 2：全参数放开融合训练（无模块冻结，全部可训）</p>
+<ol>
+<li><p>无冻结：Thinker 整套（LLM 主干 + 视觉编码器 + 音频编码器 + 两类 adapter）全部解冻，参数同步更新；Talker 仍保持冻结。</p>
+</li>
+<li><p>新增海量混合数据： </p>
+<ul>
+<li><p>图文 / 视频图文：800B token；</p>
+</li>
+<li><p>纯音频：300B token；</p>
+</li>
+<li><p>带音视频：100B token；</p>
+</li>
+</ul>
+</li>
+<li><p>核心目标：打通文本、图像、音频、视频跨模态融合，TMRoPE 时序位置编码在此阶段联合优化；</p>
+</li>
+<li><p>序列限制：依旧 8192 tokens。</p>
+</li>
+</ol>
+<p>阶段 3：长序列扩展训练（全参数可训，加长上下文）</p>
+<ol>
+<li><p>冻结情况：同阶段 2，Thinker 全参数可训练，Talker 依旧冻结；</p>
+</li>
+<li><p>改动：训练序列从 8192 拉长至32768 tokens；</p>
+</li>
+<li><p>数据：长音频、长视频、超长文档混合语料；</p>
+</li>
+<li><p>作用：提升长视频、长录音、超长多轮对话理解能力。</p>
+</li>
+</ol>
+<p>二、后训练阶段（先Thinker 微调、再Talker 三阶段语音微调）</p>
+<p>Thinker 指令微调（文本 / 多模态对话）</p>
+<ol>
+<li><p>冻结规则：Thinker 全部模块（LLM、视听编码器、适配器）解冻可训练；Talker 分支保持冻结。</p>
+</li>
+<li><p>训练数据：ChatML 格式对话，包含纯文本、看图对话、语音对话、音视频混合对话；</p>
+</li>
+<li><p>目标：对齐人类指令，保证语音提问、图片提问、视频提问的文字回答效果接近纯文本提问。</p>
+</li>
+</ol>
+<p>Talker 语音生成三阶段微调（独立训练语音分支）</p>
+<p>Talker 是双轨自回归解码器，依赖 Thinker 输出的隐藏特征，分 3 轮递进训练，每轮冻结 / 训练对象不同：</p>
+<p>Talker 阶段 1：上下文接续预训练</p>
+<ul>
+<li><p>冻结：Thinker 整套完全锁死（只取固定隐藏特征输入 Talker）；</p>
+</li>
+<li><p>训练：Talker 完整网络（语音编解码器、Qwen-tts-tokenizer、滑动窗口 DiT、BigVGAN 声码器）；</p>
+</li>
+<li><p>目标：建立 “文本语义→语音 token” 基础映射，学会根据上下文生成连贯语音。</p>
+</li>
+</ul>
+<p>Talker 阶段 2：DPO 偏好强化学习（修复发音、停顿错误）</p>
+<ul>
+<li><p>冻结：Thinker 依旧全程冻结；</p>
+</li>
+<li><p>训练：Talker 全网络，采用 DPO 损失，数据集构造（输入 x、优质语音 y_w、劣质语音 y_l）；</p>
+</li>
+<li><p>优化方向：降低错字率 WER、消除不合理停顿、解决音画 / 文本语音错位。</p>
+</li>
+</ul>
+<p>Talker 阶段 3：多音色 / 情绪微调</p>
+<ul>
+<li><p>冻结：Thinker 冻结；DiT、BigVGAN 声码器主干可选择局部冻结，只微调音色适配层；</p>
+</li>
+<li><p>训练：Talker 语音 token 生成头、音色解耦模块；</p>
+</li>
+<li><p>效果：支持多种人声、口音、情绪语调，NMOS 自然度接近真人录音。</p>
+</li>
+</ul>
+<h1 id="Qwen3-VL（2025-底）"><a href="#Qwen3-VL（2025-底）" class="headerlink" title="Qwen3-VL（2025 底）"></a>Qwen3-VL（2025 底）</h1><p>参考：<a target="_blank" rel="noopener" href="https://arxiv\.org/abs/2511\.21631">https://arxiv\.org/abs/2511\.21631</a></p>
+<p>Qwen-VL系列的最后一舞</p>
+<p>在 Qwen2.5-VL 基础上，针对”长视频、细粒度、时间”三个痛点各出一招，并首次有 MoE 版本。</p>
+<p><strong>结构改动（三个 headline）</strong></p>
+<ol>
+<li><p><strong>Interleaved-MRoPE（交错式 M-RoPE）</strong>：发现 Qwen2-VL 的 M-RoPE 把 t/h/w 分成<strong>连续的</strong>频率块，导致时间 t 落在低频段、宽 w 落在高频段，频谱分配不均、伤长视频。改法是把 t/h/w <strong>交错</strong>分布到各个 embedding 维度（dim0→t， dim1→h， dim2→w， dim3→t…），让每个时空轴在高低频上都均匀覆盖，改善长程时序建模。</p>
+</li>
+<li><p><strong>DeepStack</strong>：不再只用 ViT 最后一层的特征，而是<strong>抽取 ViT 低/中/高三层特征</strong>，各配一个 MLP merger 投到 LLM 维度，然后<strong>以残差方式注入 LLM 的前三层</strong>（相加而非拼接，所以<strong>不增加序列长度</strong>）。把图像底层（线条）、中层（物体）、高层（整体画面）全部同步输入语言层。</p>
+</li>
+<li><p><strong>文本时间戳替代 T-RoPE</strong>：把 Qwen2.5-VL”时间编进位置 ID”的做法，改成<strong>直接把时间戳作为字面文本 token 前置</strong>（如 <code>&lt;3.0 seconds&gt;</code>，训练时用秒和 HMS 两种格式）。复用 LLM 本身的数字理解能力、简化数据构造，代价是略增上下文长度。</p>
+</li>
+</ol>
+<blockquote>
+<p>Qwen3.5-Omni也是用”文本时间戳”替代硬编码时间。</p>
+</blockquote>
+<p><strong>其他结构点</strong></p>
+<ul>
+<li><p><strong>视觉编码器换成 SigLIP2</strong>（默认 SigLIP2-SO-400M；2B/4B 小模型用 SigLIP2-Large 300M），从官方 checkpoint 初始化后在动态原生分辨率上继续训，ViT 内部 2D-RoPE + CoMP 式的绝对位置嵌入插值。</p>
+</li>
+<li><p><strong>Merger</strong> 仍是两层 MLP、2×2 压缩成一个 token，外加 DeepStack 专用 merger。</p>
+</li>
+<li><p>训练用了 <strong>平方根 token-loss 重加权</strong>，平衡文本与多模态的梯度贡献（解决多模态样本 token 数差异大导致的 loss 失衡）。</p>
+</li>
+</ul>
+<p>参数量：稠密版（Dense）：2B、4B、8B、32B；混合专家 MoE）：30B-A3B、235B-A22B）。每一款都分Instruct和Thinking两个版本。</p>
+<p><strong>Qwen3-VL = 交错频率的 Interleaved-MRoPE（修长视频）+ DeepStack 多层特征注入（补细节）+ 文本时间戳（替时间硬编码）+ SigLIP2 编码器 + MoE 化</strong>。</p>
+<hr>
+<h1 id="Qwen-VL系列小结"><a href="#Qwen-VL系列小结" class="headerlink" title="Qwen VL系列小结"></a>Qwen VL系列小结</h1><p>四代总览表</p>
+<hr>
+<p>三条演化主线</p>
+<ol>
+<li><p><strong>连接器：重 → 轻，然后再加料</strong>。Q-Former 式 256-query 压缩（Qwen-VL）→ 简单 MLP + 2×2 压缩（Qwen2-VL 起沿用）→ Qwen3-VL 在 MLP 之外用 DeepStack 把多层特征残差注入，补回细节但不增序列长度。这条曲线反映了”上下文变长、算力变足后，不再需要为压缩牺牲信息”。</p>
+</li>
+<li><p><strong>位置编码：1D → 拆时空 → 对齐真实时间 → 交错频率 + 交给文本</strong>。M-RoPE（Qwen2-VL）是拐点，之后两代都在解决”时间怎么编”，最终 Qwen3-VL/Qwen3.5-Omni 殊途同归地选择<strong>用文本时间戳</strong>，把时间处理从位置编码里”外包”给 LLM 的数字理解能力。</p>
+</li>
+<li><p><strong>编码器与效率：换血 + 提效</strong>。ViT-bigG（拿来冻结）→ 从头训 ViT → 窗口注意力提效 → SigLIP2 + 多层特征，始终朝”原生分辨率下又准又快”走。</p>
+</li>
+</ol>
+<h1 id="Qwen3-Omni"><a href="#Qwen3-Omni" class="headerlink" title="Qwen3-Omni"></a>Qwen3-Omni</h1><p>参考：<a target="_blank" rel="noopener" href="https://arxiv\.org/abs/2509\.17765">https://arxiv\.org/abs/2509\.17765</a></p>
+<p><img src="image 1.png" alt="img"></p>
+<p>延续Qwen2.5-Omni的两大结构</p>
+<p>Thinker（思考模块）：负责所有理解、逻辑推理、算数、写代码、分析图片视频，输出文字； 还有专门加强版「Thinking 模型」，做复杂数学、多模态推理更强；</p>
+<p>Talker（语音生成模块）：接收思考结果，边生成边流式输出语音，不用等全文写完才出声，聊天几乎无等待。</p>
+<p>预训练依然是先训编码器，再全参训练，再拓展上下文长度。</p>
+<p>预训练完成基础通用模型后，拆分Thinker 文字推理模块、Talker 语音生成模块、音频描述 Captioner 模型分别微调。</p>
+<h3 id="Thinker（负责理解、文字输出，三阶段后训练）"><a href="#Thinker（负责理解、文字输出，三阶段后训练）" class="headerlink" title="Thinker（负责理解、文字输出，三阶段后训练）"></a>Thinker（负责理解、文字输出，三阶段后训练）</h3><p>所有训练数据统一采用 ChatML 对话格式，覆盖纯文字、看图对话、语音对话、音视频混合对话。</p>
+<h4 id="阶段-1：轻量级监督微调（轻量-SFT）"><a href="#阶段-1：轻量级监督微调（轻量-SFT）" class="headerlink" title="阶段 1：轻量级监督微调（轻量 SFT）"></a>阶段 1：轻量级监督微调（轻量 SFT）</h4><ul>
+<li><p>目标：打通预训练基础能力和人类对话需求，教会模型遵守指令、规范输出格式</p>
+</li>
+<li><p>训练逻辑：少量高质量多模态指令数据，做交叉熵损失微调，不改动底层预训练特征，仅适配对话场景</p>
+</li>
+<li><p>定位：基础 “礼仪教学”，让模型听懂用户图文语音提问，给出规范回答</p>
+</li>
+</ul>
+<h4 id="阶段-2：强→弱模型蒸馏（Strong-to-Weak-Distillation）"><a href="#阶段-2：强→弱模型蒸馏（Strong-to-Weak-Distillation）" class="headerlink" title="阶段 2：强→弱模型蒸馏（Strong-to-Weak Distillation）"></a>阶段 2：强→弱模型蒸馏（Strong-to-Weak Distillation）</h4><p>分离线、在线两步蒸馏，教师为 Qwen3-32B / Qwen3-235B 超大模型</p>
+<ol>
+<li><p>离线蒸馏（Off-policy）：先用教师模型批量生成海量高质量回答，让学生 Qwen3-Omni 模仿，打底基础逻辑、数学、代码能力</p>
+</li>
+<li><p>在线蒸馏（On-policy）：学生自己生成回答，再对齐教师输出分布（最小 KL 散度），缩小大小模型能力差距</p>
+</li>
+</ol>
+<ul>
+<li>优势：不用海量标注，低成本大幅提升推理、多语言、代码分数</li>
+</ul>
+<h4 id="阶段-3：GSPO-序列级强化学习（核心对齐优化）"><a href="#阶段-3：GSPO-序列级强化学习（核心对齐优化）" class="headerlink" title="阶段 3：GSPO 序列级强化学习（核心对齐优化）"></a>阶段 3：GSPO 序列级强化学习（核心对齐优化）</h4><p>GSPO 专为 MoE 混合专家模型设计，训练稳定不崩，搭配两类奖励打分机制：</p>
+<ol>
+<li><p>规则奖励：数学、代码、客观问答等可验证任务，用固定规则判对错，杜绝奖励投机（reward hacking）</p>
+</li>
+<li><p>模型奖励：主观类多模态任务（看图理解、音频聊天、视频推理），用 Qwen3 通用大模型、Qwen2.5-VL 视觉模型当裁判打分</p>
+</li>
+</ol>
+<ul>
+<li><p>覆盖全模态：文字、图片、音频、视频全部参与强化优化，提升模型稳定性、回答有用性、多模态推理精度</p>
+</li>
+<li><p>产出：Qwen3-Omni-Instruct（通用对话版）、Qwen3-Omni-Thinking（加强复杂推理专用版）</p>
+</li>
+</ul>
+<h3 id="Talker（实时语音生成，独立四阶段训练）"><a href="#Talker（实时语音生成，独立四阶段训练）" class="headerlink" title="Talker（实时语音生成，独立四阶段训练）"></a>Talker（实时语音生成，独立四阶段训练）</h3><p>Talker 是 MoE 语音生成分支，输入来自 Thinker 多模态特征，输出流式人声，全程使用带上下文语音对话数据。</p>
+<h4 id="阶段-1：基础语音映射预训练"><a href="#阶段-1：基础语音映射预训练" class="headerlink" title="阶段 1：基础语音映射预训练"></a>阶段 1：基础语音映射预训练</h4><ul>
+<li><p>数据：数亿条带完整多轮上下文的语音样本</p>
+</li>
+<li><p>目标：建立「图文音特征 → 人声编码」稳定映射，学会根据对话语义生成对应音色、语气</p>
+</li>
+</ul>
+<h4 id="阶段-2：持续预训练-CP-长上下文优化"><a href="#阶段-2：持续预训练-CP-长上下文优化" class="headerlink" title="阶段 2：持续预训练 CP + 长上下文优化"></a>阶段 2：持续预训练 CP + 长上下文优化</h4><ul>
+<li><p>过滤第一阶段噪声语音，用高清高质量语音重做预训练，大幅减少语音生成幻觉（杂音、说错字）</p>
+</li>
+<li><p>同步训练长对话语音生成，支持几十分钟长会议连贯朗读，适配 40 分钟超长音频交互场景</p>
+</li>
+</ul>
+<h4 id="阶段-3：DPO-直接偏好优化（多语言语音专项）"><a href="#阶段-3：DPO-直接偏好优化（多语言语音专项）" class="headerlink" title="阶段 3：DPO 直接偏好优化（多语言语音专项）"></a>阶段 3：DPO 直接偏好优化（多语言语音专项）</h4><ul>
+<li><p>构建 10 种生成语言（中英日韩德法等）的人声偏好样本对（更好听 vs 生硬音频）</p>
+</li>
+<li><p>不用独立奖励模型，直接优化语音人类偏好，提升多语言发音自然度、跨语言音色一致性</p>
+</li>
+</ul>
+<h4 id="阶段-4：人声定制微调"><a href="#阶段-4：人声定制微调" class="headerlink" title="阶段 4：人声定制微调"></a>阶段 4：人声定制微调</h4><ul>
+<li><p>小样本音色微调，支持零样本音色克隆、自定义人设语音</p>
+</li>
+<li><p>优化情绪、重音、语速等副语言特征，对话人声更贴近真人</p>
+</li>
+</ul>
+<h3 id="Qwen3-Omni-30B-A3B-Captioner-音频描述专用微调"><a href="#Qwen3-Omni-30B-A3B-Captioner-音频描述专用微调" class="headerlink" title="Qwen3-Omni-30B-A3B-Captioner 音频描述专用微调"></a>Qwen3-Omni-30B-A3B-Captioner 音频描述专用微调</h3><p>行业空白：现有模型只做图片字幕，缺少通用音频描述模型</p>
+<ol>
+<li><p>底座：直接基于预训练完成的 Qwen3-Omni-30B-A3B 基础模型</p>
+</li>
+<li><p>微调数据：大规模音频 - 详细文字标注数据集，覆盖人声、背景音乐、影视音效、环境噪音、混合音场</p>
+</li>
+<li><p>效果：输入任意录音，输出低幻觉、细节丰富的音频场景描述（区分说话人、情绪、背景音乐、爆炸 / 机械音效等）</p>
+</li>
+</ol>
+<h3 id="补充配套专项训练：AuT-音频编码器独立预训练"><a href="#补充配套专项训练：AuT-音频编码器独立预训练" class="headerlink" title="补充配套专项训练：AuT 音频编码器独立预训练"></a>补充配套专项训练：AuT 音频编码器独立预训练</h3><p>AuT 是整个模型的听觉核心，在 S1 预训练前单独从零训完：</p>
+<ol>
+<li><p>训练数据：2000 万小时海量监督音频，配比 80% 中英语音、10% 小语种语音、10% 音乐 / 环境音频</p>
+</li>
+<li><p>结构优化：卷积下采样 8 倍，输出 12.5Hz 音频 token，搭配 1~8 秒动态窗口 Flash 注意力，兼顾实时流式识别和离线长音频分析</p>
+</li>
+<li><p>作用：ASR 语音转文字、音乐识别、音频推理全部依赖 AuT 提取声学特征，是音频 SOTA 的关键基础</p>
+</li>
+</ol>
+<h3 id="完整训练时间线总览"><a href="#完整训练时间线总览" class="headerlink" title="完整训练时间线总览"></a>完整训练时间线总览</h3><ol>
+<li><p>单独预训练 AuT 音频编码器</p>
+</li>
+<li><p>预训练 S1：冻结 LLM，对齐视听编码器</p>
+</li>
+<li><p>预训练 S2：全参数联合 2T 多模态数据训练</p>
+</li>
+<li><p>预训练 S3：32768 超长上下文拓展</p>
+</li>
+<li><p>分支后训练： ① Thinker 三阶段（SFT→强弱蒸馏→GSPO） ② Talker 四阶段语音专项训练</p>
+</li>
+<li><p>专项微调：Audio Captioner 音频描述模型</p>
+</li>
+</ol>
+<h1 id="Qwen3-ASR"><a href="#Qwen3-ASR" class="headerlink" title="Qwen3-ASR"></a>Qwen3-ASR</h1><p>参考：<a target="_blank" rel="noopener" href="https://arxiv\.org/abs/2601\.21337v1">https://arxiv\.org/abs/2601\.21337v1</a></p>
+<p><img src="image 2.png" alt="img"></p>
+<p>AuT ： Audio Transformer，基于 AED 编解码结构</p>
+<p>动态 Flash 注意力窗口：直播 / 实时流式识别：用 1s 小窗口，极低延迟；会议 / 歌曲长音频离线转写：用 8s 大窗口，上下文更完整、识别更准。</p>
+<p>训练</p>
+<p>阶段 1：AuT 编码器独立预训练</p>
+<p>阶段 2：把预训练好的 AuT 接入 Qwen3-omni 大模型，整体联合预训练；</p>
+<p>阶段 3：ASR 专项监督微调 SFT</p>
+<p>阶段 4：GSPO 分组序列策略强化学习 RL（真实场景降噪优化）</p>
+<h1 id="Qwen3-TTS"><a href="#Qwen3-TTS" class="headerlink" title="Qwen3-TTS"></a>Qwen3-TTS</h1><p>参考：<a target="_blank" rel="noopener" href="https://arxiv\.org/abs/2601\.15621">https://arxiv\.org/abs/2601\.15621</a></p>
+<p><img src="image 4.png" alt="img"></p>
+<p>三阶段预训练：S1 通用基础阶段、S2 高质量持续预训练、S3 长上下文增强阶段</p>
+<p>三阶段后训练：Step1 DPO 人类偏好对齐优化、Step2 GSPO 多任务规则增强优化，Step3 轻量说话人微调</p>
+<p>ASR+LLM+TTS三段式等效omni模型端到端，优点是可以灵活更换强大的LLM，缺点是速度问题</p>
+<h1 id="Qwen3-5"><a href="#Qwen3-5" class="headerlink" title="Qwen3.5"></a>Qwen3.5</h1><p>参考：<a target="_blank" rel="noopener" href="https://Qwen\.ai/blog?id=Qwen3\.5">https://Qwen\.ai/blog?id=Qwen3\.5</a></p>
+<p>Qwen3.5 在能力、效率与通用性三个维度上推进预训练：</p>
+<p><strong>能力（Power）</strong>：在更大规模的视觉-文本语料上训练，并加强中英文、多语言、STEM 与推理数据，采用更严格的过滤，实现跨代持平：Qwen3.5-397B-A17B 与参数量超过 1T 的 Qwen3-Max-Base 表现相当。</p>
+<p><strong>效率（Efficiency）</strong>：基于 Qwen3-Next 架构——更高稀疏度的 MoE、Gated DeltaNet + Gated Attention 混合注意力、稳定性优化与多 token 预测。在 32k/256k 上下文长度下，Qwen3.5-397B-A17B 的解码吞吐量分别是 Qwen3-Max 的 8.6 倍/19.0 倍，且性能相当。Qwen3.5-397B-A17B 的解码吞吐量分别是 Qwen3-235B-A22B 的 3.5 倍/7.2 倍。</p>
+<p><strong>通用性（Versatility）</strong>：通过早期文本-视觉融合与扩展的视觉/STEM/视频数据实现原生多模态，在相近规模下优于 Qwen3-VL。多语言覆盖从 119 增至 201 种语言/方言；25 万词表（vs. 15 万）在多数语言上带来约 10–60% 的编码/解码效率提升。</p>
+<p>Qwen3.5 通过异构基础设施实现高效的原生多模态训练：在视觉与语言组件上解耦并行策略，避免统一方案带来的低效。利用稀疏激活实现跨模块计算重叠，在混合文本-图像-视频数据上相比纯文本基线达到近 100% 的训练吞吐。在此基础上，原生 FP8 流水线对激活、MoE 路由与 GEMM 运算采用低精度，并通过运行时监控在敏感层保持 BF16，实现约 50% 的激活显存降低与超过 10% 的加速，并稳定扩展至数万亿 token。</p>
+<h1 id="Qwen3-5-Omni"><a href="#Qwen3-5-Omni" class="headerlink" title="Qwen3.5-Omni"></a>Qwen3.5-Omni</h1><p>参考：<a target="_blank" rel="noopener" href="https://arxiv\.org/abs/2604\.15804">https://arxiv\.org/abs/2604\.15804</a></p>
+<p>Qwen3.5-Omni 是 Qwen-Omni 系列的最新一代，相比 Qwen3-Omni 主要做了五处升级（Thinker/Talker 都换成 Hybrid-Attention MoE、256k 长上下文、多码本单帧即时合成、Talker 引入 ARIA、多语种大幅扩展）。分 Plus 和 Flash 两个规格，都是 instruct 模型。</p>
+<hr>
+<h2 id="一、模型结构"><a href="#一、模型结构" class="headerlink" title="一、模型结构"></a>一、模型结构</h2><p><img src="image 3.png" alt="img"></p>
+<h3 id="整体：Thinker–Talker-架构"><a href="#整体：Thinker–Talker-架构" class="headerlink" title="整体：Thinker–Talker 架构"></a>整体：Thinker–Talker 架构</h3><p>延续 Qwen2.5-Omni 的双模块设计，职责分工很清晰：</p>
+<ul>
+<li><p><strong>Thinker</strong> 负责”理解 + 文本生成”：接收文本、图像、音频、视频，输出文本 token 和高层表征。</p>
+</li>
+<li><p><strong>Talker</strong> 负责”流式语音生成”：直接从 Thinker 拿高层表征 + 当前轮的文本输出，自回归地预测多码本语音 token。</p>
+</li>
+</ul>
+<p>一个关键的数据流细节：Talker 每个解码步先预测主码本，再由 <strong>MTP（Multi-Token Prediction）模块</strong>输出当前帧的残差码本，然后 <strong>Code2Wav</strong> 渲染器增量合成波形，实现逐帧流式出声。这是它能做到超低延迟的核心。</p>
+<h3 id="各组件"><a href="#各组件" class="headerlink" title="各组件"></a>各组件</h3><p><strong>AuT（Audio Transformer）—— 音频编码器</strong></p>
+<p>这是本代重点重训的部分。是一个从零训练的 attention-encoder-decoder 结构音频编码器：</p>
+<ul>
+<li><p>训练数据：<strong>4000 万小时</strong>音频-文本对（由 Qwen3-ASR 生成标注）</p>
+</li>
+<li><p>处理流程：filterbank 特征经 <strong>4 个 Conv2D block 做 16 倍下采样</strong> → self-attention 层 → 输出 <strong>6.25Hz</strong> token 率的音频 token，每帧约对应原始信号 <strong>160ms</strong></p>
+</li>
+<li><p>相比 Qwen3-Omni 的编码器，增加了 20+ 种语言的多语种数据，中文：英文：多语种 ≈ <strong>3.5 ： 3.5 ： 3</strong></p>
+</li>
+<li><p>采用<strong>动态注意力窗口（dynamic attention window）训练机制</strong>，兼顾实时 prefill 缓存推理和离线音频理解两种场景的性能</p>
+</li>
+</ul>
+<p><strong>Vision Encoder —— 视觉编码器</strong></p>
+<p>直接采用 Qwen3.5 的视觉编码器（Table 1 标注为 SigLIP2），图像和视频混合训练，视频用动态帧率采样，尽量保留视频信息同时和音频流对齐。</p>
+<p><strong>Thinker</strong></p>
+<ul>
+<li><p>骨干是 <strong>Hybrid MoE Transformer</strong></p>
+</li>
+<li><p>文本用 Qwen3.5 tokenizer：byte-level BPE，词表 <strong>250k（从 150k 扩大）</strong>，多数语言编解码效率提升 10–60%</p>
+</li>
+<li><p>音频输入统一重采样到 16kHz，转成 128 通道 mel-spectrogram（25ms 窗、10ms hop）后送入 AuT</p>
+</li>
+<li><p>音频和视频输入<strong>交错编排</strong>，并插入显式时间戳做统一多模态建模</p>
+</li>
+<li><p>支持 256k token / 10 小时音频 / 400 秒 720P 视频（1 FPS）</p>
+</li>
+</ul>
+<p><strong>Talker</strong></p>
+<ul>
+<li><p>骨干同样是 <strong>Hybrid MoE Transformer</strong></p>
+</li>
+<li><p>基于 Qwen3.5-Omni-Audio-Tokenizer 产出的 <strong>RVQ token</strong> 操作（延续 Qwen3-Omni 的 RVQ 语音表示，提升推理效率）</p>
+</li>
+<li><p>用 MTP 模块建模残差码本，配 causal ConvNet 重建波形</p>
+</li>
+<li><p>相比 Qwen3-Omni 有两处结构改动：（1） 给 Talker 加了<strong>专用 system prompt</strong> 来指定目标音色，从而支持 zero-shot 声音克隆和可控生成——比传统 speaker embedding 能编码更丰富的多模态线索；（2） 用 <strong>ARIA</strong> 把原来的双通道生成统一成单通道。</p>
+</li>
+</ul>
+<h3 id="三个关键技术点"><a href="#三个关键技术点" class="headerlink" title="三个关键技术点"></a>三个关键技术点</h3><p><strong>时间戳编码（替代纯 TM-RoPE）</strong> 沿用 TM-RoPE 做音视频时序对齐，但发现直接用绝对时间编码 position ID，长视频会产生过于稀疏的索引，削弱长程时序建模，且要求训练样本在不同帧率上均匀分布、构造成本高。解决办法：给每个视频/音视频时序 patch <strong>前置一个”秒”为单位的格式化文本时间戳字符串</strong>，让模型更自然地学时间码表示；音频序列则<strong>随机间隔插入时间戳</strong>改善跨模态对齐。音频每 160ms 一个 temporal ID，视频帧动态调整到同样 160ms/ID 的分辨率，多模态位置编号连续排布避免冲突。</p>
+<p><strong>ARIA（Adaptive Rate Interleave Alignment）</strong> 这是本代解决流式语音不稳定的核心创新。文本 tokenizer 和语音 tokenizer 编码效率不匹配，会导致跳词、发音错误、数字读法含糊。ARIA 把双通道生成统一成单通道，不依赖 MFA 对齐或固定交错率，而是施加一个<strong>自适应速率约束：生成序列的任意前缀，其累计”语音 token / 文本 token”比例不得超过该条目的全局比例</strong>。这样既能灵活适配不同语言（包括编码效率低的语言），又天然支持”任意文本前缀 + 后续连贯语音”的续接。</p>
+<p><strong>流式与并发设计</strong> Chunked prefilling（音视频编码器沿时间维度分块输出）降低 TTFT；Hybrid MoE 里的 <strong>GatedDeltaNet（GDN）模块</strong>专门加速长音视频序列建模，显著降低长上下文推理的 KV-cache I/O 开销，提高吞吐和并发。实测首包延迟：音频输入 Plus 435ms / Flash 235ms，视频输入 Plus 651ms / Flash 426ms。</p>
+<hr>
+<h2 id="二、预训练流程与数据"><a href="#二、预训练流程与数据" class="headerlink" title="二、预训练流程与数据"></a>二、预训练流程与数据</h2><p>预训练数据横跨 image-text、video-text、audio-text、video-audio、video-audio-text、纯文本多种组合，从早期就同时用单模态和跨模态数据。分<strong>三个阶段</strong>：</p>
+<p><strong>S1 — Encoder Alignment（编码器对齐）</strong> 锁死 LLM 参数。LLM 用 Qwen3.5 初始化，视觉编码器取自 Qwen3.5，音频编码器用 AuT 初始化。两个编码器在固定的 LLM 上<strong>分别训练</strong>，且都是先训各自的 adapter，再训编码器本身。用大量音频-文本、图像-文本对增强 LLM 内的语义理解。</p>
+<p><strong>S2 — General（通用阶段）</strong> 解冻全部参数。约 <strong>4 万亿 token</strong>，模态配比很值得注意：</p>
+<ul>
+<li><p>文本 0.92T、音频 1.99T、图像 0.95T、视频 0.14T、视音频 0.29T</p>
+</li>
+<li><p>序列长度 32，768</p>
+</li>
+</ul>
+<p>可以看到<strong>音频占了将近一半</strong>（1.99T / 4T），这与它主打 Omni + 音频 SOTA 的定位一致。</p>
+<p><strong>S3 — Long Context（长上下文）</strong> 序列长度从 32，768 提到 <strong>262，144</strong>，并提高长音频、长视频的数据比例，专门强化长序列理解。</p>
+<hr>
+<h2 id="三、后训练（Post-training）"><a href="#三、后训练（Post-training）" class="headerlink" title="三、后训练（Post-training）"></a>三、后训练（Post-training）</h2><p>后训练对 Thinker 和 Talker 分别设计，全部数据用 ChatML 格式组织。</p>
+<h3 id="Thinker：三阶段"><a href="#Thinker：三阶段" class="headerlink" title="Thinker：三阶段"></a>Thinker：三阶段</h3><p><strong>Stage 1 — Specialist Distillation（专家蒸馏）</strong> 先训一批<strong>领域专家 teacher 模型</strong>，每个都从 Qwen-3.5 base checkpoint 出发，通过独立的 SFT + RL 训练。覆盖文本类（agentic、coding、基础推理）以及视觉、音频专家。然后用这些 teacher 生成领域数据，把各领域能力<strong>蒸馏进一个统一模型</strong>。</p>
+<p><strong>Stage 2 — On-Policy Distillation（OPD，在线策略蒸馏）</strong> 解决一个具体问题：同一个 query，文本输入时的回答质量明显高于语音输入。做法是——对每个”音频-文本配对 query”，先拿到<strong>文本条件下生成的回答</strong>（通常更流畅、推理更强、完成度更高），把它当作对应<strong>音频条件 query 的蒸馏目标</strong>。让音频条件输出逐步对齐文本条件行为，实现模态一致的生成。这一步用的是 on-policy 目标。</p>
+<p><strong>Stage 3 — Interaction-Aligned RL（交互对齐强化学习）</strong> 前两阶段解决了能力和跨模态质量，但还不足以应对真实多轮交互。观察到的问题包括：非预期的语言 code-switching、人设不一致、长上下文下指令遵循退化。于是构造<strong>多轮交互轨迹</strong>，围绕用户体验目标设计 reward 信号，用 RL 优化交互质量，让模型在长对话中更稳定、一致、守指令。</p>
+<p>报告里还提到，他们认为正是 <strong>OPD + interaction-aligned RL</strong> 让 Omni 模型的指令遵循能力甚至略微超过了同尺寸纯文本基线。</p>
+<h3 id="Talker：四阶段"><a href="#Talker：四阶段" class="headerlink" title="Talker：四阶段"></a>Talker：四阶段</h3><p><strong>Stage 1 — General</strong>：在 <strong>2000 万+ 小时</strong>多语种语音数据（配多模态上下文）上预训练，加入 instruction-following 语音生成等多样任务，强化上下文推理和副语言对齐，而不只是”多模态表征→语音”的单调映射。</p>
+<p><strong>Stage 2 — Long-Context</strong>：通过专门的数据质量分层 pipeline，在高质量子集上做<strong>持续预训练（CPT）</strong>；借助 Qwen3-Omni-Captioner 缓解初期噪声数据带来的幻觉，提升自然度；上下文扩到 <strong>64k token</strong>。</p>
+<p><strong>Stage 3 — Reinforcement Learning</strong>：这一阶段用了两类 RL 方法——</p>
+<ul>
+<li><p><strong>DPO（Direct Preference Optimization）</strong>：基于人工标注构造多语种偏好对来优化</p>
+</li>
+<li><p>叠加 <strong>rule-based reward + GSPO</strong>（Group Sequence Policy Optimization），进一步提升整体能力和跨任务训练稳定性</p>
+</li>
+</ul>
+<p><strong>Stage 4 — Speaker Fine-tuning</strong>：在 base 模型上做轻量 speaker 微调，忠实捕捉目标说话人特征，同时提升语音的自然度、表现力和可控性。</p>
+<p>值得注意的是 Thinker 和 Talker 的 RL 用了<strong>不同方法</strong>：Thinker 侧重多轮交互对齐的在线 RL，Talker 侧重偏好对齐的 DPO + GSPO，这和两者的任务性质（文本/工具决策 vs 语音质量偏好）是匹配的。</p>
+<hr>
+<h1 id="Kimi-k2-5"><a href="#Kimi-k2-5" class="headerlink" title="Kimi k2.5"></a>Kimi k2.5</h1><p>参考：<a target="_blank" rel="noopener" href="https://arxiv\.org/abs/2602\.02276">https://arxiv\.org/abs/2602\.02276</a></p>
+<hr>
+<h2 id="一、模型结构-1"><a href="#一、模型结构-1" class="headerlink" title="一、模型结构"></a>一、模型结构</h2><h3 id="基座：Kimi-K2-MoE"><a href="#基座：Kimi-K2-MoE" class="headerlink" title="基座：Kimi K2 MoE"></a>基座：Kimi K2 MoE</h3><p>K2.5 不是从零训的，它建立在 <strong>Kimi K2</strong> 这个万亿参数 MoE 之上：</p>
+<ul>
+<li><p><strong>1.04 万亿总参数，激活 32B</strong>（每 token）</p>
+</li>
+<li><p>384 个专家，每 token 激活 8 个，稀疏度 48</p>
+</li>
+<li><p>用 <strong>MuonClip 优化器</strong>（带 QK-Clip 保证训练稳定），这是 token 效率很高的优化器</p>
+</li>
+<li><p>K2 本身在 15T 高质量纯文本 token 上预训练</p>
+</li>
+</ul>
+<h3 id="多模态三件套（沿用-Kimi-VL-设计原则）"><a href="#多模态三件套（沿用-Kimi-VL-设计原则）" class="headerlink" title="多模态三件套（沿用 Kimi-VL 设计原则）"></a>多模态三件套（沿用 Kimi-VL 设计原则）</h3><p>整个多模态架构 = <strong>MoonViT-3D 视觉编码器 + MLP projector + Kimi K2 MoE 语言模型</strong>。</p>
+<p><strong>MoonViT-3D —— 图像/视频共享的原生分辨率编码器</strong></p>
+<p>这是 K2.5 结构上的主要创新点：</p>
+<ul>
+<li><p>从 <strong>SigLIP-SO-400M</strong> 初始化，采用 <strong>NaViT 的 patch packing 策略</strong>（”patch n’ pack”）：单张图切 patch、拉平、拼成 1D 序列，天然支持<strong>任意分辨率/宽高比</strong>，不需要传统的子图切分拼接</p>
+</li>
+<li><p><strong>3D 化处理视频</strong>：把”patch n’ pack”推广到时间维度——<strong>连续 4 帧当作一个时空 volume</strong>，2D patch 联合拉平打包成单个 1D 序列，让同一套 attention 机制无缝跨空间和时间工作</p>
+</li>
+<li><p>关键设计是<strong>图像和视频完全共享参数、共享 embedding 空间</strong>，不做专门的视频模块或架构分叉，这样图像预训练学到的知识能整体迁移到视频</p>
+</li>
+<li><p>进 MLP projector 前用<strong>轻量 temporal pooling</strong> 在每个时间块内聚合 patch，实现 <strong>4 倍时间压缩</strong>，所以同样上下文窗口能塞进 4 倍长的视频（评测里长视频喂了超过 2000 帧）</p>
+</li>
+</ul>
+<p>一个有意思的设计哲学：<strong>不为视频单独造轮子，靠共享让能力自然泛化</strong>——这跟 Qwen3.5-Omni 直接用 Qwen3.5 视觉编码器 + 动态帧率的思路不同，K2.5 更强调”图像→视频”的参数复用。</p>
+<hr>
+<h2 id="二、预训练流程"><a href="#二、预训练流程" class="headerlink" title="二、预训练流程"></a>二、预训练流程</h2><p>预训练在 K2 语言模型 checkpoint 基础上，处理约 <strong>15T 混合视觉-文本 token</strong>，分三阶段（报告 Table 3）：</p>
+<p><strong>Stage 1 — ViT Training（独立视觉编码器训练）</strong> MoonViT-3D 从 SigLIP 继续预训练，数据是图文对、视频文本对，文本目标多样化：图像 alt text、图像/视频合成 caption、grounding bbox、OCR 文本。跟 Kimi-VL 不同，这里<strong>不用对比损失，只用 caption 的交叉熵损失</strong>。两步对齐策略：先更新 MoonViT-3D 对齐 Moonlight-16B-A3B（约 1T token，FLOPs 很少），再用一个很短的第二步只更新 MLP projector，把 ViT 和万亿 LLM 桥接好，为联合预训练铺路。序列长度 4096，约 1T token。</p>
+<p><strong>Stage 2 — Joint Pre-training（联合预训练）</strong> 从接近尾声的 K2 checkpoint 继续，追加 <strong>15T 视觉-文本 token</strong>，序列长 4096，ViT 和 LLM <strong>一起训</strong>。数据配方在 K2 分布基础上加了独特 token、提高编码类内容权重、控制每个数据源的最大 epoch。</p>
+<p>这里有一个<strong>全篇最重要的实验结论</strong>，直接挑战了业界通行做法：</p>
+<blockquote>
+<p><strong>早期融合 + 低视觉比例，在固定总预算下效果最好。</strong></p>
+</blockquote>
+<p>传统做法（引用 Qwen3-VL、Seed1.5-VL）是把视觉 token 主要放在训练<strong>后期</strong>、用<strong>高比例</strong>（50%+），把多模态当成语言能力之上的”后期附加”。但 K2.5 的消融实验（Table 1）发现恰恰相反：</p>
+<p>视觉比例对最终多模态性能影响很小，反而是<strong>早融合 + 低视觉比例</strong>综合最优。所以 K2.5 全程用一个<strong>恒定的、适中的视觉比例</strong>从早期就混合训练，而不是后期猛灌视觉数据。</p>
+<p><strong>Stage 3 — Joint Long-context Mid-training（长上下文中训）</strong> 用更高质量的中训数据做长上下文激活，序列长度从 <strong>32768 → 262144</strong>，通过 <strong>YaRN 插值</strong>逐步外推。数据含长文本、长视频、推理、Long-CoT，token 量 500B→200B。显著提升长文本理解和长视频理解的泛化。</p>
+<p>视觉预训练语料分七类：caption、interleaving（图文交错）、OCR、knowledge、perception、video、agent。其中特别值得注意的两点：一是<strong>图像-代码配对数据</strong>（HTML/React/SVG 等代码 + 渲染截图），为它的”视觉→代码”能力打基础；二是<strong>GUI 截图 + 操作轨迹</strong>（桌面/移动/网页，含人工标注），为 computer-use 能力打基础。</p>
+<hr>
+<h2 id="三、后训练"><a href="#三、后训练" class="headerlink" title="三、后训练"></a>三、后训练</h2><p>后训练分 SFT 和 RL，而 RL 又分<strong>文本-视觉联合 RL</strong>和 **PARL（并行智能体 RL）**两条线。</p>
+<h3 id="3-1-SFT：Zero-Vision-SFT（零视觉-SFT）"><a href="#3-1-SFT：Zero-Vision-SFT（零视觉-SFT）" class="headerlink" title="3.1 SFT：Zero-Vision SFT（零视觉 SFT）"></a>3.1 SFT：Zero-Vision SFT（零视觉 SFT）</h3><p>这是个反直觉但很聪明的设计。问题是：预训练好的 VLM 天然<strong>不会做基于视觉的工具调用</strong>，这给多模态 RL 造成冷启动难题。传统解法是人工标注或 prompt 工程造视觉 CoT 数据，但这类数据多样性差，视觉推理往往局限在简单图表和原始工具操作（裁剪、旋转、翻转）。</p>
+<p>K2.5 的做法——<strong>只用纯文本 SFT 数据来激活视觉+智能体能力</strong>：</p>
+<ul>
+<li><p>所有图像操作都<strong>代理为 IPython 里的编程操作</strong>，相当于把传统视觉工具使用泛化了</p>
+</li>
+<li><p>这种”零视觉”激活能引出多样的推理行为：像素级操作（二值化做目标尺寸估计、计数）、目标定位、OCR 等</p>
+</li>
+<li><p>实验发现：<strong>加人工设计的视觉轨迹反而损害泛化</strong>，纯文本 SFT 表现更好——原因是联合预训练已经建立了强的视觉-文本对齐，能力能自然跨模态泛化</p>
+</li>
+</ul>
+<p>我的启发：<strong>当底层对齐足够好时，昂贵的模态特定 SFT 数据不是必需的，甚至有害。</strong></p>
+<h3 id="3-2-联合多模态-RL"><a href="#3-2-联合多模态-RL" class="headerlink" title="3.2 联合多模态 RL"></a>3.2 联合多模态 RL</h3><p><strong>RL 目标函数</strong>（公式 1）相比 K1.5 的主要变化是引入了 <strong>token 级 clipping</strong>：对 log-ratio 落在 [α，β] 区间内的 token 正常算梯度，区间外的<strong>梯度直接置零</strong>（gradient masking）。跟标准 PPO clipping 的关键区别是——它<strong>严格只依赖 log-ratio 来界定 off-policy 漂移，不管 advantage 的正负号</strong>。报告说这对长程、多步工具使用推理的训练稳定性至关重要。优化器仍用 MuonClip。</p>
+<p><strong>几个关键发现：</strong></p>
+<ol>
+<li><p><strong>Outcome-based Visual RL</strong>：在三类必须用视觉才能解的任务上做结果奖励——视觉定位与计数、图表/文档理解、视觉关键的 STEM 问题。把这些轨迹拿去做 rejection-sampling fine-tuning（RFT），形成自我改进的数据 pipeline。</p>
+</li>
+<li><p><strong>视觉 RL 反过来提升了文本能力</strong>（Table 2，很反直觉）：</p>
+</li>
+</ol>
+<p>分析认为视觉 RL 提升了”结构化信息抽取”类任务的校准度。这个”文本引导视觉、视觉反哺文本”的双向增强是全篇的核心叙事。</p>
+<ol>
+<li><strong>按能力而非模态划分 RL domain</strong>：传统做法按输入模态分专家，K2.5 反其道——按<strong>能力</strong>（知识、推理、编码、智能体等）组织 RL domain，每个 domain 专家同时从纯文本和多模态 query 学习，<strong>GRM 也跨异构轨迹统一优化</strong>，没有模态壁垒，最大化跨模态迁移。</li>
+</ol>
+<p><strong>奖励设计</strong>很细：可验证任务用规则化结果奖励 + budget-control 奖励（省 token）；通用任务用 <strong>GRM（生成式奖励模型）</strong>；视觉任务定制奖励——grounding 用 IoU 软匹配的 F1、point 用高斯加权距离、多边形分割用栅格化 IoU、OCR 用归一化编辑距离、计数用绝对差、视觉谜题用 LLM verifier（K2）。GRM 不是二元判官，而是对齐 Kimi 内部价值的细粒度评估器（有用性、就绪度、上下文相关性、详略、artifact 美观度、严格指令遵循），并用<strong>多套 rubric 防 reward hacking</strong>。</p>
+<p><strong>Token 效率 RL —— Toggle</strong>：发现在刚性 budget 约束下训练会导致”长度过拟合”——模型无法泛化到更高算力、只会截断推理。Toggle 是个训练启发式，<strong>每 m 次迭代在两个阶段间交替</strong>：Phase 0（budget 受限，且只在模型对该题平均正确率超阈值 λ 时才施加约束）和 Phase 1（放开到最大长度，鼓励 test-time scaling）。在 K2 Thinking 上验证，<strong>平均减少 25~30% 输出 token，性能几乎无损</strong>，且只在数学/编程上训也能泛化到 GPQA、MMLU-Pro。</p>
+<h3 id="3-3-Agent-Swarm-PARL（重点）"><a href="#3-3-Agent-Swarm-PARL（重点）" class="headerlink" title="3.3 Agent Swarm + PARL（重点）"></a>3.3 Agent Swarm + PARL（重点）</h3><p><strong>问题</strong>：现有智能体几乎都是<strong>串行</strong>执行推理和工具调用，即使能做几百步（如 Kimi K2-Thinking），推理时间也<strong>线性增长</strong>，延迟不可接受，限制任务复杂度。</p>
+<p><strong>Agent Swarm 方案</strong>：一个<strong>可训练的 orchestrator（编排器）</strong> + 若干<strong>冻结的 subagent</strong>（从固定的中间策略 checkpoint 实例化）。编排器动态做任务分解、subagent 实例化、并行子任务调度。关键点：<strong>并行不被预设为一定有利，是否/何时/如何并行都通过环境反馈和 RL 探索显式学出来的。</strong></p>
+<p><strong>PARL（Parallel-Agent RL）的核心设计——解耦</strong>：训练时 subagent <strong>冻结</strong>，其执行轨迹<strong>排除在优化目标外</strong>，只更新 orchestrator。这样规避了端到端联合优化的两大难题：<strong>信用分配模糊</strong>（最终答对不代表 subagent 都做对，答错也不代表都错）和<strong>训练不稳定</strong>。做法是把 subagent 输出当成”环境观测”而非可微决策点，把高层协调逻辑和低层执行能力解耦。工程上还先用小 subagent 训 orchestrator 再换大模型，并能动态调节 subagent 与 orchestrator 的推理实例配比。</p>
+<p><strong>PARL 奖励</strong>（三项）：</p>
+<p>$r<em>{PARL} = \underbrace{\lambda_1 \cdot r</em>{parallel}}+ \underbrace{\lambda_2 \cdot r{finish}} + \underbrace{r{perf}}$</p>
+<ul>
+<li><p>$r_{perf}$：整体解答质量</p>
+</li>
+<li><p>$r_{parallel}$：激励实例化 subagent，防止 <strong>serial collapse</strong>（退化成单智能体串行的局部最优）</p>
+</li>
+<li><p>$r_{finish}$：奖励子任务真正完成，防止 <strong>spurious parallelism</strong>（狂开 subagent 刷并行指标却不真正分解任务的 reward hacking）</p>
+</li>
+<li><p>$\lambda_1, \lambda_2$ 在训练中<strong>退火到 0</strong>，保证最终只优化主目标</p>
+</li>
+</ul>
+<p><strong>Critical Steps（关键步数）</strong>：类比计算图的关键路径来度量并行下的时间成本。每个 stage 时长由该并行组里<strong>最长的 subagent</strong> 决定：</p>
+<p>$\text{CriticalSteps} = \sum<em>{t=1}^{T}\left(S</em>{main}^{(t)} + \max<em>i S</em>{sub,i}^{(t)}\right)$</p>
+<p>用 critical steps（而非总步数）来约束训练/评测，<strong>显式激励有效并行</strong>——无脑多开不缩短最长分支就没收益，只有均衡分解、缩短最长分支才降低 critical steps，从而逼编排器优化端到端延迟而非单纯堆并发。</p>
+<p><strong>Prompt 诱导</strong>：构造一批合成 prompt 压榨串行执行的极限——要么 wide search（同时探索大量独立信息源），要么 deep search（多推理分支延迟聚合），外加长文档分析、大规模文件下载等真实负载。<strong>prompt 里不明说要并行</strong>，而是通过任务分布让并行分解自然成为更优解。</p>
+<p><strong>效果</strong>：BrowseComp 从单智能体 60.6% → <strong>78.4%</strong>（甚至超过 GPT-5.2 Pro 的 77.9%）；WideSearch item-F1 72.7% → 79.0%；wide-search 场景<strong>延迟降低最多 4.5 倍</strong>。而且 Agent Swarm 被论证为一种<strong>主动式上下文管理</strong>——subagent 各自维护独立工作记忆做局部推理，只把任务相关输出回传给 orchestrator，实现”context sharding”而非”context truncation”，比 Discard-all 等被动截断策略在 BrowseComp 上效率和准确率都更好。</p>
+<h3 id="3-4-训练基础设施（两个亮点）"><a href="#3-4-训练基础设施（两个亮点）" class="headerlink" title="3.4 训练基础设施（两个亮点）"></a>3.4 训练基础设施（两个亮点）</h3><ul>
+<li><p><strong>DEP（Decoupled Encoder Process）</strong>：解决多模态训练里视觉编码器和文本 embedding 同处 pipeline Stage-0 导致的负载/显存剧烈波动。利用视觉编码器”位于前向起点、反向终点”的拓扑特点，拆成三步：①Balanced Vision Forward（视觉编码器复制到所有 GPU，按 patch 数均衡分配，丢弃中间激活只留输出）②Backbone Training（主干正常前反向，可直接复用纯文本训练的并行策略）③Vision Recomputation \&amp; Backward（重算视觉前向再反向）。结果是<strong>多模态训练效率达到纯文本训练的 90%</strong>，并能无缝继承 K2 的并行策略。</p>
+</li>
+<li><p><strong>Agentic RL 框架</strong>：Rollout Manager 可编排<strong>多达 10 万个并发 agent 任务</strong>，每个任务是独立异步协程、可递归触发子任务 rollout（所以 PARL、Agent-as-Judge 这类多智能体范式很好实现）。严格 Token-in-Token-out，记录所有 log prob 做<strong>训练-推理不匹配校正</strong>。基础设施是 H800 集群，16-way PP + 16-way EP + ZeRO-1 DP。</p>
+</li>
+</ul>
+<h1 id=""><a href="#" class="headerlink" title=" "></a> </h1><h1 id="Minimax-m3"><a href="#Minimax-m3" class="headerlink" title="Minimax m3"></a>Minimax m3</h1><p>参考：<a target="_blank" rel="noopener" href="https://www\.minimaxi\.com/blog/minimax\-m3">https://www\.minimaxi\.com/blog/minimax\-m3</a></p>
+<p>M3 是一个从 Step 0 开始进行多模态混合训练的模型。这种原生多模态的路线能让不同模态数据的语义空间更天然、更高度的融合。</p>
+<p>实验显示，Interleaved data（交错数据）相比合成类数据更容易 scale（扩展）。因此，在 M3 周期，我们重构了整套文本的预训练数据管线，产生大量的 interleaved data，并将其用在模型的训练中。</p>
+<p>Interleaved data（交错数据）<strong>定义</strong>：文本、图片、视频等不同模态样本穿插混合的训练数据，不是纯文本堆一起、纯图像堆一起的分离式合成数据。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>多模态大模型（MLLM）和纯文本 LLM 的关系，可以先用一句话锚定，后面所有差异都是它的展开：</p>
+<blockquote>
+<p><strong>多模态大模型 = 一个几乎原封不动的文本 LLM 主干 + 一套”把非文本信号翻译进 LLM 的 token 表示空间”的前端（编码器 + 连接器）+ 对位置编码/注意力/训练目标的少量适配。</strong> 主干的自回归本质没变，真正新增和改动的东西集中在”如何进来”和”如何对齐训练”。</p>
+</blockquote>
+<p><strong>两大架构范式</strong></p>
+<ul>
+<li><p><strong>组合式 / 后融合（compositional，adapter-style）</strong>：预训练好的视觉/音频编码器 + 连接器 + 预训练好的 LLM，三者拼起来再联合训。绝大多数模型属于这类——LLaVA、BLIP-2、Flamingo、Qwen-VL、Kimi-VL/K2.5、Qwen-Omni 都是。</p>
+</li>
+<li><p><strong>原生 / 早融合（native / early-fusion，统一 tokenization）</strong>：所有模态都被离散化进<strong>同一个词表</strong>，用单个 transformer、统一的 next-token 损失训练，典型是 Meta 的 Chameleon。</p>
+</li>
+</ul>
+<p>K2.5 自称”native multimodal”，但它其实是组合式（有 MoonViT 编码器 + projector），它说的”native”指的是<strong>从预训练早期就联合训</strong>（early fusion of <em>training</em>），不是指统一 tokenization。</p>
+<h2 id="一、模型结构：相比纯文本多出来的三个部件"><a href="#一、模型结构：相比纯文本多出来的三个部件" class="headerlink" title="一、模型结构：相比纯文本多出来的三个部件"></a>一、模型结构：相比纯文本多出来的三个部件</h2><p>纯文本 LLM 的结构是：<code>tokenizer → embedding 查表 → N 层 Transformer → LM head</code>。多模态在前面接了两个新部件（编码器、连接器），改了一个部件（位置编码），可选地在后面加了第四个（生成头）。</p>
+<h3 id="模态编码器（Encoder）"><a href="#模态编码器（Encoder）" class="headerlink" title="模态编码器（Encoder）"></a>模态编码器（Encoder）</h3><p>作用是把原始信号（像素、声波）变成一串高层特征向量。</p>
+<p><strong>视觉编码器</strong>几乎清一色是 ViT，而且通常直接拿<strong>对比学习预训练好的</strong>权重来初始化：</p>
+<ul>
+<li><p>LLaVA 用 CLIP ViT-L/14；近两年主流转向 <strong>SigLIP</strong>（K2.5 的 MoonViT-3D 就是从 SigLIP-SO-400M 初始化的）。</p>
+</li>
+<li><p>早期做法把图像强制 resize 成固定分辨率（如 224/336），会丢信息。现代做法是<strong>原生分辨率</strong>：Qwen2-VL 的 naive dynamic resolution、K2.5 的 MoonViT 用 <strong>NaViT 的 “patch n’ pack”</strong>——把图切成 patch、拉平、按任意宽高比拼成 1D 序列，不再做子图切分拼接。</p>
+</li>
+</ul>
+<p><strong>音频编码器</strong>（纯文本模型完全没有这一支）：流程是 <code>波形 → 16kHz 重采样 → mel 频谱（如 25ms 窗、10ms hop、128 通道）→ 卷积下采样 → Transformer</code>。Qwen3.5-Omni 的 AuT 就是典型：4 个 Conv2D block 做 16 倍下采样，输出 6.25Hz 的 token（每帧≈160ms），这和 Whisper 的 log-mel + 卷积 + encoder 是一脉相承的思路。</p>
+<h3 id="连接器-投影层（Connector-Projector）——-这是全篇最核心的新增件"><a href="#连接器-投影层（Connector-Projector）——-这是全篇最核心的新增件" class="headerlink" title="连接器 / 投影层（Connector / Projector）—— 这是全篇最核心的新增件"></a>连接器 / 投影层（Connector / Projector）—— 这是全篇最核心的新增件</h3><p>编码器输出的特征<strong>维度和”语义空间”都跟 LLM 的词嵌入对不上</strong>，连接器负责把它对齐到 LLM 的 embedding 空间，让 LLM”以为”这些是 token。主流有三种范式，差异很大：</p>
+<p><strong>（a） 线性 / MLP 投影（LLaVA 系）</strong> — 最简单直接</p>
+<ul>
+<li><p>一个投影矩阵（LLaVA 1.0）或两层 GELU MLP（LLaVA 1.5 升级为 MLP，提升明显），把每个 patch 特征逐一映射到 LLM embedding 维度。</p>
+</li>
+<li><p>特点：<strong>视觉 token 数 = patch 数，不压缩</strong>。一张 336×336 图 ≈ 576 个 token，很占上下文。K2.5 的 projector 也是 MLP，但在它之前用 temporal pooling 做了 4 倍时间压缩来省视频长度。</p>
+</li>
+</ul>
+<p><strong>（b） 查询式压缩：Q-Former / Resampler（BLIP-2、Flamingo）</strong> — 用少量可学习 query 把变长特征”抽干”成固定少量 token</p>
+<ul>
+<li><p>BLIP-2 的 <strong>Q-Former</strong> 用 <strong>32 个可学习 query</strong>，通过 cross-attention 从冻结的图像编码器里提取信息，不管原图多大，输出恒定 32 个 token。</p>
+</li>
+<li><p>Flamingo 的 <strong>Perceiver Resampler</strong> 把变长视觉特征重采样成固定 64 个 token。</p>
+</li>
+<li><p>特点：token 数可控、省算力，但有信息瓶颈，近两年纯理解模型反而回流到了更简单的 MLP（因为上下文长了、算力够了，不值得为压缩牺牲细节）。</p>
+</li>
+</ul>
+<p><strong>（c） 门控交叉注意力注入（Flamingo GATED XATTN-DENSE）</strong> — 视觉不当输入 token，而是当 KV 塞进 LLM 层间</p>
+<ul>
+<li><p>Flamingo 在<strong>冻结的语言模型</strong>层之间插入新的 gated cross-attention 层，视觉特征作为 key/value，文本作为 query。</p>
+</li>
+<li><p>关键细节：门控用 <strong>tanh，且初始化为 0</strong>，保证训练刚开始时这些新层等于”不存在”，不破坏原语言模型能力，再慢慢学着睁开眼睛。这是”保护已有语言能力”的经典技巧。</p>
+</li>
+</ul>
+<p>一个判断哪种范式的直觉：<strong>要不要把视觉当成序列里的普通 token?</strong> （a）（b） 是”当 token，拼进序列”；（c） 是”不当 token，旁路注入”。当下 （a） 因为简单和 scaling 友好成了主流。</p>
+<h3 id="位置编码的适配（容易被忽略但很关键）"><a href="#位置编码的适配（容易被忽略但很关键）" class="headerlink" title="位置编码的适配（容易被忽略但很关键）"></a>位置编码的适配（容易被忽略但很关键）</h3><p>纯文本是 1D 序列，RoPE 编一个位置就够。多模态要同时编码<strong>空间（2D：高、宽）和时间</strong>：</p>
+<ul>
+<li><p>Qwen2-VL 提出 <strong>M-RoPE</strong>，把位置 ID 拆成 temporal / height / width 三份。</p>
+</li>
+<li><p>Qwen3.5-Omni 用 <strong>TM-RoPE</strong> 做音视频时序对齐，但报告里明确指出纯绝对时间编码在长视频下会产生<strong>过稀疏的位置索引</strong>，削弱长程建模，于是改成<strong>在时序 patch 前面前置一个”秒”为单位的文本时间戳字符串</strong>，让模型更自然地学时间码。</p>
+</li>
+<li><p>K2.5 的 MoonViT-3D 干脆把”patch n’ pack”推广到时间维——<strong>连续 4 帧当一个时空 volume</strong>，用同一套 attention 跨空间和时间工作。</p>
+</li>
+</ul>
+<h3 id="生成侧（可选，取决于是”只理解”还是”能生成”）"><a href="#生成侧（可选，取决于是”只理解”还是”能生成”）" class="headerlink" title="生成侧（可选，取决于是”只理解”还是”能生成”）"></a>生成侧（可选，取决于是”只理解”还是”能生成”）</h3><ul>
+<li><p>LLaVA、Qwen-VL、Kimi K2.5 这类是 <strong>X→Text</strong>，只输出文本，后端和纯文本 LLM 一样，没有额外生成部件。</p>
+</li>
+<li><p>Qwen3.5-Omni 要<strong>输出语音</strong>，就必须多一整套生成栈：Talker（自回归预测 RVQ 语音 token）→ MTP 模块（预测残差码本）→ Code2Wav（卷积 codec 解码器还原波形）。要输出图像的模型（如 Chameleon）则需要图像 VQ tokenizer + 离散图像 token 的生成。</p>
+</li>
+</ul>
+<hr>
+<h2 id="二、损失函数：主干没变，但”在什么上算-loss”变了，且多出对齐损失"><a href="#二、损失函数：主干没变，但”在什么上算-loss”变了，且多出对齐损失" class="headerlink" title="二、损失函数：主干没变，但”在什么上算 loss”变了，且多出对齐损失"></a>二、损失函数：主干没变，但”在什么上算 loss”变了，且多出对齐损失</h2><h3 id="主干仍然是自回归-next-token-交叉熵——但有个关键细节"><a href="#主干仍然是自回归-next-token-交叉熵——但有个关键细节" class="headerlink" title="主干仍然是自回归 next-token 交叉熵——但有个关键细节"></a>主干仍然是自回归 next-token 交叉熵——但有个关键细节</h3><p>MLLM 的语言主干损失和纯文本<strong>完全一样</strong>，都是预测下一个 token 的交叉熵。但有一处极其重要的区别：</p>
+<blockquote>
+<p><strong>在理解型 MLLM 里，损失通常只在文本 token 上计算，图像/音频 token 不计 loss。</strong></p>
+</blockquote>
+<p>也就是说不会让模型去”预测下一个图像 patch”——视觉 token 只作为条件（前缀）输入，监督信号只加在文本回答上（LLaVA 甚至只在 assistant 的回答部分算 loss）。这跟纯文本”每个 token 都算 loss”不同。</p>
+<p>而<strong>能生成图像/语音的模型</strong>恰恰相反：生成侧的图像/语音 token 是要算自回归损失的（Chameleon 的统一 next-token、Qwen-Omni Talker 的语音 token 损失）。所以”在哪些 token 上算 loss”直接反映了这个模型”能不能生成那个模态”。</p>
+<h3 id="编码器-对齐阶段的额外损失（纯文本完全没有）"><a href="#编码器-对齐阶段的额外损失（纯文本完全没有）" class="headerlink" title="编码器 / 对齐阶段的额外损失（纯文本完全没有）"></a>编码器 / 对齐阶段的额外损失（纯文本完全没有）</h3><ul>
+<li><p><strong>对比损失（Contrastive）</strong>：CLIP 的对称 InfoNCE、SigLIP 的 sigmoid 损失，用图文对做双塔对齐。<strong>注意</strong>：这个损失主要用在<strong>预训练视觉编码器</strong>阶段；多数 MLLM 是拿现成的 CLIP/SigLIP 编码器来用，自己训练时<strong>并不再用对比损失</strong>。K2.5 就明确说 MoonViT-3D 的继续预训练<strong>只用 caption 的交叉熵，去掉了对比损失</strong>。</p>
+</li>
+<li><p><strong>图像 grounded 的 caption 交叉熵</strong>：让模型看图生成描述，是最常见的对齐损失。</p>
+</li>
+<li><p><strong>BLIP-2 第一阶段的三合一损失</strong>：ITC（图文对比）+ ITM（图文匹配，二分类）+ ITG（图像 grounded 文本生成），同时训 Q-Former，是”多损失联合对齐”的经典范例。</p>
+</li>
+</ul>
+<h3 id="生成侧-后训练损失"><a href="#生成侧-后训练损失" class="headerlink" title="生成侧 / 后训练损失"></a>生成侧 / 后训练损失</h3><ul>
+<li><p>生成侧：语音/图像离散 token 的自回归 CE、codec 重建损失，或（某些模型）扩散头的去噪损失、Qwen-Omni Talker 的 MTP 残差码本损失。</p>
+</li>
+<li><p>后训练：SFT 的 CE，以及 RLHF/DPO/RLVR。K2.5 的 RL 目标在 K1.5 基础上加了 <strong>token 级 clipping</strong>（log-ratio 落在 [α，β] 外的 token 梯度直接置零），并用 <strong>GRM（生成式奖励模型）替代纯规则奖励；Qwen3.5-Omni 的 Talker 用 DPO + GSPO。这些和纯文本 LLM 的后训练在算法上是共享的，差别主要在奖励怎么覆盖多模态轨迹</strong>。</p>
+</li>
+</ul>
+<hr>
+<h2 id="三、数据输入后的前向处理流程（逐步对比）"><a href="#三、数据输入后的前向处理流程（逐步对比）" class="headerlink" title="三、数据输入后的前向处理流程（逐步对比）"></a>三、数据输入后的前向处理流程（逐步对比）</h2><p><strong>纯文本 LLM：</strong></p>
+<figure class="highlight plaintext"><figcaption><span>Text</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">文本 → BPE 分词 → token id → embedding 查表 → [N 层 Transformer] → LM head → 下一个 token</span><br></pre></td></tr></table></figure>
+<p>就一条直路。</p>
+<p><strong>多模态 LLM</strong>关键在<strong>融合（fusion）这一步</strong>——视觉/音频 token 序列怎么和文本序列合并：</p>
+<ul>
+<li><p><strong>拼接/交错法（主流，对应上面 （a）（b） 连接器）</strong>：用特殊占位符标记模态边界，比如 Qwen-VL 用 <code>&lt;img&gt;...&lt;/img&gt;</code> 包裹，LLaVA 用 <code>&lt;image&gt;</code> 占位，把视觉 token 直接<strong>插进文本 token 序列</strong>变成一条长序列，再喂给同一个 LLM。位置编码统一连续编排（下一模态从上一模态最大位置 +1 开始，避免冲突）。</p>
+</li>
+<li><p><strong>旁路注入法（对应 （c） 连接器）</strong>：视觉不进主序列，而是在 LLM 层间通过 cross-attention 作为 KV 注入（Flamingo）。</p>
+</li>
+</ul>
+<p>音频/视频比图像多一个<strong>时间维</strong>，所以多了”帧采样 + 时间压缩 + 时间戳对齐”这些图像没有的步骤。</p>
+<hr>
+<h2 id="四、训练阶段流程的差异"><a href="#四、训练阶段流程的差异" class="headerlink" title="四、训练阶段流程的差异"></a>四、训练阶段流程的差异</h2><p>纯文本 LLM 大致是：<code>预训练 → SFT → RLHF</code>。</p>
+<p>多模态因为要<strong>先把新接的编码器/连接器和 LLM 对齐</strong>，通常在前面多出”对齐阶段”。</p>
+<p>Qwen-VL系列的预先训练思路始终是先训视觉编码器，再全部训练，再拓展上下文长度，适配器不会单独训练，而是和编码器或者LLM主干一起训练。后训练则会有更多变化，比如SFT、DPO、GSPO等，Omni模型则先训thinker再训talker。</p>
+<p>这里 K2.5 有个<strong>挑战业界惯例的实验结论</strong>：传统认为视觉 token 应该在训练<strong>后期</strong>用<strong>高比例</strong>（50%+）灌入（把多模态当”后期附加”），但 K2.5 的消融显示，在固定预算下 <strong>早期融合 + 低视觉比例（约 10%）反而最优</strong>——视觉比例对最终性能影响很小，早混合让两个模态更均衡地共同优化。这是”多模态训练流程”区别于纯文本的一个非平凡的、可能反直觉的点。</p>
+<hr>
+<p><strong>纯文本 LLM 是”分词→查表→算”；多模态多做的一切，几乎都是为了把像素和声波变成”LLM 能当 token 消费的东西”，并在训练里让这套翻译对齐。</strong></p>
+<p>由于时间关系，本文还有很多我想整理的工业界主流多模态模型没有梳理，包括LLaVA 、生图生视频相关的扩散语言模型，之后会继续完善。</p>
+<h2 id="-1"><a href="#-1" class="headerlink" title=" "></a> </h2></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://jiang54864.github.io">姜将</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://jiang54864.github.io/%E7%AC%94%E8%AE%B0/%E5%A4%9A%E6%A8%A1%E6%80%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%A2%B3%E7%90%86/">http://jiang54864.github.io/%E7%AC%94%E8%AE%B0/%E5%A4%9A%E6%A8%A1%E6%80%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%A2%B3%E7%90%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://jiang54864.github.io" target="_blank">姜将的个人博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/LLM/">LLM</a><a class="post-meta__tags" href="/tags/VLM/">VLM</a></div><div class="post_share"><div class="social-share" data-image="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/%E7%AC%94%E8%AE%B0/%E4%B8%BB%E6%B5%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%98%AF%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83agent%E8%83%BD%E5%8A%9B%E7%9A%84/" title="主流大模型是如何训练agent能力的"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">主流大模型是如何训练agent能力的</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/%E5%AE%9E%E9%AA%8C/%E5%80%9F%E5%8A%A9ollama%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8Cqwen2-5/" title="借助ollama本地运行各种开源大模型"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-12</div><div class="title">借助ollama本地运行各种开源大模型</div></div></a></div><div><a href="/paper/%E5%89%8D%E6%AE%B5%E6%97%B6%E9%97%B4%E7%9C%8B%E7%9A%84Agentic%20RL%E8%AE%BA%E6%96%87/" title="前段时间看的Agentic RL论文"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-29</div><div class="title">前段时间看的Agentic RL论文</div></div></a></div><div><a href="/%E7%AC%94%E8%AE%B0/%E7%90%86%E8%A7%A3transformer%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84/" title="理解transformer网络结构"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-02</div><div class="title">理解transformer网络结构</div></div></a></div><div><a href="/%E7%AC%94%E8%AE%B0/%E4%B8%BB%E6%B5%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%98%AF%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83agent%E8%83%BD%E5%8A%9B%E7%9A%84/" title="主流大模型是如何训练agent能力的"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-01</div><div class="title">主流大模型是如何训练agent能力的</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">姜将</div><div class="author-info__description">记录学习中的知识与收获</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">38</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">24</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/JIANG54864"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=2792663690&amp;website=www.oicqzone.com" target="_blank" title="点击添加我的QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="https://www.helloimg.com/i/2025/01/25/6794f016e9b99.png" target="_blank" title="点击添加我的微信"><i class="fab fa-weixin"></i></a><a class="social-icon" href="mailto:jiangsw2022@163.com" target="_blank" title="给我发邮件"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客网站！若有需要，可通过上方联系方式找到我。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%9A%E6%A8%A1%E6%80%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E8%BF%9B%E5%B1%95%E6%A2%B3%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">多模态大模型进展梳理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Qwen-VL%EF%BC%882023%EF%BC%8C%E5%9F%BA%E4%BA%8E-Qwen-7B%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">Qwen-VL（2023，基于 Qwen-7B）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Qwen2-VL%EF%BC%882024%EF%BC%8C%E5%9F%BA%E4%BA%8E-Qwen2%EF%BC%89%E2%80%94%E2%80%94-%E4%B8%89%E4%B8%AA%E5%A5%A0%E5%9F%BA%E6%80%A7%E6%94%B9%E5%8A%A8"><span class="toc-number">3.</span> <span class="toc-text">Qwen2-VL（2024，基于 Qwen2）—— 三个奠基性改动</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Qwen2-5-VL%EF%BC%882025-%E5%88%9D%EF%BC%89%E2%80%94%E2%80%94-%E5%9C%A8-Qwen2-VL-%E9%AA%A8%E6%9E%B6%E4%B8%8A%E5%81%9A%E2%80%9D%E6%97%B6%E9%97%B4%E2%80%9D%E5%92%8C%E2%80%9D%E6%95%88%E7%8E%87%E2%80%9D%E7%9A%84%E7%B2%BE%E4%BF%AE"><span class="toc-number">4.</span> <span class="toc-text">Qwen2.5-VL（2025 初）—— 在 Qwen2-VL 骨架上做”时间”和”效率”的精修</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Qwen2-5-Omni"><span class="toc-number">5.</span> <span class="toc-text">Qwen2.5-Omni</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Qwen3-VL%EF%BC%882025-%E5%BA%95%EF%BC%89"><span class="toc-number">6.</span> <span class="toc-text">Qwen3-VL（2025 底）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Qwen-VL%E7%B3%BB%E5%88%97%E5%B0%8F%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">Qwen VL系列小结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Qwen3-Omni"><span class="toc-number">8.</span> <span class="toc-text">Qwen3-Omni</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Thinker%EF%BC%88%E8%B4%9F%E8%B4%A3%E7%90%86%E8%A7%A3%E3%80%81%E6%96%87%E5%AD%97%E8%BE%93%E5%87%BA%EF%BC%8C%E4%B8%89%E9%98%B6%E6%AE%B5%E5%90%8E%E8%AE%AD%E7%BB%83%EF%BC%89"><span class="toc-number">8.0.1.</span> <span class="toc-text">Thinker（负责理解、文字输出，三阶段后训练）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5-1%EF%BC%9A%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9B%91%E7%9D%A3%E5%BE%AE%E8%B0%83%EF%BC%88%E8%BD%BB%E9%87%8F-SFT%EF%BC%89"><span class="toc-number">8.0.1.1.</span> <span class="toc-text">阶段 1：轻量级监督微调（轻量 SFT）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5-2%EF%BC%9A%E5%BC%BA%E2%86%92%E5%BC%B1%E6%A8%A1%E5%9E%8B%E8%92%B8%E9%A6%8F%EF%BC%88Strong-to-Weak-Distillation%EF%BC%89"><span class="toc-number">8.0.1.2.</span> <span class="toc-text">阶段 2：强→弱模型蒸馏（Strong-to-Weak Distillation）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5-3%EF%BC%9AGSPO-%E5%BA%8F%E5%88%97%E7%BA%A7%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%EF%BC%88%E6%A0%B8%E5%BF%83%E5%AF%B9%E9%BD%90%E4%BC%98%E5%8C%96%EF%BC%89"><span class="toc-number">8.0.1.3.</span> <span class="toc-text">阶段 3：GSPO 序列级强化学习（核心对齐优化）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Talker%EF%BC%88%E5%AE%9E%E6%97%B6%E8%AF%AD%E9%9F%B3%E7%94%9F%E6%88%90%EF%BC%8C%E7%8B%AC%E7%AB%8B%E5%9B%9B%E9%98%B6%E6%AE%B5%E8%AE%AD%E7%BB%83%EF%BC%89"><span class="toc-number">8.0.2.</span> <span class="toc-text">Talker（实时语音生成，独立四阶段训练）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5-1%EF%BC%9A%E5%9F%BA%E7%A1%80%E8%AF%AD%E9%9F%B3%E6%98%A0%E5%B0%84%E9%A2%84%E8%AE%AD%E7%BB%83"><span class="toc-number">8.0.2.1.</span> <span class="toc-text">阶段 1：基础语音映射预训练</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5-2%EF%BC%9A%E6%8C%81%E7%BB%AD%E9%A2%84%E8%AE%AD%E7%BB%83-CP-%E9%95%BF%E4%B8%8A%E4%B8%8B%E6%96%87%E4%BC%98%E5%8C%96"><span class="toc-number">8.0.2.2.</span> <span class="toc-text">阶段 2：持续预训练 CP + 长上下文优化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5-3%EF%BC%9ADPO-%E7%9B%B4%E6%8E%A5%E5%81%8F%E5%A5%BD%E4%BC%98%E5%8C%96%EF%BC%88%E5%A4%9A%E8%AF%AD%E8%A8%80%E8%AF%AD%E9%9F%B3%E4%B8%93%E9%A1%B9%EF%BC%89"><span class="toc-number">8.0.2.3.</span> <span class="toc-text">阶段 3：DPO 直接偏好优化（多语言语音专项）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5-4%EF%BC%9A%E4%BA%BA%E5%A3%B0%E5%AE%9A%E5%88%B6%E5%BE%AE%E8%B0%83"><span class="toc-number">8.0.2.4.</span> <span class="toc-text">阶段 4：人声定制微调</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Qwen3-Omni-30B-A3B-Captioner-%E9%9F%B3%E9%A2%91%E6%8F%8F%E8%BF%B0%E4%B8%93%E7%94%A8%E5%BE%AE%E8%B0%83"><span class="toc-number">8.0.3.</span> <span class="toc-text">Qwen3-Omni-30B-A3B-Captioner 音频描述专用微调</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A5%E5%85%85%E9%85%8D%E5%A5%97%E4%B8%93%E9%A1%B9%E8%AE%AD%E7%BB%83%EF%BC%9AAuT-%E9%9F%B3%E9%A2%91%E7%BC%96%E7%A0%81%E5%99%A8%E7%8B%AC%E7%AB%8B%E9%A2%84%E8%AE%AD%E7%BB%83"><span class="toc-number">8.0.4.</span> <span class="toc-text">补充配套专项训练：AuT 音频编码器独立预训练</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E8%AE%AD%E7%BB%83%E6%97%B6%E9%97%B4%E7%BA%BF%E6%80%BB%E8%A7%88"><span class="toc-number">8.0.5.</span> <span class="toc-text">完整训练时间线总览</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Qwen3-ASR"><span class="toc-number">9.</span> <span class="toc-text">Qwen3-ASR</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Qwen3-TTS"><span class="toc-number">10.</span> <span class="toc-text">Qwen3-TTS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Qwen3-5"><span class="toc-number">11.</span> <span class="toc-text">Qwen3.5</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Qwen3-5-Omni"><span class="toc-number">12.</span> <span class="toc-text">Qwen3.5-Omni</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%84"><span class="toc-number">12.1.</span> <span class="toc-text">一、模型结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%EF%BC%9AThinker%E2%80%93Talker-%E6%9E%B6%E6%9E%84"><span class="toc-number">12.1.1.</span> <span class="toc-text">整体：Thinker–Talker 架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%84%E7%BB%84%E4%BB%B6"><span class="toc-number">12.1.2.</span> <span class="toc-text">各组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E4%B8%AA%E5%85%B3%E9%94%AE%E6%8A%80%E6%9C%AF%E7%82%B9"><span class="toc-number">12.1.3.</span> <span class="toc-text">三个关键技术点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E9%A2%84%E8%AE%AD%E7%BB%83%E6%B5%81%E7%A8%8B%E4%B8%8E%E6%95%B0%E6%8D%AE"><span class="toc-number">12.2.</span> <span class="toc-text">二、预训练流程与数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%90%8E%E8%AE%AD%E7%BB%83%EF%BC%88Post-training%EF%BC%89"><span class="toc-number">12.3.</span> <span class="toc-text">三、后训练（Post-training）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Thinker%EF%BC%9A%E4%B8%89%E9%98%B6%E6%AE%B5"><span class="toc-number">12.3.1.</span> <span class="toc-text">Thinker：三阶段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Talker%EF%BC%9A%E5%9B%9B%E9%98%B6%E6%AE%B5"><span class="toc-number">12.3.2.</span> <span class="toc-text">Talker：四阶段</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kimi-k2-5"><span class="toc-number">13.</span> <span class="toc-text">Kimi k2.5</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%84-1"><span class="toc-number">13.1.</span> <span class="toc-text">一、模型结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E5%BA%A7%EF%BC%9AKimi-K2-MoE"><span class="toc-number">13.1.1.</span> <span class="toc-text">基座：Kimi K2 MoE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E6%A8%A1%E6%80%81%E4%B8%89%E4%BB%B6%E5%A5%97%EF%BC%88%E6%B2%BF%E7%94%A8-Kimi-VL-%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%EF%BC%89"><span class="toc-number">13.1.2.</span> <span class="toc-text">多模态三件套（沿用 Kimi-VL 设计原则）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E9%A2%84%E8%AE%AD%E7%BB%83%E6%B5%81%E7%A8%8B"><span class="toc-number">13.2.</span> <span class="toc-text">二、预训练流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%90%8E%E8%AE%AD%E7%BB%83"><span class="toc-number">13.3.</span> <span class="toc-text">三、后训练</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-SFT%EF%BC%9AZero-Vision-SFT%EF%BC%88%E9%9B%B6%E8%A7%86%E8%A7%89-SFT%EF%BC%89"><span class="toc-number">13.3.1.</span> <span class="toc-text">3.1 SFT：Zero-Vision SFT（零视觉 SFT）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E8%81%94%E5%90%88%E5%A4%9A%E6%A8%A1%E6%80%81-RL"><span class="toc-number">13.3.2.</span> <span class="toc-text">3.2 联合多模态 RL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-Agent-Swarm-PARL%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89"><span class="toc-number">13.3.3.</span> <span class="toc-text">3.3 Agent Swarm + PARL（重点）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E8%AE%AD%E7%BB%83%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%EF%BC%88%E4%B8%A4%E4%B8%AA%E4%BA%AE%E7%82%B9%EF%BC%89"><span class="toc-number">13.3.4.</span> <span class="toc-text">3.4 训练基础设施（两个亮点）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">14.</span> <span class="toc-text"> </span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Minimax-m3"><span class="toc-number">15.</span> <span class="toc-text">Minimax m3</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">16.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%84%EF%BC%9A%E7%9B%B8%E6%AF%94%E7%BA%AF%E6%96%87%E6%9C%AC%E5%A4%9A%E5%87%BA%E6%9D%A5%E7%9A%84%E4%B8%89%E4%B8%AA%E9%83%A8%E4%BB%B6"><span class="toc-number">16.1.</span> <span class="toc-text">一、模型结构：相比纯文本多出来的三个部件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E6%80%81%E7%BC%96%E7%A0%81%E5%99%A8%EF%BC%88Encoder%EF%BC%89"><span class="toc-number">16.1.1.</span> <span class="toc-text">模态编码器（Encoder）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E5%99%A8-%E6%8A%95%E5%BD%B1%E5%B1%82%EF%BC%88Connector-Projector%EF%BC%89%E2%80%94%E2%80%94-%E8%BF%99%E6%98%AF%E5%85%A8%E7%AF%87%E6%9C%80%E6%A0%B8%E5%BF%83%E7%9A%84%E6%96%B0%E5%A2%9E%E4%BB%B6"><span class="toc-number">16.1.2.</span> <span class="toc-text">连接器 &#x2F; 投影层（Connector &#x2F; Projector）—— 这是全篇最核心的新增件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81%E7%9A%84%E9%80%82%E9%85%8D%EF%BC%88%E5%AE%B9%E6%98%93%E8%A2%AB%E5%BF%BD%E7%95%A5%E4%BD%86%E5%BE%88%E5%85%B3%E9%94%AE%EF%BC%89"><span class="toc-number">16.1.3.</span> <span class="toc-text">位置编码的适配（容易被忽略但很关键）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E4%BE%A7%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%8C%E5%8F%96%E5%86%B3%E4%BA%8E%E6%98%AF%E2%80%9D%E5%8F%AA%E7%90%86%E8%A7%A3%E2%80%9D%E8%BF%98%E6%98%AF%E2%80%9D%E8%83%BD%E7%94%9F%E6%88%90%E2%80%9D%EF%BC%89"><span class="toc-number">16.1.4.</span> <span class="toc-text">生成侧（可选，取决于是”只理解”还是”能生成”）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%EF%BC%9A%E4%B8%BB%E5%B9%B2%E6%B2%A1%E5%8F%98%EF%BC%8C%E4%BD%86%E2%80%9D%E5%9C%A8%E4%BB%80%E4%B9%88%E4%B8%8A%E7%AE%97-loss%E2%80%9D%E5%8F%98%E4%BA%86%EF%BC%8C%E4%B8%94%E5%A4%9A%E5%87%BA%E5%AF%B9%E9%BD%90%E6%8D%9F%E5%A4%B1"><span class="toc-number">16.2.</span> <span class="toc-text">二、损失函数：主干没变，但”在什么上算 loss”变了，且多出对齐损失</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E5%B9%B2%E4%BB%8D%E7%84%B6%E6%98%AF%E8%87%AA%E5%9B%9E%E5%BD%92-next-token-%E4%BA%A4%E5%8F%89%E7%86%B5%E2%80%94%E2%80%94%E4%BD%86%E6%9C%89%E4%B8%AA%E5%85%B3%E9%94%AE%E7%BB%86%E8%8A%82"><span class="toc-number">16.2.1.</span> <span class="toc-text">主干仍然是自回归 next-token 交叉熵——但有个关键细节</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E7%A0%81%E5%99%A8-%E5%AF%B9%E9%BD%90%E9%98%B6%E6%AE%B5%E7%9A%84%E9%A2%9D%E5%A4%96%E6%8D%9F%E5%A4%B1%EF%BC%88%E7%BA%AF%E6%96%87%E6%9C%AC%E5%AE%8C%E5%85%A8%E6%B2%A1%E6%9C%89%EF%BC%89"><span class="toc-number">16.2.2.</span> <span class="toc-text">编码器 &#x2F; 对齐阶段的额外损失（纯文本完全没有）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E4%BE%A7-%E5%90%8E%E8%AE%AD%E7%BB%83%E6%8D%9F%E5%A4%B1"><span class="toc-number">16.2.3.</span> <span class="toc-text">生成侧 &#x2F; 后训练损失</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%95%B0%E6%8D%AE%E8%BE%93%E5%85%A5%E5%90%8E%E7%9A%84%E5%89%8D%E5%90%91%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B%EF%BC%88%E9%80%90%E6%AD%A5%E5%AF%B9%E6%AF%94%EF%BC%89"><span class="toc-number">16.3.</span> <span class="toc-text">三、数据输入后的前向处理流程（逐步对比）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E8%AE%AD%E7%BB%83%E9%98%B6%E6%AE%B5%E6%B5%81%E7%A8%8B%E7%9A%84%E5%B7%AE%E5%BC%82"><span class="toc-number">16.4.</span> <span class="toc-text">四、训练阶段流程的差异</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-1"><span class="toc-number">16.5.</span> <span class="toc-text"> </span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/%E7%AC%94%E8%AE%B0/%E5%A4%9A%E6%A8%A1%E6%80%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%A2%B3%E7%90%86/" title="多模态大模型梳理">多模态大模型梳理</a><time datetime="2026-07-22T15:40:38.000Z" title="发表于 2026-07-22 23:40:38">2026-07-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/%E7%AC%94%E8%AE%B0/%E4%B8%BB%E6%B5%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%98%AF%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83agent%E8%83%BD%E5%8A%9B%E7%9A%84/" title="主流大模型是如何训练agent能力的">主流大模型是如何训练agent能力的</a><time datetime="2026-07-01T15:13:47.000Z" title="发表于 2026-07-01 23:13:47">2026-07-01</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/uncategorized/%E5%89%8D%E6%AE%B5%E6%97%B6%E9%97%B4%E7%9C%8B%E7%9A%84skill%E3%80%81OPD%E3%80%81%E4%BF%A1%E7%94%A8%E5%88%86%E9%85%8D%E8%AE%BA%E6%96%87/" title="前段时间看的skill、OPD、信用分配论文">前段时间看的skill、OPD、信用分配论文</a><time datetime="2026-06-07T14:19:43.000Z" title="发表于 2026-06-07 22:19:43">2026-06-07</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/paper/%E5%89%8D%E6%AE%B5%E6%97%B6%E9%97%B4%E7%9C%8B%E7%9A%84Agentic%20RL%E8%AE%BA%E6%96%87/" title="前段时间看的Agentic RL论文">前段时间看的Agentic RL论文</a><time datetime="2026-04-29T13:53:59.000Z" title="发表于 2026-04-29 21:53:59">2026-04-29</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/%E7%AC%94%E8%AE%B0/%E5%9B%BD%E7%A7%91%E5%A4%A7%E3%80%8A%E9%AB%98%E7%BA%A7%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E3%80%8B%E5%A4%8D%E4%B9%A0/" title="国科大《高级人工智能》复习">国科大《高级人工智能》复习</a><time datetime="2026-02-17T15:04:17.000Z" title="发表于 2026-02-17 23:04:17">2026-02-17</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By 姜将</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="true"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
