@@ -1263,7 +1263,7 @@ function loadGiscus () {
     'data-reactions-enabled': '1',
     crossorigin: 'anonymous',
     async: true
-  },{"data-category":"Announcements","data-mapping":"pathname","data-strict":"1","data-lang":"zh-CN","data-input-position":"top","data-reactions-enabled":"1","data-emit-metadata":"0"})
+  },{"data-category":"Announcements","data-mapping":"pathname","data-strict":"1","data-lang":"zh-CN","data-input-position":"top","data-loading":"lazy","data-reactions-enabled":"1","data-emit-metadata":"0"})
 
   let ele = document.createElement('script')
   for (let key in config) {
@@ -1288,8 +1288,8 @@ function changeGiscusTheme (theme) {
 
 btf.addModeChange('giscus', changeGiscusTheme)
 
-if ('Giscus' === 'Giscus' || !false) {
-  if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+if ('Giscus' === 'Giscus' || !true) {
+  if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
   else loadGiscus()
 } else {
   function loadOtherComment () {
