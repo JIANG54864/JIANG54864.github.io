@@ -1,0 +1,492 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>deepseek herness架构解析 | 姜将的个人博客</title><meta name="author" content="姜将"><meta name="copyright" content="姜将"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1. 总览最鲜明的设计是 “Everything is a Plugin”：模型适配器、工具注册表、会话服务、默认 Agent Loop、Web 界面都通过 Cordis 插件装配。应用启动时选择一组配置，形成具体的运行系统。 可以把主要职责分成六类：  应用装配：CLI、Profile、Bundle 与配置覆盖。 Agent 驱动：输入队列、轮次状态、模型请求与继续执行。 能力执行：文件、She">
+<meta property="og:type" content="article">
+<meta property="og:title" content="deepseek herness架构解析">
+<meta property="og:url" content="http://jiang54864.github.io/%E7%AC%94%E8%AE%B0/deepseek-herness%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/index.html">
+<meta property="og:site_name" content="姜将的个人博客">
+<meta property="og:description" content="1. 总览最鲜明的设计是 “Everything is a Plugin”：模型适配器、工具注册表、会话服务、默认 Agent Loop、Web 界面都通过 Cordis 插件装配。应用启动时选择一组配置，形成具体的运行系统。 可以把主要职责分成六类：  应用装配：CLI、Profile、Bundle 与配置覆盖。 Agent 驱动：输入队列、轮次状态、模型请求与继续执行。 能力执行：文件、She">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg">
+<meta property="article:published_time" content="2026-11-04T14:29:12.000Z">
+<meta property="article:modified_time" content="2026-11-04T14:34:22.913Z">
+<meta property="article:author" content="姜将">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="herness">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg"><link rel="shortcut icon" href="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg"><link rel="canonical" href="http://jiang54864.github.io/%E7%AC%94%E8%AE%B0/deepseek-herness%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'deepseek herness架构解析',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-11-04 22:34:22'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="姜将的个人博客"><img class="site-icon" src="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg"/><span class="site-name">姜将的个人博客</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">deepseek herness架构解析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-11-04T14:29:12.000Z" title="发表于 2026-11-04 22:29:12">2026-11-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-11-04T14:34:22.913Z" title="更新于 2026-11-04 22:34:22">2026-11-04</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">8.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>31分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="deepseek herness架构解析"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="1-总览"><a href="#1-总览" class="headerlink" title="1. 总览"></a>1. 总览</h2><p>最鲜明的设计是 <strong>“Everything is a Plugin”</strong>：模型适配器、工具注册表、会话服务、默认 Agent Loop、Web 界面都通过 Cordis 插件装配。应用启动时选择一组配置，形成具体的运行系统。</p>
+<p>可以把主要职责分成六类：</p>
+<ul>
+<li><strong>应用装配</strong>：CLI、Profile、Bundle 与配置覆盖。</li>
+<li><strong>Agent 驱动</strong>：输入队列、轮次状态、模型请求与继续执行。</li>
+<li><strong>能力执行</strong>：文件、Shell、Web、MCP、浏览器等服务及工具。</li>
+<li><strong>状态管理</strong>：会话事件、持久化、恢复和面向不同消费者的投影。</li>
+<li><strong>上下文管理</strong>：提示词、工作区指令、Skill、附件和摘要压缩。</li>
+<li><strong>交互与控制</strong>：Web/Desktop/SDK、审批、用户提问和权限设置。</li>
+</ul>
+<h2 id="2-源码目录与整体结构"><a href="#2-源码目录与整体结构" class="headerlink" title="2. 源码目录与整体结构"></a>2. 源码目录与整体结构</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">deepseek-harness/</span><br><span class="line">├─ apps/</span><br><span class="line">│  ├─ cli/                 dsh 命令入口与 profile 启动器</span><br><span class="line">│  ├─ web/                 浏览器应用入口</span><br><span class="line">│  ├─ desktop/             Electron 桌面载体</span><br><span class="line">│  └─ desktop-host/        桌面后端与共享 CLI 的连接</span><br><span class="line">├─ packages/</span><br><span class="line">│  ├─ boot/、bundle/       应用启动和可分发的组合层</span><br><span class="line">│  ├─ core/                Agent、默认循环、Session、Prompt、Tools</span><br><span class="line">│  ├─ llm/                 模型调用服务与提供方适配器</span><br><span class="line">│  ├─ fs/、shell/          文件和命令执行能力</span><br><span class="line">│  ├─ sandbox/、interaction/  文件效果限制、审批与人机交互</span><br><span class="line">│  ├─ session/             持久化、检查点与状态投影</span><br><span class="line">│  ├─ context/、skill/、compaction/  模型上下文管理</span><br><span class="line">│  ├─ subagent/            子代理服务与不同后端</span><br><span class="line">│  ├─ ptc-runtime/         程序化工具调用的执行环境</span><br><span class="line">│  ├─ host/、client/、api/ Web 服务、客户端插件与 RPC</span><br><span class="line">│  └─ sdk/                 TypeScript SDK 与 JSON-RPC 服务</span><br><span class="line">├─ python/                 Python SDK 与配套运行时</span><br><span class="line">├─ native/                 平台原生能力</span><br><span class="line">├─ vendor/                 仓库固定版本的 Cordis 等依赖源码</span><br><span class="line">├─ snapshots/              记录式会话回放资料</span><br><span class="line">└─ docs/                   架构、子系统与使用文档</span><br></pre></td></tr></table></figure>
+<p>这里的 <code>core/</code> 是公开服务与默认实现的聚集处；其名称不代表其中的实现不能替换。比如 <code>core/agent</code> 定义公开 Agent 服务，<code>core/agent-loop</code> 提供默认驱动，两者有明确区分。包组说明（<code>packages/README.zh.md</code>）、默认工厂注册（<code>packages/core/agent-loop/src/index.ts:329</code>）。</p>
+<p>整体关系可以画成下面这张图。箭头表示组装、调用或数据派生关系，省略了具体的 RPC 和进程通信细节。</p>
+<div class="mermaid-wrap"><pre class="mermaid-src" hidden>flowchart TD
+    A[CLI 或 Desktop 启动器] --&gt; B[Profile 与 Bundle 配置]
+    B --&gt; C[Cordis Context 与插件树]
+    C --&gt; D[AgentRegistry 与默认 AgentLoop]
+    C --&gt; E[Web / Headless / SDK 交互插件]
+    D --&gt; F[Prompt 与上下文插件]
+    D --&gt; G[LLM 服务与模型适配器]
+    D --&gt; H[工具注册表与执行流水线]
+    H --&gt; I[文件 / Shell / Web / MCP 等能力]
+    D --&gt; J[Session 事件日志]
+    H --&gt; J
+    J --&gt; K[模型历史与客户端状态投影]
+    J --&gt; L[持久化与恢复]
+</pre></div>
+<h2 id="3-Cordis：一切皆插件如何落地"><a href="#3-Cordis：一切皆插件如何落地" class="headerlink" title="3. Cordis：一切皆插件如何落地"></a>3. Cordis：一切皆插件如何落地</h2><h3 id="3-1-Context、Service-与依赖注入"><a href="#3-1-Context、Service-与依赖注入" class="headerlink" title="3.1 Context、Service 与依赖注入"></a>3.1 Context、Service 与依赖注入</h3><p>Cordis 为插件提供共享上下文 <code>ctx</code>。服务以稳定的名字出现在上下文中，例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ctx.agents          Agent 的公开入口</span><br><span class="line">ctx.agentLoop       默认 Agent 驱动实现</span><br><span class="line">ctx.sessions        会话存储与会话对象管理</span><br><span class="line">ctx.systemPrompt    提示词与上下文贡献的组装</span><br><span class="line">ctx.tools           工具注册、解析和执行</span><br><span class="line">ctx.llm             模型提供方注册与调用</span><br></pre></td></tr></table></figure>
+<p>插件通过 <code>inject</code> 声明需要的服务。依赖满足后，插件才激活，所以 YAML 中“谁写在前面”不能简单等同于运行时的启动先后。比如 DeepSeek API Key 提供方声明依赖 <code>llm</code>，再将路由注册到 LLM 服务。提供方入口（<code>packages/llm/llm-deepseek-api-key/src/index.ts:16</code>）、Cordis 依赖注入实现（<code>vendor/cordis/src/registry.ts:300</code>）。</p>
+<h3 id="3-2-事件是行为扩展点"><a href="#3-2-事件是行为扩展点" class="headerlink" title="3.2 事件是行为扩展点"></a>3.2 事件是行为扩展点</h3><p>插件通过类型化事件观察或拦截流程。这里需要区分两类经常同时出现的事件：</p>
+<ul>
+<li><strong>持久 Session 事件</strong>：如 <code>user/message</code>、<code>tool/result</code>、<code>turn/end</code>，表示已经发生、需要保留的事实。</li>
+<li><strong>实时扩展事件</strong>：如 <code>agent/pre-step</code>、<code>llm/stream</code>、<code>tools/pre-execute</code>，用于当前进程内的执行与策略协调。</li>
+</ul>
+<p>部分扩展事件采用 <code>waterfall</code>，也就是环绕式中间件：监听器调用 <code>next()</code>，才继续执行下一层；直接返回则短路后续流程。它可以实现策略拒绝、替代返回或围绕原有行为增加逻辑。源码还防止同一监听器重复调用 <code>next()</code>。waterfall 实现（<code>vendor/cordis/src/events.ts:236</code>）。</p>
+<p>因此，增加一个执行策略通常可以注册监听器完成；无需把策略条件写进默认循环的每个分支。</p>
+<h3 id="3-3-注册同时承担生命周期管理"><a href="#3-3-注册同时承担生命周期管理" class="headerlink" title="3.3 注册同时承担生命周期管理"></a>3.3 注册同时承担生命周期管理</h3><p>工具、适配器和监听器的注册会绑定 Cordis effect。卸载插件时，effect 撤销注册并清理资源。例如 <code>registerAdapter()</code> 在 effect 内发布路由，释放时删除其拥有的路由；工具 executor 也有相应的撤销逻辑。适配器注册（<code>packages/llm/llm/src/index.ts:394</code>）、工具 executor 注册（<code>packages/core/tools/src/index.ts:325</code>）。</p>
+<p>这使热重载不仅涉及重新读取配置，还涉及旧能力何时停止提供服务、正在运行的 Agent 何时释放资源。声明依赖和清理 effect 是插件实现的一部分。</p>
+<h3 id="3-4-能力接口、实现和模型工具分开"><a href="#3-4-能力接口、实现和模型工具分开" class="headerlink" title="3.4 能力接口、实现和模型工具分开"></a>3.4 能力接口、实现和模型工具分开</h3><p>项目用 capability seam 表达一项可替换能力的三个角色：</p>
+<ol>
+<li><strong>Service Definition</strong>：声明调用接口与行为要求。</li>
+<li><strong>Service Provider</strong>：实现本地、远程或其他执行方式。</li>
+<li><strong>Consumer</strong>：使用服务，常见形式是面向模型的工具。</li>
+</ol>
+<p>以文件能力为例，模型工具处理参数和工具输出，文件服务提供操作接口，<code>fs-sandbox</code> 在写操作前检查允许写入的位置。替换提供方时，可以保留上层工具的使用方式。能力说明（<code>docs/architecture.md</code>）、文件限制实现（<code>packages/fs/fs-sandbox/src/index.ts:156</code>）。</p>
+<h2 id="4-启动：Profile、Bundle-与配置叠加"><a href="#4-启动：Profile、Bundle-与配置叠加" class="headerlink" title="4. 启动：Profile、Bundle 与配置叠加"></a>4. 启动：Profile、Bundle 与配置叠加</h2><h3 id="4-1-三种“预设”分别控制什么"><a href="#4-1-三种“预设”分别控制什么" class="headerlink" title="4.1 三种“预设”分别控制什么"></a>4.1 三种“预设”分别控制什么</h3><p>源码中有三个容易混淆的概念：</p>
+<ul>
+<li><strong>Profile</strong> 决定启动哪种应用组合，如 Web、Headless 或 SDK，保存在 Harness home 中。</li>
+<li><strong>Agent Preset</strong> 决定某个 Agent 使用的插件能力集合，通过带 scope 的插件树和会话绑定管理。</li>
+<li><strong>Permission Preset</strong> 把沙箱模式与审批策略组合成用户可选择的权限模式。</li>
+</ul>
+<p>它们分别属于应用启动、Agent 能力选择和执行权限三个层次。Agent Preset 还管理具体插件版本的存活：新定义可以激活新一代组合，仍有 Agent 使用的旧组合继续保留，直到引用释放。Agent Preset 注册与版本管理（<code>packages/preset/agent-preset-registry/src/index.ts:93</code>）、权限预设（<code>packages/interaction/permission-presets/src/index.ts:59</code>）。</p>
+<h3 id="4-2-官方-Profile-的组合"><a href="#4-2-官方-Profile-的组合" class="headerlink" title="4.2 官方 Profile 的组合"></a>4.2 官方 Profile 的组合</h3><p>Bundle 是可分发的代码和 Cordis patch；Profile 按顺序堆叠 Bundle，再叠加用户配置。当前官方模板为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">web          = base + web-app</span><br><span class="line">headless     = base + headless</span><br><span class="line">sdk          = base + sdk-app</span><br><span class="line">acp          = base + acp-app</span><br><span class="line">sdk-minimal  = sdk-minimal</span><br></pre></td></tr></table></figure>
+<p><code>base</code> 提供共享的模型、Agent、工具、会话、权限等能力。<code>web-app</code> 增加 Web 产品，<code>headless</code> 增加一次性任务运行器，<code>sdk-app</code> 增加 JSON-RPC 服务。<code>sdk-minimal</code> 独立声明自己的最小插件树，不叠加 <code>base</code>。官方模板定义（<code>packages/util/official-bundles/src/bundles.ts:10</code>）、最小 SDK 组合（<code>packages/bundle/sdk-minimal/cordis.patch.yml:1</code>）。</p>
+<h3 id="4-3-配置从哪里来"><a href="#4-3-配置从哪里来" class="headerlink" title="4.3 配置从哪里来"></a>4.3 配置从哪里来</h3><p>普通组合层的优先顺序为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Profile 中列出的 Bundle，按列表顺序</span><br><span class="line">→ Profile 自己的 cordis.patch.yml</span><br><span class="line">→ Harness home patch</span><br><span class="line">→ 命令行 --patch，按传入顺序</span><br></pre></td></tr></table></figure>
+<p>启动器还可以在末尾追加遥测退出配置。后面的层可以覆盖前面的层；按 id 修改一行时，<code>config</code> 是整份替换，不能假设系统会深度合并缺少的字段。组合实现（<code>packages/boot/app-boot/src/profile-context.ts:74</code>）、base patch 约定（<code>packages/bundle/base/cordis.patch.yml:1</code>）。</p>
+<h3 id="4-4-启动调用链"><a href="#4-4-启动调用链" class="headerlink" title="4.4 启动调用链"></a>4.4 启动调用链</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">apps/cli/src/bin.ts        runCli()</span><br><span class="line">→ 参数解析与命令分发</span><br><span class="line">→ profile-boot.ts          runProfile()</span><br><span class="line">→ 读取环境与组合 Profile</span><br><span class="line">→ app-boot                boot()</span><br><span class="line">→ 创建 Cordis Context</span><br><span class="line">→ 安装 Loader，加载组合后的插件树</span><br><span class="line">→ 等待激活并检查启动状态</span><br><span class="line">→ 具体应用插件进入工作状态</span><br></pre></td></tr></table></figure>
+<p>根 Context 的创建、Loader 安装和插件树就绪检查集中在共享 boot 代码，CLI 只负责选择组合与生命周期管理。CLI 入口（<code>apps/cli/src/bin.ts:28</code>）、Profile runner（<code>apps/cli/src/profile-boot.ts:271</code>）、boot 实现（<code>packages/boot/app-boot/src/index.ts:1201</code>）。</p>
+<h2 id="5-Agent-Loop：一条请求如何执行"><a href="#5-Agent-Loop：一条请求如何执行" class="headerlink" title="5. Agent Loop：一条请求如何执行"></a>5. Agent Loop：一条请求如何执行</h2><h3 id="5-1-公开-Agent-服务与默认驱动"><a href="#5-1-公开-Agent-服务与默认驱动" class="headerlink" title="5.1 公开 Agent 服务与默认驱动"></a>5.1 公开 Agent 服务与默认驱动</h3><p><code>core/agent</code> 提供公开的 Agent 接口与注册表；<code>core/agent-loop</code> 将自己注册为工厂，负责创建和驱动 Agent。具体驱动类叫 <code>ReactLoopAgent</code>，这里的名称指 ReAct 式模型与工具循环，与前端 React 组件没有关系。工厂发布（<code>packages/core/agent-loop/src/index.ts:329</code>）、驱动类（<code>packages/core/agent-loop/src/agent.ts:112</code>）。</p>
+<p>阅读时先建立两个概念：</p>
+<ul>
+<li><strong>Step</strong>：一次模型请求及其触发的工具执行；请求失败后可能在同一 step 内重试。</li>
+<li><strong>Turn</strong>：一次输入处理轮次，可以包含多个 step；如果前置策略拒绝输入，也可以没有任何模型 step。</li>
+</ul>
+<p>例如“读取文件，再根据结果改文件，再解释修改”，可能在一个 turn 内依次完成多个模型请求。不能把一个 turn 直接等同于一次 API 调用。</p>
+<h3 id="5-2-正常执行路径"><a href="#5-2-正常执行路径" class="headerlink" title="5.2 正常执行路径"></a>5.2 正常执行路径</h3><p>下面省略取消和失败分支，保留主要执行顺序：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">输入进入会话 inbox</span><br><span class="line">  ↓</span><br><span class="line">turn/start</span><br><span class="line">  ↓</span><br><span class="line">claim 本 step 输入；按规则取出一条排队用户消息</span><br><span class="line">  ↓</span><br><span class="line">固定模型选择，解析当前可用 toolSet，组装 Prompt</span><br><span class="line">  ↓</span><br><span class="line">agent/pre-step：接受、改写或拒绝这批输入</span><br><span class="line">  ↓</span><br><span class="line">step/start</span><br><span class="line">  ↓</span><br><span class="line">准备模型调用 prepareCall()</span><br><span class="line">  ↓</span><br><span class="line">将有效 system/user 输入与请求元数据写入 Session</span><br><span class="line">  ↓</span><br><span class="line">deriveMessages() 重建历史，冻结请求并流式调用模型</span><br><span class="line">  ↓</span><br><span class="line">结算 assistant/message</span><br><span class="line">  ↓</span><br><span class="line">如有工具调用，交给 ctx.tools.execute()</span><br><span class="line">  ↓</span><br><span class="line">step/end</span><br><span class="line">  ↓</span><br><span class="line">需要模型读取工具结果或出现下一步输入：继续 step</span><br><span class="line">否则：agent/turn-stopping → turn/end</span><br></pre></td></tr></table></figure>
+<p>主要实现分别位于 step 准备（<code>packages/core/agent-loop/src/agent.ts:283</code>）、turn 状态机（<code>packages/core/agent-loop/src/agent.ts:327</code>）、模型调用与结算（<code>packages/core/agent-loop/src/agent.ts:435</code>）、工具批次执行（<code>packages/core/agent-loop/src/agent.ts:586</code>）。</p>
+<h3 id="5-3-为什么先准备调用，再提交用户输入"><a href="#5-3-为什么先准备调用，再提交用户输入" class="headerlink" title="5.3 为什么先准备调用，再提交用户输入"></a>5.3 为什么先准备调用，再提交用户输入</h3><p><code>prepareCall()</code> 会绑定实际适配器与模型能力。默认循环在这一阶段完成后，才提交本次进入模型上下文的 system/user 消息。因此，准备阶段发生取消时，不会把尚未真正接受的输入提前记成已进入模型上下文。准备与输入提交顺序（<code>packages/core/agent-loop/src/agent.ts:435</code>）。</p>
+<p>同一 step 的模型选择和工具集合在准备时固定。重试复用该 step 的组装结果，不重复执行 <code>pre-step</code>，也不重复追加同一条用户消息。旧的 <code>agent/request</code> 钩子不能随意替换已选定的 provider、model 或 reasoning effort；这些选择应在 step 准备前通过公开模型选择接口完成。重试分支（<code>packages/core/agent-loop/src/agent.ts:542</code>）、选择校验（<code>packages/core/agent-loop/src/agent.ts:630</code>）。</p>
+<h3 id="5-4-实时输出与最终消息分开"><a href="#5-4-实时输出与最终消息分开" class="headerlink" title="5.4 实时输出与最终消息分开"></a>5.4 实时输出与最终消息分开</h3><p>模型流的实时增量通过进程内 <code>agent/assistant-stream</code> 事件交给界面。流结束后，完整的紧凑流记录随 <code>assistant/message</code> 或日志专用的 <code>assistant/attempt</code> 结算持久化。失败、重试和流错误等尝试因此可以被记录，而不必全部加入后续模型历史。流读取与结算（<code>packages/core/agent-loop/src/agent.ts:480</code>）。</p>
+<p>这意味着“界面刚显示了一段文字”与“这次流已经形成持久记录”存在时间差；进程在结算前突然退出，不能保证最后显示的所有增量都已保留。</p>
+<h2 id="6-工具系统：注册、策略、并发与-PTC"><a href="#6-工具系统：注册、策略、并发与-PTC" class="headerlink" title="6. 工具系统：注册、策略、并发与 PTC"></a>6. 工具系统：注册、策略、并发与 PTC</h2><h3 id="6-1-注册与可见性"><a href="#6-1-注册与可见性" class="headerlink" title="6.1 注册与可见性"></a>6.1 注册与可见性</h3><p>工具系统集中管理工具定义、参数 schema、执行函数和输出处理。每个 step 先解析一次满足条件、在当前 Agent scope 可见的工具集合，再把这份集合交给 Prompt 和 executor 使用，保持“模型得到的声明”与“该步准入的能力”一致。工具注册（<code>packages/core/tools/src/index.ts:128</code>）、工具集合解析（<code>packages/core/tools/src/index.ts:257</code>）。</p>
+<p>全局工具和 Agent scope 中的工具可以按作用域解析。作用域限制与 step 准入同时约束声明和执行查找；单纯在展示层省略 schema，不能替代执行策略、guard 与能力提供方检查。</p>
+<h3 id="6-2-一次工具调用的受控流水线"><a href="#6-2-一次工具调用的受控流水线" class="headerlink" title="6.2 一次工具调用的受控流水线"></a>6.2 一次工具调用的受控流水线</h3><p>共享流水线主要经过：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">记录 tool/call</span><br><span class="line">→ tools/pre-execute：执行前策略</span><br><span class="line">→ 如果策略要求审批，调用 approval 服务</span><br><span class="line">→ 执行不可被后续放宽的 guards</span><br><span class="line">→ tools/execute：包裹实际工具函数</span><br><span class="line">→ 校验结构化输出，构造结果</span><br><span class="line">→ projectContent：生成模型可见内容</span><br><span class="line">→ tools/post-execute：结果处理</span><br><span class="line">→ JSON 快照与 finalizeContent</span><br><span class="line">→ tools/result：通知最终结果观察者</span><br><span class="line">→ 记录 tool/result</span><br></pre></td></tr></table></figure>
+<p>其中，审批和 guard 在实际工具函数之前，结果投影和最终通知在执行之后。最终结果观察者出错只记录诊断，不能推翻已经确定的结果。策略与 guards（<code>packages/core/tools/src/pipeline.ts:190</code>）、工具函数执行（<code>packages/core/tools/src/pipeline.ts:258</code>）、结果处理（<code>packages/core/tools/src/pipeline.ts:336</code>）、持久事件写入（<code>packages/core/tools/src/batch.ts:243</code>）。</p>
+<h3 id="6-3-并发工具有顺序与屏障"><a href="#6-3-并发工具有顺序与屏障" class="headerlink" title="6.3 并发工具有顺序与屏障"></a>6.3 并发工具有顺序与屏障</h3><p>多个工具调用会按 parallel-safe 或 exclusive 分类。可并行调用进入有上限的调度池；exclusive 调用形成执行屏障。策略准备和提交保持相应顺序，允许重叠的是可并行的 dispatch/body 阶段；返回结果仍对应原始调用顺序。批次调度（<code>packages/core/tools/src/batch.ts:76</code>）、执行与提交（<code>packages/core/tools/src/batch.ts:187</code>）。</p>
+<p>默认循环的 <code>maxParallelToolCalls</code> 为 10，是可配置的批次并发控制。PTC 内部另有 <code>maxParallelSubCalls</code>，两者控制不同层次。循环默认值（<code>packages/core/agent-loop/src/constants.ts:6</code>）、PTC 子调用配置（<code>packages/core/tool-executor-ptc/src/config.ts:6</code>）。</p>
+<h3 id="6-4-Native-executor"><a href="#6-4-Native-executor" class="headerlink" title="6.4 Native executor"></a>6.4 Native executor</h3><p>Native 模式向模型公布每个可见工具的 JSON schema。模型直接返回对应工具名与参数，再由 executor 交给共享批次调度器。其实现很薄，重点是声明与调度之间的连接。NativeToolExecutor（<code>packages/core/tool-executor-native/src/index.ts:8</code>）。</p>
+<h3 id="6-5-PTC：用程序组织工具调用"><a href="#6-5-PTC：用程序组织工具调用" class="headerlink" title="6.5 PTC：用程序组织工具调用"></a>6.5 PTC：用程序组织工具调用</h3><p>PTC 指程序化工具调用。其模型协议只暴露 <code>run_code</code>，普通工具以程序 SDK 形式提供，例如 <code>await tools.some_tool(args)</code>。模型可以在一段程序里做循环、筛选、计算和多次工具调用，再把选定结果返回给模型循环。PTC executor（<code>packages/core/tool-executor-ptc/src/index.ts:12</code>）。</p>
+<p>这种方式改变的是调用表达与中间结果处理位置。例如，查询多份资料后先在程序中筛选匹配项，可以减少每份中间数据都进入下一次模型请求的需要。源码体现了这种设计意图，但不能据此断言具体节省多少 token 或提高多少成功率。</p>
+<p>PTC 仍遵守工具执行控制：</p>
+<ul>
+<li>程序只能绑定该 Agent 当前准入的工具；内层调用继续经过共享流水线和 guards。</li>
+<li>工具子调用记录专门的 PTC dispatch 事件，外层结果再汇总为模型可见输出。</li>
+<li>SDK 声明支持多种语言的表达；本仓库 Node runtime 提供方实际运行 TypeScript，声明的隔离方式为 process。</li>
+<li>运行状态是否保留取决于配置，不能笼统认为每次都重开环境，或变量一定永久保留。</li>
+</ul>
+<p>内层派发（<code>packages/core/tool-executor-ptc/src/ptc.ts:648</code>）、子调用记录（<code>packages/core/tool-executor-ptc/src/ptc.ts:550</code>）、Node 提供方（<code>packages/ptc-runtime/ptc-runtime-node/src/index.ts:19</code>）、持久性配置（<code>packages/ptc-runtime/ptc-runtime-node/src/config.ts:10</code>）。</p>
+<p>本地 <code>base</code> 配置默认启用 native executor，PTC executor 默认禁用；选择 PTC 需要相应配置，而不是所有会话天然进入代码模式。默认组合（<code>packages/bundle/base/cordis.patch.yml:496</code>）。</p>
+<h3 id="6-6-MCP-工具也接入同一个注册表"><a href="#6-6-MCP-工具也接入同一个注册表" class="headerlink" title="6.6 MCP 工具也接入同一个注册表"></a>6.6 MCP 工具也接入同一个注册表</h3><p>MCP client 插件连接外部服务，将其工具注册为 <code>mcp__&lt;serverName&gt;__&lt;rawName&gt;</code>。配置支持 stdio 和 Streamable HTTP；一个插件实例对应一个服务，卸载时断开连接、撤销工具和命名空间。因此 MCP 工具进入统一工具系统，而不要求在 Agent Loop 中增加专门的协议分支。MCP client（<code>packages/mcp/mcp-client/src/index.ts:1</code>）。</p>
+<h2 id="7-模型接入：统一调用与提供方适配"><a href="#7-模型接入：统一调用与提供方适配" class="headerlink" title="7. 模型接入：统一调用与提供方适配"></a>7. 模型接入：统一调用与提供方适配</h2><h3 id="7-1-LlmRuntime-管路由，Adapter-管协议"><a href="#7-1-LlmRuntime-管路由，Adapter-管协议" class="headerlink" title="7.1 LlmRuntime 管路由，Adapter 管协议"></a>7.1 LlmRuntime 管路由，Adapter 管协议</h3><p><code>ctx.llm</code> 管理 provider 路由、模型元数据和统一流式调用。具体适配器负责把 Harness 消息转换成提供方请求，并把提供方响应转换成通用 <code>StreamChunk</code>。重复占用同一路由会失败，路由注册也绑定插件生命周期。适配器抽象（<code>packages/llm/llm/src/index.ts:203</code>）、路由注册（<code>packages/llm/llm/src/index.ts:394</code>）。</p>
+<p>当前组合既包含 DeepSeek 提供方，也挂载 pi-ai 多提供方适配器。后者是否产生可用路由取决于用户配置，不能把“插件已安装”直接理解为“所有模型均已配置好”。base 中的适配器配置（<code>packages/bundle/base/cordis.patch.yml:131</code>）。</p>
+<h3 id="7-2-prepareCall-固定一次请求的配置"><a href="#7-2-prepareCall-固定一次请求的配置" class="headerlink" title="7.2 prepareCall 固定一次请求的配置"></a>7.2 prepareCall 固定一次请求的配置</h3><p><code>LlmRuntime.prepareCall()</code> 捕获适配器注册、模型能力、重试策略和具体请求控制，并返回只能派发一次的调用对象。派发时还会检查配置是否匹配，避免热更新期间把旧的能力判断与新的适配器实现混用。prepareCall 实现（<code>packages/llm/llm/src/index.ts:960</code>）。</p>
+<p>默认循环据此判断该模型是否支持历史中的系统提示词更新、工具更新等能力，再决定怎样记录与投影请求。不能假定所有提供方采用完全一样的系统消息更新方式。</p>
+<h3 id="7-3-这份快照的-DeepSeek-适配器使用-Messages"><a href="#7-3-这份快照的-DeepSeek-适配器使用-Messages" class="headerlink" title="7.3 这份快照的 DeepSeek 适配器使用 Messages"></a>7.3 这份快照的 DeepSeek 适配器使用 Messages</h3><p><code>llm-deepseek</code> 提供共享传输，API Key 和账号插件分别提供鉴权、发现和路由注册。API Key 路由的凭据由 credentials 服务或启动环境解析，传输层接收已经形成的鉴权请求头。API Key provider（<code>packages/llm/llm-deepseek-api-key/src/index.ts:33</code>）。</p>
+<p>这里值得注意的是，这份实现直接调用 Messages 接口：构造 <code>/v1/messages</code> 请求，通过 SSE 读取响应，再经过解析和翻译得到 Harness 的统一流。它不能被简单描述成一个 OpenAI Chat Completions 调用封装。端点规则（<code>packages/llm/llm-deepseek/src/messages-api.ts:9</code>）、HTTP 请求与响应翻译（<code>packages/llm/llm-deepseek/src/adapter.ts:142</code>）。</p>
+<p>图片和文件输入还涉及持久附件引用、上传复用、请求尺寸与字节预算，以及失败时的内联处理。这些是模型适配层和附件服务的职责，Agent Loop 仍使用统一消息类型。请求准备（<code>packages/llm/llm-deepseek/src/adapter.ts:89</code>）、适配器说明（<code>packages/llm/llm-deepseek/README.zh.md</code>）。</p>
+<h3 id="7-4-重试由恢复扩展点承担"><a href="#7-4-重试由恢复扩展点承担" class="headerlink" title="7.4 重试由恢复扩展点承担"></a>7.4 重试由恢复扩展点承担</h3><p><code>llm-retry</code> 监听 <code>agent/request-error</code>，读取提供方声明的重试策略，结合错误码、重试次数和退避时间决定是否继续。安排重试时先记录相应会话事件，等待过程支持取消。恢复策略（<code>packages/llm/llm-retry/src/index.ts:190</code>）、重试事件（<code>packages/llm/llm-retry/src/index.ts:184</code>）。</p>
+<p>因此，提供方失败、重试策略和主循环推进有各自的归属，扩展提供方时不必直接修改循环里的每一种网络错误分支。</p>
+<h2 id="8-Session：事件日志、持久化与恢复"><a href="#8-Session：事件日志、持久化与恢复" class="headerlink" title="8. Session：事件日志、持久化与恢复"></a>8. Session：事件日志、持久化与恢复</h2><h3 id="8-1-日志是事实，模型历史是投影"><a href="#8-1-日志是事实，模型历史是投影" class="headerlink" title="8.1 日志是事实，模型历史是投影"></a>8.1 日志是事实，模型历史是投影</h3><p>Session 的核心是 append-only 事件日志。<code>Session.append()</code> 为数据创建可 JSON 序列化的快照，分配序号和时间戳、冻结后提交；先把事件加入日志，再广播给观察者。append 实现（<code>packages/core/session/src/index.ts:806</code>）、提交点（<code>packages/core/session/src/index.ts:892</code>）。</p>
+<p>日志中包含消息、工具结果、轮次状态、权限变化、压缩等事实，其中只有部分内容参与模型历史。<code>deriveMessages()</code> 沿当前 surface 中的节点派生请求消息。因此有三份需要分清的数据：</p>
+<ol>
+<li><strong>原始事件日志</strong>：保留可恢复事实。</li>
+<li><strong>当前模型历史</strong>：由日志和 surface 操作派生。</li>
+<li><strong>面向界面或业务的状态投影</strong>：例如当前权限、轮次状态或会话列表信息。</li>
+</ol>
+<p>模型历史派生（<code>packages/core/session/src/index.ts:981</code>）。</p>
+<p>“模型可见就必须有日志依据”是这套架构的重要约束。它允许根据会话记录重建输入；这不意味着日志中的每个事件都会交给模型，也不保证再次请求模型会得到完全相同的输出。</p>
+<h3 id="8-2-内存提交与可靠落盘分开"><a href="#8-2-内存提交与可靠落盘分开" class="headerlink" title="8.2 内存提交与可靠落盘分开"></a>8.2 内存提交与可靠落盘分开</h3><p>持久化接口与 JSONL 提供方分离。JSONL 后端默认采用带校验和的 Zstandard 编码；只有选择 <code>compression: none</code> 时，文件才是可直接阅读的纯文本 JSONL。编码配置（<code>packages/session/session-persistence-jsonl/src/index.ts:94</code>）。</p>
+<p>批次写入后执行 <code>fsync</code>；写入或同步失败会尝试回滚到先前字节长度，避免重试造成重复序号。写入与同步（<code>packages/session/session-persistence-jsonl/src/index.ts:1413</code>）。</p>
+<p>检查点策略在模型派发前、顶层工具执行前和下一步准备时 flush 会话。flush 失败会阻止相应模型或工具调用。比起“每次 append 都已落盘”，更准确的理解是：内存日志提交与持久化有不同的提交时点，关键外部动作前设置持久化检查点。检查点策略（<code>packages/session/session-checkpoint-policy/src/index.ts:20</code>）。</p>
+<h3 id="8-3-恢复先取得写句柄，再重建-Agent"><a href="#8-3-恢复先取得写句柄，再重建-Agent" class="headerlink" title="8.3 恢复先取得写句柄，再重建 Agent"></a>8.3 恢复先取得写句柄，再重建 Agent</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ctx.agents.resume()</span><br><span class="line">→ persistence.open(id, &#x27;write&#x27;)</span><br><span class="line">→ 读取有效的持久事件</span><br><span class="line">→ 为中断的工具和轮次补齐收尾事件</span><br><span class="line">→ 准备 Session</span><br><span class="line">→ 初始化并发布 Agent</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>先取得写句柄用于排除同一会话的并发恢复。持久化层处理文件格式和有效日志，Agent 层处理缺失的工具结果、<code>step/end</code> 与 <code>turn/end</code>。恢复实现（<code>packages/core/agent-loop/src/index.ts:763</code>）。</p>
+<p>存储层还负责读取支持的历史格式并迁移到当前逻辑格式。当前版本状态及代际文件规则以仓库文档为准；不能把“能迁移旧格式”理解为能够任意降级读写。会话格式状态（<code>docs/session-format-status.md</code>）、格式与恢复总览（<code>docs/architecture.md</code>）。</p>
+<div class="mermaid-wrap"><pre class="mermaid-src" hidden>flowchart LR
+    E[追加 Session 事件] --&gt; S[当前 Surface]
+    S --&gt; M[deriveMessages]
+    E --&gt; P[检查点与持久化]
+    P --&gt; J[压缩或纯文本 JSONL]
+    J --&gt; R[取得写句柄并读取]
+    R --&gt; C[补齐中断轮次收尾]
+    C --&gt; A[重建 Agent]
+</pre></div>
+<h3 id="8-4-取消和恢复不等于回滚外部效果"><a href="#8-4-取消和恢复不等于回滚外部效果" class="headerlink" title="8.4 取消和恢复不等于回滚外部效果"></a>8.4 取消和恢复不等于回滚外部效果</h3><p>取消时，已开始的工具需要完成清理；未派发调用可以获得合成的中止结果。执行失败时，循环也会补齐缺失结果，使日志中的工具调用关系能够收尾。批次中止处理（<code>packages/core/tools/src/batch.ts:225</code>）、step 故障收尾（<code>packages/core/agent-loop/src/agent.ts:363</code>）。</p>
+<p>但文件写入、命令和外部 API 可能已经产生效果。重建会话只能恢复已记录事实和继续运行所需的上下文，不能保证恢复原来的 shell 进程，也不能自动撤销此前执行的动作。PTC 同样明确要求检查中断前可能已完成的效果，不会自动重放整段程序。PTC 中断约定（<code>packages/core/tool-executor-ptc/src/ptc.ts:123</code>）。</p>
+<h2 id="9-上下文：提示词、指令、Skill-与压缩"><a href="#9-上下文：提示词、指令、Skill-与压缩" class="headerlink" title="9. 上下文：提示词、指令、Skill 与压缩"></a>9. 上下文：提示词、指令、Skill 与压缩</h2><h3 id="9-1-System-Prompt-由多种贡献组装"><a href="#9-1-System-Prompt-由多种贡献组装" class="headerlink" title="9.1 System Prompt 由多种贡献组装"></a>9.1 System Prompt 由多种贡献组装</h3><p><code>SystemPrompt</code> 提供 section、context、tool、variable 等注册方式，汇总全局和 Agent scope 的贡献。scope 中的同名贡献可以覆盖更远层的贡献，组装后还存在相应的 waterfall 扩展点。注册入口（<code>packages/core/system-prompt/src/index.ts:436</code>）、assemble 实现（<code>packages/core/system-prompt/src/index.ts:621</code>）。</p>
+<p>动态 runtime context 与系统提示词有独立处理方式，最终可以作为带来源的持久 user-role 快照进入历史。上下文既包含 system message，也包含指令、时间、工具结果、附件等普通历史节点；不能只在一个固定 system 字符串里寻找全部信息。runtime context 投影与消息构造（<code>packages/core/agent-loop/src/runtime-context.ts:119</code>）。</p>
+<h3 id="9-2-工作区指令按使用过程更新"><a href="#9-2-工作区指令按使用过程更新" class="headerlink" title="9.2 工作区指令按使用过程更新"></a>9.2 工作区指令按使用过程更新</h3><p><code>agent-instructions</code> 提供兼容 <code>AGENTS.md</code> 的指令加载。首次请求前提供基线指令；文件工具成功触达相关路径后，处理嵌套目录以及指令文件修改、移除等情况。消息通过 <code>agent/pre-step</code> 加入，并携带来源。插件职责（<code>packages/context/agent-instructions/src/index.ts:1</code>）、输入插入与文件触达（<code>packages/context/agent-instructions/src/index.ts:330</code>）。</p>
+<p>时间上下文同样由独立插件生成，可按配置刷新。时间上下文（<code>packages/context/time-context/src/index.ts:51</code>）。</p>
+<h3 id="9-3-Skill-目录与全文分开"><a href="#9-3-Skill-目录与全文分开" class="headerlink" title="9.3 Skill 目录与全文分开"></a>9.3 Skill 目录与全文分开</h3><p><code>tool-skill</code> 提供持久的会话 Skill 目录以及 <code>skill</code> 工具。模型主动使用 Skill 时，通常先看到名称和描述，确定需要使用后再加载完整说明；调用时仍检查该 Skill 是否存在以及是否允许模型调用。Skill 工具定义与加载（<code>packages/skill/tool-skill/src/index.ts:85</code>）。</p>
+<p>用户也可以在消息首行用 <code>/&lt;skill-name&gt;</code> 显式调用允许用户调用的 Skill。这条路径由 pre-step 加载并注入全文，不必等待模型自行选择。显式调用处理（<code>packages/skill/tool-skill/src/index.ts:181</code>）。</p>
+<p>这属于上下文按需加载机制。Skill 是指导 Agent 工作的内容，工具是执行能力；加载说明不会自动替代工具服务，也不会自行授予更大的执行权限。</p>
+<h3 id="9-4-压缩替换可见历史，原始日志保留"><a href="#9-4-压缩替换可见历史，原始日志保留" class="headerlink" title="9.4 压缩替换可见历史，原始日志保留"></a>9.4 压缩替换可见历史，原始日志保留</h3><p>压缩接口与具体摘要策略分离。<code>compaction-basic</code> 在 pre-step 根据 token 压力尝试压缩，也可在 context-window-exceeded 错误时尝试压缩恢复；它并不处理所有模型失败。自动触发（<code>packages/compaction/compaction-basic/src/index.ts:157</code>）、容量错误恢复（<code>packages/compaction/compaction-basic/src/index.ts:213</code>）。</p>
+<p>一次压缩大致经过：选择安全范围、记录开始、生成摘要、确认范围没有被并发改变，再提交替换。提交时追加摘要事件和携带 <code>surfaceOp: replace</code> 的摘要消息，使后续模型历史使用新的摘要节点。压缩事务过程（<code>packages/compaction/compaction-basic/src/region.ts:173</code>）、摘要提交（<code>packages/compaction/compaction-basic/src/region.ts:470</code>）。</p>
+<p>被摘要遮蔽的旧事件仍在日志中；工具调用和结果还必须成对处理，压缩范围不能随意切开未完成的交互。工具配对约束（<code>packages/compaction/compaction/src/tool-pairing.ts</code>）。</p>
+<p>因此，“保留原始事件”与“模型仍能看到所有原文”是两件事。摘要会产生额外模型调用，也可能遗漏细节；压缩解决的是容量管理和可追溯的历史替换，无法提供无损的无限上下文。</p>
+<h2 id="10-Subagent：委派、Spawn-与-Fork"><a href="#10-Subagent：委派、Spawn-与-Fork" class="headerlink" title="10. Subagent：委派、Spawn 与 Fork"></a>10. Subagent：委派、Spawn 与 Fork</h2><h3 id="10-1-子代理有服务与生命周期"><a href="#10-1-子代理有服务与生命周期" class="headerlink" title="10.1 子代理有服务与生命周期"></a>10.1 子代理有服务与生命周期</h3><p>Subagent 服务根据 provider 启动本地或外部后端，并检查深度、提供方能力、父 Agent 身份等条件。并发数和深度上限可配置，不能将源码默认值当成永久产品限制。准入与后端选择（<code>packages/subagent/subagent/src/index.ts:271</code>）。</p>
+<p>本地可继续委派会创建子会话身份、可继续的运行描述，以及父子结果投递关系，还会捕获委派时的模型选择和权限覆盖。它比一次普通异步函数调用多了持久身份和后续交互管理。本地子代理创建（<code>packages/subagent/subagent/src/manager.ts:379</code>）。</p>
+<p>外部后端提供执行句柄，在需要向父会话投递时记录 external 目录项，不要求存在本地可继续 Session。不能把本地子会话的恢复能力直接套到所有 provider 上。外部启动（<code>packages/subagent/subagent/src/manager.ts:483</code>）、external 目录记录（<code>packages/subagent/subagent/src/catalog.ts:150</code>）。</p>
+<h3 id="10-2-Spawn：新的上下文"><a href="#10-2-Spawn：新的上下文" class="headerlink" title="10.2 Spawn：新的上下文"></a>10.2 Spawn：新的上下文</h3><p><code>subagent-spawn-in-process</code> 在同一 Cordis 运行环境中创建新 Agent，使用独立 Session 与系统提示，默认不复制父会话历史，并可选择独立 Agent Preset。它适合把一个边界清楚的子任务连同必要说明交给新的上下文。Spawn 实现（<code>packages/subagent/subagent-spawn-in-process/src/index.ts:1</code>）。</p>
+<h3 id="10-3-Fork：继承已完成前缀"><a href="#10-3-Fork：继承已完成前缀" class="headerlink" title="10.3 Fork：继承已完成前缀"></a>10.3 Fork：继承已完成前缀</h3><p><code>subagent-fork-in-process</code> 捕获父日志截至最近一次 <code>turn/end</code> 的已平衡完成前缀，排除父 Agent 正在执行的工具轮次。捕获发生在创建时，这份前缀随后成为子会话自己的持久历史；恢复子会话时不会重新复制父 Agent 后来新增的内容。Fork 说明与捕获（<code>packages/subagent/subagent-fork-in-process/src/index.ts:1</code>）、创建路径（<code>packages/subagent/subagent-fork-in-process/src/index.ts:77</code>）。</p>
+<p>Spawn/Fork 描述的是上下文与会话构造方式。这里的 in-process 后端不会因为“创建了子代理”就自动建立操作系统隔离环境；实际工具权限仍由能力提供方与执行策略控制。</p>
+<h2 id="11-Web、Desktop-与-SDK-如何复用运行时"><a href="#11-Web、Desktop-与-SDK-如何复用运行时" class="headerlink" title="11. Web、Desktop 与 SDK 如何复用运行时"></a>11. Web、Desktop 与 SDK 如何复用运行时</h2><h3 id="11-1-Web：后端服务加客户端插件"><a href="#11-1-Web：后端服务加客户端插件" class="headerlink" title="11.1 Web：后端服务加客户端插件"></a>11.1 Web：后端服务加客户端插件</h3><p>Web profile 在共享 base 之上装入 Web 服务、客户端模块和连接插件。默认服务地址为 <code>127.0.0.1:3080</code>；本机启动会打开浏览器，<code>--no-open</code> 可以关闭自动打开行为。Web 服务配置（<code>packages/bundle/web-app/cordis.patch.yml:175</code>）。</p>
+<p>浏览器入口很薄，主要创建并执行 <code>AppWebEntry</code>，具体界面能力由客户端插件提供。Node 端负责发现客户端模块和提供启动资料，连接层连接网关与浏览器 fetch/SSE 客户端。浏览器入口（<code>apps/web/src/main.ts:1</code>）、客户端装配（<code>packages/bundle/web-app/cordis.patch.yml:223</code>）。</p>
+<h3 id="11-2-Desktop：共享-Web-产品的桌面载体"><a href="#11-2-Desktop：共享-Web-产品的桌面载体" class="headerlink" title="11.2 Desktop：共享 Web 产品的桌面载体"></a>11.2 Desktop：共享 Web 产品的桌面载体</h3><p>Desktop 使用 Electron，启动独立的 Desktop Host。Host 调用共享 <code>runProfile()</code>，使用桌面保留的 <code>desktop</code> profile；其默认端口为 <code>0</code>，由操作系统分配。Host 子进程（<code>apps/desktop/src/host-process.ts:209</code>）、Desktop Host 入口（<code>apps/desktop-host/src/index.ts:33</code>）。</p>
+<p>窗口复用 Web 客户端，等待 Host 启动注入后激活。IPC 承担启动、就绪、错误和关闭等载体消息，产品 RPC 和流式通信由 Web 层负责。可概括为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Electron</span><br><span class="line">→ Desktop Host</span><br><span class="line">→ 共享 Profile runner</span><br><span class="line">→ Web 后端与 Cordis 插件树</span><br><span class="line">→ Web 客户端</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><code>desktop</code> 由桌面产品管理，不应把它当成普通 npm CLI 的第六个官方模板。桌面架构说明（<code>docs/architecture.md</code>）。</p>
+<h3 id="11-3-SDK：通过进程外协议驱动同一引擎"><a href="#11-3-SDK：通过进程外协议驱动同一引擎" class="headerlink" title="11.3 SDK：通过进程外协议驱动同一引擎"></a>11.3 SDK：通过进程外协议驱动同一引擎</h3><p>TypeScript SDK 解析同版本 <code>dsh</code>，默认启动 <code>--profile sdk</code> 子进程，通过 stdio JSON-RPC 驱动 Agent。它提供客户端 API，Agent Loop 仍运行在服务进程中。CLI 版本与启动解析（<code>packages/sdk/client/src/launch.ts:56</code>）、子进程启动（<code>packages/sdk/client/src/client.ts:223</code>）、SDK 服务配置（<code>packages/bundle/sdk-app/cordis.patch.yml:14</code>）。</p>
+<p>Python SDK 同样使用 stdio JSON-RPC，并定位配套打包运行时；默认要求显式提供 <code>dsh_home</code> 或非空 <code>DSH_HOME</code>。Profile 和 patch 仍决定服务端的应用组成。Python 客户端（<code>python/sdk/src/deepseek_harness/client.py:589</code>）。</p>
+<p>Headless 是一次性任务载体，SDK 是程序控制载体，ACP 则提供自动化协议服务。它们共享相同的能力装配思路，具体行为由各自 Profile 决定。</p>
+<h2 id="12-权限与沙箱的实际职责"><a href="#12-权限与沙箱的实际职责" class="headerlink" title="12. 权限与沙箱的实际职责"></a>12. 权限与沙箱的实际职责</h2><h3 id="12-1-文件效果策略与审批分别控制什么"><a href="#12-1-文件效果策略与审批分别控制什么" class="headerlink" title="12.1 文件效果策略与审批分别控制什么"></a>12.1 文件效果策略与审批分别控制什么</h3><p>沙箱服务中的文件效果模式为：</p>
+<ul>
+<li><code>read-only</code>：限制写效果，仅允许必要的特殊输出等。</li>
+<li><code>workspace-write</code>：允许工作区、显式额外写入目录及后端定义的临时区域。</li>
+<li><code>danger-full-access</code>：绕开这层文件 confinement。</li>
+</ul>
+<p>该服务面向与宿主共享内核和文件系统的子进程。网络和进程可见性不属于这三个模式表达的文件策略，不能从名称推导出网络隔离保证。模式定义（<code>packages/sandbox/sandbox/src/index.ts:1</code>）。</p>
+<p>审批策略则是：</p>
+<ul>
+<li><code>ask</code>：需要审批时委派已配置的应答方；没有可用应答方时不放行。</li>
+<li><code>never</code>：不发起询问，对需要审批的请求直接拒绝。</li>
+</ul>
+<p><code>never</code> 本身不是“自动批准”。<code>danger-full-access + never</code> 之所以具有广泛访问能力，是因为前一个沙箱设置已绕开文件限制。审批语义（<code>packages/interaction/user-approval/src/index.ts:59</code>）、拒绝逻辑（<code>packages/interaction/user-approval/src/index.ts:296</code>）。</p>
+<h3 id="12-2-默认值要看最终组合"><a href="#12-2-默认值要看最终组合" class="headerlink" title="12.2 默认值要看最终组合"></a>12.2 默认值要看最终组合</h3><p>底层 <code>sandbox-policy</code> 类的缺省模式是 <code>read-only</code>，而随产品交付的 base patch 默认采用 <code>workspace-write + ask</code>，还允许 <code>DSH_PERMISSION_MODE</code> 覆盖。文档或调试时必须查看最终 Profile，不能只看某个类的默认字段。服务默认值（<code>packages/sandbox/sandbox-policy/src/index.ts:137</code>）、产品组合（<code>packages/bundle/base/cordis.patch.yml:243</code>）。</p>
+<p>Permission Preset 负责把这两个独立设置组合并记录到会话。执行服务继续读取自己的设置；切换预设不代表执行逻辑都集中到了预设服务里。权限写入与投影（<code>packages/interaction/permission-presets/README.zh.md</code>）。</p>
+<h3 id="12-3-进程限制与文件-API-限制都存在"><a href="#12-3-进程限制与文件-API-限制都存在" class="headerlink" title="12.3 进程限制与文件 API 限制都存在"></a>12.3 进程限制与文件 API 限制都存在</h3><p>本地进程后端按平台选择 Linux bubblewrap/Landlock、macOS Seatbelt 或 Windows ACL restricted-token。Windows 后端明确声明为 partial enforcement，不能据此宣称各平台都有完全相同的隔离强度。平台选择与限制（<code>packages/sandbox/sandbox-local/src/index.ts:1</code>）。</p>
+<p>文件 API 还由 <code>fs-sandbox</code> 在写入前检查：read-only 直接拒绝；workspace-write 重新解析目标路径，再判断是否落在允许写入的目录中，以避免一直使用此前解析的旧目标。文件写入检查（<code>packages/fs/fs-sandbox/src/index.ts:156</code>）。</p>
+<p>这些控制面向通过相应能力执行的操作。Cordis 插件和 YAML 中的 <code>!!js</code> 配置属于可信应用代码范围，不能把“工具有沙箱”扩展成“任意第三方插件也被隔离”。仓库安全说明明确指出该开发者预览尚未经过安全审计。Loader 配置语义（<code>docs/cordis-primer.zh.md</code>）、项目安全说明（<code>SAFETY.zh.md</code>）。</p>
+<h2 id="13-这套设计值得关注的地方"><a href="#13-这套设计值得关注的地方" class="headerlink" title="13. 这套设计值得关注的地方"></a>13. 这套设计值得关注的地方</h2><ul>
+<li><strong>组合是一级机制</strong>：应用由具名 Profile 和可覆盖 Bundle 构成。同一能力可以用于不同载体，代价是理解当前行为时必须追踪最终配置。</li>
+<li><strong>状态围绕日志组织</strong>：模型历史、业务投影、持久化与恢复都有事件依据。新增模型可见输入时，需要同时考虑它如何记录和重建。</li>
+<li><strong>执行策略集中到公共路径</strong>：Native、PTC 和 MCP 都复用工具注册与执行控制，有助于减少每种调用方式各写一份策略的重复。</li>
+<li><strong>生命周期是插件接口的一部分</strong>：注册可撤销，Agent 要取消、等待执行收尾、清理 scope 和持久句柄。热更新能力背后有真实的资源管理成本。</li>
+<li><strong>上下文优化需要保持语义一致</strong>：提示词更新、工具声明、压缩、Fork 和模型重试都不能只考虑 token 数，还需要维持可重建历史和工具调用配对。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://jiang54864.github.io">姜将</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://jiang54864.github.io/%E7%AC%94%E8%AE%B0/deepseek-herness%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/">http://jiang54864.github.io/%E7%AC%94%E8%AE%B0/deepseek-herness%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://jiang54864.github.io" target="_blank">姜将的个人博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/LLM/">LLM</a><a class="post-meta__tags" href="/tags/Agent/">Agent</a><a class="post-meta__tags" href="/tags/herness/">herness</a></div><div class="post_share"><div class="social-share" data-image="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/%E7%AC%94%E8%AE%B0/codex-harness%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/" title="codex harness架构解析"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">codex harness架构解析</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/%E7%AC%94%E8%AE%B0/codex-harness%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/" title="codex harness架构解析"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-11-04</div><div class="title">codex harness架构解析</div></div></a></div><div><a href="/%E7%AC%94%E8%AE%B0/code%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/" title="claude code架构解析"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-11-03</div><div class="title">claude code架构解析</div></div></a></div><div><a href="/paper/%E5%89%8D%E6%AE%B5%E6%97%B6%E9%97%B4%E7%9C%8B%E7%9A%84Agentic%20RL%E8%AE%BA%E6%96%87/" title="前段时间看的Agentic RL论文"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-29</div><div class="title">前段时间看的Agentic RL论文</div></div></a></div><div><a href="/%E7%AC%94%E8%AE%B0/%E4%B8%BB%E6%B5%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%98%AF%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83agent%E8%83%BD%E5%8A%9B%E7%9A%84/" title="主流大模型是如何训练agent能力的"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-01</div><div class="title">主流大模型是如何训练agent能力的</div></div></a></div><div><a href="/%E5%AE%9E%E9%AA%8C/%E5%80%9F%E5%8A%A9ollama%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8Cqwen2-5/" title="借助ollama本地运行各种开源大模型"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-12</div><div class="title">借助ollama本地运行各种开源大模型</div></div></a></div><div><a href="/%E7%AC%94%E8%AE%B0/%E5%A4%9A%E6%A8%A1%E6%80%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%A2%B3%E7%90%86/" title="多模态大模型梳理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-22</div><div class="title">多模态大模型梳理</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">姜将</div><div class="author-info__description">记录学习中的知识与收获</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/JIANG54864"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=2792663690&amp;website=www.oicqzone.com" target="_blank" title="点击添加我的QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="https://www.helloimg.com/i/2025/01/25/6794f016e9b99.png" target="_blank" title="点击添加我的微信"><i class="fab fa-weixin"></i></a><a class="social-icon" href="mailto:jiangsw2022@163.com" target="_blank" title="给我发邮件"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客网站！若有需要，可通过上方联系方式找到我。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%80%BB%E8%A7%88"><span class="toc-number">1.</span> <span class="toc-text">1. 总览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%BA%90%E7%A0%81%E7%9B%AE%E5%BD%95%E4%B8%8E%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">2. 源码目录与整体结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Cordis%EF%BC%9A%E4%B8%80%E5%88%87%E7%9A%86%E6%8F%92%E4%BB%B6%E5%A6%82%E4%BD%95%E8%90%BD%E5%9C%B0"><span class="toc-number">3.</span> <span class="toc-text">3. Cordis：一切皆插件如何落地</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-Context%E3%80%81Service-%E4%B8%8E%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 Context、Service 与依赖注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E4%BA%8B%E4%BB%B6%E6%98%AF%E8%A1%8C%E4%B8%BA%E6%89%A9%E5%B1%95%E7%82%B9"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 事件是行为扩展点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E6%B3%A8%E5%86%8C%E5%90%8C%E6%97%B6%E6%89%BF%E6%8B%85%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%AE%A1%E7%90%86"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 注册同时承担生命周期管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E8%83%BD%E5%8A%9B%E6%8E%A5%E5%8F%A3%E3%80%81%E5%AE%9E%E7%8E%B0%E5%92%8C%E6%A8%A1%E5%9E%8B%E5%B7%A5%E5%85%B7%E5%88%86%E5%BC%80"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 能力接口、实现和模型工具分开</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%90%AF%E5%8A%A8%EF%BC%9AProfile%E3%80%81Bundle-%E4%B8%8E%E9%85%8D%E7%BD%AE%E5%8F%A0%E5%8A%A0"><span class="toc-number">4.</span> <span class="toc-text">4. 启动：Profile、Bundle 与配置叠加</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E4%B8%89%E7%A7%8D%E2%80%9C%E9%A2%84%E8%AE%BE%E2%80%9D%E5%88%86%E5%88%AB%E6%8E%A7%E5%88%B6%E4%BB%80%E4%B9%88"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 三种“预设”分别控制什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E5%AE%98%E6%96%B9-Profile-%E7%9A%84%E7%BB%84%E5%90%88"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 官方 Profile 的组合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E9%85%8D%E7%BD%AE%E4%BB%8E%E5%93%AA%E9%87%8C%E6%9D%A5"><span class="toc-number">4.3.</span> <span class="toc-text">4.3 配置从哪里来</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E5%90%AF%E5%8A%A8%E8%B0%83%E7%94%A8%E9%93%BE"><span class="toc-number">4.4.</span> <span class="toc-text">4.4 启动调用链</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Agent-Loop%EF%BC%9A%E4%B8%80%E6%9D%A1%E8%AF%B7%E6%B1%82%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C"><span class="toc-number">5.</span> <span class="toc-text">5. Agent Loop：一条请求如何执行</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E5%85%AC%E5%BC%80-Agent-%E6%9C%8D%E5%8A%A1%E4%B8%8E%E9%BB%98%E8%AE%A4%E9%A9%B1%E5%8A%A8"><span class="toc-number">5.1.</span> <span class="toc-text">5.1 公开 Agent 服务与默认驱动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E6%AD%A3%E5%B8%B8%E6%89%A7%E8%A1%8C%E8%B7%AF%E5%BE%84"><span class="toc-number">5.2.</span> <span class="toc-text">5.2 正常执行路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%85%88%E5%87%86%E5%A4%87%E8%B0%83%E7%94%A8%EF%BC%8C%E5%86%8D%E6%8F%90%E4%BA%A4%E7%94%A8%E6%88%B7%E8%BE%93%E5%85%A5"><span class="toc-number">5.3.</span> <span class="toc-text">5.3 为什么先准备调用，再提交用户输入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-%E5%AE%9E%E6%97%B6%E8%BE%93%E5%87%BA%E4%B8%8E%E6%9C%80%E7%BB%88%E6%B6%88%E6%81%AF%E5%88%86%E5%BC%80"><span class="toc-number">5.4.</span> <span class="toc-text">5.4 实时输出与最终消息分开</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%B7%A5%E5%85%B7%E7%B3%BB%E7%BB%9F%EF%BC%9A%E6%B3%A8%E5%86%8C%E3%80%81%E7%AD%96%E7%95%A5%E3%80%81%E5%B9%B6%E5%8F%91%E4%B8%8E-PTC"><span class="toc-number">6.</span> <span class="toc-text">6. 工具系统：注册、策略、并发与 PTC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E6%B3%A8%E5%86%8C%E4%B8%8E%E5%8F%AF%E8%A7%81%E6%80%A7"><span class="toc-number">6.1.</span> <span class="toc-text">6.1 注册与可见性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E4%B8%80%E6%AC%A1%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8%E7%9A%84%E5%8F%97%E6%8E%A7%E6%B5%81%E6%B0%B4%E7%BA%BF"><span class="toc-number">6.2.</span> <span class="toc-text">6.2 一次工具调用的受控流水线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-%E5%B9%B6%E5%8F%91%E5%B7%A5%E5%85%B7%E6%9C%89%E9%A1%BA%E5%BA%8F%E4%B8%8E%E5%B1%8F%E9%9A%9C"><span class="toc-number">6.3.</span> <span class="toc-text">6.3 并发工具有顺序与屏障</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-4-Native-executor"><span class="toc-number">6.4.</span> <span class="toc-text">6.4 Native executor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-5-PTC%EF%BC%9A%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%BB%84%E7%BB%87%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8"><span class="toc-number">6.5.</span> <span class="toc-text">6.5 PTC：用程序组织工具调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-6-MCP-%E5%B7%A5%E5%85%B7%E4%B9%9F%E6%8E%A5%E5%85%A5%E5%90%8C%E4%B8%80%E4%B8%AA%E6%B3%A8%E5%86%8C%E8%A1%A8"><span class="toc-number">6.6.</span> <span class="toc-text">6.6 MCP 工具也接入同一个注册表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E6%A8%A1%E5%9E%8B%E6%8E%A5%E5%85%A5%EF%BC%9A%E7%BB%9F%E4%B8%80%E8%B0%83%E7%94%A8%E4%B8%8E%E6%8F%90%E4%BE%9B%E6%96%B9%E9%80%82%E9%85%8D"><span class="toc-number">7.</span> <span class="toc-text">7. 模型接入：统一调用与提供方适配</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-LlmRuntime-%E7%AE%A1%E8%B7%AF%E7%94%B1%EF%BC%8CAdapter-%E7%AE%A1%E5%8D%8F%E8%AE%AE"><span class="toc-number">7.1.</span> <span class="toc-text">7.1 LlmRuntime 管路由，Adapter 管协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-prepareCall-%E5%9B%BA%E5%AE%9A%E4%B8%80%E6%AC%A1%E8%AF%B7%E6%B1%82%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">7.2.</span> <span class="toc-text">7.2 prepareCall 固定一次请求的配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-3-%E8%BF%99%E4%BB%BD%E5%BF%AB%E7%85%A7%E7%9A%84-DeepSeek-%E9%80%82%E9%85%8D%E5%99%A8%E4%BD%BF%E7%94%A8-Messages"><span class="toc-number">7.3.</span> <span class="toc-text">7.3 这份快照的 DeepSeek 适配器使用 Messages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-4-%E9%87%8D%E8%AF%95%E7%94%B1%E6%81%A2%E5%A4%8D%E6%89%A9%E5%B1%95%E7%82%B9%E6%89%BF%E6%8B%85"><span class="toc-number">7.4.</span> <span class="toc-text">7.4 重试由恢复扩展点承担</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-Session%EF%BC%9A%E4%BA%8B%E4%BB%B6%E6%97%A5%E5%BF%97%E3%80%81%E6%8C%81%E4%B9%85%E5%8C%96%E4%B8%8E%E6%81%A2%E5%A4%8D"><span class="toc-number">8.</span> <span class="toc-text">8. Session：事件日志、持久化与恢复</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-%E6%97%A5%E5%BF%97%E6%98%AF%E4%BA%8B%E5%AE%9E%EF%BC%8C%E6%A8%A1%E5%9E%8B%E5%8E%86%E5%8F%B2%E6%98%AF%E6%8A%95%E5%BD%B1"><span class="toc-number">8.1.</span> <span class="toc-text">8.1 日志是事实，模型历史是投影</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2-%E5%86%85%E5%AD%98%E6%8F%90%E4%BA%A4%E4%B8%8E%E5%8F%AF%E9%9D%A0%E8%90%BD%E7%9B%98%E5%88%86%E5%BC%80"><span class="toc-number">8.2.</span> <span class="toc-text">8.2 内存提交与可靠落盘分开</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-3-%E6%81%A2%E5%A4%8D%E5%85%88%E5%8F%96%E5%BE%97%E5%86%99%E5%8F%A5%E6%9F%84%EF%BC%8C%E5%86%8D%E9%87%8D%E5%BB%BA-Agent"><span class="toc-number">8.3.</span> <span class="toc-text">8.3 恢复先取得写句柄，再重建 Agent</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-4-%E5%8F%96%E6%B6%88%E5%92%8C%E6%81%A2%E5%A4%8D%E4%B8%8D%E7%AD%89%E4%BA%8E%E5%9B%9E%E6%BB%9A%E5%A4%96%E9%83%A8%E6%95%88%E6%9E%9C"><span class="toc-number">8.4.</span> <span class="toc-text">8.4 取消和恢复不等于回滚外部效果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E4%B8%8A%E4%B8%8B%E6%96%87%EF%BC%9A%E6%8F%90%E7%A4%BA%E8%AF%8D%E3%80%81%E6%8C%87%E4%BB%A4%E3%80%81Skill-%E4%B8%8E%E5%8E%8B%E7%BC%A9"><span class="toc-number">9.</span> <span class="toc-text">9. 上下文：提示词、指令、Skill 与压缩</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-1-System-Prompt-%E7%94%B1%E5%A4%9A%E7%A7%8D%E8%B4%A1%E7%8C%AE%E7%BB%84%E8%A3%85"><span class="toc-number">9.1.</span> <span class="toc-text">9.1 System Prompt 由多种贡献组装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-%E5%B7%A5%E4%BD%9C%E5%8C%BA%E6%8C%87%E4%BB%A4%E6%8C%89%E4%BD%BF%E7%94%A8%E8%BF%87%E7%A8%8B%E6%9B%B4%E6%96%B0"><span class="toc-number">9.2.</span> <span class="toc-text">9.2 工作区指令按使用过程更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3-Skill-%E7%9B%AE%E5%BD%95%E4%B8%8E%E5%85%A8%E6%96%87%E5%88%86%E5%BC%80"><span class="toc-number">9.3.</span> <span class="toc-text">9.3 Skill 目录与全文分开</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-4-%E5%8E%8B%E7%BC%A9%E6%9B%BF%E6%8D%A2%E5%8F%AF%E8%A7%81%E5%8E%86%E5%8F%B2%EF%BC%8C%E5%8E%9F%E5%A7%8B%E6%97%A5%E5%BF%97%E4%BF%9D%E7%95%99"><span class="toc-number">9.4.</span> <span class="toc-text">9.4 压缩替换可见历史，原始日志保留</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-Subagent%EF%BC%9A%E5%A7%94%E6%B4%BE%E3%80%81Spawn-%E4%B8%8E-Fork"><span class="toc-number">10.</span> <span class="toc-text">10. Subagent：委派、Spawn 与 Fork</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#10-1-%E5%AD%90%E4%BB%A3%E7%90%86%E6%9C%89%E6%9C%8D%E5%8A%A1%E4%B8%8E%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">10.1.</span> <span class="toc-text">10.1 子代理有服务与生命周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-2-Spawn%EF%BC%9A%E6%96%B0%E7%9A%84%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="toc-number">10.2.</span> <span class="toc-text">10.2 Spawn：新的上下文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-3-Fork%EF%BC%9A%E7%BB%A7%E6%89%BF%E5%B7%B2%E5%AE%8C%E6%88%90%E5%89%8D%E7%BC%80"><span class="toc-number">10.3.</span> <span class="toc-text">10.3 Fork：继承已完成前缀</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-Web%E3%80%81Desktop-%E4%B8%8E-SDK-%E5%A6%82%E4%BD%95%E5%A4%8D%E7%94%A8%E8%BF%90%E8%A1%8C%E6%97%B6"><span class="toc-number">11.</span> <span class="toc-text">11. Web、Desktop 与 SDK 如何复用运行时</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#11-1-Web%EF%BC%9A%E5%90%8E%E7%AB%AF%E6%9C%8D%E5%8A%A1%E5%8A%A0%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%8F%92%E4%BB%B6"><span class="toc-number">11.1.</span> <span class="toc-text">11.1 Web：后端服务加客户端插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-2-Desktop%EF%BC%9A%E5%85%B1%E4%BA%AB-Web-%E4%BA%A7%E5%93%81%E7%9A%84%E6%A1%8C%E9%9D%A2%E8%BD%BD%E4%BD%93"><span class="toc-number">11.2.</span> <span class="toc-text">11.2 Desktop：共享 Web 产品的桌面载体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-3-SDK%EF%BC%9A%E9%80%9A%E8%BF%87%E8%BF%9B%E7%A8%8B%E5%A4%96%E5%8D%8F%E8%AE%AE%E9%A9%B1%E5%8A%A8%E5%90%8C%E4%B8%80%E5%BC%95%E6%93%8E"><span class="toc-number">11.3.</span> <span class="toc-text">11.3 SDK：通过进程外协议驱动同一引擎</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-%E6%9D%83%E9%99%90%E4%B8%8E%E6%B2%99%E7%AE%B1%E7%9A%84%E5%AE%9E%E9%99%85%E8%81%8C%E8%B4%A3"><span class="toc-number">12.</span> <span class="toc-text">12. 权限与沙箱的实际职责</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#12-1-%E6%96%87%E4%BB%B6%E6%95%88%E6%9E%9C%E7%AD%96%E7%95%A5%E4%B8%8E%E5%AE%A1%E6%89%B9%E5%88%86%E5%88%AB%E6%8E%A7%E5%88%B6%E4%BB%80%E4%B9%88"><span class="toc-number">12.1.</span> <span class="toc-text">12.1 文件效果策略与审批分别控制什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-2-%E9%BB%98%E8%AE%A4%E5%80%BC%E8%A6%81%E7%9C%8B%E6%9C%80%E7%BB%88%E7%BB%84%E5%90%88"><span class="toc-number">12.2.</span> <span class="toc-text">12.2 默认值要看最终组合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-3-%E8%BF%9B%E7%A8%8B%E9%99%90%E5%88%B6%E4%B8%8E%E6%96%87%E4%BB%B6-API-%E9%99%90%E5%88%B6%E9%83%BD%E5%AD%98%E5%9C%A8"><span class="toc-number">12.3.</span> <span class="toc-text">12.3 进程限制与文件 API 限制都存在</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-%E8%BF%99%E5%A5%97%E8%AE%BE%E8%AE%A1%E5%80%BC%E5%BE%97%E5%85%B3%E6%B3%A8%E7%9A%84%E5%9C%B0%E6%96%B9"><span class="toc-number">13.</span> <span class="toc-text">13. 这套设计值得关注的地方</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/%E7%AC%94%E8%AE%B0/deepseek-herness%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/" title="deepseek herness架构解析">deepseek herness架构解析</a><time datetime="2026-11-04T14:29:12.000Z" title="发表于 2026-11-04 22:29:12">2026-11-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/%E7%AC%94%E8%AE%B0/codex-harness%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/" title="codex harness架构解析">codex harness架构解析</a><time datetime="2026-11-04T12:35:58.000Z" title="发表于 2026-11-04 20:35:58">2026-11-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/%E7%AC%94%E8%AE%B0/code%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/" title="claude code架构解析">claude code架构解析</a><time datetime="2026-11-03T05:29:14.000Z" title="发表于 2026-11-03 13:29:14">2026-11-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/%E7%AC%94%E8%AE%B0/%E5%A4%9A%E6%A8%A1%E6%80%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%A2%B3%E7%90%86/" title="多模态大模型梳理">多模态大模型梳理</a><time datetime="2026-07-22T15:40:38.000Z" title="发表于 2026-07-22 23:40:38">2026-07-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/%E7%AC%94%E8%AE%B0/%E4%B8%BB%E6%B5%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%98%AF%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83agent%E8%83%BD%E5%8A%9B%E7%9A%84/" title="主流大模型是如何训练agent能力的">主流大模型是如何训练agent能力的</a><time datetime="2026-07-01T15:13:47.000Z" title="发表于 2026-07-01 23:13:47">2026-07-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By 姜将</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid@9.4.3/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    btf.addModeChange('mermaid', () => {
+      window.runMermaid()
+    })
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script><script>function getGiscusTheme (theme) {
+  return theme === 'dark' ? 'dark' : 'light'
+}
+
+function loadGiscus () {
+  const config = Object.assign({
+    src: 'https://giscus.app/client.js',
+    'data-repo': 'JIANG54864/JIANG54864.github.io',
+    'data-repo-id': 'R_kgDOIrh5dw',
+    'data-category-id': 'DIC_kwDOIrh5d84DKTIJ',
+    'data-mapping': 'pathname',
+    'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+    'data-reactions-enabled': '1',
+    crossorigin: 'anonymous',
+    async: true
+  },{"data-category":"Announcements","data-mapping":"pathname","data-strict":"1","data-lang":"zh-CN","data-input-position":"top","data-loading":"lazy","data-reactions-enabled":"1","data-emit-metadata":"0"})
+
+  let ele = document.createElement('script')
+  for (let key in config) {
+    ele.setAttribute(key, config[key])
+  }
+  document.getElementById('giscus-wrap').insertAdjacentElement('afterbegin',ele)
+}
+
+function changeGiscusTheme (theme) {
+  function sendMessage(message) {
+    const iframe = document.querySelector('iframe.giscus-frame')
+    if (!iframe) return
+    iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app')
+  }
+
+  sendMessage({
+    setConfig: {
+      theme: getGiscusTheme(theme)
+    }
+  });
+}
+
+btf.addModeChange('giscus', changeGiscusTheme)
+
+if ('Giscus' === 'Giscus' || !false) {
+  if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+  else loadGiscus()
+} else {
+  function loadOtherComment () {
+    loadGiscus()
+  }
+}</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="true"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
