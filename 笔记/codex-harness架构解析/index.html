@@ -1,0 +1,1148 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>codex harness架构解析 | 姜将的个人博客</title><meta name="author" content="姜将"><meta name="copyright" content="姜将"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1. 总览1.2 仓库的主实现主实现是 Rust workspace。codex-cli&#x2F;bin&#x2F;codex.js 是 npm 分发入口：识别系统和 CPU，定位对应平台的原生二进制，再启动子进程。它不是 Agent 主循环。实际 CLI 分发器在 codex-rs&#x2F;cli&#x2F;src&#x2F;main.rs。 技术组成可以沿职责阅读：  cli：命令解析、入口分发、恢复&#x2F;分叉&#x2F;登录等命令。 tui：基于 R">
+<meta property="og:type" content="article">
+<meta property="og:title" content="codex harness架构解析">
+<meta property="og:url" content="http://jiang54864.github.io/%E7%AC%94%E8%AE%B0/codex-harness%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/index.html">
+<meta property="og:site_name" content="姜将的个人博客">
+<meta property="og:description" content="1. 总览1.2 仓库的主实现主实现是 Rust workspace。codex-cli&#x2F;bin&#x2F;codex.js 是 npm 分发入口：识别系统和 CPU，定位对应平台的原生二进制，再启动子进程。它不是 Agent 主循环。实际 CLI 分发器在 codex-rs&#x2F;cli&#x2F;src&#x2F;main.rs。 技术组成可以沿职责阅读：  cli：命令解析、入口分发、恢复&#x2F;分叉&#x2F;登录等命令。 tui：基于 R">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg">
+<meta property="article:published_time" content="2026-11-04T12:35:58.000Z">
+<meta property="article:modified_time" content="2026-11-04T13:03:49.610Z">
+<meta property="article:author" content="姜将">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="herness">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg"><link rel="shortcut icon" href="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg"><link rel="canonical" href="http://jiang54864.github.io/%E7%AC%94%E8%AE%B0/codex-harness%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'codex harness架构解析',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-11-04 21:03:49'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = 'hidden';
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+
+preloader.initLoading()
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (false) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">40</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="姜将的个人博客"><img class="site-icon" src="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg"/><span class="site-name">姜将的个人博客</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">codex harness架构解析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-11-04T12:35:58.000Z" title="发表于 2026-11-04 20:35:58">2026-11-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-11-04T13:03:49.610Z" title="更新于 2026-11-04 21:03:49">2026-11-04</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">29.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>99分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="codex harness架构解析"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="1-总览"><a href="#1-总览" class="headerlink" title="1. 总览"></a>1. 总览</h2><h3 id="1-2-仓库的主实现"><a href="#1-2-仓库的主实现" class="headerlink" title="1.2 仓库的主实现"></a>1.2 仓库的主实现</h3><p>主实现是 Rust workspace。<code>codex-cli/bin/codex.js</code> 是 npm 分发入口：识别系统和 CPU，定位对应平台的原生二进制，再启动子进程。它不是 Agent 主循环。实际 CLI 分发器在 <code>codex-rs/cli/src/main.rs</code>。</p>
+<p>技术组成可以沿职责阅读：</p>
+<ul>
+<li><code>cli</code>：命令解析、入口分发、恢复/分叉/登录等命令。</li>
+<li><code>tui</code>：基于 Ratatui 与 Crossterm 的交互终端界面。</li>
+<li><code>exec</code>：无交互运行、JSONL 事件输出、结构化最终输出。</li>
+<li><code>app-server</code>、<code>app-server-client</code>、<code>app-server-protocol</code>：应用接入、请求分发、事件与审批往返。</li>
+<li><code>core</code>：会话、任务、采样循环、上下文与核心执行编排。</li>
+<li><code>protocol</code>：内核操作、事件和模型内容结构。</li>
+<li><code>tools</code>、<code>ext/*</code>、<code>core-plugins</code>：工具公共契约、能力扩展和插件装配。</li>
+<li><code>model-provider</code>、<code>models-manager</code>、<code>login</code>、<code>codex-api</code>：模型后端、目录、认证和通信。</li>
+<li><code>exec-server</code>、<code>sandboxing</code>、<code>linux-sandbox</code>、<code>windows-sandbox-rs</code>、<code>network-proxy</code>：执行环境及安全边界。</li>
+<li><code>history</code>、<code>rollout</code>、<code>thread-store</code>、<code>state</code>：模型历史、持久化、历史读取和状态索引。</li>
+<li><code>sdk/typescript</code>、<code>sdk/python</code>：通过不同协议层复用运行时的客户端。</li>
+</ul>
+<p>源码依据：<a href="codex/codex-rs/Cargo.toml:1">Rust workspace</a>、<a href="codex/codex-cli/bin/codex.js:1">npm 入口</a>、<a href="codex/codex-rs/core/README.md:1">core 的职责声明</a>、<a href="codex/codex-rs/tui/src/tui.rs:17">TUI 终端后端</a>。</p>
+<h3 id="1-3-总体架构图"><a href="#1-3-总体架构图" class="headerlink" title="1.3 总体架构图"></a>1.3 总体架构图</h3><p>下图是按调用职责归纳的架构图，图中每个方块不都是独立进程。</p>
+<div class="mermaid-wrap"><pre class="mermaid-src" hidden>flowchart TB
+    User[用户 / 外部应用] --&gt; CLI[CLI 分发器]
+    CLI --&gt; TUI[交互 TUI]
+    CLI --&gt; Exec[codex exec]
+    Python[Python SDK] --&gt; RPC[app-server 外部传输]
+    TS[TypeScript SDK] --&gt; Exec
+    TUI --&gt; Facade[app-server-client]
+    Exec --&gt; Facade
+    Facade --&gt; Embedded[进程内 runtime]
+    Facade --&gt; RPC
+    Embedded --&gt; Processor[MessageProcessor / 请求处理器]
+    RPC --&gt; Processor
+    Processor --&gt; TM[ThreadManager]
+    TM --&gt; Core[Session / Task / Agent 循环]
+    Config[配置与受管 requirements] --&gt; Processor
+    Config --&gt; Core
+    Context[指令 / 历史 / WorldState] --&gt; Core
+    Extensions[Skills / MCP / Hooks / 多 Agent] --&gt; Core
+    Core --&gt; Provider[ModelClient / Provider]
+    Provider --&gt; Model[模型服务]
+    Model --&gt; Provider
+    Provider --&gt; Core
+    Core --&gt; Tools[工具路由与执行]
+    Tools --&gt; Approval[策略与审批]
+    Approval --&gt; Env[执行环境 / OS 沙箱]
+    Env --&gt; Core
+    Core --&gt; Persistence[Rollout / Thread store / SQLite]
+    Core --&gt; Processor
+    Processor --&gt; Facade
+</pre></div>
+<p>图中的两个重要边界是：<strong>前端通过 app-server 语义接入内核；工具经过具体执行环境落实操作。</strong> 这使同一轮工作可以呈现在终端、外部应用中，也可以通过无交互命令消费。</p>
+<h2 id="2-从启动命令到可工作的客户端"><a href="#2-从启动命令到可工作的客户端" class="headerlink" title="2. 从启动命令到可工作的客户端"></a>2. 从启动命令到可工作的客户端</h2><h3 id="2-1-npm-入口：选择并启动原生程序"><a href="#2-1-npm-入口：选择并启动原生程序" class="headerlink" title="2.1 npm 入口：选择并启动原生程序"></a>2.1 npm 入口：选择并启动原生程序</h3><p><code>codex.js</code> 将 <code>platform + arch</code> 映射成 target triple，例如 Windows x64 对应 <code>x86_64-pc-windows-msvc</code>。之后优先从平台包定位 <code>vendor/.../bin/codex.exe</code>，并保留兼容的 vendor 查找方式。</p>
+<p>使用异步 <code>spawn</code> 还有一个实际目的：父进程可以处理和转发终止信号，避免 Ctrl+C 后只结束包装进程。理解启动性能或退出行为时，应该把这一层与 Rust 运行时分开检查。</p>
+<p>源码：<a href="codex/codex-cli/bin/codex.js:15">平台映射与二进制定位</a>、<a href="codex/codex-cli/bin/codex.js:118">异步启动的设计说明</a>。</p>
+<h3 id="2-2-Rust-入口：一个二进制分发多种工作模式"><a href="#2-2-Rust-入口：一个二进制分发多种工作模式" class="headerlink" title="2.2 Rust 入口：一个二进制分发多种工作模式"></a>2.2 Rust 入口：一个二进制分发多种工作模式</h3><p>入口先初始化构建信息，再经过 <code>arg0_dispatch_or_else</code>。这允许同一套可执行文件基础设施根据调用名处理特定辅助入口。常规路径进入 <code>cli_main</code>，通过 Clap 解析主参数与子命令。</p>
+<p>以下是入口原码的关键部分：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() <span class="punctuation">-&gt;</span> anyhow::<span class="type">Result</span>&lt;()&gt; &#123;</span><br><span class="line">    codex_build_info::initialize!();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">remote_control_disabled</span> = codex_app_server::<span class="title function_ invoke__">take_remote_control_disabled_env</span>();</span><br><span class="line">    <span class="title function_ invoke__">arg0_dispatch_or_else</span>(<span class="keyword">move</span> |arg0_paths: Arg0DispatchPaths| <span class="keyword">async</span> <span class="keyword">move</span> &#123;</span><br><span class="line">        <span class="type">Box</span>::<span class="title function_ invoke__">pin</span>(<span class="title function_ invoke__">cli_main</span>(arg0_paths, remote_control_disabled)).<span class="keyword">await</span>?;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>--enable/--disable</code> 被转换为 <code>features.&lt;name&gt;=true/false</code> 配置覆盖，使功能选择沿同一配置管线进入不同子命令。没有子命令时进入交互 TUI；<code>exec</code> 走无交互客户端；<code>app-server</code> 运行集成服务；登录、MCP、插件、沙箱等命令有各自路径。</p>
+<p>源码：<a href="codex/codex-rs/cli/src/main.rs:1043">main 与 cli_main</a>、<a href="codex/codex-rs/cli/src/main.rs:164">子命令定义</a>、<a href="codex/codex-rs/cli/src/main.rs:988">功能覆盖转换</a>。</p>
+<h3 id="2-3-TUI-有三种-app-server-目标"><a href="#2-3-TUI-有三种-app-server-目标" class="headerlink" title="2.3 TUI 有三种 app-server 目标"></a>2.3 TUI 有三种 app-server 目标</h3><p>本地源码明确建模三种后端：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">pub</span>(<span class="keyword">crate</span>) <span class="keyword">enum</span> <span class="title class_">AppServerTarget</span> &#123;</span><br><span class="line">    Embedded,</span><br><span class="line">    LocalDaemon &#123;</span><br><span class="line">        endpoint: RemoteAppServerEndpoint,</span><br><span class="line">        allow_embedded_fallback: <span class="type">bool</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    Remote &#123;</span><br><span class="line">        endpoint: RemoteAppServerEndpoint,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>Embedded</strong>：在当前进程启动 app-server runtime，通过内存通道通信。</li>
+<li><strong>LocalDaemon</strong>：连接共享的本地服务。是否允许回退由目标状态明确记录。</li>
+<li><strong>Remote</strong>：连接指定远程端点，工作目录及服务端状态属于远程后端。</li>
+</ul>
+<p><code>--no-daemon</code> 选择 Embedded；显式远程端点及默认 daemon socket 参与其余选择。恢复/分叉已有会话时，代码会保护已选后端，不能把连接失败后回退当成无条件成立的行为。</p>
+<p>隐式接入本地 daemon 还要通过兼容性检查，例如 <code>--oss</code>、选定 profile、workload identity、执行器选择及部分配置覆盖会影响是否适用。自动启动另外受 <code>DaemonAutoStart</code> 及启动条件控制，不能只根据本机存在 socket 推断最终后端。</p>
+<p>因此，“TUI 使用 app-server”不等于“每次都新起一个 app-server 子进程”，也不等于“所有会话都运行在本地”。</p>
+<p>源码：<a href="codex/codex-rs/tui/src/lib.rs:328">后端枚举</a>、<a href="codex/codex-rs/tui/src/lib.rs:1053">目标选择</a>、<a href="codex/codex-rs/tui/src/lib.rs:587">连接与回退路径</a>、<a href="codex/codex-rs/tui/src/daemon_startup.rs:61">daemon 排除条件</a>、<a href="codex/codex-rs/tui/src/startup_orchestration.rs:548">自动启动条件</a>、<a href="codex/codex-rs/cli/src/main.rs:2495">CLI 的交互启动</a>。</p>
+<h3 id="2-4-无交互-exec-也通过-app-server"><a href="#2-4-无交互-exec-也通过-app-server" class="headerlink" title="2.4 无交互 exec 也通过 app-server"></a>2.4 无交互 exec 也通过 app-server</h3><p><code>codex exec</code> 负责解析输入、选择输出处理器、准备配置，再启动 <code>InProcessAppServerClient</code>，创建或恢复 thread，提交 turn，并消费服务端事件。它是同一内核的另一种客户端。</p>
+<p>与 TUI 相比，exec 的重要差异是输入和输出契约：</p>
+<ul>
+<li>可以从命令参数或标准输入取得任务。</li>
+<li><code>--json</code> 向标准输出发送 JSONL 事件，旧别名 <code>--experimental-json</code> 仍被接受。</li>
+<li><code>--output-schema</code> 约束最终回答形状；它与整个事件流的结构是两件事。</li>
+<li><code>--output-last-message</code> 可以单独写出最终消息。</li>
+<li>非交互客户端必须对服务端请求给出明确处理；不能期待一个并不存在的审批弹窗。</li>
+</ul>
+<p>源码：<a href="codex/codex-rs/exec/src/lib.rs:267">exec run_main</a>、<a href="codex/codex-rs/exec/src/lib.rs:1022">进程内客户端启动</a>、<a href="codex/codex-rs/exec/src/cli.rs:15">参数定义</a>、<a href="codex/codex-rs/exec/src/lib.rs:2088">服务端请求处理</a>。</p>
+<p><a id="chapter-3"></a></p>
+<h2 id="3-app-server：将运行时变成可集成的服务"><a href="#3-app-server：将运行时变成可集成的服务" class="headerlink" title="3. app-server：将运行时变成可集成的服务"></a>3. app-server：将运行时变成可集成的服务</h2><h3 id="3-1-协议层和内核层的分工"><a href="#3-1-协议层和内核层的分工" class="headerlink" title="3.1 协议层和内核层的分工"></a>3.1 协议层和内核层的分工</h3><p><code>app-server-protocol</code> 定义外部可见请求、响应和通知，例如 <code>thread/start</code>、<code>turn/start</code>、<code>turn/steer</code>、<code>turn/interrupt</code>。<code>protocol</code> 定义更靠近执行内核的操作与事件，如 <code>Op</code>、<code>EventMsg</code>，以及模型输入输出的 <code>ResponseItem</code>。</p>
+<p>源码把外部消息称为 JSON-RPC，但明确注明不发送、也不要求 <code>&quot;jsonrpc&quot;: &quot;2.0&quot;</code> 字段。自己实现客户端时应遵循这个仓库的 schema，不能只凭通用 JSON-RPC 库的默认行为猜测线格式。参见 <a href="codex/codex-rs/app-server-protocol/src/rpc.rs:1">RPC envelope 定义</a>。</p>
+<p>这两层并非名称不同但内容完全相同的消息集合。app-server 还负责初始化、客户端能力、请求校验、配置与账户接口，以及内核事件到产品事件的映射。前端通常不应绕过这些契约直接操作内部状态。</p>
+<p>源码：<a href="codex/codex-rs/app-server-protocol/src/protocol/common.rs:552">外部方法登记</a>、<a href="codex/codex-rs/protocol/src/protocol.rs:655">内核 Op</a>、<a href="codex/codex-rs/protocol/src/protocol.rs:1469">内核事件</a>、<a href="codex/codex-rs/protocol/src/models.rs:1052">模型内容项</a>。</p>
+<h3 id="3-2-MessageProcessor-是接入层的分发中心"><a href="#3-2-MessageProcessor-是接入层的分发中心" class="headerlink" title="3.2 MessageProcessor 是接入层的分发中心"></a>3.2 MessageProcessor 是接入层的分发中心</h3><p>服务端将账户、配置、目录、环境、thread、turn、插件等请求交给不同的 request processor。初始化被特殊处理，普通请求要在连接完成初始化之后进入正常分发。</p>
+<p><code>MessageProcessor</code> 在构造期间装配共享的配置管理、线程管理及各请求处理器。真正的 Agent 执行仍由 core 中的 thread/session/task 承担，而非一个 RPC 处理函数从头到尾同步执行全部工作。</p>
+<p>这样，<code>turn/start</code> 的响应可以先返回被接纳的 turn，后续工作通过通知持续送达。<strong>拿到请求响应不代表任务已经完成。</strong></p>
+<p>源码：<a href="codex/codex-rs/app-server/src/message_processor.rs:276">MessageProcessor 装配</a>、<a href="codex/codex-rs/app-server/src/message_processor.rs:644">请求入口</a>、<a href="codex/codex-rs/app-server/src/message_processor.rs:956">初始化分支</a>、<a href="codex/codex-rs/app-server/src/message_processor.rs:1677">turn/start 分发</a>。</p>
+<h3 id="3-3-Thread、Turn、Item-是客户端的核心对象"><a href="#3-3-Thread、Turn、Item-是客户端的核心对象" class="headerlink" title="3.3 Thread、Turn、Item 是客户端的核心对象"></a>3.3 Thread、Turn、Item 是客户端的核心对象</h3><p>可以用三个层级理解客户端数据：</p>
+<ol>
+<li><strong>Thread</strong>：可恢复的对话/工作会话，持有会话身份和相关设置。</li>
+<li><strong>Turn</strong>：一次工作周期，包含输入和运行状态，也可能接受运行中的追加输入。</li>
+<li><strong>Item</strong>：轮次中的具体内容或活动，例如用户消息、助手消息、工具执行等。</li>
+</ol>
+<p>Turn 状态显式区分 <code>Completed</code>、<code>Interrupted</code>、<code>Failed</code>、<code>InProgress</code>。客户端应检查完成通知中的状态，并消费对应活动项，不能用“收到了最后一段文本”判断成功。</p>
+<p>源码：<a href="codex/codex-rs/app-server-protocol/src/protocol/v2/thread.rs:62">thread/start 参数</a>、<a href="codex/codex-rs/app-server-protocol/src/protocol/v2/turn.rs:33">TurnStatus</a>、<a href="codex/codex-rs/app-server-protocol/src/protocol/v2/turn.rs:170">turn/start 输入</a>、<a href="codex/codex-rs/app-server-protocol/src/protocol/v2/turn.rs:579">完成通知</a>。</p>
+<h3 id="3-4-典型交互顺序"><a href="#3-4-典型交互顺序" class="headerlink" title="3.4 典型交互顺序"></a>3.4 典型交互顺序</h3><p>以下是协议级示意，省略可选字段及响应内容，不是一次实际网络抓包：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">client → initialize(clientInfo, capabilities)</span><br><span class="line">server → initialize 的响应</span><br><span class="line">client → initialized</span><br><span class="line">client → thread/start 或 thread/resume</span><br><span class="line">server → thread 响应</span><br><span class="line">client → turn/start(threadId, input)</span><br><span class="line">server → turn 响应，随后发送运行通知</span><br><span class="line">server → item/started、文本增量、工具活动……</span><br><span class="line">server → 审批等反向请求（需要时）</span><br><span class="line">client → 对反向请求作出响应</span><br><span class="line">server → item/completed、turn/completed</span><br></pre></td></tr></table></figure>
+<p>这里“反向请求”非常重要：服务端不只有单向输出事件，还可能要求客户端提供审批或工具结果。应用需要同时处理响应、通知和服务端请求；只读取文本 delta 会使交互流程不完整。</p>
+<h3 id="3-5-进程内模式保留协议语义"><a href="#3-5-进程内模式保留协议语义" class="headerlink" title="3.5 进程内模式保留协议语义"></a>3.5 进程内模式保留协议语义</h3><p><code>app-server/src/in_process.rs</code> 使用内存通道替代 stdio 或 socket，但继续运行同一 <code>MessageProcessor</code>。请求是 typed <code>ClientRequest</code>，结果仍沿 JSON-RPC result envelope 回传。<code>app-server-client</code> 再提供更高层的异步请求、事件消费和关闭管理。</p>
+<p>背压也有明确边界：底层命令队列有界，提交可能返回 <code>WouldBlock</code>；部分通知在饱和时可能丢弃并以 <code>Lagged</code> 反映。审批等服务端请求不能被静默遗弃，否则 Agent 会永久等待。客户端 facade 使用另一层本地事件队列持续排空底层 runtime，避免“等待 RPC 响应时不读通知”造成死锁。不能笼统说整个系统的所有队列都同样有界。</p>
+<p>源码：<a href="codex/codex-rs/app-server/src/in_process.rs:1">进程内 runtime 的生命周期与背压契约</a>、<a href="codex/codex-rs/app-server-client/README.md:1">共享客户端说明</a>、<a href="codex/codex-rs/exec/src/lib.rs:1392">exec 对 Lagged 的处理</a>。</p>
+<h3 id="3-6-外部传输和部署边界"><a href="#3-6-外部传输和部署边界" class="headerlink" title="3.6 外部传输和部署边界"></a>3.6 外部传输和部署边界</h3><p>独立 app-server 入口支持 <code>stdio://</code>、Unix socket、WebSocket 及 <code>off</code> 等监听形式。协议 schema 和 TypeScript 类型生成也由 CLI 提供命令入口。部署时应分别考虑传输认证、服务端工作目录和工具执行环境；“能连到 app-server”只说明集成通道成立，并不自动说明模型认证、执行环境和项目权限都已就绪。</p>
+<p>源码：<a href="codex/codex-rs/app-server/src/main.rs:38">监听参数与启动入口</a>、<a href="codex/codex-rs/cli/src/main.rs:191">CLI app-server 命令定义</a>。</p>
+<p><a id="chapter-4"></a></p>
+<h2 id="4-会话、轮次与任务"><a href="#4-会话、轮次与任务" class="headerlink" title="4. 会话、轮次与任务"></a>4. 会话、轮次与任务</h2><h3 id="4-1-先区分-Thread、Session、Turn、Task-和-Step"><a href="#4-1-先区分-Thread、Session、Turn、Task-和-Step" class="headerlink" title="4.1 先区分 Thread、Session、Turn、Task 和 Step"></a>4.1 先区分 Thread、Session、Turn、Task 和 Step</h3><p>这一版 Core 已经把运行逻辑拆到 <code>session/</code>、<code>tasks/</code>、<code>state/</code> 等目录，不能再按照早期版本把所有行为归到一个 <code>codex.rs</code> 文件。理解它的关键是分清五种不同的生命周期。</p>
+<ul>
+<li><strong>Thread</strong> 是向上层暴露的对话对象，有稳定的 <code>ThreadId</code>、历史和启动元数据。</li>
+<li><strong>Session</strong> 是这个 Thread 当前在内存中的运行实例，拥有服务、状态、输入队列和活动轮次。</li>
+<li><strong>Turn</strong> 是一轮被 Core 接纳的工作，以 <code>TurnContext.sub_id</code> 标识；可以包含多次模型请求、工具执行和后续输入。</li>
+<li><strong>Task</strong> 是承载这轮工作的 Tokio 后台任务；普通对话使用 <code>RegularTask</code>，此外有 Review 和 Compact 等类型。</li>
+<li><strong>Step</strong> 是一次模型采样请求所使用的配置与能力快照，明确绑定模型、环境、工具和 MCP 连接。</li>
+</ul>
+<p>因此，一条用户消息通常开启一个 Turn，一个 Turn 的 Task 可以驱动多次 Step；模型调用工具之后再次采样，通常仍属于同一个 Turn。</p>
+<p>这里的 Task 是 Core 的执行抽象，不等同于桌面产品侧栏中用户看到的“任务/聊天”。这里的 Step 也不是模型输出的一段推理文字。</p>
+<p>源码入口：<a href="codex/codex-rs/core/src/codex_thread.rs:208">CodexThread</a>、<a href="codex/codex-rs/core/src/session/session.rs:60">Session</a>、<a href="codex/codex-rs/core/src/state/turn.rs:74">TaskKind 与 RunningTask</a>、<a href="codex/codex-rs/core/src/session/step_context.rs:23">StepContext</a>。</p>
+<h3 id="4-2-CodexThread-是运行时的双向通道门面"><a href="#4-2-CodexThread-是运行时的双向通道门面" class="headerlink" title="4.2 CodexThread 是运行时的双向通道门面"></a>4.2 CodexThread 是运行时的双向通道门面</h3><p><code>CodexThread</code> 持有 <code>Arc&lt;Session&gt;</code> 与 <code>SessionIo</code>，向宿主提供 <code>submit()</code>、轮次输入接口、事件接收和配置查询等操作。</p>
+<p>它把“访问这个聊天”与“具体如何执行一轮模型工作”分开：上层提交操作，下层通过事件报告状态。</p>
+<p><code>SessionIo</code> 更进一步把通信端点从状态本体拆出来，包含操作发送器 <code>tx_sub</code>、事件接收器 <code>rx_event</code>、Agent 状态 watch 接收器，以及可被多个调用者等待的 session-loop 完成 future。</p>
+<p>这种拆分有实际生命周期意义：宿主可以等待关闭；所有操作发送器被释放时，接收通道关闭，session loop 仍会执行清理。</p>
+<p><code>submit()</code> 的返回值只是生成的 Submission ID，不代表模型已完成工作。需要结果的轮次输入使用 oneshot reply，但这个 reply 也只回答 Core 的接纳和路由决定。</p>
+<p>源码：<a href="codex/codex-rs/core/src/codex_thread.rs:258">CodexThread::submit</a>、<a href="codex/codex-rs/core/src/session/mod.rs:424">SessionIo 字段</a>、<a href="codex/codex-rs/core/src/session/mod.rs:1111">submit_turn_input</a>。</p>
+<h3 id="4-3-Submission-loop-处理控制面，Task-执行工作面"><a href="#4-3-Submission-loop-处理控制面，Task-执行工作面" class="headerlink" title="4.3 Submission loop 处理控制面，Task 执行工作面"></a>4.3 Submission loop 处理控制面，Task 执行工作面</h3><p>创建 Session 后，Core 使用 <code>tokio::spawn</code> 启动 <code>submission_loop</code>。</p>
+<p>这个循环通过带优先顺序的 <code>tokio::select!</code> 同时观察运行树关闭信号、操作通道和 mailbox 更新，然后按 <code>Op</code> 分派处理函数。</p>
+<p>典型操作包括输入、Interrupt、审批答复、权限答复、用户问题答复、Realtime 控制以及 Shutdown。</p>
+<p>普通轮次的耗时工作会被注册成后台 Task。控制循环因此可以继续接收 Interrupt 或审批答复，而不必等模型请求结束。</p>
+<p>若显式 Shutdown 没有发生而操作通道先关闭，循环退出后仍然调用 runtime teardown，并关闭 thread persistence；“发送端没了”不会直接跳过清理。</p>
+<p>源码：<a href="codex/codex-rs/core/src/session/mod.rs:1033">session loop 启动</a>、<a href="codex/codex-rs/core/src/session/handlers.rs:443">submission_loop</a>、<a href="codex/codex-rs/core/src/session/handlers.rs:743">通道关闭后的清理</a>。</p>
+<h3 id="4-4-Session-保存什么，哪些内容属于一轮"><a href="#4-4-Session-保存什么，哪些内容属于一轮" class="headerlink" title="4.4 Session 保存什么，哪些内容属于一轮"></a>4.4 Session 保存什么，哪些内容属于一轮</h3><p><code>Session</code> 保存稳定的运行设施，包括 <code>SessionServices</code>、启用的 features、输入队列、MCP 刷新协调器、Realtime 管理器以及 <code>active_turn</code>。</p>
+<p>它的 <code>SessionState</code> 通过异步 Mutex 保护，保存会话配置、<code>ContextManager</code> 历史、速率限制、token 使用记录、上一轮设置、压缩窗口、预热句柄和关闭状态等。</p>
+<p><code>SessionConfiguration</code> 是未来轮次继承的默认配置，覆盖 provider、step settings、环境选择、开发者指令、基础指令、权限配置和动态工具等。</p>
+<p>这不是把完整全局配置随意复制到每个工具里。执行所需的状态会在 Turn 和 Step 边界进一步捕获。</p>
+<p><code>ActiveTurn</code> 则包含当前 <code>RunningTask</code>、结束记录阶段使用的 <code>finishing</code> 标记，以及可共享的 <code>TurnState</code>。</p>
+<p><code>TurnState</code> 保存本轮等待中的审批、权限请求、用户输入答复、MCP elicitation 和动态工具回复通道，同时累计本轮工具调用数及分模型 token 使用。</p>
+<p>这一设计让等待中的工具可以异步挂起：宿主把回复交回 Core，由对应 oneshot sender 唤醒原来的等待者。</p>
+<p>源码：<a href="codex/codex-rs/core/src/session/session.rs:60">Session 的共享状态</a>、<a href="codex/codex-rs/core/src/session/session.rs:107">SessionConfiguration</a>、<a href="codex/codex-rs/core/src/state/session.rs:69">SessionState</a>、<a href="codex/codex-rs/core/src/state/turn.rs:95">TurnState</a>。</p>
+<h3 id="4-5-输入接纳与-steering：收到消息不等于另起一轮"><a href="#4-5-输入接纳与-steering：收到消息不等于另起一轮" class="headerlink" title="4.5 输入接纳与 steering：收到消息不等于另起一轮"></a>4.5 输入接纳与 steering：收到消息不等于另起一轮</h3><p><code>turn_input::handle</code> 是 Core 判断输入开始新轮次、加入当前轮次，还是拒绝提交的集中入口。</p>
+<p><code>TurnInputMode</code> 明确区分了几种意图：</p>
+<ul>
+<li><code>StartOrSteer</code>：优先把输入交给当前可 steering 的轮次；没有活动轮次时才创建新的 RegularTask。</li>
+<li><code>StartIfIdle</code>：只有空闲时才能启动；这也承载一部分自动触发的工作。</li>
+<li><code>ContinueIfIdle</code>：在指定前一轮状态成立时继续，只接受内部 ResponseItem 类输入。</li>
+<li><code>Steer</code>：要求交给当前轮次，并可携带预期 turn ID，避免输入落到错误的轮次。</li>
+</ul>
+<p>输入相关的 thread settings 会先验证，只有输入被接纳后才提交，从而避免一条最终被拒绝的输入悄悄修改会话默认值。</p>
+<p>启动选项仅在新 Turn 创建时消费；成功 steering 不会用新建轮次选项替换当前 TurnContext。其持久设置更新供后续轮次继承，活动轮次的显式设置更新另走受限制的接口。</p>
+<p>Core 返回 <code>Started</code>、<code>Steered</code> 或 <code>NotSubmitted</code> 时，尚未承诺 prompt hooks、历史保存和采样已经结束。宿主不能把这次应答当成回答完成事件。</p>
+<p>自动工作还有额外限制：<code>TurnStartKind::Automatic</code> 不能从 Plan 模式自动开始，也不能通过候选设置自动进入 Plan；用户和恢复路径有不同的接纳规则。</p>
+<p>源码：<a href="codex/codex-rs/core/src/session/turn_input.rs:1">输入契约</a>、<a href="codex/codex-rs/core/src/session/turn_input.rs:230">路由分派</a>、<a href="codex/codex-rs/core/src/session/turn_input.rs:329">start_or_steer</a>、<a href="codex/codex-rs/core/src/session/turn_input.rs:68">自动启动模式限制</a>。</p>
+<h3 id="4-6-TurnContext-与-StepContext：一轮身份和一次请求的视图"><a href="#4-6-TurnContext-与-StepContext：一轮身份和一次请求的视图" class="headerlink" title="4.6 TurnContext 与 StepContext：一轮身份和一次请求的视图"></a>4.6 TurnContext 与 StepContext：一轮身份和一次请求的视图</h3><p><code>TurnContext</code> 保存本轮的身份、来源、初始配置、环境、输出 schema、扩展数据、计时状态、终止错误和权限授予等状态。</p>
+<p>其中 <code>initial_settings</code> 明确保留接纳时的设置，而 <code>next_step_settings</code> 使用 <code>ArcSwap&lt;ResolvedStepSettings&gt;</code> 存放后续 Step 将读取的设置。</p>
+<p>因此，“TurnContext 创建后整轮模型和所有配置绝不变化”已经不符合这一版实现。</p>
+<p>执行一条模型请求前，Core 捕获 <code>StepContext</code>：先在约定锁顺序下共同读取设置和环境，再等待 executor/MCP 准备，最后绑定该请求实际使用的工具路由、MCP binding、AGENTS.md 和扩展输入。</p>
+<p>同一个 Step 使用这份快照完成 prompt 构造、工具声明和工具调用，避免模型看到的是一种工具清单、执行时却使用另一种环境。</p>
+<p>这里的“冻结”主要指捕获的配置与能力视图；权限读取仍结合当前 Session grants 和原始 Turn grants，因此不能把它理解成复制一份永远不会更新的授权数据库。</p>
+<p>活动轮次设置更新还有双重防线：准备结束后重新确认同一个 Task 仍在运行，并校验托管策略及旧消费者依赖的安全属性。</p>
+<p>模型、effort、summary、service tier 等活动更新受 <code>StepModelSwitching</code> 控制；该 feature 在此快照中为开发中、默认关闭。具备 StepContext 不意味着用户默认就能任意在一轮内切换模型。</p>
+<p>源码：<a href="codex/codex-rs/core/src/session/turn_context.rs:323">TurnContext</a>、<a href="codex/codex-rs/core/src/session/mod.rs:3982">捕获 Step 的锁与准备顺序</a>、<a href="codex/codex-rs/core/src/session/step_context.rs:62">Step 权限访问</a>、<a href="codex/codex-rs/core/src/session/step_activation.rs:229">活动设置发布</a>、<a href="codex/codex-rs/features/src/lib.rs:2064">feature 默认值</a>。</p>
+<h3 id="4-7-Task-契约与统一完成路径"><a href="#4-7-Task-契约与统一完成路径" class="headerlink" title="4.7 Task 契约与统一完成路径"></a>4.7 Task 契约与统一完成路径</h3><p>Core 将任务实现约束为一个很小的 <code>SessionTask</code> 接口：描述任务种类，运行到完成或取消，以及可选的 abort 清理。</p>
+<p>下面是从真实签名节选并省略注释的 Rust 代码：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">run</span>(</span><br><span class="line">    <span class="keyword">self</span>: Arc&lt;<span class="keyword">Self</span>&gt;,</span><br><span class="line">    session: Arc&lt;Session&gt;,</span><br><span class="line">    ctx: Arc&lt;TurnContext&gt;,</span><br><span class="line">    input: <span class="type">Vec</span>&lt;TurnInput&gt;,</span><br><span class="line">    cancellation_token: CancellationToken,</span><br><span class="line">) <span class="punctuation">-&gt;</span> <span class="keyword">impl</span> <span class="title class_">std</span>::future::Future&lt;Output = SessionTaskResult&gt; + <span class="built_in">Send</span>;</span><br></pre></td></tr></table></figure>
+<p><code>spawn_task</code> 会先以 <code>Replaced</code> 原因终止旧任务，再调用 <code>start_task</code>。这落实了 Session 至多运行一个主 Task 的约束；并不禁止本轮内部并发执行多个工具或后台 shell 工作。</p>
+<p><code>start_task</code> 创建 CancellationToken 和完成 Notify，记录轮次归属与开始时 token 用量，触发生命周期贡献者，然后把具体实现放到 Tokio task 中。</p>
+<p>注册信息保存在 <code>RunningTask</code>，它同时持有任务对象、取消 token、AbortOnDropHandle 和 TurnContext，便于统一接管生命周期。</p>
+<p>正常返回后，外围包装层先尝试 flush rollout，再调用 <code>on_task_finished</code>，而不是要求每一种任务各写一套收尾逻辑。</p>
+<p>完成阶段还会接走最后的 pending input 并记录，汇总指标、发出 <code>TurnComplete</code> 或 <code>TurnAborted</code>、清除匹配的 active turn，再检查是否需要为排队工作启动下一轮。</p>
+<p><code>TurnComplete</code> 本身也可以带有 <code>terminal_error</code>，所以“收到轮次终止事件”与“工作没有错误地成功完成”需要区分。</p>
+<p>源码：<a href="codex/codex-rs/core/src/tasks/mod.rs:180">SessionTask</a>、<a href="codex/codex-rs/core/src/tasks/mod.rs:272">spawn_task/start_task</a>、<a href="codex/codex-rs/core/src/tasks/mod.rs:656">统一完成与错误处理</a>。</p>
+<p><a id="chapter-5"></a></p>
+<h2 id="5-Agent-主循环与模型通信"><a href="#5-Agent-主循环与模型通信" class="headerlink" title="5. Agent 主循环与模型通信"></a>5. Agent 主循环与模型通信</h2><h3 id="5-1-普通对话不是一次-API-调用"><a href="#5-1-普通对话不是一次-API-调用" class="headerlink" title="5.1 普通对话不是一次 API 调用"></a>5.1 普通对话不是一次 API 调用</h3><p>普通工作由 <code>RegularTask::run</code> 承载。它先发出 TurnStarted，让前端尽快看到这一轮已经可见且可中断，再运行轮次启动贡献者和消费启动预热结果。</p>
+<p>预热就绪时接过对应 <code>ModelClientSession</code>，不可用则后续创建新的实例，取消则仍尝试保留本轮输入。</p>
+<p>然后它调用 <code>run_turn</code>。只要本轮没有终止错误且仍有 pending input，RegularTask 还可以以空的初始输入再进入 <code>run_turn</code>，由共享队列补上新工作。</p>
+<p><code>run_turn</code> 自身又包含多次采样循环；而 <code>run_sampling_request</code> 内还包含网络流错误重试循环。阅读代码时必须区分这三种循环：它们分别解决尾部输入、模型与工具继续执行，以及通信恢复。</p>
+<p>源码：<a href="codex/codex-rs/core/src/tasks/regular.rs:40">RegularTask::run</a>、<a href="codex/codex-rs/core/src/session/turn.rs:173">run_turn</a>、<a href="codex/codex-rs/core/src/session/turn.rs:1729">采样请求与重试</a>。</p>
+<h3 id="5-2-从输入到本轮结束的调用链"><a href="#5-2-从输入到本轮结束的调用链" class="headerlink" title="5.2 从输入到本轮结束的调用链"></a>5.2 从输入到本轮结束的调用链</h3><p>下图省略权限决策、上下文压缩内部实现与宿主事件转换，只展示 Core 的主干因果顺序。</p>
+<div class="mermaid-wrap"><pre class="mermaid-src" hidden>sequenceDiagram
+    participant H as 宿主/Core 调用方
+    participant Q as SessionIo/submission_loop
+    participant T as RegularTask/run_turn
+    participant S as StepContext
+    participant C as ModelClientSession
+    participant M as 模型服务
+    participant R as 工具运行时
+    H-&gt;&gt;Q: 提交 TurnInput
+    Q-&gt;&gt;Q: 判断 Started/Steered/NotSubmitted
+    Q-&gt;&gt;T: 注册后台 Task（Started 分支）
+    Q--&gt;&gt;H: 返回接纳结果
+    T--&gt;&gt;H: TurnStarted
+    T-&gt;&gt;S: 捕获设置、环境、MCP 与工具视图
+    loop 仍需模型继续或队列有输入
+        T-&gt;&gt;T: 记录输入/上下文，构造 Prompt
+        T-&gt;&gt;C: stream(Prompt, step settings)
+        C-&gt;&gt;M: Responses（WebSocket 或 HTTP）
+        M--&gt;&gt;C: 输出 item / delta / completed
+        C--&gt;&gt;T: ResponseEvent
+        T--&gt;&gt;H: item 开始、文本增量等事件
+        opt 完整输出项包含工具调用
+            T-&gt;&gt;R: 分派调用并保存 future
+            R--&gt;&gt;T: 工具结果写入对话
+        end
+        T-&gt;&gt;T: 等待本次 in-flight 工具，决定 follow-up
+    end
+    T-&gt;&gt;T: Stop hooks、统一收尾、flush
+    T--&gt;&gt;H: TurnComplete / TurnAborted
+</pre></div>
+<p><code>run_turn</code> 在首次采样前做的事情远多于拼接用户文字：检查预采样压缩、计算显式输入需要的 MCP/plugin、捕获首个 Step、记录上下文、构造 skills/plugins 注入、运行 hooks 并保存用户输入。</p>
+<p>图中注册后台 Task 后，接纳 reply 与后台任务事件可以并发到达；它们不构成“前端先收到 reply 才允许 TurnStarted”的协议保证。</p>
+<p>这些准备完成后，才以当前历史生成模型输入。新用户输入不会在预压缩失败时无声消失：相应失败和取消分支会调用输入记录函数保留它。</p>
+<p>源码：<a href="codex/codex-rs/core/src/session/turn.rs:186">首次准备和失败时保存输入</a>、<a href="codex/codex-rs/core/src/session/turn.rs:275">首个 Step 与输入记录</a>。</p>
+<h3 id="5-3-采样循环何时继续，何时停止"><a href="#5-3-采样循环何时继续，何时停止" class="headerlink" title="5.3 采样循环何时继续，何时停止"></a>5.3 采样循环何时继续，何时停止</h3><p>下面是依真实实现归纳的伪代码，不是可以直接编译的源码：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">loop:</span><br><span class="line">    在允许的边界取走 pending input，运行 hooks 并写入历史</span><br><span class="line">    捕获或复用本次 StepContext，记录本次上下文变化</span><br><span class="line">    input = history.for_prompt(step.model.input_modalities)</span><br><span class="line">    result = run_sampling_request(input, step, client_session)</span><br><span class="line">    等待本次模型流与其工具 future 完成</span><br><span class="line">    needs_follow_up = 模型/工具要求继续 OR 仍有 pending input</span><br><span class="line">    若需要继续且满足上下文切换条件：先处理窗口，再继续</span><br><span class="line">    若不需要继续：运行 Stop hooks，允许其提供继续提示</span><br><span class="line">    若 hooks 未要求继续：结束本轮</span><br></pre></td></tr></table></figure>
+<p><code>can_drain_pending_input</code> 控制 steering 输入何时进入模型历史。新一轮首先处理刚接纳的初始输入，不会立刻把后来到达的消息混到它之前；压缩后的某些 continuation 也会暂缓取队列。</p>
+<p><code>needs_follow_up</code> 不只来自工具调用。服务端 <code>Completed.end_turn == Some(false)</code> 也会要求继续；排队用户输入会使下一次采样继续。</p>
+<p>没有后续工作时仍会经过 Stop hooks。同步 hook 可以要求继续，并附带写入历史的提示；若没有提供提示却请求阻塞，Core 会警告而忽略这个阻塞。</p>
+<p>上下文切换和 post-turn 压缩有独立策略，不应描述成“每次回答后都压缩”。例如自动摘要要求未禁用自动压缩、未启用 TokenBudget；post-turn 路径还要求阈值大于零、没有 pending input 且未取消。</p>
+<p>源码：<a href="codex/codex-rs/core/src/session/turn.rs:471">主采样循环</a>、<a href="codex/codex-rs/core/src/session/turn.rs:596">follow-up 与窗口条件</a>、<a href="codex/codex-rs/core/src/session/turn.rs:721">Stop hooks 与结束</a>。</p>
+<h3 id="5-4-Prompt-与线上-Responses-request-是两层结构"><a href="#5-4-Prompt-与线上-Responses-request-是两层结构" class="headerlink" title="5.4 Prompt 与线上 Responses request 是两层结构"></a>5.4 Prompt 与线上 Responses request 是两层结构</h3><p><code>build_prompt</code> 先构造 Core 内部 <code>Prompt</code>，包含输入历史、对模型可见的工具、基础指令、输出 schema 与相关访问计划。</p>
+<p>随后 <code>ModelClient::build_responses_request</code> 才把它翻译成 wire request，并按模型能力决定 reasoning、verbosity、service tier 和 metadata 等字段。</p>
+<p>以下节选展示当前请求的几个固定设置，省略了其余字段：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">request</span> = ResponsesApiRequest &#123;</span><br><span class="line">    model: model_info.slug.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">    input,</span><br><span class="line">    tools,</span><br><span class="line">    tool_choice: <span class="string">&quot;auto&quot;</span>.<span class="title function_ invoke__">to_string</span>(),</span><br><span class="line">    parallel_tool_calls: prompt.parallel_tool_calls &amp;&amp; !model_info.use_responses_lite,</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    store: <span class="literal">false</span>,</span><br><span class="line">    stream: <span class="literal">true</span>,</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Responses Lite 与普通 Responses 在这里有实际差异。Lite 将额外工具编码为 <code>AdditionalTools</code> 输入项；普通 Responses 使用顶层 <code>tools</code> 字段，还会去掉当前协议不支持的 per-content metadata。</p>
+<p>基础指令也会在请求层转换为有稳定标识的前缀项。非 OpenAI provider 还会过滤部分内部 metadata 与不适合发送的加密字段。</p>
+<p><code>IncrementalTools</code> 在此版本默认开启，但生效还要求模型使用 Responses Lite，以及当前窗口采用增量工具策略。该分支可把基础指令与工具声明放在历史中复用，因此 <code>build_prompt</code> 不必每次再给一份完整顶层定义。</p>
+<p><code>parallel_tool_calls: true</code> 是 Prompt 的默认意图，不能据此推导每种 wire protocol 都会发送同样的字段或每种工具都可以并发。</p>
+<p>源码：<a href="codex/codex-rs/core/src/session/turn.rs:1688">build_prompt</a>、<a href="codex/codex-rs/core/src/client.rs:980">request 编码</a>、<a href="codex/codex-rs/core/src/client.rs:1112">实际 request 字段</a>、<a href="codex/codex-rs/core/src/session/step_context.rs:52">增量工具的双重条件</a>、<a href="codex/codex-rs/features/src/lib.rs:1656">feature 默认值</a>。</p>
+<h3 id="5-5-ModelClient-与-ModelClientSession-各自缓存什么"><a href="#5-5-ModelClient-与-ModelClientSession-各自缓存什么" class="headerlink" title="5.5 ModelClient 与 ModelClientSession 各自缓存什么"></a>5.5 ModelClient 与 ModelClientSession 各自缓存什么</h3><p><code>ModelClient</code> 是 Session 级对象。它持有 provider、鉴权入口、HTTP client factory、请求贡献者和传输回退状态。</p>
+<p><code>ModelClientSession</code> 是一轮运行中的流式客户端，缓存 WebSocket 连接、上次请求、上次完整响应和 sticky routing token。</p>
+<p><code>x-codex-turn-state</code> 从服务端响应取得后，在同一客户端轮次的重试和 continuation 中保持不变；不应跨新轮次复用。认证拥有者变化时，相关路由状态也要重新建立。</p>
+<p><code>run_turn</code> 在多次采样和流重试间复用同一个客户端实例。预热实例也通过显式交接进入这里，避免第一次真正采样重复建立已准备好的状态。</p>
+<p>普通流路径先检查 provider 的 <code>supports_websockets</code> 及 Session 的禁用状态，适用时优先 WebSocket；否则使用 HTTP Responses，HTTP 路径调用 <code>/responses</code> 并接收事件流。</p>
+<p>这个选择不是读取旧的 <code>responses_websockets</code> 开关：旧的两个同名 feature 在当前注册表中已标记 Removed。应以 <code>responses_websocket_enabled()</code> 的实际条件为准。</p>
+<p>源码：<a href="codex/codex-rs/core/src/client.rs:269">两个 client 的职责</a>、<a href="codex/codex-rs/core/src/client.rs:284">sticky routing 契约</a>、<a href="codex/codex-rs/core/src/client.rs:2391">传输选择</a>、<a href="codex/codex-rs/core/src/client.rs:1147">WebSocket 启用条件</a>、<a href="codex/codex-rs/features/src/lib.rs:2118">旧 feature 状态</a>。</p>
+<h3 id="5-6-WebSocket-continuation-是有条件的增量提交"><a href="#5-6-WebSocket-continuation-是有条件的增量提交" class="headerlink" title="5.6 WebSocket continuation 是有条件的增量提交"></a>5.6 WebSocket continuation 是有条件的增量提交</h3><p>Core 不会只因为连接还在，就假定服务端上下文与当前历史一致。</p>
+<p>它先要求上一条请求和上一条完整响应都可用、有 response ID，再检查模型、tools、reasoning、service tier、output text 设置等非输入属性没有改变。</p>
+<p>还需要确认当前输入以“上次请求输入 + 服务端已输出的完整 items”为前缀。只有这些条件满足，才发送 <code>previous_response_id</code> 和新增输入。</p>
+<p>输入缩短、前缀不同、模型变化、工具变化或部分 metadata 变化，都会使它回到完整请求路径，而不是错误地在旧上下文后盲目追加。</p>
+<p>因此，WebSocket 复用、增量 continuation 和 prompt cache 是不同机制。前者减少连接开销，第二个减少上下文重发，第三个涉及服务端前缀缓存键，不能混为“模型记得之前内容”。</p>
+<p>源码：<a href="codex/codex-rs/core/src/client.rs:391">请求属性比较</a>、<a href="codex/codex-rs/core/src/client.rs:1535">增量前缀检查</a>、<a href="codex/codex-rs/core/src/client.rs:1578">prepare_websocket_request</a>。</p>
+<h3 id="5-7-事件流怎样变成可见文字、工具结果与历史"><a href="#5-7-事件流怎样变成可见文字、工具结果与历史" class="headerlink" title="5.7 事件流怎样变成可见文字、工具结果与历史"></a>5.7 事件流怎样变成可见文字、工具结果与历史</h3><p>传输层返回的不是最终字符串，而是 <code>ResponseEvent</code> 流。客户端先组合 response interceptors，再映射 provider 错误、记录推理追踪、补齐 item ID，并保留完成的响应供 continuation 使用。</p>
+<p><code>try_run_sampling_request</code> 消费这个流：<code>OutputItemAdded</code> 建立当前活动项并发 item-start 事件；文本与 reasoning delta 转换为前端增量事件。</p>
+<p><code>OutputItemDone</code> 是完整输出项的处理边界。Core 将它交给 <code>handle_output_item_done</code>，取得工具 future、最后一条 assistant message 和是否需要后续采样等结果。</p>
+<p>工具 future 被放入 <code>FuturesOrdered</code>，在流处理结束后统一 drain；所以模型的流式输出和已经分派的工具执行可能在时间上重叠，但下一次采样会等这一批工具结果收齐。</p>
+<p><code>Completed</code> 记录 response ID、token usage、usage metadata 和 end-turn 信息。若流在这之前关闭，Core 将其视为错误，不把 TCP/SSE 结束误判为正常回答完成。</p>
+<p>token-count 事件会等 pending tools 处理后再发出，避免在 <code>request_user_input</code> 等工具等待用户时不断发进度事件；已经观察到的 token 用量在取消竞争下也尽量保留。</p>
+<p>Plan 模式有单独的 assistant 文本分段与计划项处理；存在 turn-item contributors 时，部分流式展示会被推迟到贡献者处理完成。原始输出项、对话历史和 UI item 因此不是简单的一一转发。</p>
+<p><code>ConcurrentReasoningSummaries</code> 默认关闭；启用且 provider 为 OpenAI 时，摘要走 sequential-cutoff 交付分支，展示主要依据完整 summary done，而不是逐 delta 转发。</p>
+<p>源码：<a href="codex/codex-rs/core/src/client.rs:2527">客户端流映射与完整响应缓存</a>、<a href="codex/codex-rs/core/src/session/turn.rs:2654">流消费入口</a>、<a href="codex/codex-rs/core/src/stream_events_utils.rs:317">完整 item 分派</a>、<a href="codex/codex-rs/core/src/session/turn.rs:3191">Completed</a>、<a href="codex/codex-rs/core/src/session/turn.rs:3411">工具 drain 与收尾</a>、<a href="codex/codex-rs/features/src/lib.rs:1836">摘要交付 feature 默认值</a>。</p>
+<h3 id="5-8-错误重试、回退与停止边界"><a href="#5-8-错误重试、回退与停止边界" class="headerlink" title="5.8 错误重试、回退与停止边界"></a>5.8 错误重试、回退与停止边界</h3><p><code>run_sampling_request</code> 从 provider 取得 <code>stream_max_retries</code>。当前 provider 默认值为 5，配置值还会被上限 100 约束；这个值属于流重连预算，与 request 层重试设置不同。</p>
+<p>只有错误给出可重试延时，才继续进入重试逻辑。<code>ContextWindowExceeded</code> 和用量上限等错误会先返回上层执行相应处理，而不是当作普通断网反复重发。</p>
+<p>退避优先遵守服务端 <code>Retry-After</code> deadline；它只影响等待时间，不自动增加有限重试预算。</p>
+<p>当前默认开启 <code>UnboundedConnectionRetries</code>。但无限连接重试仅适用于 Sampling 的 <code>ConnectionFailed</code>、非内部 Session、且 provider 不是 Amazon Bedrock 的分支；延时从 5 秒倍增到最多 60 秒。</p>
+<p>这解释了为何某些网络断连时会长时间显示重连：它可能走连接恢复策略，不能单凭“重试超过五次”就断言实现违反配置。</p>
+<p>有限流重试耗尽后，如果还可以从 WebSocket 回退 HTTP，Core 发 warning、重置该重试计数，并切到 HTTPS。</p>
+<p>这个回退状态保存在 Session 级 ModelClient，后续轮次也继续走 HTTP；不是下一次采样马上重新探测 WebSocket。无法回退且预算耗尽时，错误才最终向上返回。</p>
+<p>源码：<a href="codex/codex-rs/model-provider-info/src/lib.rs:68">provider 重试默认值</a>、<a href="codex/codex-rs/model-provider-info/src/lib.rs:510">有效流预算</a>、<a href="codex/codex-rs/core/src/responses_retry.rs:59">错误重试与等待策略</a>、<a href="codex/codex-rs/core/src/client.rs:2455">Session 级 HTTP 回退</a>、<a href="codex/codex-rs/features/src/lib.rs:1478">连接重试 feature 默认值</a>。</p>
+<h3 id="5-9-Interrupt、steering-preemption-与-mailbox-是三类信号"><a href="#5-9-Interrupt、steering-preemption-与-mailbox-是三类信号" class="headerlink" title="5.9 Interrupt、steering preemption 与 mailbox 是三类信号"></a>5.9 Interrupt、steering preemption 与 mailbox 是三类信号</h3><p>显式 Interrupt 通过 <code>handlers::interrupt</code> 进入 Task 终止流程。Core 先取消任务 token，等待任务主动退出，超过 <strong>100 ms</strong> 的优雅退出窗口后再 abort Tokio handle，并调用任务的 abort 清理函数。</p>
+<p>若为用户中断且 <code>CodeModeInterrupt</code> 开启，还会中断活动 code-mode cells；这个 feature 在此快照默认开启。</p>
+<p>中断标记、hook 和 TurnAborted 事件有专门保存顺序。例如中断历史标记先 flush，再通知客户端，避免客户端收到终止事件后立即重读历史却看不到该标记。</p>
+<p>steering 的 preempt 则通常只让当前采样尽快让路，返回 <code>needs_follow_up</code>，在同一 Turn 内消费新输入。它不等于用户要求终止整轮工作。</p>
+<p>若当前流支持 interrupt，Core 可请求 <code>Drain</code>，继续收尾已完成 items 与响应状态，随后再发包含新输入的请求；这样下一次 continuation 才有一致的历史基础。</p>
+<p>mailbox 更新也可以触发让路。默认 <code>DeferMailboxPreemption</code> 关闭时，在 commentary、partial answer 或 reasoning 的完整 item 边界看到 pending mail，可以结束或 drain 当前响应，并安排 follow-up。</p>
+<p>终结回答会尝试把 mailbox phase 从 <code>CurrentTurn</code> 切到 <code>NextTurn</code>，晚来的消息保留给下一轮；已有显式同轮输入时会保留当前接纳，后续显式同轮工作也可以重新打开接纳。</p>
+<p>空闲 mailbox 自动唤醒另受 <code>WakeOnAgentMessages</code> 控制，该 feature 默认关闭；显式 trigger-turn 消息或 outstanding durable sleep 还有自己的调度路径。</p>
+<p>这些区别决定了事件语义：用户继续补充要求可以延长当前 Turn；用户停止会结束当前 Task；晚来的 Agent 消息则可能排队等下一轮。</p>
+<p>源码：<a href="codex/codex-rs/core/src/session/handlers.rs:67">Interrupt 入口</a>、<a href="codex/codex-rs/core/src/tasks/mod.rs:957">取消与 100 ms 窗口</a>、<a href="codex/codex-rs/core/src/tasks/mod.rs:72">窗口常量</a>、<a href="codex/codex-rs/core/src/session/turn.rs:2816">采样 preempt 与 Drain</a>、<a href="codex/codex-rs/core/src/session/turn.rs:3019">mailbox 抢占边界</a>、<a href="codex/codex-rs/core/src/session/input_queue.rs:326">mailbox phase 条件</a>、<a href="codex/codex-rs/features/src/lib.rs:1554">mailbox feature 默认值</a>、<a href="codex/codex-rs/features/src/lib.rs:1244">CodeModeInterrupt 默认值</a>。</p>
+<h3 id="5-10-阅读和验证这部分实现时的抓手"><a href="#5-10-阅读和验证这部分实现时的抓手" class="headerlink" title="5.10 阅读和验证这部分实现时的抓手"></a>5.10 阅读和验证这部分实现时的抓手</h3><p>定位“为什么一条消息没有开始新轮次”，先查 <code>turn_input.rs</code> 的接纳结果，而不是直接追模型 API。</p>
+<p>定位“为什么工具执行后又调用了一次模型”，查 <code>needs_follow_up</code>、pending input 和服务端 <code>end_turn</code>。</p>
+<p>定位“为什么配置更新没有影响正在流出的回答”，查更新是否只是 thread settings，以及新的 Step 是否已经捕获；已经捕获的 Step 不会被后续配置写入偷偷改造。</p>
+<p>定位“为什么换成 HTTP 了”，查 <code>responses_retry.rs</code> 与 Session 级 fallback 状态；定位“为什么没有增量发送”，查请求属性比较与输入前缀验证。</p>
+<p>定位“为什么界面显示完成但记录有错误”，检查终止事件内的 error 与生命周期路径，而不只看事件类型名称。</p>
+<p>仓库已有针对重试 deadline、输入接纳、模型切换统计、取消及流处理的测试；这些可作为理解语义的第二份证据。本次文档分析只做静态阅读，不把“找到测试”表述成“已经运行并通过测试”。</p>
+<p>测试入口：<a href="codex/codex-rs/core/src/responses_retry_tests.rs:59">retry deadline 测试</a>、<a href="codex/codex-rs/core/src/session/turn_input_tests.rs:1">turn input 测试</a>、<a href="codex/codex-rs/core/src/tasks/mod_tests.rs:129">完成指标与模型切换测试</a>、<a href="codex/codex-rs/core/src/session/tests.rs:793">预热等待时中断测试</a>、<a href="codex/codex-rs/core/src/client_tests.rs:1624">流丢弃的取消记录测试</a>。</p>
+<p><a id="chapter-6"></a></p>
+<h2 id="6-上下文与提示词工程"><a href="#6-上下文与提示词工程" class="headerlink" title="6. 上下文与提示词工程"></a>6. 上下文与提示词工程</h2><h3 id="6-1-从“拼接-prompt”到“管理世界状态”"><a href="#6-1-从“拼接-prompt”到“管理世界状态”" class="headerlink" title="6.1 从“拼接 prompt”到“管理世界状态”"></a>6.1 从“拼接 prompt”到“管理世界状态”</h3><p>这个版本的 Codex 把提示词视为运行时状态的投影。工作目录、执行环境、权限、模型、可用工具、项目说明、插件和协作模式，都有具体的宿主状态；模型看到的是这些状态经过渲染后的消息。这样，模型请求与实际可执行能力才能对应起来。</p>
+<p>核心有三个层次：</p>
+<ul>
+<li><code>TurnContext</code> 保存一次 turn 的身份、来源、初始设置和权限上下文；可变的后续 step 设置走受控发布路径，不能把它理解为整轮所有配置永久冻结。</li>
+<li><code>StepContext</code> 固定一次采样请求实际使用的模型设置、环境、MCP 绑定和工具路由。</li>
+<li><code>WorldState</code> 把需要告知模型的状态拆成独立 section，支持全量渲染和相对上次快照的差量渲染。</li>
+</ul>
+<p>这一区分很实用：一次用户 turn 内可能经历多轮“模型 → 工具 → 模型”，设置或环境也可能发生变化。把工具声明和执行路由绑定到同一个 <code>StepContext</code>，可以减少“模型看到旧工具，却调用新连接”的状态错配。</p>
+<p>源码入口：<a href="codex/codex-rs/core/src/session/step_context.rs:22">StepContext</a>、<a href="codex/codex-rs/core/src/session/world_state.rs:164">构建 WorldState</a>、<a href="codex/codex-rs/core/src/context/world_state/mod.rs:393">WorldState</a>。</p>
+<div class="mermaid-wrap"><pre class="mermaid-src" hidden>flowchart LR
+    C[配置与宿主状态] --&gt; T[TurnContext]
+    T --&gt; S[捕获 StepContext]
+    E[环境和 AGENTS.md] --&gt; S
+    M[MCP 连接与工具目录] --&gt; S
+    S --&gt; W[构建 WorldState sections]
+    X[Extension contributors] --&gt; W
+    W --&gt; D{是否已有有效 baseline}
+    D --&gt;|无| F[全量上下文]
+    D --&gt;|有| P[状态差量]
+    F --&gt; H[ContextManager 模型历史]
+    P --&gt; H
+    H --&gt; R[下一次模型请求]
+    W --&gt; L[持久化 WorldState checkpoint]
+</pre></div>
+<h3 id="6-2-StepContext-是采样边界，不只是参数集合"><a href="#6-2-StepContext-是采样边界，不只是参数集合" class="headerlink" title="6.2 StepContext 是采样边界，不只是参数集合"></a>6.2 StepContext 是采样边界，不只是参数集合</h3><p><code>StepContext</code> 的字段本身解释了这个设计：<code>settings</code> 是不可变的设置版本，<code>environments</code> 是本次环境快照，<code>mcp</code> 是准确的连接与目录，<code>tool_router</code> 是本次模型实际获知且可以执行的最终工具计划，<code>loaded_agents_md</code> 则是与这些环境对应的项目说明。</p>
+<p>它还保留 <code>executor_hook_sources</code>，用于让执行器 Hooks 与发现时的插件策略、MCP 路由保持一致。<code>inherited_environments</code> 用于子 Agent，避免直接把所有临时发现结果当成可以继承的环境。</p>
+<p>以下是源码中的关键字段，省略了遥测等辅助项：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 节选：core/src/session/step_context.rs</span></span><br><span class="line"><span class="title function_ invoke__">pub</span>(<span class="keyword">crate</span>) <span class="keyword">struct</span> <span class="title class_">StepContext</span> &#123;</span><br><span class="line">    <span class="title function_ invoke__">pub</span>(<span class="keyword">crate</span>) turn: Arc&lt;TurnContext&gt;,</span><br><span class="line">    <span class="title function_ invoke__">pub</span>(<span class="keyword">crate</span>) settings: Arc&lt;ResolvedStepSettings&gt;,</span><br><span class="line">    <span class="title function_ invoke__">pub</span>(<span class="keyword">crate</span>) environments: TurnEnvironmentSnapshot,</span><br><span class="line">    <span class="title function_ invoke__">pub</span>(<span class="keyword">crate</span>) mcp: Arc&lt;McpBinding&gt;,</span><br><span class="line">    <span class="title function_ invoke__">pub</span>(<span class="keyword">crate</span>) tool_router: Arc&lt;ToolRouter&gt;,</span><br><span class="line">    <span class="title function_ invoke__">pub</span>(<span class="keyword">crate</span>) loaded_agents_md: <span class="type">Option</span>&lt;Arc&lt;LoadedAgentsMd&gt;&gt;,</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这里的 <code>Arc</code> 主要服务于共享不可变快照和并发任务，并不意味着所有组件都能任意修改彼此状态。配置刷新、MCP 发布、工具路由生成和世界状态记录，各自仍有明确的执行边界。</p>
+<p>源码：<a href="codex/codex-rs/core/src/session/step_context.rs:22">StepContext 字段及注释</a>、<a href="codex/codex-rs/core/src/session/mod.rs:3920">捕获 step</a>。</p>
+<h3 id="6-3-AGENTS-md-的发现规则"><a href="#6-3-AGENTS-md-的发现规则" class="headerlink" title="6.3 AGENTS.md 的发现规则"></a>6.3 AGENTS.md 的发现规则</h3><p><code>agents_md.rs</code> 不会递归读取整个仓库。它从当前工作目录向上寻找项目根标记，再收集“项目根 → 当前目录”这一条路径上的说明文件。</p>
+<p>根标记由 <code>project_root_markers</code> 控制，未设置时使用默认的 <code>.git</code>；找不到根时只检查当前目录。空标记列表会关闭向父目录的遍历。</p>
+<p>每一级目录只选择一个候选文件，优先顺序是：</p>
+<ol>
+<li><code>AGENTS.override.md</code>。</li>
+<li><code>AGENTS.md</code>。</li>
+<li>配置中的 <code>project_doc_fallback_filenames</code>，按顺序尝试。</li>
+</ol>
+<p>因此，同一目录的 override 与普通文件不会全部叠加。多个层级的说明则按从根到当前目录的顺序拼接，让更具体的目录说明出现在后面。</p>
+<p><code>project_doc_max_bytes</code> 是所有环境共同消耗的读取预算。内容过长时按剩余字节截断，而不是无限加入提示词。路径发现也通过执行环境提供的文件系统进行；远程环境的项目说明不必通过本地文件系统读取。</p>
+<p>安全边界同样在这条读取链上：不受信任的项目跳过项目说明；受限文件系统读取会携带 sandbox context；fallback 必须是文件名，路径分隔符、空字符，以及 Windows 上的盘符或网络路径语法会被排除。</p>
+<p>这意味着 AGENTS.md 是一种受配置和信任状态约束的提示词来源，不能把它理解为绕开权限系统的特殊配置文件。</p>
+<p>源码：<a href="codex/codex-rs/core/src/agents_md.rs:1">发现算法和根标记</a>、<a href="codex/codex-rs/core/src/agents_md.rs:57">加载与信任检查</a>、<a href="codex/codex-rs/core/src/agents_md.rs:267">候选文件名过滤</a>。</p>
+<h3 id="6-4-全局、线程和仓库说明如何汇合"><a href="#6-4-全局、线程和仓库说明如何汇合" class="headerlink" title="6.4 全局、线程和仓库说明如何汇合"></a>6.4 全局、线程和仓库说明如何汇合</h3><p><code>AgentsMdManager</code> 将全局用户说明、线程说明、项目文件，以及可选的动态 provider 汇成一个已验证快照。它用 semaphore 串行化 refresh，但不会在调用 provider 时持有状态锁，避免外部读取阻塞整个状态访问。</p>
+<p>缓存键包括环境选择和项目 trust level。环境或信任发生变化时，管理器先清空旧项目缓存，防止权限收紧后仍把已不可访问的说明保留在模型上下文中。</p>
+<p>刷新成功且大小验证通过之后，新指令才会替换已应用快照。某些隔离 reviewer 可以固定项目快照，<code>Some(empty)</code> 也具有含义：使用明确的空快照，并跳过新的执行器发现。</p>
+<p>一个容易误读的细节是：该实现并非每次采样都重新扫描磁盘上的 AGENTS.md。环境和 trust 未变时会使用缓存；动态 provider 则拥有自己的获取和缓存责任。不能据此承诺“编辑项目说明后，下一次模型采样必然重新读取”。</p>
+<p>源码：<a href="codex/codex-rs/core/src/agents_md_manager.rs:23">AgentsMdManager</a>、<a href="codex/codex-rs/core/src/agents_md_manager.rs:63">刷新与缓存失效</a>、<a href="codex/codex-rs/core/src/agents_md_manager.rs:175">继承说明</a>。</p>
+<h3 id="6-5-WorldState-的-section-与差量"><a href="#6-5-WorldState-的-section-与差量" class="headerlink" title="6.5 WorldState 的 section 与差量"></a>6.5 WorldState 的 section 与差量</h3><p><code>WorldState</code> 用有序 map 保存 section。每个 section 负责自己的状态快照、渲染逻辑、旧格式识别，以及是否应持久化。框架把 section 的具体类型擦除后统一处理，扩展也可以提交自己的 section。</p>
+<p>当前内置 section 覆盖模型说明、上下文窗口提示、实时状态、AGENTS.md、权限、协作模式、持久执行、执行环境、Apps/插件说明、延迟工具目录和多 Agent 提示等。</p>
+<p>它们不是无条件全开启。例如：</p>
+<ul>
+<li>权限提示由 <code>include_permissions_instructions</code> 决定采用详细或紧凑版本。</li>
+<li>环境和日期受 <code>include_environment_context</code>、<code>include_environment_context_time</code> 控制。</li>
+<li>Apps 提示要求 Apps 可用、配置允许，且对应模型允许加入 Apps 用法。</li>
+<li>延迟工具的状态提示要求 <code>DeferredToolWorldState</code>。</li>
+<li>增量工具声明要求模型使用 Responses Lite，且 <code>IncrementalTools</code> 开启。</li>
+<li>模型目录提示还要求存在可见的模型覆盖能力，并开启 <code>ModelCatalogInContext</code>。</li>
+</ul>
+<p>差量不是简单比较一大段字符串。<code>WorldStateSnapshot</code> 按 section 保存基线，每个 section 可以根据 <code>Absent</code>、<code>Unknown</code>、<code>Known</code> 三种前态生成更新；恢复旧历史时，“从未有过状态”与“存在但无法解释旧快照”可以区别处理。</p>
+<p>源码：<a href="codex/codex-rs/core/src/context/world_state/mod.rs:311">section 协议</a>、<a href="codex/codex-rs/core/src/context/world_state/mod.rs:492">全量与差量渲染</a>、<a href="codex/codex-rs/core/src/session/world_state.rs:164">实际 section 组装</a>、<a href="codex/codex-rs/core/src/session/step_context.rs:52">增量工具门控</a>。</p>
+<h3 id="6-6-初始上下文的消息角色与顺序"><a href="#6-6-初始上下文的消息角色与顺序" class="headerlink" title="6.6 初始上下文的消息角色与顺序"></a>6.6 初始上下文的消息角色与顺序</h3><p><code>build_initial_context_with_world_state</code> 汇合内置 world state 和扩展提交的 thread/turn 上下文，并保留 <code>developer</code>、上下文型 <code>user</code> 消息与独立 item 的边界。</p>
+<p>模型切换说明被放到 developer 上下文的前面；多 Agent 使用提示和当前模式有明确顺序；Guardian policy 在特定内部会话中保持独立 developer 消息；managed developer instructions 也有独立的后置处理。</p>
+<p>这体现了一个重要实现原则：提示词不只是内容，角色、位置和来源也参与语义。把它们压成一个大字符串会丢失模式覆盖、审计和恢复需要的信息。</p>
+<p>扩展通过 <code>PromptSlot::ContextWindow</code>、<code>DeveloperPolicy</code>、<code>DeveloperCapabilities</code> 申明放置位置。框架决定怎样与核心上下文合并，插件无需直接修改主循环内部的消息数组。</p>
+<p>源码：<a href="codex/codex-rs/core/src/session/mod.rs:4605">初始上下文组装</a>、<a href="codex/codex-rs/core/src/session/mod.rs:4760">角色与 placement 处理</a>、<a href="codex/codex-rs/core/src/session/mod.rs:5023">记录上下文更新</a>。</p>
+<p><a id="chapter-7"></a></p>
+<h2 id="7-压缩、持久化与恢复"><a href="#7-压缩、持久化与恢复" class="headerlink" title="7. 压缩、持久化与恢复"></a>7. 压缩、持久化与恢复</h2><h3 id="7-1-模型窗口与完整历史是两个对象"><a href="#7-1-模型窗口与完整历史是两个对象" class="headerlink" title="7.1 模型窗口与完整历史是两个对象"></a>7.1 模型窗口与完整历史是两个对象</h3><p><code>ContextManager</code> 保存当前模型窗口，<code>RolloutItem</code> 历史承担持久化与重放。两者有关联，但不是同一个可无限增长的数组。</p>
+<p><code>ContextManager</code> 内部使用 <code>Arc&lt;Vec&lt;ResponseItemEnvelope&gt;&gt;</code>，使只读快照共享历史；需要修改时才复制。它还单独维护 retained context、review history、token usage、历史版本、用户输入 revision、上次 <code>TurnContextItem</code> 和 world state baseline。</p>
+<p>因此，压缩当前模型窗口不等于删除磁盘上的完整会话记录。窗口内容可以替换为摘要或服务端 compaction item，rollout 仍记录发生过的替换与恢复元数据。</p>
+<p><code>ResponseItemEnvelope</code> 也使模型内容与宿主元数据分离，例如工具归属、压缩模型标记和来源信息可以附着在 item 上，而不一定作为提示词正文送给模型。</p>
+<p>源码：<a href="codex/codex-rs/core/src/context_manager/history.rs:100">ContextManager 状态</a>、<a href="codex/codex-rs/history/src/lib.rs:215">RolloutItem</a>、<a href="codex/codex-rs/history/src/lib.rs:290">CompactedItem</a>。</p>
+<h3 id="7-2-什么时候触发压缩"><a href="#7-2-什么时候触发压缩" class="headerlink" title="7.2 什么时候触发压缩"></a>7.2 什么时候触发压缩</h3><p>上下文窗口计数同时考虑两条限制：模型完整窗口是硬上限；自动压缩额度可以按全部上下文，或按初始 prefix 之后新增的 body 计算。</p>
+<p><code>AutoCompactTokenLimitScope::Total</code> 使用当前活动上下文；<code>BodyAfterPrefix</code> 以窗口首轮 prefill 为基准扣减。完整窗口限制独立存在，不能通过调小统计范围绕过。</p>
+<p>配置还允许在 turn 结束时按窗口百分比提前压缩。启用 TokenBudget 时，可以保留 fallback buffer，但只有实际配置了相应 fallback prompt 才保留这部分缓冲。</p>
+<p>这些统计依赖模型返回的 usage 和本地估算等运行时信息；“剩余上下文”是 harness 的预算判断，不是对服务端 tokenizer 的绝对承诺。</p>
+<p>源码：<a href="codex/codex-rs/core/src/session/context_window.rs:56">窗口与阈值计算</a>、<a href="codex/codex-rs/core/src/session/context_window.rs:67">自动压缩限制与硬上限</a>。</p>
+<h3 id="7-3-三种压缩路径要分开看"><a href="#7-3-三种压缩路径要分开看" class="headerlink" title="7.3 三种压缩路径要分开看"></a>7.3 三种压缩路径要分开看</h3><p>手动 compact task 会先捕获 step，再构建新窗口所需的 world state，然后根据配置和 provider 能力选择实现：</p>
+<ol>
+<li><code>TokenBudget</code> 开启时，进入专门的 token-budget 压缩路径。</li>
+<li>provider 声明 <code>RemoteCompactionSupport::V2</code> 时，走远程 V2 压缩。</li>
+<li>provider 不支持该能力时，使用普通 Responses 调用生成摘要。</li>
+</ol>
+<p>普通 Responses 摘要路径使用 <code>compact_prompt</code> 或内置 summarization prompt。它仍然要调用模型；这里所谓“local”是客户端负责摘要协议与安装过程，不代表本机运行了一个离线摘要模型。</p>
+<p><code>RemoteCompactionV2</code> 在 feature 表中已经标记为 Removed，不能把它当成目前选择远程压缩的主要开关。当前 task 直接读取 provider capabilities。</p>
+<p>压缩前后可触发 <code>PreCompact</code>、<code>PostCompact</code> Hooks。停止结果会传播为 turn aborted，而不是继续使用一个看起来成功但生命周期未完成的压缩流程。</p>
+<p>源码：<a href="codex/codex-rs/core/src/tasks/compact.rs:43">手动任务分流</a>、<a href="codex/codex-rs/core/src/compact.rs:117">普通摘要路径</a>、<a href="codex/codex-rs/core/src/compact.rs:183">压缩 Hooks</a>、<a href="codex/codex-rs/features/src/lib.rs:2130">已移除标志</a>。</p>
+<h3 id="7-4-异步压缩不是默认行为"><a href="#7-4-异步压缩不是默认行为" class="headerlink" title="7.4 异步压缩不是默认行为"></a>7.4 异步压缩不是默认行为</h3><p>后台压缩先抓取某个历史 prefix，在前台继续执行时请求压缩结果。安装时把压缩后的 prefix 与尚未压缩的 live suffix 拼回去。</p>
+<p>它必须同时满足 <code>AsyncCompaction</code> 开启、<code>TokenBudget</code> 关闭、provider 支持远程 V2。该 feature 在当前提交的默认值是 <code>false</code>，且属于 UnderDevelopment。</p>
+<p>后台启动还受比例阈值、取消状态、shutdown 状态、同一输入是否已尝试、认证 owner generation 等条件约束。前台还未建立服务端模型 pin 的 pre-turn 阶段，也不会立刻启动并行请求。</p>
+<p>关键门控直接体现在代码中：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 节选：core/src/session/async_compaction.rs</span></span><br><span class="line"><span class="title function_ invoke__">pub</span>(<span class="keyword">super</span>) <span class="keyword">fn</span> <span class="title function_">enabled</span>(turn_context: &amp;TurnContext) <span class="punctuation">-&gt;</span> <span class="type">bool</span> &#123;</span><br><span class="line">    turn_context.config.features.<span class="title function_ invoke__">enabled</span>(Feature::AsyncCompaction)</span><br><span class="line">        &amp;&amp; !turn_context.config.features.<span class="title function_ invoke__">enabled</span>(Feature::TokenBudget)</span><br><span class="line">        &amp;&amp; matches!(</span><br><span class="line">            turn_context.provider.<span class="title function_ invoke__">capabilities</span>().remote_compaction,</span><br><span class="line">            RemoteCompactionSupport::V2</span><br><span class="line">        )</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>即使请求完成，也不能直接覆盖历史。<code>replace_compacted_history</code> 在变更前重新验证 history generation、prefix 长度及认证 generation；安装器还比较模型和 compaction hash。条件不符的结果会被丢弃或回退到前台路径。</p>
+<p>后台压缩可能产生已经完成但未采用的请求，其已发生的 usage 仍需计费和统计。因此，这种优化交换的是延迟与额外请求成本，不能简单理解为免费降低上下文开销。</p>
+<p>源码：<a href="codex/codex-rs/core/src/session/async_compaction.rs:40">异步条件和启动</a>、<a href="codex/codex-rs/core/src/compact_remote_v2_installation.rs:19">候选安装与回退</a>、<a href="codex/codex-rs/core/src/session/mod.rs:4380">prefix 原子验证</a>、<a href="codex/codex-rs/features/src/lib.rs:2136">默认开关</a>。</p>
+<h3 id="7-5-压缩-checkpoint-保存了什么"><a href="#7-5-压缩-checkpoint-保存了什么" class="headerlink" title="7.5 压缩 checkpoint 保存了什么"></a>7.5 压缩 checkpoint 保存了什么</h3><p><code>CompactedItem</code> 不只是摘要字符串。安装时还保存 replacement history、retained context、Guardian checkpoint、MCP resource origins、窗口编号与 UUID、压缩 response ID、最新 usage，以及恢复多 Agent/turn 状态所需的 metadata。</p>
+<p>随后把 <code>Compacted</code>、完整 <code>WorldState</code>、冻结的 <code>TurnContext</code> 和当前设置事件一起写入 rollout，使后续恢复能够知道“这个摘要是在哪个状态下形成的”。</p>
+<p>并发目标变更也被照顾：完整替换会保留压缩输入快照之后接受的 goal updates；prefix 替换保留 live suffix 中的状态更新。否则，用户在摘要生成期间修改目标，可能被旧快照覆盖。</p>
+<p>源码：<a href="codex/codex-rs/core/src/session/mod.rs:4334">压缩替换及 goal updates 保留</a>、<a href="codex/codex-rs/core/src/session/mod.rs:4460">checkpoint 与恢复字段</a>、<a href="codex/codex-rs/core/src/session/mod.rs:4498">checkpoint 持久化</a>。</p>
+<h3 id="7-6-ThreadStore-是存储抽象边界"><a href="#7-6-ThreadStore-是存储抽象边界" class="headerlink" title="7.6 ThreadStore 是存储抽象边界"></a>7.6 ThreadStore 是存储抽象边界</h3><p><code>core/session</code> 使用 <code>LiveThread</code>，后者依赖 <code>ThreadStore</code> trait。具体后端可以是本地存储、内存实现，或仓库之外提供的其他实现。</p>
+<p>职责分层如下：</p>
+<ul>
+<li><code>Session</code> 决定哪些运行时事实需要记录。</li>
+<li><code>LiveThread</code> 组织活动线程的持久化生命周期，并观察已追加内容形成 metadata patch。</li>
+<li><code>ThreadStore::append_items</code> 追加 canonical history，不从内容中自行推导业务 metadata。</li>
+<li>显式 metadata API 写入标题、状态、项目和其他索引字段。</li>
+<li><code>LocalThreadStore</code> 管理本地 rollout 与 SQLite 索引。</li>
+<li><code>RolloutRecorder</code> 负责实际 JSONL 写入和 writer 生命周期。</li>
+</ul>
+<p>需要注意 README 与当前实现的一个细节差异：README 用 <code>update_thread_metadata</code> 概括 metadata 写入；当前 <code>LiveThread::append_items</code> 的历史观察结果走 <code>record_thread_metadata</code>，显式更新另有 API。阅读时应以 trait 和调用点为准。</p>
+<p>源码：<a href="codex/codex-rs/thread-store/src/store.rs:129">ThreadStore trait</a>、<a href="codex/codex-rs/thread-store/src/live_thread.rs:34">LiveThread</a>、<a href="codex/codex-rs/thread-store/src/live_thread.rs:229">追加与 metadata 观察</a>、<a href="codex/codex-rs/rollout/src/recorder.rs:84">RolloutRecorder</a>。</p>
+<h3 id="7-7-JSONL、数据库与压缩存储"><a href="#7-7-JSONL、数据库与压缩存储" class="headerlink" title="7.7 JSONL、数据库与压缩存储"></a>7.7 JSONL、数据库与压缩存储</h3><p>本地 rollout 是可检查和重放的 JSONL 数据流；SQLite 提供可查询 metadata、队列、日志、目标、记忆以及分页历史等能力。</p>
+<p>当前文件布局将不同职责拆到不同数据库：<code>state_5.sqlite</code>、<code>logs_2.sqlite</code>、<code>goals_1.sqlite</code>、<code>memories_1.sqlite</code>、<code>memories_v2_1.sqlite</code>、<code>queue_1.sqlite</code> 和 <code>thread_history_1.sqlite</code>。这些名字属于当前提交的实现细节，版本迁移可能改变它们。</p>
+<p>不能把所有 SQLite 文件都当成随时可删的缓存。标题索引、goal 状态、待处理项和记忆作业的租约等，有各自的持久化语义；历史 JSONL 也不一定包含所有外部状态。</p>
+<p>本地线程存储还有分页、压缩和 migration 管线。<code>local_thread_store_compression</code> 与 <code>background_paginated_rollout_migration</code> 在该提交默认关闭；仓库中出现压缩 reader/writer，不表示所有运行环境已使用这种格式。</p>
+<p>源码：<a href="codex/codex-rs/state/src/sqlite.rs:43">数据库划分</a>、<a href="codex/codex-rs/state/src/runtime.rs:100">StateRuntime</a>、<a href="codex/codex-rs/thread-store/src/local/mod.rs:1">本地 ThreadStore</a>、<a href="codex/codex-rs/features/src/lib.rs:1340">压缩与迁移标志</a>。</p>
+<h3 id="7-8-Resume-是结构化重放"><a href="#7-8-Resume-是结构化重放" class="headerlink" title="7.8 Resume 是结构化重放"></a>7.8 Resume 是结构化重放</h3><p><code>reconstruct_history_from_rollout</code> 不会把每行日志直接照搬成下一次模型输入。它要恢复模型窗口、retained facts、review history、最后 turn、设置 baseline、world state 和窗口编号。</p>
+<p>重放会寻找最新的可用 compaction checkpoint，再应用其后缀。只有 checkpoint 包含 replacement history、窗口编号，并满足相应 resume contract 时，才能安全限制重放范围；不完整的新 checkpoint 不能随意退回旧 checkpoint 截断历史。</p>
+<p>rollback、fork 和压缩会改变哪些 segment 仍然有效。代码以 turn segment 处理这些关系，并区分“从未设置 reference context”和“此前 baseline 已被压缩清除”，避免错误地继续做增量 diff。</p>
+<p>这也是恢复能力不能仅靠 UI 历史文本实现的原因：界面展示、模型输入、持久化记录和运行时 checkpoint 是相互关联的不同视图。</p>
+<p>源码：<a href="codex/codex-rs/core/src/session/rollout_reconstruction.rs:14">恢复结果结构</a>、<a href="codex/codex-rs/core/src/session/rollout_reconstruction.rs:59">checkpoint 选择</a>、<a href="codex/codex-rs/core/src/session/rollout_reconstruction.rs:575">WorldState 恢复</a>。</p>
+<p><a id="chapter-8"></a></p>
+<h2 id="8-工具系统与调度"><a href="#8-工具系统与调度" class="headerlink" title="8. 工具系统与调度"></a>8. 工具系统与调度</h2><p>工具系统把模型产生的结构化请求转换为有生命周期、可取消、带权限上下文的实际操作。这里的“工具”包含终端、补丁、MCP、客户端动态工具和扩展提供的工具，但它们并不全部在同一个位置执行。<br>本地工具由 Core 路由到运行时；部分托管工具只把规格交给模型服务，例如模型服务端执行的搜索。<br>因此，阅读工具架构时需要分别追踪“向模型公布什么”和“谁负责执行什么”。</p>
+<p>实现入口是 <a href="codex/codex-rs/core/src/tools/spec_plan.rs:133">spec_plan.rs:133</a>、<a href="codex/codex-rs/core/src/tools/router.rs:85">router.rs:85</a> 和 <a href="codex/codex-rs/core/src/tools/registry.rs:406">registry.rs:406</a>。</p>
+<h3 id="8-1-工具契约：规格与可执行对象绑定"><a href="#8-1-工具契约：规格与可执行对象绑定" class="headerlink" title="8.1 工具契约：规格与可执行对象绑定"></a>8.1 工具契约：规格与可执行对象绑定</h3><p>共享 crate <code>codex-tools</code> 定义 <code>ToolExecutor&lt;Invocation&gt;</code>。执行器同时提供工具身份 <code>tool_name()</code>、模型可见规格 <code>spec()</code> 和处理入口 <code>handle()</code>。<br>它还声明默认曝光方式、发现元数据、并行能力，以及参数指向哪些执行环境。<br>这个接口避免把一个工具的 schema 和执行函数维护成两张容易错位的表。</p>
+<p>Core 再用 <code>CoreToolRuntime</code> 补充宿主相关行为：参数类型匹配、环境解析、Hook 输入、取消策略、工具生命周期和缓存规格。<br><code>ToolInvocation</code> 则携带本次调用的 <code>Session</code>、<code>StepContext</code>、取消令牌、调用 ID、参数、来源和环境。<br><code>StepContext</code> 很关键：异步工具应使用“当时公布该工具的采样步骤”的设置，而不是随意读取后续步骤的新设置。</p>
+<p>参见 <a href="codex/codex-rs/tools/src/tool_executor.rs:106">tool_executor.rs:106</a>、<a href="codex/codex-rs/core/src/tools/registry.rs:63">registry.rs:63</a>、<a href="codex/codex-rs/core/src/tools/context.rs:112">context.rs:112</a>。</p>
+<p><code>ToolName</code> 保留 namespace 与 name，路由时不把二者过早拼接成字符串。<br>只有跨越旧 Hook、遥测或历史兼容接口时，才通过 <code>flat_tool_name()</code> 展平。工具参数也有明确类型：普通 function arguments、freeform/custom input、MCP 等分别走对应分支。<br>不知道工具名称属于可反馈给模型的调用错误；注册工具收到不兼容的 payload 则可能成为 <code>Fatal</code>，因为它表示内部契约被破坏。</p>
+<p>参见 <a href="codex/codex-rs/core/src/tools/mod.rs:47">tools/mod.rs:47</a>、<a href="codex/codex-rs/core/src/tools/router.rs:257">router.rs:257</a>、<a href="codex/codex-rs/core/src/tools/registry.rs:728">registry.rs:728</a>。</p>
+<h3 id="8-2-每个步骤重新形成可用工具计划"><a href="#8-2-每个步骤重新形成可用工具计划" class="headerlink" title="8.2 每个步骤重新形成可用工具计划"></a>8.2 每个步骤重新形成可用工具计划</h3><p><code>build_tool_router()</code> 先创建带 <code>ToolPolicy</code> 的 registry，再合并多种工具来源：</p>
+<ol>
+<li>Core 内建工具，例如 <code>exec_command</code>、<code>write_stdin</code>、<code>apply_patch</code>、计划和协作工具。</li>
+<li>当前 MCP binding 提供的 MCP/App 工具。</li>
+<li>扩展贡献者按当前 step 提供的工具执行器。</li>
+<li>客户端在 thread/turn 上声明的动态工具。</li>
+<li>只需向模型服务公布的 hosted tool specs。</li>
+</ol>
+<p>随后 <code>finalize_tool_router()</code> 统一处理曝光、搜索、Code Mode 包装、名称冲突和模型最终可见规格。模型能力、feature flags、所选环境、工具策略都会影响这个结果。<br>所以磁盘上存在一个工具实现，并不意味着当前会话一定向模型提供它。</p>
+<p>参见 <a href="codex/codex-rs/core/src/tools/spec_plan.rs:133">spec_plan.rs:133</a>、<a href="codex/codex-rs/core/src/tools/spec_plan.rs:359">spec_plan.rs:359</a>、<a href="codex/codex-rs/core/src/tools/spec_plan.rs:1185">spec_plan.rs:1185</a>。</p>
+<p><code>ToolPolicy</code> 的允许名单在注册时就生效。<br>外部工具不能占用默认 namespace 下保留的 <code>exec_command</code>、<code>shell_command</code> 名称；重复外部工具会被跳过并记录冲突。若启用 <code>error_on_tool_collisions</code>，最终计划会把工具名、namespace 所属或 description 冲突转成明确错误。<br>这既减少模型工具目录歧义，也避免一个外部工具意外替换终端执行入口。</p>
+<p>参见 <a href="codex/codex-rs/core/src/tools/registry.rs:498">registry.rs:498</a>、<a href="codex/codex-rs/core/src/tools/registry.rs:539">registry.rs:539</a>、<a href="codex/codex-rs/core/src/tools/spec_plan.rs:473">spec_plan.rs:473</a>。</p>
+<h3 id="8-3-曝光方式决定模型如何找到工具"><a href="#8-3-曝光方式决定模型如何找到工具" class="headerlink" title="8.3 曝光方式决定模型如何找到工具"></a>8.3 曝光方式决定模型如何找到工具</h3><p>该版本不只有“显示/隐藏”两个状态。<br><code>ToolExposure</code> 包括 <code>Direct</code>、<code>Deferred</code>、<code>DirectModelOnly</code>、<code>DeferredModelOnly</code>、<code>CodeModeOnly</code>、<code>Hidden</code>。<br>它们分别控制初始模型工具表、工具搜索和嵌套 Code Mode 三种表面。例如 Deferred 工具可先不占用初始完整 schema，模型通过工具搜索获得发现信息后再调用。<br>DirectModelOnly 则保留模型直接调用能力，同时排除嵌套 JavaScript 调用。</p>
+<p>参见 <a href="codex/codex-rs/tools/src/tool_executor.rs:54">tool_executor.rs:54</a>。</p>
+<p>曝光状态主要是目录和调用表面的控制；它不等同于操作系统权限。尤其 <code>Hidden</code> 的定义是保留注册和分发能力、不给模型曝光，而不是删除执行器。<br>真正禁止某工具进入当前工具计划，应查看 <code>ToolPolicy</code>、来源启用条件和注册过滤。<br>真正限制文件或网络副作用，则继续查看审批与沙箱链路。</p>
+<p>Code Mode 工具名会经过标准化和去重。<br><code>CodeModeOnlyStrictThirdPartyTools</code> 开启时，符合条件的第三方工具会保持从 exec 内发现的路径，相关 omit 配置不能悄悄把它们全部抹掉。<br>这属于特定模式下的工具目录一致性规则，不能推导成所有运行方式都强制使用 Code Mode。</p>
+<p>参见 <a href="codex/codex-rs/core/src/tools/spec_plan.rs:201">spec_plan.rs:201</a>、<a href="codex/codex-rs/core/src/tools/spec_plan.rs:925">spec_plan.rs:925</a>。</p>
+<h3 id="8-4-从模型响应到工具结果的调用链"><a href="#8-4-从模型响应到工具结果的调用链" class="headerlink" title="8.4 从模型响应到工具结果的调用链"></a>8.4 从模型响应到工具结果的调用链</h3><div class="mermaid-wrap"><pre class="mermaid-src" hidden>flowchart TD
+    A[模型 ResponseItem] --&gt; B[ToolRouter::build_tool_call]
+    B --&gt; C[ToolCallRuntime]
+    C --&gt; D{supports_parallel?}
+    D --&gt;|是| E[共享读锁]
+    D --&gt;|否| F[独占写锁]
+    E --&gt; G[ToolRegistry::dispatch_any_with_state]
+    F --&gt; G
+    G --&gt; H[解析执行环境与 PreToolUse]
+    H --&gt; I[ToolExecutor::handle]
+    I --&gt; J[PostToolUse 与生命周期通知]
+    J --&gt; K[AnyToolResult]
+    K --&gt; L[模型输出或 Code Mode JSON 结果]
+    I --&gt; M[命令/补丁的 ToolOrchestrator]
+    M --&gt; N["审批、沙箱与实际执行"]
+</pre></div>
+<p><code>ToolCallRuntime</code> 为调用保留原始 step，登记工具调用并建立追踪信息。<br>它先等待运行时就绪，再进入并发门，随后由 router 构造 <code>ToolInvocation</code> 并交给 registry。registry 负责环境选择、<code>PreToolUse</code>、开始通知、处理函数、成功后的 <code>PostToolUse</code> 和结束通知。<br>结果通过 <code>ToolOutput</code> 分别转换成模型输入项或 Code Mode 可消费的 JSON。</p>
+<p>参见 <a href="codex/codex-rs/core/src/tools/parallel.rs:78">parallel.rs:78</a>、<a href="codex/codex-rs/core/src/tools/router.rs:359">router.rs:359</a>、<a href="codex/codex-rs/core/src/tools/registry.rs:691">registry.rs:691</a>。</p>
+<h3 id="8-5-并行并非“所有工具直接-spawn”"><a href="#8-5-并行并非“所有工具直接-spawn”" class="headerlink" title="8.5 并行并非“所有工具直接 spawn”"></a>8.5 并行并非“所有工具直接 spawn”</h3><p>共享接口的 <code>supports_parallel_tool_calls()</code> 默认返回 false。允许并行的工具拿共享读锁；其他工具拿独占写锁。<br>因此多个声明可并行的调用可以同时执行，而一个串行调用会与同一调度门中的其他调用互斥。<br><code>exec_command</code>、<code>write_stdin</code> 显式允许并行；补丁处理器没有覆盖默认值。</p>
+<p>以下为实际并发门的核心原码：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> supports_parallel &#123;</span><br><span class="line">    Either::<span class="title function_ invoke__">Left</span>(lock.<span class="title function_ invoke__">read</span>().<span class="keyword">await</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    Either::<span class="title function_ invoke__">Right</span>(lock.<span class="title function_ invoke__">write</span>().<span class="keyword">await</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>参见 <a href="codex/codex-rs/core/src/tools/parallel.rs:213">parallel.rs:213</a>、<a href="codex/codex-rs/core/src/tools/handlers/unified_exec/exec_command.rs:138">exec_command.rs:138</a>、<a href="codex/codex-rs/tools/src/tool_executor.rs:122">tool_executor.rs:122</a>。</p>
+<p>这道锁保护工具调度，不提供数据库式事务或文件锁语义。两个“允许并行”的终端命令仍然可能同时写同一个文件，执行器不会因为调度允许并行就自动消除资源冲突。<br>任务依赖关系仍需由 agent 的计划和工具调用参数表达。</p>
+<p>取消也有层次：等待就绪、等待进入并发门可以取消；部分执行器声明 <code>finishes_on_cancellation</code>，进入后需要完成清理或提交。工具的中断结果保留调用身份和耗时，普通工具错误转成模型可见失败，Fatal 则向上终止。<br>“用户中断了回合”不能直接等价为“所有已产生的文件或外部副作用都已经回滚”。</p>
+<p>参见 <a href="codex/codex-rs/core/src/tools/parallel.rs:145">parallel.rs:145</a>、<a href="codex/codex-rs/core/src/tools/parallel.rs:333">parallel.rs:333</a>。</p>
+<h3 id="8-6-Hook-的位置与边界"><a href="#8-6-Hook-的位置与边界" class="headerlink" title="8.6 Hook 的位置与边界"></a>8.6 Hook 的位置与边界</h3><p><code>PreToolUse</code> 可以阻止调用，也可以更新输入；更新后的输入要重新按工具契约解析。<br>例如补丁 Hook 不能偷偷改变已经选定的 environment。<br><code>PostToolUse</code> 在操作完成后运行，可以追加上下文、替换模型可见反馈，或拒绝把结果交给模型。<br>但源码明确说明：PostToolUse block 拒绝的是结果，已经完成的工具执行不会因此撤销。</p>
+<p>这使 Hook 适合做组织规则、输入修正、结果反馈和审计接入，但它本身不替代内核沙箱。<br>参见 <a href="codex/codex-rs/core/src/tools/registry.rs:806">registry.rs:806</a>、<a href="codex/codex-rs/core/src/tools/registry.rs:931">registry.rs:931</a>、<a href="codex/codex-rs/core/src/tools/handlers/apply_patch.rs:418">apply_patch.rs:418</a>。</p>
+<p><a id="chapter-9"></a></p>
+<h2 id="9-命令、补丁与-Code-Mode"><a href="#9-命令、补丁与-Code-Mode" class="headerlink" title="9. 命令、补丁与 Code Mode"></a>9. 命令、补丁与 Code Mode</h2><p>终端工具、结构化补丁和 JavaScript 编排覆盖三种不同工作：运行现有程序、精确修改文本、组合多个工具结果。三者共享 harness 的路由、上下文和生命周期机制，但实际执行后端不同。<br>特别要区分 <code>exec_command</code> 与 Code Mode 的 <code>exec</code>：前者启动 shell 命令，后者执行受限 JavaScript，并通过回调调用其他工具；部分客户端表面会显示为 <code>functions.exec</code>。</p>
+<h3 id="9-1-exec-command：一次调用可以留下持续进程"><a href="#9-1-exec-command：一次调用可以留下持续进程" class="headerlink" title="9.1 exec_command：一次调用可以留下持续进程"></a>9.1 <code>exec_command</code>：一次调用可以留下持续进程</h3><p><code>ExecCommandHandler</code> 先选择执行环境，再解析 cwd、shell、login、TTY、yield 时间、输出预算和权限参数。<br>远程环境使用远端报告的 shell；请求另一个不受支持的 shell 类型会被拒绝。本地沙箱需要原生路径时，会检查 <code>PathUri</code> 的路径惯例，避免把 Windows 盘符路径误解释为 POSIX 路径。</p>
+<p>参见 <a href="codex/codex-rs/core/src/tools/handlers/unified_exec/exec_command.rs:177">exec_command.rs:177</a>。</p>
+<p>处理器把请求交给 session 级 <code>UnifiedExecProcessManager</code>。管理器负责进程 ID、会话表、输出收集、保留后台终端、终止和资源回收。<br>底层既可以是本地 PTY/pipe 进程，也可以是 exec-server 进程，但模型看到的是统一的终端控制接口。<br>命令短时间内结束时直接返回退出码；仍在运行时返回 session ID，后续可由 <code>write_stdin</code> 继续读取输出或输入字符。</p>
+<p>参见 <a href="codex/codex-rs/core/src/unified_exec/mod.rs:1">unified_exec/mod.rs:1</a>、<a href="codex/codex-rs/core/src/unified_exec/process_manager.rs:520">process_manager.rs:520</a>、<a href="codex/codex-rs/core/src/unified_exec/process_manager.rs:1359">process_manager.rs:1359</a>。</p>
+<p><code>yield_time_ms</code> 表示当前工具调用愿意等待多久，并不天然等于进程最大寿命。<br>统一执行还包含 completion-only/one-shot 路径，后者在超时或取消后结束进程，不暴露可继续写入的终端权限。当受管理配置关闭 UnifiedExec 时，工具计划可以保留 one-shot <code>exec_command</code>，但不提供 <code>write_stdin</code>；若策略要求必须统一执行，则直接不注册 shell 工具。</p>
+<p>参见 <a href="codex/codex-rs/core/src/tools/spec_plan.rs:1242">spec_plan.rs:1242</a>、<a href="codex/codex-rs/core/src/unified_exec/oneshot.rs:1">oneshot.rs:1</a>。</p>
+<p>输出采用有界缓冲与截断，不能把终端当成无限日志存储。此提交的常量包括 1 MiB 的统一执行输出上限、默认 10,000 output tokens 和最多 64 个保留进程。<br><code>HeadTailBuffer</code> 保留稳定的开头与最新末尾，并记录中间丢弃字节数；这样模型仍可看到启动信息和最近错误。<br>这些是当前实现参数，客户端或配置约束也可能进一步收紧等待时间。</p>
+<p>参见 <a href="codex/codex-rs/core/src/unified_exec/mod.rs:75">unified_exec/mod.rs:75</a>、<a href="codex/codex-rs/core/src/unified_exec/head_tail_buffer.rs:5">head_tail_buffer.rs:5</a>、<a href="codex/codex-rs/core/src/unified_exec/process_manager.rs:1768">process_manager.rs:1768</a>。</p>
+<h3 id="9-2-write-stdin-还需要管理“终端保留的权限”"><a href="#9-2-write-stdin-还需要管理“终端保留的权限”" class="headerlink" title="9.2 write_stdin 还需要管理“终端保留的权限”"></a>9.2 <code>write_stdin</code> 还需要管理“终端保留的权限”</h3><p>空字符串写入通常是轮询输出，非空输入会进入已经运行的进程。终端启动时保存权限、网络状态、environment、cwd 和是否提权等信息。<br>后续输入不能只检查当前 turn 的权限，因为终端可能仍保留旧的更宽权限。<br><code>stdin_approval</code> 因此比较启动策略与当前策略，必要时为输入重新请求审批。</p>
+<p>参见 <a href="codex/codex-rs/core/src/tools/handlers/unified_exec/write_stdin.rs:78">write_stdin.rs:78</a>、<a href="codex/codex-rs/core/src/unified_exec/stdin_approval.rs:120">stdin_approval.rs:120</a>。</p>
+<p>一个特别重要的拒绝分支是：当前策略新增了禁止读取路径，但旧终端在无沙箱状态启动，或者仍使用不同的文件系统上下文。审批无法给已经运行的进程补装读取限制，所以实现要求新建终端。<br>空轮询、特定非 TTY 中断输入等有显式免审分支；严格自动审查下，普通非空输入也可能继续审查。<br>这比“批准一次终端，之后随意输入”更细。</p>
+<p>参见 <a href="codex/codex-rs/core/src/unified_exec/stdin_approval.rs:126">stdin_approval.rs:126</a>、<a href="codex/codex-rs/core/src/unified_exec/stdin_approval.rs:191">stdin_approval.rs:191</a>。</p>
+<p><code>write_stdin</code> 不再次发同一条 Bash <code>PreToolUse</code>，因为它是已有会话的传输操作。<br>当一次轮询读到了原命令的最终退出结果时，它可以补发原命令配对的 Bash <code>PostToolUse</code>。这解释了为什么工具调用数、终端进程数和 Hook 触发数不是简单的一一对应。</p>
+<p>参见 <a href="codex/codex-rs/core/src/tools/handlers/unified_exec/write_stdin.rs:155">write_stdin.rs:155</a>。</p>
+<h3 id="9-3-apply-patch：先理解改动，再执行文件操作"><a href="#9-3-apply-patch：先理解改动，再执行文件操作" class="headerlink" title="9.3 apply_patch：先理解改动，再执行文件操作"></a>9.3 <code>apply_patch</code>：先理解改动，再执行文件操作</h3><p>补丁工具接受 freeform patch，不是把整段输入交给 shell。<br><code>codex-apply-patch</code> 解析 Add/Delete/Update/Move hunks，读取原文并验证替换上下文，形成 <code>ApplyPatchAction</code>。<br>Action 保留原始 patch、绝对 <code>PathUri</code> 和结构化文件变更，供审批、diff、事件与实际执行共同使用。遇到解析错误、上下文不匹配或隐式补丁输入，会给模型明确失败，而不是猜测执行。</p>
+<p>参见 <a href="codex/codex-rs/apply-patch/src/lib.rs:144">apply-patch/src/lib.rs:144</a>、<a href="codex/codex-rs/core/src/tools/handlers/apply_patch.rs:304">handlers/apply_patch.rs:304</a>。</p>
+<p><code>assess_patch_safety()</code> 检查所有写入目标，移动还要检查目标路径。<br>只写允许目录且存在对应沙箱能力时，可自动批准；越界则根据 approval policy 请求审批或拒绝。即使字符串路径看似在工作区内，执行仍要保留沙箱，因为硬链接、符号链接等不能只靠表面路径判定。<br>Disabled/External profile 则显式表示由本层不装外层沙箱，不能误写成仍受同等隔离。</p>
+<p>参见 <a href="codex/codex-rs/core/src/safety.rs:67">safety.rs:67</a>、<a href="codex/codex-rs/core/src/safety.rs:146">safety.rs:146</a>。</p>
+<p>执行通过 <code>ApplyPatchRuntime</code> 与所选环境的 <code>ExecutorFileSystem</code> 完成，传入明确的 <code>FileSystemSandboxContext</code>。它不要求“修改文件必须在当前控制器机器上”；远端工作区也使用同一套补丁语义。<br>若原本需要的沙箱被绕过，<code>follow_symlinks</code> 会进一步收紧。<br>补丁还会加入 turn diff tracker，并通过 begin/end 与可选 streaming events 更新界面。</p>
+<p>参见 <a href="codex/codex-rs/core/src/tools/handlers/apply_patch.rs:504">handlers/apply_patch.rs:504</a>、<a href="codex/codex-rs/core/src/tools/runtimes/apply_patch.rs:184">runtimes/apply_patch.rs:184</a>。</p>
+<p>这里没有“多文件补丁永远原子提交”的保证。运行时维护 <code>committed_delta</code>，即使后续文件失败，也记录之前已经提交的变更。<br>调用方可以据此报告真实修改，重试和中断也应尊重这个事实。<br><code>intercept_apply_patch()</code> 还识别终端请求中可解析的 apply_patch 调用，把它转入同一条结构化补丁流程。</p>
+<p>参见 <a href="codex/codex-rs/core/src/tools/runtimes/apply_patch.rs:217">runtimes/apply_patch.rs:217</a>、<a href="codex/codex-rs/core/src/tools/handlers/apply_patch.rs:463">handlers/apply_patch.rs:463</a>。</p>
+<h3 id="9-4-Code-Mode：模型用-JavaScript-编排工具"><a href="#9-4-Code-Mode：模型用-JavaScript-编排工具" class="headerlink" title="9.4 Code Mode：模型用 JavaScript 编排工具"></a>9.4 Code Mode：模型用 JavaScript 编排工具</h3><p>本实现的公开短名常量是 <code>exec</code> 与 <code>wait</code>；Responses Lite 序列化会把默认 function/freeform 工具并入 <code>functions</code> namespace，因此显示名称还要看具体传输表面。模型给 <code>exec</code> 提交原始 JavaScript，脚本通过 <code>tools.&lt;name&gt;()</code> 请求已开放工具，用 <code>text/image/audio</code> 等助手返回内容。<br>它适合合并独立读取、过滤大量结构化结果、在一个模型动作里表达循环或条件。<br>脚本本身不获得 Node.js 的任意文件、模块和网络 API。</p>
+<p><code>CodeModeExecuteHandler</code> 先解析 exec pragma/source，形成工具定义，再把 source、yield 和输出预算交给 <code>CodeModeService</code>。<br>每个 cell 保留发起它的 <code>StepContext</code>，即使执行 yield 后才收到嵌套调用，也不会换成后续步骤的工具目录。<br><code>wait</code> 按 cell ID 继续等待或终止，返回新输出与完成状态。</p>
+<p>参见 <a href="codex/codex-rs/code-mode-protocol/src/lib.rs:54">code-mode-protocol/lib.rs:54</a>、<a href="codex/codex-rs/tools/src/tool_spec.rs:95">tool_spec.rs:95</a>、<a href="codex/codex-rs/core/src/tools/code_mode/execute_handler.rs:43">execute_handler.rs:43</a>、<a href="codex/codex-rs/core/src/tools/code_mode/delegate.rs:44">delegate.rs:44</a>、<a href="codex/codex-rs/core/src/tools/code_mode/wait_handler.rs:35">wait_handler.rs:35</a>。</p>
+<p>编排示例，以下为说明机制的伪码，工具名按实际目录确定：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> results = <span class="keyword">await</span> <span class="title class_">Promise</span>.<span class="title function_">all</span>([</span><br><span class="line">  tools.<span class="title function_">read_issue</span>(&#123; <span class="attr">id</span>: <span class="string">&quot;A&quot;</span> &#125;),</span><br><span class="line">  tools.<span class="title function_">read_issue</span>(&#123; <span class="attr">id</span>: <span class="string">&quot;B&quot;</span> &#125;)</span><br><span class="line">]);</span><br><span class="line"><span class="title function_">text</span>(results.<span class="title function_">map</span>(<span class="function"><span class="params">x</span> =&gt;</span> (&#123; <span class="attr">title</span>: x.<span class="property">title</span>, <span class="attr">state</span>: x.<span class="property">state</span> &#125;)));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><code>Promise.all</code> 表达并发意图；每个嵌套工具仍回到宿主的 <code>ToolCallRuntime</code>。<br>所以嵌套调用照样经过环境解析、并发门、Hook、审批和实际运行时，不因写进 JavaScript 就绕过这些流程。宿主还记录 cell ID、运行时内部调用 ID 与 Codex tool call ID 的映射，便于审批和历史追踪定位到原始动作。</p>
+<p>参见 <a href="codex/codex-rs/core/src/tools/code_mode/mod.rs:337">code_mode/mod.rs:337</a>、<a href="codex/codex-rs/core/src/tools/code_mode/mod.rs:404">code_mode/mod.rs:404</a>。</p>
+<p>执行层使用 V8：每个运行时创建 isolate/context，安装受控 globals，把 source 编译为 ES module。<br><code>globals.rs</code> 删除 console、Atomics、SharedArrayBuffer、WebAssembly，并安装工具对象、输出、存储与计时助手。<br>模块解析器拒绝 import，不提供任意模块加载能力。会话可以通过 store/load 保留可序列化值，但不能据此推断脚本顶层变量跨 cell 复用。</p>
+<p>参见 <a href="codex/codex-rs/code-mode-runtime/src/runtime/mod.rs:178">runtime/mod.rs:178</a>、<a href="codex/codex-rs/code-mode-runtime/src/runtime/globals.rs:16">globals.rs:16</a>、<a href="codex/codex-rs/code-mode-runtime/src/runtime/module_loader.rs:200">module_loader.rs:200</a>。</p>
+<p>Code Mode 可以通过独立 <code>codex-code-mode-host</code> 进程承载，相关代码分为 protocol、session client、host 和 V8 runtime。host 支持 framed stdio 与 gRPC 路径，包含版本/能力协商、请求追踪、cell 数与在途请求上限。<br><code>ProcessOwnedCodeModeSessionProvider</code> 延迟启动 host；可执行文件缺失会报告不可用。<br>“独立 host 进程”“V8 isolate”与“文件系统 OS 沙箱”是不同边界，不能相互替代。</p>
+<p>参见 <a href="codex/codex-rs/code-mode/src/remote_session.rs:36">remote_session.rs:36</a>、<a href="codex/codex-rs/code-mode-host/src/lib.rs:54">code-mode-host/src/lib.rs:54</a>。</p>
+<h3 id="9-5-Feature-gates-决定实际暴露的组合"><a href="#9-5-Feature-gates-决定实际暴露的组合" class="headerlink" title="9.5 Feature gates 决定实际暴露的组合"></a>9.5 Feature gates 决定实际暴露的组合</h3><p>此提交的源码默认 <code>unified_exec</code>、<code>unified_exec_tty</code>、<code>code_mode_host</code>、<code>code_mode_interrupt</code> 为开启。<br><code>code_mode</code>、<code>code_mode_only</code>、<code>code_mode_host_grpc</code>、<code>exec_permission_approvals</code>、<code>apply_patch_streaming_events</code> 仍为默认关闭的开发中功能。<br><code>apply_patch_freeform</code> 和 <code>apply_patch_preserve_line_endings</code> 标记 Removed，不能依据旧开关推断当前行为。</p>
+<p>模型元数据的 <code>tool_mode</code> 可以覆盖线程配置；普通 CodeMode 在 host 不可用且允许 fallback 时可降级 Direct。CodeModeOnly 或禁止降级的配置可能 fail closed。<br>因此这些默认值描述的是该提交的注册表，不保证桌面产品、部署策略、模型配置和当前账户最终使用同一组合。</p>
+<p>参见 <a href="codex/codex-rs/features/src/lib.rs:1120">features/src/lib.rs:1120</a>、<a href="codex/codex-rs/features/src/lib.rs:1208">features/src/lib.rs:1208</a>、<a href="codex/codex-rs/features/src/lib.rs:1364">features/src/lib.rs:1364</a>、<a href="codex/codex-rs/core/src/tools/mod.rs:63">tools/mod.rs:63</a>。</p>
+<p><a id="chapter-10"></a></p>
+<h2 id="10-权限、审批与操作系统沙箱"><a href="#10-权限、审批与操作系统沙箱" class="headerlink" title="10. 权限、审批与操作系统沙箱"></a>10. 权限、审批与操作系统沙箱</h2><p>Codex 把动作策略、审批决策和实际隔离分成不同机制。命令被允许，表示当前策略或审批接受这个动作；沙箱负责在动作执行期间约束它能读写哪里、能否联网。<br>自动审查器可判断动作是否获得授权，但它不会凭判断给进程自动安装内核限制。<br>理解这一分层，才能解释为什么“已批准”仍可能沙箱失败，以及为什么 <code>Never</code> 不表示拥有完整机器权限。</p>
+<h3 id="10-1-运行时权限的事实来源是-PermissionProfile"><a href="#10-1-运行时权限的事实来源是-PermissionProfile" class="headerlink" title="10.1 运行时权限的事实来源是 PermissionProfile"></a>10.1 运行时权限的事实来源是 <code>PermissionProfile</code></h3><p>面向配置的 <code>SandboxMode</code> 保留 ReadOnly、WorkspaceWrite、DangerFullAccess 三个常见名称。运行时更精确的 <code>PermissionProfile</code> 分为：Managed 由 Codex 构建隔离；Disabled 不施加外层沙箱；External 由外部调用者提供文件隔离。<br>Managed 内含文件系统规则和独立的网络策略，可表示读取、写入、禁止读取及工作区根等更细范围。<br>Named profile 的显示身份另存 sidecar，不应靠名称反推实际权限。</p>
+<p>参见 <a href="codex/codex-rs/protocol/src/config_types.rs:104">config_types.rs:104</a>、<a href="codex/codex-rs/protocol/src/models.rs:426">models.rs:426</a>。</p>
+<p>工具还可以声明本次权限意图 <code>SandboxPermissions</code>：使用默认权限、申请附加权限或要求提权。这是请求，不是成功授权；它要经配置、参数校验、execpolicy、审批与沙箱转换。<br>多个执行环境各自拥有权限上下文，工作区根保持符号/URI，直到实际 executor 才转换为本机路径。</p>
+<p>参见 <a href="codex/codex-rs/protocol/src/models.rs:66">models.rs:66</a>、<a href="codex/codex-rs/core/src/tools/orchestrator.rs:146">orchestrator.rs:146</a>。</p>
+<h3 id="10-2-execpolicy：在执行前判断具体命令"><a href="#10-2-execpolicy：在执行前判断具体命令" class="headerlink" title="10.2 execpolicy：在执行前判断具体命令"></a>10.2 execpolicy：在执行前判断具体命令</h3><p><code>ExecPolicyManager</code> 加载规则，对解析后的命令片段执行多命令检查，得出 Allow、Prompt 或 Forbidden。<br>它结合显式规则、命令来源、平台和未匹配命令的启发式策略。Prompt 还必须服从 approval policy：例如 Never 不能继续弹出审批，Granular 可分别禁止规则审批和沙箱审批。<br>最终得到 <code>ExecApprovalRequirement::&#123;Skip, NeedsApproval, Forbidden&#125;</code>，供统一 orchestrator 消费。</p>
+<p>参见 <a href="codex/codex-rs/core/src/exec_policy.rs:321">exec_policy.rs:321</a>、<a href="codex/codex-rs/core/src/exec_policy.rs:350">exec_policy.rs:350</a>。</p>
+<p>这里还有一个容易忽视的行为：只有所有解析命令片段都被显式 Allow 规则覆盖，才设置 <code>bypass_sandbox=true</code>。普通启发式 Allow 不等于显式授予相同的信任。<br>模型不支持 prefix rules 时，可复用规则修订也会收紧；用户选择保存的规则还需走 amendment 校验和持久化。<br>execpolicy 分析的是命令及规则，不能把它当成对任意脚本实际运行行为的完整静态证明。</p>
+<p>参见 <a href="codex/codex-rs/core/src/exec_policy.rs:362">exec_policy.rs:362</a>、<a href="codex/codex-rs/core/src/exec_policy.rs:445">exec_policy.rs:445</a>、<a href="codex/codex-rs/core/src/exec_policy.rs:469">exec_policy.rs:469</a>。</p>
+<h3 id="10-3-审批政策与审批人是两条配置轴"><a href="#10-3-审批政策与审批人是两条配置轴" class="headerlink" title="10.3 审批政策与审批人是两条配置轴"></a>10.3 审批政策与审批人是两条配置轴</h3><p><code>AskForApproval</code> 包括 untrusted/UnlessTrusted、OnRequest、Granular 和 Never。<br>它控制哪些动作可以进入审批流程；旧 <code>on-failure</code> 在本提交中是 OnRequest 的兼容别名，不是另一个独立枚举。<br><code>ApprovalsReviewer</code> 则选择 User 或 AutoReview；<code>guardian_subagent</code> 是 AutoReview 的旧别名。<br>Granular 进一步划分 sandbox、rules、skill、request_permissions、MCP elicitations 等审批类别。</p>
+<p>参见 <a href="codex/codex-rs/protocol/src/protocol.rs:1097">protocol.rs:1097</a>、<a href="codex/codex-rs/protocol/src/config_types.rs:183">config_types.rs:183</a>。</p>
+<p><code>Session::request_approval()</code> 的优先级是 PermissionRequest hooks，然后 Guardian 或用户。<br>动作统一表示为 <code>ApprovalAction</code>，涵盖命令、终端输入、补丁、MCP 调用、网络和权限请求。命令缓存键包含 environment、规范化命令、cwd、TTY、sandbox permissions 和 additional permissions；补丁按 environment 与路径建键。<br>缓存不能只靠 tool call ID 或命令文字匹配，否则不同机器或更宽权限可能误用旧批准。</p>
+<p>参见 <a href="codex/codex-rs/core/src/tools/approvals.rs:70">approvals.rs:70</a>、<a href="codex/codex-rs/core/src/tools/approvals.rs:236">approvals.rs:236</a>、<a href="codex/codex-rs/core/src/tools/approvals.rs:466">approvals.rs:466</a>。</p>
+<h3 id="10-4-Guardian：受限审查者与宿主强制执行协作"><a href="#10-4-Guardian：受限审查者与宿主强制执行协作" class="headerlink" title="10.4 Guardian：受限审查者与宿主强制执行协作"></a>10.4 Guardian：受限审查者与宿主强制执行协作</h3><p>Guardian 收到的是绑定到具体动作的审查请求，并保留发起步骤的模型、审批设置、环境和项目指令。Core 强制管理要求和取消条件；reviewer 扩展负责路由、证据和审查过程。<br>默认自动路由条件是 OnRequest/Granular 配合 AutoReview；管理要求或特定模型要求还可能强制审查。<br>没有自动决策贡献者不表示默许：路由可回到用户流程，必须 Guardian 时则进入同步审查。</p>
+<p>参见 <a href="codex/codex-rs/core/src/guardian/mod.rs:87">guardian/mod.rs:87</a>、<a href="codex/codex-rs/core/src/guardian/decision.rs:46">guardian/decision.rs:46</a>、<a href="codex/codex-rs/ext/guardian-reviewer/src/routing.rs:55">routing.rs:55</a>。</p>
+<p>同步 reviewer 有受宿主强制的工具白名单：exec_command、write_stdin、view_image、exec、wait。它要求 Managed sandbox 和 UnifiedExec，不暴露附加权限字段；继承环境与权限会求交到只读上限，review turn 使用 Never。<br>这允许审查者检查证据，同时降低“审查者自己执行待审写操作”的权限。<br>它仍是模型辅助判断，最终批准/拒绝要由宿主绑定到动作后执行。</p>
+<p>参见 <a href="codex/codex-rs/ext/guardian-reviewer/src/settings.rs:43">settings.rs:43</a>、<a href="codex/codex-rs/ext/guardian-reviewer/src/settings.rs:60">settings.rs:60</a>。</p>
+<p>Guardian V2 的异步/快速决策与同步 reviewer 分开演进。路由在重试、提权、模型要求新审查等情况下设置 <code>require_fresh_review</code>，即使扩展给出 Allow，也不能一律沿用旧批准。<br>本提交 <code>guardian_approval</code> 默认开启、<code>guardianv2</code> 默认关闭；这描述代码默认，具体启用还受模式、模型和管理要求影响。</p>
+<p>参见 <a href="codex/codex-rs/ext/guardian-reviewer/src/routing.rs:119">routing.rs:119</a>、<a href="codex/codex-rs/features/src/lib.rs:1902">features/src/lib.rs:1902</a>。</p>
+<h3 id="10-5-ToolOrchestrator-把审批和执行尝试接起来"><a href="#10-5-ToolOrchestrator-把审批和执行尝试接起来" class="headerlink" title="10.5 ToolOrchestrator 把审批和执行尝试接起来"></a>10.5 <code>ToolOrchestrator</code> 把审批和执行尝试接起来</h3><div class="mermaid-wrap"><pre class="mermaid-src" hidden>flowchart TD
+    A[命令或补丁请求] --&gt; B[形成审批要求]
+    B --&gt; C{Forbidden / NeedsApproval / Skip}
+    C --&gt;|Forbidden| X[返回拒绝]
+    C --&gt;|NeedsApproval| D["Hook → Guardian 或 User"]
+    C --&gt;|Skip| E[选择初次执行权限]
+    D --&gt;|批准| E
+    D --&gt;|拒绝/中断| X
+    E --&gt; F[选择本机或 executor 沙箱]
+    F --&gt; G[运行第一次 attempt]
+    G --&gt;|成功或普通失败| H[返回真实结果]
+    G --&gt;|识别为 Sandbox Denied| I{政策是否允许重试}
+    I --&gt;|否| X
+    I --&gt;|是| J[按实际重试权限重新审批]
+    J --&gt; K[保留必要限制后第二次 attempt]
+    K --&gt; H
+</pre></div>
+<p>核心入口 <code>run()</code> 先处理审批要求，再选择初始沙箱并运行。只有特定 <code>SandboxErr::Denied</code> 分支才考虑重试；程序本身报错、测试失败或一般 I/O 错误不会统一被当作沙箱拒绝。<br>重试还要看工具是否允许升级、approval policy、网络拒绝类型和能否安全无沙箱执行。<br>StrictAutoReview 下，即使上游给出 Skip，动作也可能被送入严格审查。</p>
+<p>参见 <a href="codex/codex-rs/core/src/tools/orchestrator.rs:125">orchestrator.rs:125</a>、<a href="codex/codex-rs/core/src/tools/orchestrator.rs:388">orchestrator.rs:388</a>。</p>
+<p>初次 Guardian 批准仅覆盖它审查过的权限；沙箱失败后准备更宽权限的重试，不能直接把这次批准视作通行证。代码区分 User/Hook 与 Guardian 的批准来源，并在需要时把 retry action 更新为真实的 RequireEscalated 权限后再审。<br>这说明审批对象应是“动作 + 权限 + 环境”，而不是一句抽象的“允许运行这条命令”。</p>
+<p>参见 <a href="codex/codex-rs/core/src/tools/orchestrator.rs:472">orchestrator.rs:472</a>。</p>
+<h3 id="10-6-禁止读取路径使“提权”不再等于“去掉沙箱”"><a href="#10-6-禁止读取路径使“提权”不再等于“去掉沙箱”" class="headerlink" title="10.6 禁止读取路径使“提权”不再等于“去掉沙箱”"></a>10.6 禁止读取路径使“提权”不再等于“去掉沙箱”</h3><p>如果 profile 包含 denied-read，去掉沙箱会同时放开原本禁止的读取。因此实现显式禁止直接无沙箱执行：批准的提权可以扩展写能力，但必须继续保留读取限制。<br><code>EscalatedSandboxWithRestrictions</code> 要求可用的文件系统沙箱；若没有可执行后端则拒绝。<br>远端 Linux executor 还必须报告支持保留限制的 approved-root-write 能力，否则要求升级 executor。</p>
+<p>下面是决定能否直接绕过文件系统沙箱的原码：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">pub</span>(<span class="keyword">crate</span>) <span class="keyword">fn</span> <span class="title function_">unsandboxed_execution_allowed</span>(</span><br><span class="line">    file_system_sandbox_policy: &amp;FileSystemSandboxPolicy,</span><br><span class="line">) <span class="punctuation">-&gt;</span> <span class="type">bool</span> &#123;</span><br><span class="line">    !file_system_sandbox_policy.<span class="title function_ invoke__">has_denied_read_restrictions</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>参见 <a href="codex/codex-rs/core/src/tools/sandboxing.rs:234">sandboxing.rs:234</a>、<a href="codex/codex-rs/core/src/tools/sandboxing.rs:249">sandboxing.rs:249</a>、<a href="codex/codex-rs/core/src/tools/orchestrator.rs:277">orchestrator.rs:277</a>。</p>
+<h3 id="10-7-OS-隔离后端：同一权限意图，不同平台机制"><a href="#10-7-OS-隔离后端：同一权限意图，不同平台机制" class="headerlink" title="10.7 OS 隔离后端：同一权限意图，不同平台机制"></a>10.7 OS 隔离后端：同一权限意图，不同平台机制</h3><p><code>SandboxManager</code> 根据权限、工具偏好、网络要求和平台选择后端，再把请求转换为真正的命令启动参数。<br><code>SandboxType</code> 包括 None、MacosSeatbelt、LinuxSeccomp、WindowsRestrictedToken、WindowsMxc。<br>这里的类型名是历史稳定接口，不能只看 <code>LinuxSeccomp</code> 就认定 Linux 没有文件系统隔离。</p>
+<p>参见 <a href="codex/codex-rs/sandboxing/src/manager.rs:313">manager.rs:313</a>、<a href="codex/codex-rs/protocol/src/sandbox.rs:29">sandbox.rs:29</a>。</p>
+<p><strong>Linux。</strong> 当前文件系统受限的默认 pipeline 使用 bubblewrap 构建受限文件视图，再在内部阶段施加 <code>no_new_privs + seccomp</code>。分成两阶段是为了让 bubblewrap 先完成可能依赖特权的隔离设置，再收紧系统调用。<br>完整磁盘写权限且没有托管代理要求时，helper 可走仅进程内限制的快速分支；这时无需为文件写隔离启动 bubblewrap。<br>默认 bubblewrap 路径失败不会静默降级到 legacy Landlock。源码仍保留已弃用的 <code>use_legacy_landlock</code> 开关和 Landlock 安装实现，但当前 helper 会先拒绝“legacy mode + 文件系统受限”的请求；托管代理还会抑制该 legacy 参数。<br><code>core/README.md</code> 仍描述旧的“legacy sandbox-equivalent 配置可走 Landlock”行为，与此提交的 helper/安装函数注释不一致，本文按实际执行分支说明，并不把保留实现描述成已删除。WSL1 对需要 bubblewrap 的请求也有不支持分支。</p>
+<p>参见 <a href="codex/codex-rs/core/README.md:40">core/README.md:40</a>、<a href="codex/codex-rs/linux-sandbox/src/linux_run_main.rs:249">linux_run_main.rs:249</a>、<a href="codex/codex-rs/linux-sandbox/src/linux_run_main.rs:263">linux_run_main.rs:263</a>、<a href="codex/codex-rs/linux-sandbox/src/linux_run_main.rs:380">linux_run_main.rs:380</a>、<a href="codex/codex-rs/linux-sandbox/src/seccomp.rs:147">seccomp.rs:147</a>、<a href="codex/codex-rs/sandboxing/src/landlock.rs:53">landlock.rs:53</a>、<a href="codex/codex-rs/sandboxing/src/manager.rs:802">manager.rs:802</a>。</p>
+<p><strong>macOS。</strong> Seatbelt 通过生成的策略与固定 <code>/usr/bin/sandbox-exec</code> 启动，避免从 PATH 选中伪造的 sandbox-exec。策略包含文件系统、网络、平台只读默认项和需要的系统服务规则。<br>这是 macOS 专用后端，非 macOS 选择 Seatbelt 会产生明确不可用错误。</p>
+<p>参见 <a href="codex/codex-rs/sandboxing/src/seatbelt.rs:61">seatbelt.rs:61</a>、<a href="codex/codex-rs/sandboxing/src/manager.rs:437">manager.rs:437</a>。</p>
+<p><strong>Windows。</strong> 配置可选择 unelevated、elevated 和 MXC；不能把三者描述成完全相同的安全能力。传统 RestrictedToken 的 unelevated 路径支持有限的写限制，但源码明确拒绝无法强制的 split read/deny-read 规则和不兼容写根集合。<br>elevated 后端在 setup/refresh 时消费显式读写根、deny-read 和 deny-write 规则；受管理网络也要求相应后端能力。<br>这里的 elevated 主要描述沙箱设置/后端路径，不等于“模型中的每条命令以管理员身份任意执行”。</p>
+<p>参见 <a href="codex/codex-rs/core/src/windows_sandbox.rs:134">windows_sandbox.rs:134</a>、<a href="codex/codex-rs/sandboxing/src/windows.rs:15">sandboxing/windows.rs:15</a>、<a href="codex/codex-rs/sandboxing/src/windows.rs:122">sandboxing/windows.rs:122</a>、<a href="codex/codex-rs/sandboxing/src/manager.rs:530">manager.rs:530</a>。</p>
+<p>MXC 是单独的 Windows native 后端，由 <code>codex-mxc-sandbox</code> 准备命令和权限，并在选择前检查可用性。旧 <code>experimental_windows_sandbox</code>、<code>elevated_windows_sandbox</code> feature 标为 Removed，当前应看解析后的 Windows sandbox 配置与 backend selection。<br>不同 Windows 版本、安装状态和 executor 能力可能形成不同结果；仅凭配置字段出现不能宣称当前机器已完成隔离设置。</p>
+<p>参见 <a href="codex/codex-rs/mxc-sandbox/src/lib.rs:58">mxc-sandbox/src/lib.rs:58</a>、<a href="codex/codex-rs/core/src/windows_sandbox.rs:167">windows_sandbox.rs:167</a>、<a href="codex/codex-rs/features/src/lib.rs:1424">features/src/lib.rs:1424</a>。</p>
+<h3 id="10-8-远程执行：控制器决定策略，executor-落地隔离"><a href="#10-8-远程执行：控制器决定策略，executor-落地隔离" class="headerlink" title="10.8 远程执行：控制器决定策略，executor 落地隔离"></a>10.8 远程执行：控制器决定策略，executor 落地隔离</h3><p><code>Environment</code> 暴露统一的 <code>ExecBackend</code>、<code>ExecutorFileSystem</code> 和 HTTP client。<br>本地环境提供本机实现，远端环境通过 exec-server 通信；命令运行、补丁文件操作和能力发现都据此绑定到所选环境。在远端情况下，Core 不把控制器机器的 sandbox wrapper 套到一个网络请求上冒充隔离，而是携带 URI-native 权限意图，由 executor 本机执行沙箱准备。</p>
+<p>参见 <a href="codex/codex-rs/exec-server/src/environment.rs:1178">environment.rs:1178</a>、<a href="codex/codex-rs/core/src/unified_exec/process_manager.rs:1303">process_manager.rs:1303</a>。</p>
+<p>exec-server 在实际启动边界把 <code>PathUri</code> 转成本机路径、物化 workspace roots、检查 helper 路径和沙箱能力，再调用相同的 <code>SandboxManager</code>。如果请求带 sandbox context 而 executor 无法选择有效后端，会返回 <code>sandbox intent cannot be enforced on this executor</code>。<br>因此 Core 中“本机 SandboxType::None”在 executor-managed 分支可以表示本机不负责安装沙箱，并不自动意味着远端裸跑。<br>反过来，如果请求本身没有 sandbox context，exec-server 也存在明确的无沙箱启动路径。</p>
+<p>参见 <a href="codex/codex-rs/exec-server/src/process_sandbox.rs:174">process_sandbox.rs:174</a>、<a href="codex/codex-rs/exec-server/src/process_sandbox.rs:247">process_sandbox.rs:247</a>。</p>
+<h3 id="10-9-网络与凭据也是执行上下文的一部分"><a href="#10-9-网络与凭据也是执行上下文的一部分" class="headerlink" title="10.9 网络与凭据也是执行上下文的一部分"></a>10.9 网络与凭据也是执行上下文的一部分</h3><p>网络策略可由托管代理执行，目标 host/protocol/port 构成网络审批对象。运行时在本地准备代理环境，在远端准备 network proxy launch config；阻止网络的决定可以取消正在运行的进程。<br>某些显式提权路径会绕过托管代理，所以终端权限快照必须保存启动时是否绕过网络限制，不能只看后续 turn 的代理设置。</p>
+<p>参见 <a href="codex/codex-rs/core/src/tools/network_approval.rs:1">network_approval.rs:1</a>、<a href="codex/codex-rs/core/src/tools/runtimes/unified_exec.rs:276">unified_exec.rs:276</a>、<a href="codex/codex-rs/core/src/unified_exec/process_manager.rs:429">process_manager.rs:429</a>。</p>
+<p>Shell snapshot、环境变量继承和 credential broker 共同影响子进程看见的环境。凭据 masking 有能力检查与降级告警，源码中存在因受保护 snapshot 不可用而恢复未遮蔽凭据继续运行的路径。<br>因此不能把“启用网络代理”写成“所有 shell、所有远端场景都绝不会看见凭据”的保证。<br>这里需要分别核对执行 shell、snapshot 是否成功、代理与 broker 是否有效，以及具体失败模式。</p>
+<p>参见 <a href="codex/codex-rs/core/src/tools/runtimes/unified_exec.rs:524">unified_exec.rs:524</a>、<a href="codex/codex-rs/exec-server/src/process_sandbox.rs:49">process_sandbox.rs:49</a>。</p>
+<h3 id="10-10-阅读与验证这部分代码时应保留的边界"><a href="#10-10-阅读与验证这部分代码时应保留的边界" class="headerlink" title="10.10 阅读与验证这部分代码时应保留的边界"></a>10.10 阅读与验证这部分代码时应保留的边界</h3><p>现有测试覆盖工具并行、生命周期、统一执行、stdin 审批、Guardian retry、Code Mode 与不同沙箱政策等场景。可从 <code>core/tests/suite/tool_parallelism.rs</code>、<code>unified_exec_stdin_approval.rs</code>、<code>guardian_sandbox_retry.rs</code> 和 <code>core/src/tools/sandboxing_tests.rs</code> 继续追踪预期行为。<br>这些测试文件是源码中的设计证据；本文的代码阅读不等于已在当前 Windows 主机运行全套测试，更不等于跨平台沙箱认证。</p>
+<p>对于一次真实工具调用，应按“当前 tool plan → 具体请求与环境 → execpolicy/补丁评估 → reviewer 决策 → 实际后端 → 退出与副作用”逐层定位。这样才能把模型判断、框架策略、用户授权和操作系统强制限制分开，并准确描述一次失败究竟发生在哪一层。</p>
+<p><a id="chapter-11"></a></p>
+<h2 id="11-Skills、插件、MCP-与-Hooks"><a href="#11-Skills、插件、MCP-与-Hooks" class="headerlink" title="11. Skills、插件、MCP 与 Hooks"></a>11. Skills、插件、MCP 与 Hooks</h2><h3 id="11-1-四种扩展分别解决什么问题"><a href="#11-1-四种扩展分别解决什么问题" class="headerlink" title="11.1 四种扩展分别解决什么问题"></a>11.1 四种扩展分别解决什么问题</h3><p>这四者经常同时出现，但承担不同职责：</p>
+<ul>
+<li>Skill 是模型可阅读的任务说明与配套资源，主要扩展“怎样做”。</li>
+<li>Plugin 是能力包、来源与安装管理单位，可以带 Skill、MCP 配置和 Hooks。</li>
+<li>MCP 是外部工具和资源的连接、发现与调用协议，主要扩展“能访问什么”。</li>
+<li>Hook 是宿主生命周期上的回调，可以观察、修改或阻断特定阶段。</li>
+</ul>
+<p>Skill 不等于可执行权限；安装 Plugin 不等于它的全部工具已被允许；发现 MCP server 不等于每个工具都对模型可见；列出 Hook 不等于它已经可信并会执行。</p>
+<p>这个分层对应源码中的不同 crate：<code>ext/skills</code>、<code>core-plugins</code>、<code>codex-mcp</code> 和 <code>hooks</code>，核心再通过 extension contributor 和具体工具适配器把它们接入模型循环。</p>
+<p>源码：<a href="codex/codex-rs/ext/skills/src/extension.rs:80">Skills extension</a>、<a href="codex/codex-rs/core-plugins/src/manager.rs:160">PluginsManager 配置</a>、<a href="codex/codex-rs/codex-mcp/src/binding.rs:33">McpBinding</a>、<a href="codex/codex-rs/hooks/src/registry.rs:40">Hooks registry</a>。</p>
+<h3 id="11-2-Skills-使用目录摘要与按需正文"><a href="#11-2-Skills-使用目录摘要与按需正文" class="headerlink" title="11.2 Skills 使用目录摘要与按需正文"></a>11.2 Skills 使用目录摘要与按需正文</h3><p>Skills extension 通过多个 provider 构造 catalog，来源可以包括 host、bundled、executor 和 cloud。host 的发现输入结合工作目录、config layer stack 和插件 skill snapshots；主执行环境的仓库发现，不直接等同于宿主本地 cwd。</p>
+<p>模型最初通常获得 Skill 名称、描述和入口位置，而非每个 Skill 的全部正文。目录渲染有 metadata budget，正文注入有独立截断限制，避免技能数量一多就吞掉模型窗口。</p>
+<p>用户显式提到技能时，<code>collect_explicit_skill_mentions</code> 从已准备好的 catalog 解析目标，再调用对应 provider 读取 main prompt，将其转换成 <code>SkillInstructions</code>。</p>
+<p>对于非普通路径资源，正文片段还携带 authority、package、main resource 访问说明，模型可以通过 skill tools 继续读取配套资源，而不必把远程资源伪装成本地文件路径。</p>
+<p>框架还记录显式或隐式调用的遥测以及插件归属，但这不表示它能保证模型会遵循 Skill 的每句话；技能正文最终仍是模型上下文中的指令材料。</p>
+<p>源码：<a href="codex/codex-rs/core/src/skills.rs:46">host discovery 输入</a>、<a href="codex/codex-rs/ext/skills/src/extension.rs:99">目录渲染</a>、<a href="codex/codex-rs/ext/skills/src/extension.rs:320">显式选择与正文注入</a>、<a href="codex/codex-rs/ext/skills/src/extension.rs:450">SkillInstructions 构造</a>。</p>
+<h3 id="11-3-Skills-的时序与门控"><a href="#11-3-Skills-的时序与门控" class="headerlink" title="11.3 Skills 的时序与门控"></a>11.3 Skills 的时序与门控</h3><p>thread start 保存 provider 和配置相关状态，step preparation 准备稳定的 catalog，world state 或 turn input 再负责渲染。这样，执行环境还未就绪时与就绪之后，目录变化可以通过正式的状态更新进入模型历史。</p>
+<p>catalog 是否提示、是否包含 bundled skills、是否跳过 host discovery、是否使用 executor discovery V2，都有独立配置或 feature。<code>SkipHostSkillDiscovery</code> 默认关闭；executor capability discovery 两代标志也都不是默认全开。</p>
+<p>代码还存在 shadow selection experiment，它用于运行独立的候选选择实验，并不能推断默认产品已经把技能选择完全交给另一个 Agent。</p>
+<p>源码：<a href="codex/codex-rs/ext/skills/src/extension.rs:165">thread start</a>、<a href="codex/codex-rs/ext/skills/src/extension.rs:188">thread context 门控</a>、<a href="codex/codex-rs/ext/skills/src/preparation.rs:1">step preparation</a>、<a href="codex/codex-rs/features/src/lib.rs:1692">discovery features</a>。</p>
+<h3 id="11-4-Plugin-的载入结果是能力投影"><a href="#11-4-Plugin-的载入结果是能力投影" class="headerlink" title="11.4 Plugin 的载入结果是能力投影"></a>11.4 Plugin 的载入结果是能力投影</h3><p><code>PluginsManager</code> 处理 marketplace、安装包、manifest、启用状态、远端 catalog、本地缓存及插件能力。调用方输入 <code>PluginsConfigInput</code>，其中包括配置层、插件开关、provider、远端能力和 product SKU 等上下文。</p>
+<p>core 获取 plugin load outcome 后，再剔除当前 turn 禁用的插件。剩余结果分别提供 skill roots/snapshots、MCP server 配置、hook sources、提示词说明等。</p>
+<p>这比“插件直接运行任意代码”更准确：manifest 中声明的不同能力，经由各自子系统接入，并继续接受该子系统的准入和策略检查。</p>
+<p>推荐插件又是另一条门控链。基础 <code>Plugins</code> 默认开启，但 <code>RecommendedPlugins</code> 默认关闭；是否渲染推荐列表，还依赖配置、认证和推荐能力。远端插件和分享等也有独立 feature。</p>
+<p>源码：<a href="codex/codex-rs/core-plugins/src/manager.rs:160">PluginsConfigInput</a>、<a href="codex/codex-rs/core/src/session/mod.rs:4630">初始上下文中的插件选择</a>、<a href="codex/codex-rs/features/src/lib.rs:1680">插件相关默认值</a>、<a href="codex/codex-rs/features/src/lib.rs:609">推荐门控</a>。</p>
+<h3 id="11-5-MCP-runtime-与-binding-的分工"><a href="#11-5-MCP-runtime-与-binding-的分工" class="headerlink" title="11.5 MCP runtime 与 binding 的分工"></a>11.5 MCP runtime 与 binding 的分工</h3><p><code>McpRuntime</code> 可以刷新 server、认证与目录；<code>McpBinding</code> 则保存一次 step 使用的不可变视图，包括连接、client、配置、工具目录和 prepared calls。</p>
+<p>binding 的 <code>tools()</code> 返回冻结的 model-visible catalog；<code>prepare_call()</code> 绑定到准确的 client 和 metadata，并再次检查工具是否对模型可见。资源读写同样经由 binding 的 client/connection 集合执行。</p>
+<p>core 的 MCP runtime projection 负责把当前配置、环境、权限、禁用插件等投影为期望状态，再发布到 runtime。cwd、工作区、approval policy、reviewer、permission profile 或 Windows sandbox 变化，都会参与是否需要刷新的判断。</p>
+<p>MCP 连接还可能具有不同的执行环境 owner。工具执行和资源访问不能只凭一个字符串 server name 选择本地进程或网络连接，需要保留环境归属。</p>
+<p>源码：<a href="codex/codex-rs/codex-mcp/src/binding.rs:33">McpBinding 的冻结目录</a>、<a href="codex/codex-rs/codex-mcp/src/binding.rs:97">prepare_call 可见性检查</a>、<a href="codex/codex-rs/core/src/session/mcp_runtime.rs:1">runtime 投影</a>、<a href="codex/codex-rs/core/src/session/mcp_runtime.rs:35">刷新输入比较</a>。</p>
+<h3 id="11-6-从-MCP-工具目录到原生工具调用"><a href="#11-6-从-MCP-工具目录到原生工具调用" class="headerlink" title="11.6 从 MCP 工具目录到原生工具调用"></a>11.6 从 MCP 工具目录到原生工具调用</h3><p><code>McpHandlerCache</code> 把 MCP <code>ToolInfo</code> 归一化为 harness 的 tool schema 和执行 handler，并使用共享定义缓存减少同一大 schema 的重复解析。</p>
+<p>接入时要经过工具可见性、Apps policy、搜索/延迟暴露等规则。部分 agent plugin MCP schema 还有字节预算，避免一个插件声明特别大的工具说明淹没整个 prompt。</p>
+<p>模型调用最终由 <code>McpHandler</code> 转交 <code>handle_mcp_tool_call</code>，继续进入 MCP 调用的审批、执行、结果转换和归属记录流程。因此 MCP 是工具运行时的一类后端，而不是另一条可以跳过 harness 生命周期的旁路。</p>
+<p>传统工具名可以采用 <code>mcp__server__tool</code> 前缀；命名、namespace 和 deferred catalog 的实际形态受配置及模型能力影响。阅读日志或开发新工具时，不应把某一种命名方式写成所有部署的固定约定。</p>
+<p>源码：<a href="codex/codex-rs/core/src/mcp_tool_exposure.rs:25">MCP schema 缓存</a>、<a href="codex/codex-rs/core/src/mcp_tool_exposure.rs:106">接入工具 registry</a>、<a href="codex/codex-rs/core/src/tools/handlers/mcp.rs:91">McpHandler</a>、<a href="codex/codex-rs/core/src/mcp_tool_call.rs:1">MCP 调用实现</a>。</p>
+<h3 id="11-7-Hooks-是真正会影响控制流的扩展点"><a href="#11-7-Hooks-是真正会影响控制流的扩展点" class="headerlink" title="11.7 Hooks 是真正会影响控制流的扩展点"></a>11.7 Hooks 是真正会影响控制流的扩展点</h3><p>当前 hook runtime 覆盖 SessionStart、SubagentStart、UserPromptSubmit、PreToolUse、PermissionRequest、PostToolUse、Stop、SessionEnd、Interrupt、PreCompact、PostCompact 和模型请求等阶段。</p>
+<p>不同事件的结果不同：</p>
+<ul>
+<li>PreToolUse 可以继续、更新输入，或阻断调用。</li>
+<li>PermissionRequest 可以参与权限请求的处理。</li>
+<li>多种生命周期事件可以附加上下文或要求停止。</li>
+<li>异步 Hook 的结果会在后续安全时机 drain，而不是任意时刻修改模型历史。</li>
+</ul>
+<p>Hook 结果经 <code>HookAdditionalContext</code> 形成正式的上下文片段，started/completed 事件则进入用户事件和遥测通道。这样可以同时追踪“Hook 执行了什么”以及“它给模型加入了什么”。</p>
+<p>源码：<a href="codex/codex-rs/core/src/hook_runtime.rs:76">hook runtime</a>、<a href="codex/codex-rs/core/src/hook_runtime.rs:193">PreToolUse</a>、<a href="codex/codex-rs/core/src/hook_runtime.rs:798">异步结果 drain</a>、<a href="codex/codex-rs/core/src/hook_runtime.rs:868">上下文注入</a>。</p>
+<h3 id="11-8-Hooks-的信任与配置不是可忽略细节"><a href="#11-8-Hooks-的信任与配置不是可忽略细节" class="headerlink" title="11.8 Hooks 的信任与配置不是可忽略细节"></a>11.8 Hooks 的信任与配置不是可忽略细节</h3><p><code>CodexHooks</code> 当前默认开启，但实际执行还要求存在匹配的 handler、handler 启用，且满足信任条件。配置层、插件 hook source、内容 hash 和 managed/builtin 状态都参与发现。</p>
+<p>列表模式可以显示尚未 trusted 或被禁用的 Hook；执行模式则会跳过不满足条件的项目。插件内容变化可能导致已有信任不再匹配，避免更新包后静默沿用旧授权。</p>
+<p><code>PluginHooks</code> 这个旧 feature 已标记 Removed。当前 <code>build_hooks_config</code> 从启用插件结果获取 hook sources，并把总 <code>CodexHooks</code> 开关传给 registry，不能把旧标志当作插件 Hook 的唯一开关。</p>
+<p><code>bypass_hook_trust</code> 是明确配置项，不应因为默认 Hooks 可用，就假设信任检查被绕过。工具 Hook 也需要携带调用所属环境，不能在错误的本地 cwd 执行远程项目回调。</p>
+<p>源码：<a href="codex/codex-rs/core/src/session/mod.rs:5610">HooksConfig 构建</a>、<a href="codex/codex-rs/hooks/src/registry.rs:388">列表与执行配置</a>、<a href="codex/codex-rs/hooks/src/engine/discovery.rs:843">信任判断</a>、<a href="codex/codex-rs/hooks/src/engine/discovery.rs:915">执行准入</a>。</p>
+<p><a id="chapter-12"></a></p>
+<h2 id="12-多-Agent、目标与长期记忆"><a href="#12-多-Agent、目标与长期记忆" class="headerlink" title="12. 多 Agent、目标与长期记忆"></a>12. 多 Agent、目标与长期记忆</h2><h3 id="12-1-多-Agent-是线程运行时，不只是并行请求"><a href="#12-1-多-Agent-是线程运行时，不只是并行请求" class="headerlink" title="12.1 多 Agent 是线程运行时，不只是并行请求"></a>12.1 多 Agent 是线程运行时，不只是并行请求</h3><p>Codex 的 Agent 有自己的 thread、状态、模型上下文、任务路径、输入和执行生命周期。父子关系由 <code>SessionSource::SubAgent</code> 等结构记录，控制面负责 spawn、消息投递、等待、恢复、interrupt 与执行容量。</p>
+<p>当前同时保留 V1 和 V2。<code>Collab</code> 对应 <code>multi_agent</code>，默认开启；<code>MultiAgentV2</code> 对应 <code>multi_agent_v2</code>，默认关闭。实际版本还受配置与模型能力选择影响，不能把 V2 handler 的存在写成所有 Codex 会话的默认工具集。</p>
+<p>V1 以传统 Agent ID 控制接口为主；V2 使用 task path、消息与可恢复运行时，并提供 <code>spawn_agent</code>、<code>send_message</code>、<code>followup_task</code>、<code>interrupt_agent</code>、<code>list_agents</code> 和 <code>wait_agent</code> 等不同职责的工具。</p>
+<p>源码：<a href="codex/codex-rs/features/src/lib.rs:1518">多 Agent 默认值</a>、<a href="codex/codex-rs/core/src/tools/handlers/multi_agents_spec.rs:14">V1 工具 namespace</a>、<a href="codex/codex-rs/core/src/tools/handlers/multi_agents_v2.rs:1">V2 handlers</a>、<a href="codex/codex-rs/core/src/session/mod.rs:4537">版本选择</a>。</p>
+<h3 id="12-2-V2-spawn-调用链"><a href="#12-2-V2-spawn-调用链" class="headerlink" title="12.2 V2 spawn 调用链"></a>12.2 V2 spawn 调用链</h3><p><code>spawn_agent</code> handler 先解析参数和 fork mode，再调用共享 <code>thread_spawn::spawn</code>。共享准备层负责校验消息、构造 child config、生成规范任务路径与 SessionSource，最后调用配置好的 Agent backend。</p>
+<p>任务路径由父路径拼接 task name，避免调用方任意伪造完整层级。spawn 返回的是已接受的 Agent 和配置快照，不能等同于“子任务已经完成”。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">伪码：根据实际实现省略遥测与错误转换</span><br><span class="line">spawn_agent(arguments)</span><br><span class="line">  -&gt; parse fork mode / role / task name</span><br><span class="line">  -&gt; prepare_agent_spawn_config(captured StepContext)</span><br><span class="line">  -&gt; parent_agent_path.join(task_name)</span><br><span class="line">  -&gt; AgentControl.spawn(config, source, options, initial_message)</span><br><span class="line">  -&gt; acquire execution capacity / create or fork thread</span><br><span class="line">  -&gt; deliver initial input</span><br><span class="line">  -&gt; return accepted Agent metadata</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>backend 独立负责子线程寿命，工具 handler 负责把结果转换为模型可见的输出、活动事件和遥测。这种分层允许不同宿主使用同一套准备规则，而不重复实现配置继承。</p>
+<p>源码：<a href="codex/codex-rs/core/src/tools/handlers/multi_agents_v2/spawn.rs:99">V2 spawn handler</a>、<a href="codex/codex-rs/core/src/thread_spawn.rs:64">共享 spawn</a>、<a href="codex/codex-rs/core/src/agent/control/spawn.rs:1">AgentControl spawn</a>。</p>
+<h3 id="12-3-子-Agent-继承的是受控快照"><a href="#12-3-子-Agent-继承的是受控快照" class="headerlink" title="12.3 子 Agent 继承的是受控快照"></a>12.3 子 Agent 继承的是受控快照</h3><p>child config 从父 step 的有效模型和设置开始，叠加请求的 model/reasoning、role、service tier，然后再次应用运行时 cwd、approval policy 和 permission profile，避免从过期 config clone 出错误权限。</p>
+<p>具体 override 是否暴露给模型由 tool spec 与配置决定。V2 的描述明确要求默认继承模型；但是底层准备实现仍有独立校验，不能把自然语言提示中的约束误写成 Rust 类型系统已强制拒绝所有 override。</p>
+<p>fork mode 的 <code>all</code> 使用完整历史继承路径，<code>none</code> 新建上下文。V2 解析器还接受旧的正整数格式，但将其解释为 FullHistory，不再按数字限制继承 turn 数。</p>
+<p>FullHistory 也不是机械复制每个 item。实现会过滤 reasoning、普通工具调用与输出、特定 Agent 通信等内容，重新处理角色说明、提示和 baseline；子线程不会继承父线程累计 usage。</p>
+<p>源码：<a href="codex/codex-rs/core/src/agent/child_config.rs:52">child config 准备</a>、<a href="codex/codex-rs/core/src/agent/child_config.rs:188">运行时权限覆盖</a>、<a href="codex/codex-rs/core/src/tools/handlers/multi_agents_v2/spawn.rs:212">fork_turns 解析</a>、<a href="codex/codex-rs/core/src/agent/control/spawn.rs:91">历史保留过滤</a>。</p>
+<h3 id="12-4-调度、消息与资源限制"><a href="#12-4-调度、消息与资源限制" class="headerlink" title="12.4 调度、消息与资源限制"></a>12.4 调度、消息与资源限制</h3><p>线程数量、同时执行数量与生成深度是不同的约束。配置含 <code>agent_max_threads</code>、<code>agent_max_depth</code> 和 V2 的 <code>max_concurrent_threads_per_session</code>；运行时执行 limiter 通过计数和 guard 维护活动容量。</p>
+<p>消息投递也区分 <code>QueueOnly</code> 和 <code>TriggerTurn</code>：普通消息排入目标 Agent 的输入，后续任务可以唤醒空闲 Agent。通信数据保留 author、recipient、任务路径和是否触发 turn，避免失去来源。</p>
+<p><code>wait_agent</code> 处理状态通知，<code>interrupt_agent</code> 停止当前 turn，<code>followup_task</code> 则投递后续任务。它们不必与“关闭线程”混为一谈；停止一次执行不代表删除线程状态。</p>
+<p>主动协作模式同样不是全局硬编码。V2 会根据配置、模型消息和 reasoning effort 生成提示：没有显式覆盖时，Ultra 可以选择 proactive 提示，其他情况通常使用 explicit-request-only；宿主仍可配置自定义文本。</p>
+<p>源码：<a href="codex/codex-rs/core/src/agent/control/execution.rs:15">执行容量 limiter</a>、<a href="codex/codex-rs/core/src/agent/control/delivery.rs:11">消息的 wake mode</a>、<a href="codex/codex-rs/core/src/config/mod.rs:973">配置上限</a>、<a href="codex/codex-rs/core/src/session/multi_agents.rs:81">协作模式推导</a>。</p>
+<h3 id="12-5-Goals-把“继续做”变成显式状态机"><a href="#12-5-Goals-把“继续做”变成显式状态机" class="headerlink" title="12.5 Goals 把“继续做”变成显式状态机"></a>12.5 Goals 把“继续做”变成显式状态机</h3><p>Goal extension 接入 thread、turn、tool lifecycle 和 token usage，使用数据库中的 goal 记录与运行时 accounting 共同控制持续执行。</p>
+<p>目标状态包括 <code>active</code>、<code>paused</code>、<code>blocked</code>、<code>usage_limited</code>、<code>budget_limited</code>、<code>complete</code>。默认 <code>goals</code> feature 开启，但工具可用还要求持久线程状态，review 子 Agent 也会被排除。</p>
+<p>创建目标后，线程进入 idle 时，<code>continue_if_idle</code> 读取当前目标、检查 deferral 和状态，再通过 <code>start_turn_if_idle</code> 注入 continuation steering。它不会无条件向已经忙碌的线程再发一个普通用户 turn。</p>
+<p>目标变更与 continuation 启动之间持有同一个 goal-state permit，避免用户刚修改或清除目标，旧 continuation 却越过检查启动。token 和 usage accounting 则决定预算限制及停止原因。</p>
+<p>这也说明 goal 与普通任务描述的差别：普通对话文本本身不会自动等价为持久目标；目标工具、状态迁移、预算和自动继续，需要由明确的宿主协议驱动。</p>
+<p>源码：<a href="codex/codex-rs/ext/goal/src/extension.rs:106">Goal extension 注册和可用性</a>、<a href="codex/codex-rs/state/src/model/thread_goal.rs:14">状态枚举</a>、<a href="codex/codex-rs/ext/goal/src/runtime.rs:436">idle continuation</a>、<a href="codex/codex-rs/features/src/lib.rs:1974">Goals 默认值</a>。</p>
+<h3 id="12-6-长期记忆的读写路径分离"><a href="#12-6-长期记忆的读写路径分离" class="headerlink" title="12.6 长期记忆的读写路径分离"></a>12.6 长期记忆的读写路径分离</h3><p>长期记忆不等于模型权重更新，也不等于把全部旧聊天永久放进 prompt。它是持久化摘要、索引、使用记录与检索入口组成的外部上下文系统。</p>
+<p><code>ext/memories</code> 负责读取侧的上下文注入和专用工具；<code>memories/read</code> 负责 citation 解析和 read-usage 分类；<code>memories/write</code> 负责后台提取、全局整合及文件产物维护。</p>
+<p>读取注入要求 <code>MemoryTool</code> feature 与 <code>memories.use_memories</code> 同时满足；专用 list/search/read/note 工具另需 <code>dedicated_tools</code>。V1/V2 使用各自 namespace，配置变化时会固定线程已选择的版本，保持初始摘要和检索工具一致。</p>
+<p>V2 说明被切成有界片段，每个片段使用 UTF-8 字符边界和字节上限；这不等于整个 memory summary 只允许一个片段的大小。</p>
+<p>源码：<a href="codex/codex-rs/ext/memories/src/extension.rs:37">Memory extension 配置</a>、<a href="codex/codex-rs/ext/memories/src/extension.rs:56">注入与分片</a>、<a href="codex/codex-rs/ext/memories/src/extension.rs:148">专用工具门控</a>、<a href="codex/codex-rs/memories/read/src/lib.rs:1">read crate 职责</a>。</p>
+<h3 id="12-7-后台提取与全局整合"><a href="#12-7-后台提取与全局整合" class="headerlink" title="12.7 后台提取与全局整合"></a>12.7 后台提取与全局整合</h3><p>记忆写入管线在 eligible root thread 启动时异步运行。ephemeral 会话、未开启 memory feature、非 root Agent 会直接跳过；没有 state DB 或额度条件不满足也不执行模型提取。</p>
+<p>第一阶段按线程提取：从数据库领取有租约的有限批作业，筛选适合总结的 rollout 内容，调用模型生成 raw memory、rollout summary 和可选 slug，处理敏感信息后写回 stage-1 输出。年龄窗口、空闲时间、扫描数量、并发和重试控制限制了后台工作量。</p>
+<p>第二阶段持有全局 lease，挑选有界的 stage-1 输入，同步 <code>raw_memories.md</code> 和 <code>rollout_summaries/</code>，清理失效输入与过期扩展资源，并生成相对上次成功 baseline 的工作区 diff。</p>
+<p>只有文件工作区发生变化，才启动 consolidation 子 Agent，把低层提取结果整合成 <code>MEMORY.md</code>、<code>memory_summary.md</code> 和可复用技能等。成功后更新 baseline 与消费记录；这不是每次用户发消息就从零总结所有历史。</p>
+<p>如果选择 V1 且开启 dual write，启动器会为 V1 和 V2 各执行一条管线；这属于显式配置，不能推断所有用户都在双写。</p>
+<p>源码：<a href="codex/codex-rs/memories/write/src/start.rs:24">启动条件与双写</a>、<a href="codex/codex-rs/memories/write/src/phase1.rs:1">Phase 1</a>、<a href="codex/codex-rs/memories/write/src/phase2.rs:49">Phase 2</a>、<a href="codex/codex-rs/state/src/runtime/memories.rs:1">数据库记忆作业</a>。</p>
+<h3 id="12-8-记忆-Agent-的权限与证据边界"><a href="#12-8-记忆-Agent-的权限与证据边界" class="headerlink" title="12.8 记忆 Agent 的权限与证据边界"></a>12.8 记忆 Agent 的权限与证据边界</h3><p>consolidation Agent 会关闭记忆生成与使用、Apps、Plugins、collab 和技能 MCP 依赖安装，清空 MCP servers，并设置 <code>AskForApproval::Never</code>，避免自动整合再次递归调用全套扩展。</p>
+<p>通常它只获得本地 memory root 写权限且不联网。但实现明确保留父级选择的 <code>PermissionProfile::External</code>；这类情况下，隔离由外部执行环境负责，不能把“始终由 Codex sandbox 强制断网”写成无条件保证。</p>
+<p>记忆 feature 在当前提交的默认值是 <code>false</code>。读、写行为还分别受 <code>use_memories</code>、<code>generate_memories</code> 和线程 memory mode 等影响，用户环境中已出现 memory 提示词，不能用来反推开源默认值。</p>
+<p>记忆产物是从历史生成的二级证据。好的上层指令仍需要要求模型区分历史记录与当前事实、查询具体出处，并对可能变化的信息重新验证；citation parser 可以追踪引用，不能替代来源准确性判断。</p>
+<p>还要注意仓库 README 的路径说明落后于代码：其“orchestration 仍位于 core/src/memories”描述已不符合当前目录。本文以上述 <code>memories/write/src</code> 的真实调用链为准。</p>
+<p>源码：<a href="codex/codex-rs/memories/write/src/phase2.rs:294">consolidation 配置限制</a>、<a href="codex/codex-rs/memories/write/src/phase2.rs:324">External profile 例外</a>、<a href="codex/codex-rs/features/src/lib.rs:1328">记忆默认关闭</a>、<a href="codex/codex-rs/memories/read/src/citations.rs:1">citation 解析</a>。</p>
+<p><a id="chapter-13"></a></p>
+<h2 id="13-前端呈现与-SDK：同一个执行内核的不同客户端"><a href="#13-前端呈现与-SDK：同一个执行内核的不同客户端" class="headerlink" title="13. 前端呈现与 SDK：同一个执行内核的不同客户端"></a>13. 前端呈现与 SDK：同一个执行内核的不同客户端</h2><h3 id="13-1-TUI-的三层职责"><a href="#13-1-TUI-的三层职责" class="headerlink" title="13.1 TUI 的三层职责"></a>13.1 TUI 的三层职责</h3><p>终端界面主要可以沿以下结构阅读：</p>
+<ol>
+<li><strong>Tui</strong> 处理终端模式、输入事件、帧调度和绘制。</li>
+<li><strong>App</strong> 协调 app-server、当前会话、历史加载、审批、重连与输入所有权。</li>
+<li><strong>ChatWidget / HistoryCell / BottomPane</strong> 表现消息流、工具活动、输入框与交互面板。</li>
+</ol>
+<p><code>App::run</code> 的事件循环同时处理终端输入、应用内部事件以及后端事件。后端采样和命令执行不应阻塞绘制线程；工具完成、审批到达、用户输入等通过事件驱动 UI 状态变化。</p>
+<p>源码：<a href="codex/codex-rs/tui/src/tui.rs:616">TuiEvent 与 Tui</a>、<a href="codex/codex-rs/tui/src/app/startup.rs:230">主运行循环</a>、<a href="codex/codex-rs/tui/src/app/startup.rs:1416">多路事件选择</a>、<a href="codex/codex-rs/tui/src/app_server_session.rs:869">后端事件消费</a>。</p>
+<h3 id="13-2-流式文本并非收到一个-token-就重画全部历史"><a href="#13-2-流式文本并非收到一个-token-就重画全部历史" class="headerlink" title="13.2 流式文本并非收到一个 token 就重画全部历史"></a>13.2 流式文本并非收到一个 token 就重画全部历史</h3><p><code>HistoryCell</code> 是界面中的显示单位，既能表示已提交历史，也能暂时表示仍在变化的活动项。转录视图可以缓存活动尾部，但需要通过 revision/cache key 使变化正确失效。</p>
+<p><code>streaming::StreamState</code> 负责按换行推进 Markdown 收集，并维护已提交渲染行的 FIFO。<code>controller</code> 决定何时形成显示项，<code>chunking</code> 根据队列压力计算排空节奏，<code>commit_tick</code> 落实提交。代码围栏和表格还有专门的流式处理。</p>
+<p>这解释了为什么“模型流式返回正常”并不直接等于“终端每种宽度下都显示正确”：协议增量、Markdown 结构、显示行队列和终端帧是不同层。渲染缺陷应在相应层定位。</p>
+<p>源码：<a href="codex/codex-rs/tui/src/history_cell/mod.rs:1">HistoryCell 的显示与缓存语义</a>、<a href="codex/codex-rs/tui/src/streaming/mod.rs:1">流式管线与 FIFO 约束</a>、<a href="codex/codex-rs/tui/src/streaming/controller.rs:1">流式控制器</a>。</p>
+<h3 id="13-3-输入框为什么需要状态机"><a href="#13-3-输入框为什么需要状态机" class="headerlink" title="13.3 输入框为什么需要状态机"></a>13.3 输入框为什么需要状态机</h3><p><code>ChatComposer</code> 不只是字符串编辑器，还要协调补全弹窗、文件/插件/skill 提及、原子化文本元素、粘贴以及提交。输入框的一次 Enter 可能代表提交，也可能是粘贴文本中的换行。</p>
+<p>尤其在部分 Windows 终端中，粘贴会以快速连续的字符、Enter 和 Tab 事件出现。<code>PasteBurst</code> 通过纯状态机识别这种输入，返回缓冲或刷新决策，再由调用方修改编辑框。这能避免把粘贴中的换行误识别为提前提交任务。</p>
+<p>这类状态处理属于客户端职责。它最终仍要把正确的 <code>UserInput</code> 发给服务端，而不是改变模型主循环。</p>
+<p>源码：<a href="codex/codex-rs/tui/src/bottom_pane/chat_composer.rs:1">ChatComposer 的输入契约</a>、<a href="codex/codex-rs/tui/src/bottom_pane/paste_burst.rs:1">PasteBurst 状态机</a>。</p>
+<h3 id="13-4-exec-输出是协议的再次投影"><a href="#13-4-exec-输出是协议的再次投影" class="headerlink" title="13.4 exec 输出是协议的再次投影"></a>13.4 exec 输出是协议的再次投影</h3><p><code>EventProcessor</code> 接收 typed app-server 通知，再由人类可读处理器或 JSONL 处理器产生输出。JSONL 处理器维护 item ID 映射、运行中的待办列表、usage、最终消息和错误等状态。</p>
+<p>因此 <code>codex exec --json</code> 的输出不能直接当作原始 Responses API 流，也不能假设它与 app-server 通知逐字相同。它是为命令行消费定义的一层事件契约。</p>
+<p>源码：<a href="codex/codex-rs/exec/src/event_processor.rs:14">EventProcessor</a>、<a href="codex/codex-rs/exec/src/event_processor_with_jsonl_output.rs:61">JSONL 输出处理器</a>、<a href="codex/codex-rs/exec/src/exec_events.rs:1">exec 事件类型</a>。</p>
+<h3 id="13-5-TypeScript-SDK：包装-exec-子进程"><a href="#13-5-TypeScript-SDK：包装-exec-子进程" class="headerlink" title="13.5 TypeScript SDK：包装 exec 子进程"></a>13.5 TypeScript SDK：包装 exec 子进程</h3><p>这个快照中的 TypeScript SDK 由 <code>Codex</code> 创建 <code>Thread</code>。底层 <code>CodexExec.run</code> 通过 Node 的 <code>spawn</code> 启动原生程序，参数以 <code>exec --experimental-json</code> 开头，按行读取事件；恢复已有会话时添加 <code>resume &lt;threadId&gt;</code>。</p>
+<p>以下是对现有实现的简化示意：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">new Codex()</span><br><span class="line">  → startThread() / resumeThread(id)</span><br><span class="line">  → Thread.run() / runStreamed()</span><br><span class="line">  → CodexExec.run(...)</span><br><span class="line">  → spawn(codex, [&quot;exec&quot;, &quot;--experimental-json&quot;, ...])</span><br><span class="line">  → 解析 JSONL 事件</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这意味着调用者得到的是完整 harness 的工作结果，而非自己重新实现一次模型工具循环。SDK 的取消信号、进程退出和结构化输出也要沿这一边界理解。</p>
+<p>源码：<a href="codex/sdk/typescript/src/codex.ts:10">Codex 类</a>、<a href="codex/sdk/typescript/src/thread.ts:1">Thread 接口</a>、<a href="codex/sdk/typescript/src/exec.ts:94">进程参数</a>、<a href="codex/sdk/typescript/src/exec.ts:203">子进程启动</a>。</p>
+<h3 id="13-6-Python-SDK：typed-app-server-JSON-RPC-客户端"><a href="#13-6-Python-SDK：typed-app-server-JSON-RPC-客户端" class="headerlink" title="13.6 Python SDK：typed app-server JSON-RPC 客户端"></a>13.6 Python SDK：typed app-server JSON-RPC 客户端</h3><p>Python SDK 的接入层不同：<code>CodexClient</code> 启动 <code>codex app-server --listen stdio://</code>，通过标准输入输出交换 typed JSON-RPC 请求。它执行 <code>initialize</code> / <code>initialized</code> 握手，上层 <code>Codex</code> / <code>Thread</code> 封装会话和 turn 操作，并提供同步与异步接口。</p>
+<p>不能由“两个 SDK 都包装本地二进制”进一步推导它们使用相同的线协议。编写集成或排查取消、审批、事件订阅问题时，应先确认自己使用的是 exec 事件还是 app-server 协议。</p>
+<p>源码：<a href="codex/sdk/python/src/openai_codex/client.py:214">Python 低层客户端</a>、<a href="codex/sdk/python/src/openai_codex/client.py:256">app-server 启动</a>、<a href="codex/sdk/python/src/openai_codex/client.py:304">初始化</a>、<a href="codex/sdk/python/src/openai_codex/api.py:78">高层 Codex API</a>。</p>
+<p><a id="chapter-14"></a></p>
+<h2 id="14-配置、模型后端与认证"><a href="#14-配置、模型后端与认证" class="headerlink" title="14. 配置、模型后端与认证"></a>14. 配置、模型后端与认证</h2><h3 id="14-1-配置不仅是读取一个-config-toml"><a href="#14-1-配置不仅是读取一个-config-toml" class="headerlink" title="14.1 配置不仅是读取一个 config.toml"></a>14.1 配置不仅是读取一个 config.toml</h3><p>配置加载至少经过两个阶段：</p>
+<ol>
+<li><code>codex-config</code> 读取并合并不同来源，记录来源、版本和禁用原因，产生 <code>ConfigLayerStack</code>。</li>
+<li><code>core::config::ConfigBuilder</code> 将合并的 TOML 转成运行配置，结合 harness overrides、工作目录及受管要求落实约束。</li>
+</ol>
+<p>保留来源的意义很实际：当某个设置被覆盖、因不信任项目而禁用，或由组织要求锁定时，客户端能够说明原因。配置编辑也能基于版本指纹检测并发冲突，而非盲目覆盖文件。</p>
+<p>源码：<a href="codex/codex-rs/config/src/loader/README.md:1">loader 的职责说明</a>、<a href="codex/codex-rs/core/src/config/mod.rs:1487">ConfigBuilder</a>、<a href="codex/codex-rs/core/src/config/mod.rs:1549">build 与层加载</a>。</p>
+<h3 id="14-2-优先级与受管约束是两个问题"><a href="#14-2-优先级与受管约束是两个问题" class="headerlink" title="14.2 优先级与受管约束是两个问题"></a>14.2 优先级与受管约束是两个问题</h3><p>当前 <code>ConfigLayerSource::precedence</code> 为普通配置来源定义明确顺序。由低到高包括：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">包内默认值</span><br><span class="line">  &lt; MDM 普通配置</span><br><span class="line">  &lt; 系统配置</span><br><span class="line">  &lt; 企业云配置</span><br><span class="line">  &lt; 用户配置</span><br><span class="line">  &lt; 选中的用户 profile</span><br><span class="line">  &lt; 项目配置</span><br><span class="line">  &lt; 会话 / CLI 覆盖</span><br><span class="line">  &lt; 旧 managed_config 文件</span><br><span class="line">  &lt; 旧 managed_config MDM</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这是合并优先级，不是权限保证。<code>requirements</code> 作为另一组受管约束加载和组合，限制可接受配置；例如管理员允许的权限范围或模型后端要求，不能简单被普通 <code>-c</code> 覆盖解除。旧受管配置还存在兼容路径，不能把上面顺序缩成“命令行永远优先”。</p>
+<p>项目配置有信任条件。某层可以被加载并显示，但带 <code>disabled_reason</code>，不参与有效值计算。相对路径还要按来源层解析；只看最终字符串可能看不出它来自哪个目录。</p>
+<p>源码：<a href="codex/codex-rs/config/src/config_layer_source.rs:5">配置层与精确优先级</a>、<a href="codex/codex-rs/config/src/loader/mod.rs:108">requirements 和配置的两条加载线</a>、<a href="codex/codex-rs/config/src/loader/project_discovery.rs:1">项目发现</a>、<a href="codex/codex-rs/config/src/project_trust.rs:1">项目信任</a>。</p>
+<h3 id="14-3-功能开关是架构的一部分"><a href="#14-3-功能开关是架构的一部分" class="headerlink" title="14.3 功能开关是架构的一部分"></a>14.3 功能开关是架构的一部分</h3><p><code>features</code> crate 不只提供一组布尔值，还记录功能阶段：开发中、实验性、稳定、废弃和移除。<code>FeatureSpec</code> 声明默认值，运行时再结合配置来源和受管要求解析有效状态。</p>
+<p>读代码时应依次判断：</p>
+<ul>
+<li>有没有实现？</li>
+<li>当前构建平台是否包含实现？</li>
+<li>对应 feature 默认值是什么？</li>
+<li>用户/组织配置及产品来源是否进一步允许？</li>
+<li>模型和 provider 的能力是否满足？</li>
+</ul>
+<p>因此，发现 <code>multi_agent_v2</code>、异步压缩、某种远程能力的代码，并不足以断言任意用户的默认会话都在使用它。</p>
+<p>源码：<a href="codex/codex-rs/features/src/lib.rs:47">Stage 定义</a>、<a href="codex/codex-rs/features/src/lib.rs:587">有效功能查询</a>、<a href="codex/codex-rs/features/src/lib.rs:1040">功能注册表</a>。</p>
+<h3 id="14-4-Provider-信息与-Provider-运行对象"><a href="#14-4-Provider-信息与-Provider-运行对象" class="headerlink" title="14.4 Provider 信息与 Provider 运行对象"></a>14.4 Provider 信息与 Provider 运行对象</h3><p><code>ModelProviderInfo</code> 是可配置、可序列化的后端描述，包含连接、认证与重试等信息。<code>ModelProvider</code> trait 则是运行时抽象，承接后端相关的请求认证、目录能力、账户状态及恢复等行为。</p>
+<p><code>models-manager</code> 管理可用模型及其元信息，包含打包目录、静态目录和远程刷新/缓存等路径。模型信息会影响上下文窗口、推理设置和能力选择，不能只把模型 ID 当作一个最终拼到 URL 的字符串。</p>
+<p>替换 provider 也不等于所有能力自动一致。例如远程压缩、WebSocket、模型目录发现及认证恢复都可能有后端能力条件。</p>
+<p>源码：<a href="codex/codex-rs/model-provider-info/src/lib.rs:143">ModelProviderInfo</a>、<a href="codex/codex-rs/model-provider/src/provider.rs:117">ModelProvider trait</a>、<a href="codex/codex-rs/models-manager/src/manager.rs:129">ModelsManager trait</a>、<a href="codex/codex-rs/models-manager/src/lib.rs:15">内置模型目录加载</a>。</p>
+<h3 id="14-5-认证状态由专门的管理层持有"><a href="#14-5-认证状态由专门的管理层持有" class="headerlink" title="14.5 认证状态由专门的管理层持有"></a>14.5 认证状态由专门的管理层持有</h3><p><code>CodexAuth</code> 不止 API key 一种形式，还建模 ChatGPT 登录、外部 token、headers、Agent Identity、个人访问 token 和部分云后端认证。<code>AuthManager</code> 管理共享认证状态，支持刷新及“仅当认证仍未变化时刷新”等并发保护路径。</p>
+<p>应区分以下三个方向：</p>
+<ol>
+<li><strong>客户端连接 app-server 的认证</strong>：保护集成通道。</li>
+<li><strong>harness 访问模型后端的认证</strong>：决定模型请求的身份和可访问服务。</li>
+<li><strong>MCP/插件访问外部服务的认证</strong>：属于另外的连接与授权域。</li>
+</ol>
+<p>它们可以在产品中关联，但不是一个 token 在所有方向通用。账户切换、workspace routing 或 provider 改动也可能影响目录缓存和请求路由。</p>
+<p>源码：<a href="codex/codex-rs/login/src/auth/manager.rs:103">CodexAuth</a>、<a href="codex/codex-rs/login/src/auth/manager.rs:2123">AuthManager</a>、<a href="codex/codex-rs/login/src/auth/manager.rs:3118">有条件 token 刷新</a>、<a href="codex/codex-rs/model-provider/src/workspace_routing.rs:1">provider workspace routing</a>。</p>
+<h3 id="14-6-Token、上下文预算、缓存与实际费用"><a href="#14-6-Token、上下文预算、缓存与实际费用" class="headerlink" title="14.6 Token、上下文预算、缓存与实际费用"></a>14.6 Token、上下文预算、缓存与实际费用</h3><p><code>TokenUsage</code> 分别记录输入、缓存输入、输出、推理输出和总量；<code>TokenUsageInfo</code> 保留累计用量与最近一次请求用量。Session 还有区分 <code>Sampling</code> 与 <code>SpendingOnly</code> 的记账路径：某个后台请求即使没有成为当前上下文窗口，也可能已经产生实际用量。</p>
+<p>因此至少要分清四个问题：模型窗口中当前有多少内容、本轮累计用了多少 token、哪些输入命中了缓存，以及服务端按什么账户规则结算。前两者参与压缩、目标预算和界面统计；缓存计数及 <code>prompt_cache_key</code> 不等于可以离线准确算出费用。本文没有根据源码中的默认模型名或 token 数推算当前价格。</p>
+<p><code>prompt_cache_key</code> 由请求层按策略生成；WebSocket continuation 则检查前缀并用 <code>previous_response_id</code> 传递增量。它们与本地持久化历史、压缩窗口又是不同机制，排查性能或费用时不能合并成一个“缓存开关”。</p>
+<p>源码：<a href="codex/codex-rs/protocol/src/protocol.rs:2390">TokenUsage / TokenUsageInfo</a>、<a href="codex/codex-rs/core/src/session/mod.rs:419">两类 usage 上下文</a>、<a href="codex/codex-rs/core/src/session/mod.rs:5209">用量更新</a>、<a href="codex/codex-rs/core/src/client.rs:658">缓存键策略</a>、<a href="codex/codex-rs/core/src/client.rs:1125">请求中的缓存键</a>。</p>
+<p><a id="chapter-15"></a></p>
+<h2 id="15-一次完整任务如何穿过所有层"><a href="#15-一次完整任务如何穿过所有层" class="headerlink" title="15. 一次完整任务如何穿过所有层"></a>15. 一次完整任务如何穿过所有层</h2><h3 id="15-1-场景：修改一个函数并运行测试"><a href="#15-1-场景：修改一个函数并运行测试" class="headerlink" title="15.1 场景：修改一个函数并运行测试"></a>15.1 场景：修改一个函数并运行测试</h3><p>以下是沿源码机制推演的典型工作流，模型具体采用什么计划和调用哪些工具由实际响应决定，代码没有把“先搜索、再修改、再测试”写成所有任务强制遵循的固定脚本。</p>
+<div class="mermaid-wrap"><pre class="mermaid-src" hidden>sequenceDiagram
+    participant U as 用户 / 客户端
+    participant A as app-server
+    participant C as Core Session
+    participant M as 模型服务
+    participant T as 工具与审批
+    participant E as 执行环境
+    participant H as 历史与持久化
+    U-&gt;&gt;A: turn/start：修改函数并运行测试
+    A-&gt;&gt;C: 提交输入 / 启动任务
+    C-&gt;&gt;C: 捕获 StepContext，组装本步请求
+    C-&gt;&gt;M: 上下文与可用工具
+    M--&gt;&gt;C: 调用搜索 / 读取工具
+    C-&gt;&gt;T: 路由并执行
+    T-&gt;&gt;E: 执行读取或命令
+    E--&gt;&gt;C: 工具结果
+    C-&gt;&gt;H: 记录内容与事件
+    C-&gt;&gt;M: 下一步请求，包含结果
+    M--&gt;&gt;C: apply_patch / 测试命令
+    C-&gt;&gt;T: 检查策略与所需权限
+    opt 需要客户端审批
+        T-&gt;&gt;A: 审批请求
+        A-&gt;&gt;U: 呈现审批
+        U-&gt;&gt;A: 审批决定
+        A-&gt;&gt;T: 决定返回
+    end
+    T-&gt;&gt;E: 在有效权限下执行
+    E--&gt;&gt;C: 修改 / 测试结果
+    C-&gt;&gt;M: 反馈结果，继续采样
+    M--&gt;&gt;C: 最终回答
+    C-&gt;&gt;H: 完成相关记录
+    C-&gt;&gt;A: 完成事件
+    A-&gt;&gt;U: item/completed、turn/completed
+</pre></div>
+<p>在这条链路上，harness 提供的是可反馈的操作结构。代码修复是否正确还取决于模型推理、工具结果、测试覆盖和任务约束。产生补丁并不自动等于通过验证。</p>
+<h3 id="15-2-为什么可以在中途继续补充要求"><a href="#15-2-为什么可以在中途继续补充要求" class="headerlink" title="15.2 为什么可以在中途继续补充要求"></a>15.2 为什么可以在中途继续补充要求</h3><p>用户追加输入进入服务端与内核的输入协调机制。它可能用于 steer 当前任务，也可能根据当前状态启动下一轮。新的输入与设置在合适边界被采纳，已开始的工具副作用不能通过修改聊天文本自动撤销。</p>
+<p>同理，中断要处理采样、待执行任务、正在运行的工具、事件和最终状态。只关闭前端窗口与完整取消 turn 的语义并不完全一致。</p>
+<p>实现细节见第 4～5 章；外部操作类型见 <a href="codex/codex-rs/app-server-protocol/src/protocol/v2/turn.rs:317">turn/steer</a> 和 <a href="codex/codex-rs/app-server-protocol/src/protocol/v2/turn.rs:357">turn/interrupt</a>。</p>
+<h3 id="15-3-远程执行、Worktree-与进程身份分别解决什么"><a href="#15-3-远程执行、Worktree-与进程身份分别解决什么" class="headerlink" title="15.3 远程执行、Worktree 与进程身份分别解决什么"></a>15.3 远程执行、Worktree 与进程身份分别解决什么</h3><p>这几个模块容易被“远程 Agent”一词混在一起：</p>
+<ul>
+<li><strong>远程 app-server</strong>：客户端与运行时分处不同位置。</li>
+<li><strong>exec-server / environment manager</strong>：运行时将工具和文件操作送往选定执行环境。</li>
+<li><strong>WorktreeManager</strong>：管理 Git checkout 的创建、归属和移除，帮助不同任务分离代码工作目录。</li>
+<li><strong>runtime-agent-instance</strong>：源码声明的职责是临时运行身份注册与请求断言，属于认证基础设施。</li>
+</ul>
+<p>这四种边界可以组合，也可以独立存在。独立 thread 本身不等于独立 worktree；独立 worktree 也不等于独立操作系统沙箱。远程连接成功不自动证明它访问的代码就是当前用户终端中的那份 checkout。</p>
+<p>源码：<a href="codex/codex-rs/tui/src/lib.rs:328">TUI 后端目标</a>、<a href="codex/codex-rs/core/src/environment_selection.rs:1">环境选择与接入</a>、<a href="codex/codex-rs/worktree/src/lib.rs:48">WorktreeManager</a>、<a href="codex/codex-rs/runtime-agent-instance/src/lib.rs:1">runtime 身份模块</a>。</p>
+<h3 id="15-4-图片与实时语音是额外的输入输出管线"><a href="#15-4-图片与实时语音是额外的输入输出管线" class="headerlink" title="15.4 图片与实时语音是额外的输入输出管线"></a>15.4 图片与实时语音是额外的输入输出管线</h3><p>图片进入上下文前有准备过程，涉及模型能力、detail、大小处理、附件引用和失败替代文本。不能把图片当成一段普通文本历史。</p>
+<p>实时会话还有独立的启动、音频输入、文本输入、handoff、输出和关闭生命周期。<code>realtime_conversation</code> 将实时流与后端工作连接；具体传输、功能开关及模型能力要另外确认。它不是用“不断重复普通 turn/start”就能完整描述的接口。</p>
+<p>源码：<a href="codex/codex-rs/core/src/image_preparation.rs:1">图片准备</a>、<a href="codex/codex-rs/core/src/realtime_conversation.rs:1288">实时会话启动</a>、<a href="codex/codex-rs/core/src/realtime_conversation.rs:1876">实时音频输入</a>、<a href="codex/codex-rs/app-server-protocol/src/protocol/v2/realtime.rs:1">实时外部协议</a>。</p>
+<p><a id="chapter-16"></a></p>
+<h2 id="16-测试、可观测性与验证边界"><a href="#16-测试、可观测性与验证边界" class="headerlink" title="16. 测试、可观测性与验证边界"></a>16. 测试、可观测性与验证边界</h2><h3 id="16-1-这个系统需要测试哪些契约"><a href="#16-1-这个系统需要测试哪些契约" class="headerlink" title="16.1 这个系统需要测试哪些契约"></a>16.1 这个系统需要测试哪些契约</h3><p>Codex 的测试并不限于“模型是否答对”。大量重要行为可以使用固定模型事件和模拟执行环境验证：</p>
+<ul>
+<li>请求携带了哪些指令、工具和历史，工具结果是否与调用匹配。</li>
+<li>断流、重试、认证恢复和取消后，是否产生正确状态与事件。</li>
+<li>压缩后历史能否继续使用，resume/fork 是否保留正确分支语义。</li>
+<li>审批拒绝、沙箱限制、网络审批等是否阻止对应行为。</li>
+<li>TUI 是否正确显示增量、宽度变化、审批和历史分页。</li>
+<li>SDK 是否遵守初始化、订阅、取消和错误处理契约。</li>
+</ul>
+<p><code>core/tests/common/responses.rs</code> 提供模型响应模拟基础，相关 suite 覆盖压缩、恢复、工具暴露与审批。TUI 有大量 snapshot 测试，Python 和 TypeScript SDK 也维护各自的集成与契约测试。</p>
+<p>源码：<a href="codex/codex-rs/core/tests/common/responses.rs:1">响应测试基础</a>、<a href="codex/codex-rs/core/tests/suite/approvals.rs:1">审批测试</a>、<a href="codex/codex-rs/core/tests/suite/compact_resume_fork.rs:1">压缩与恢复分叉测试</a>、<a href="codex/sdk/python/tests/test_app_server_streaming.py:1">Python 协议测试</a>、<a href="codex/sdk/typescript/tests/runStreamed.test.ts:1">TypeScript 流式测试</a>。</p>
+<h3 id="16-2-日志、trace-与状态文件不是同一种证据"><a href="#16-2-日志、trace-与状态文件不是同一种证据" class="headerlink" title="16.2 日志、trace 与状态文件不是同一种证据"></a>16.2 日志、trace 与状态文件不是同一种证据</h3><p>排障时可以按问题选择证据：</p>
+<ul>
+<li><strong>界面显示错误</strong>：看 TUI 事件处理、HistoryCell、渲染 snapshot。</li>
+<li><strong>模型请求错误</strong>：看实际组装的请求、provider、传输及重试事件。</li>
+<li><strong>工具未执行或被拒绝</strong>：看路由、策略、审批决定及执行环境错误。</li>
+<li><strong>恢复后内容异常</strong>：看持久化记录、history replay、thread-store 和 SQLite 索引。</li>
+<li><strong>性能问题</strong>：区分模型等待、工具耗时、队列积压和 UI 提交节奏。</li>
+</ul>
+<p><code>otel</code> crate 提供 tracing、metrics、session telemetry 等能力，<code>state</code> 也维护本地日志存储。具体是否导出、导出到哪里、记录哪些内容由配置和运行路径决定，不能单从“引用了 OpenTelemetry”推断每次运行都已上传完整轨迹。</p>
+<p>源码：<a href="codex/codex-rs/otel/src/lib.rs:1">可观测能力导出</a>、<a href="codex/docs/install.md:61">日志配置说明</a>、<a href="codex/codex-rs/state/src/runtime.rs:1">SQLite 运行层</a>。</p>
+<h3 id="16-3-如何从源码运行和验证一个局部改动"><a href="#16-3-如何从源码运行和验证一个局部改动" class="headerlink" title="16.3 如何从源码运行和验证一个局部改动"></a>16.3 如何从源码运行和验证一个局部改动</h3><p>以下命令用于读者后续开发，不是本次文档工作已执行的结果。PowerShell 示例（从包含 <code>codex/</code> 的目录运行）：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Set-Location</span> codex/codex<span class="literal">-rs</span></span><br><span class="line">cargo build <span class="literal">-p</span> codex<span class="literal">-cli</span></span><br><span class="line">cargo run <span class="literal">--bin</span> codex <span class="literal">--</span> <span class="literal">--help</span></span><br><span class="line">cargo test <span class="literal">-p</span> codex<span class="literal">-tools</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>仓库根目录的 <code>justfile</code> 还封装了格式化、Clippy、nextest、app-server 测试客户端及部分构建工具。对于实际修改，应选择受影响 crate 和集成链路；UI 改动需要相应 snapshot 检查，权限改动需要真实目标平台和执行后端验证。</p>
+<p>本快照固定 Rust 工具链为 <code>1.99.1</code>，workspace 使用 Rust 2024 edition。构建还可能依赖平台工具、原生库和构建脚本，应以 checkout 自带的锁定文件与构建说明为准。</p>
+<p>源码：<a href="codex/codex-rs/rust-toolchain.toml:1">工具链</a>、<a href="codex/codex-rs/Cargo.toml:166">workspace 元信息</a>、<a href="codex/justfile:1">构建与测试快捷命令</a>、<a href="codex/docs/install.md:18">构建说明</a>。</p>
+<h3 id="16-4-本文已经验证与尚未验证的范围"><a href="#16-4-本文已经验证与尚未验证的范围" class="headerlink" title="16.4 本文已经验证与尚未验证的范围"></a>16.4 本文已经验证与尚未验证的范围</h3><p>本次完成的是源码调查、章节整合和文档静态校验：确认代码基线，追踪主要入口与调用链，检查文档中的源码链接、行号、章节结构及代码围栏。</p>
+<p>没有把以下事项作为已验证结论：整个 Rust workspace 在本机成功编译；任一模型/provider 当前可用；各平台沙箱都通过实际攻击或隔离测试；远程恢复、实时语音、自动记忆在当前账户默认启用；桌面 app 的私有实现与该快照完全一致。</p>
+<p>读者应将这里的代码机制、基于机制的解释，以及需要运行验证的产品行为分开看待。源码里的 feature 默认值也只对这一提交有效。</p>
+<p><a id="chapter-17"></a></p>
+<h2 id="17-阅读路线、设计启示与概念索引"><a href="#17-阅读路线、设计启示与概念索引" class="headerlink" title="17. 阅读路线、设计启示与概念索引"></a>17. 阅读路线、设计启示与概念索引</h2><h3 id="17-1-第一条路线：先打通一次任务"><a href="#17-1-第一条路线：先打通一次任务" class="headerlink" title="17.1 第一条路线：先打通一次任务"></a>17.1 第一条路线：先打通一次任务</h3><p>建议按以下顺序阅读，先建立一条完整调用链：</p>
+<ol>
+<li><code>cli/src/main.rs</code>：入口和模式选择。</li>
+<li><code>exec/src/lib.rs</code>：相对容易跟踪的无交互客户端。</li>
+<li><code>app-server/src/in_process.rs</code> 与 <code>message_processor.rs</code>：请求如何进入服务端。</li>
+<li>第 4～5 章给出的 session/task/sampling 入口：输入如何变成模型请求。</li>
+<li>第 8～10 章的 router/runtime/orchestrator：工具如何落地。</li>
+<li>第 6～7 章：结果如何进入下一次请求并被保存。</li>
+</ol>
+<p>第二遍再沿一个问题横切源码：只研究恢复，或只研究权限，通常比按目录逐文件通读更容易抓住约束。</p>
+<h3 id="17-2-不同目标应从哪一层改起"><a href="#17-2-不同目标应从哪一层改起" class="headerlink" title="17.2 不同目标应从哪一层改起"></a>17.2 不同目标应从哪一层改起</h3><ul>
+<li><strong>定制交互界面</strong>：优先研究 app-server 协议和客户端状态，不必先复制核心循环。</li>
+<li><strong>批处理和 CI</strong>：先理解 exec 的事件、退出、结构化输出和审批处理。</li>
+<li><strong>新增模型可调用能力</strong>：研究 ToolSpec/ToolExecutor、扩展装配和工具暴露，再明确权限与结果契约。</li>
+<li><strong>接入外部业务系统</strong>：研究 MCP、插件和动态工具边界，确认服务端请求往返与凭据归属。</li>
+<li><strong>改善长任务</strong>：研究历史、step 上下文、压缩、rollout 和目标续跑机制。</li>
+<li><strong>研究安全性</strong>：从受管配置、工具策略、审批到目标平台沙箱逐层验证。</li>
+<li><strong>调优性能</strong>：先测量请求与工具、存储、UI 的耗时，再选择对应层优化。</li>
+</ul>
+<h3 id="17-3-从实现中可以提炼的设计原则"><a href="#17-3-从实现中可以提炼的设计原则" class="headerlink" title="17.3 从实现中可以提炼的设计原则"></a>17.3 从实现中可以提炼的设计原则</h3><p>以下是本文基于源码提出的工程归纳，不是项目官方承诺：</p>
+<p><strong>第一，复用服务契约降低多前端分叉。</strong> TUI、exec 和外部集成共享 app-server 语义，进程内模式继续复用处理器，减少一套界面成功、另一套界面失效的独立执行路径。</p>
+<p><strong>第二，采用 typed 生命周期而非只拼接聊天字符串。</strong> thread、turn、step、item、operation、event 各有职责，使 steering、审批、恢复和工具反馈有明确关联。</p>
+<p><strong>第三，上下文是受预算约束的工作状态。</strong> 指令、WorldState、历史、工具目录和压缩共同决定模型看到什么；磁盘中保存的全部事件不等于每次请求都原样发送。</p>
+<p><strong>第四，安全通过多层约束落实。</strong> 工具 schema、策略、审批、受管要求和 OS 隔离解决不同问题。模型理解一条规则与系统强制执行这条规则不能画等号。</p>
+<p><strong>第五，可恢复性依赖持久化和重放契约。</strong> 在事件流、索引、历史投影以及压缩边界上保持一致，比简单把终端输出写入文本文件复杂得多。</p>
+<p><strong>第六，扩展能力仍需生命周期。</strong> Skills、MCP、Hooks、多 Agent 和长期目标都要参与上下文、工具暴露、状态和取消流程，不能只增加一个入口而不处理其余边界。</p>
+<h3 id="17-4-附录：概念解释"><a href="#17-4-附录：概念解释" class="headerlink" title="17.4 附录：概念解释"></a>17.4 附录：概念解释</h3><ul>
+<li><strong>Harness</strong>：围绕模型运行的控制与执行系统，包含上下文、循环、工具、状态和边界。</li>
+<li><strong>Thread</strong>：可持续、可恢复的工作会话；不自动意味着独立 Git checkout。</li>
+<li><strong>Turn</strong>：一轮工作生命周期；通常包含多次模型采样和工具执行。</li>
+<li><strong>Step</strong>：一次采样准备与请求对应的执行粒度，拥有本步所需的一致视图。</li>
+<li><strong>Item</strong>：消息、调用或活动的结构化内容单位；客户端投影与模型内容类型须区分。</li>
+<li><strong>WorldState</strong>：按章节组织的运行环境和相关上下文状态，参与初始/差量上下文生成。</li>
+<li><strong>ToolSpec</strong>：模型可见工具定义；有定义不代表已获执行授权。</li>
+<li><strong>ToolExecutor</strong>：工具执行公共契约；具体执行还需运行时与环境。</li>
+<li><strong>Approval</strong>：对请求操作的审批决定；不等于 OS 隔离实现。</li>
+<li><strong>Sandbox</strong>：在实际执行后端施加文件、网络等访问限制的机制。</li>
+<li><strong>Compaction</strong>：将长历史变成可继续工作的受预算上下文，不等于删除全部磁盘记录。</li>
+<li><strong>Rollout</strong>：会话过程的持久化记录之一；与 UI、模型历史和 SQLite 索引用途不同。</li>
+<li><strong>Skill</strong>：带说明及资源的能力包；通过发现、选择和指令注入参与工作。</li>
+<li><strong>MCP</strong>：外部工具和资源的协议接入边界，与本地 shell 执行环境不同。</li>
+<li><strong>Hook</strong>：特定生命周期的扩展回调，具体回调点决定它能改变什么。</li>
+<li><strong>Goal</strong>：持久目标及其续跑状态；不应简单理解为一个无限 while 循环。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://jiang54864.github.io">姜将</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://jiang54864.github.io/%E7%AC%94%E8%AE%B0/codex-harness%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/">http://jiang54864.github.io/%E7%AC%94%E8%AE%B0/codex-harness%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://jiang54864.github.io" target="_blank">姜将的个人博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/LLM/">LLM</a><a class="post-meta__tags" href="/tags/Agent/">Agent</a><a class="post-meta__tags" href="/tags/herness/">herness</a></div><div class="post_share"><div class="social-share" data-image="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/%E7%AC%94%E8%AE%B0/code%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/" title="claude code架构解析"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">claude code架构解析</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/%E7%AC%94%E8%AE%B0/code%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/" title="claude code架构解析"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-11-03</div><div class="title">claude code架构解析</div></div></a></div><div><a href="/paper/%E5%89%8D%E6%AE%B5%E6%97%B6%E9%97%B4%E7%9C%8B%E7%9A%84Agentic%20RL%E8%AE%BA%E6%96%87/" title="前段时间看的Agentic RL论文"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-29</div><div class="title">前段时间看的Agentic RL论文</div></div></a></div><div><a href="/%E7%AC%94%E8%AE%B0/%E4%B8%BB%E6%B5%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%98%AF%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83agent%E8%83%BD%E5%8A%9B%E7%9A%84/" title="主流大模型是如何训练agent能力的"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-01</div><div class="title">主流大模型是如何训练agent能力的</div></div></a></div><div><a href="/%E5%AE%9E%E9%AA%8C/%E5%80%9F%E5%8A%A9ollama%E6%9C%AC%E5%9C%B0%E8%BF%90%E8%A1%8Cqwen2-5/" title="借助ollama本地运行各种开源大模型"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-12</div><div class="title">借助ollama本地运行各种开源大模型</div></div></a></div><div><a href="/%E7%AC%94%E8%AE%B0/%E5%A4%9A%E6%A8%A1%E6%80%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%A2%B3%E7%90%86/" title="多模态大模型梳理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-22</div><div class="title">多模态大模型梳理</div></div></a></div><div><a href="/%E7%AC%94%E8%AE%B0/%E7%90%86%E8%A7%A3transformer%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84/" title="理解transformer网络结构"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-02</div><div class="title">理解transformer网络结构</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">姜将</div><div class="author-info__description">记录学习中的知识与收获</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">40</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/JIANG54864"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=2792663690&amp;website=www.oicqzone.com" target="_blank" title="点击添加我的QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="https://www.helloimg.com/i/2025/01/25/6794f016e9b99.png" target="_blank" title="点击添加我的微信"><i class="fab fa-weixin"></i></a><a class="social-icon" href="mailto:jiangsw2022@163.com" target="_blank" title="给我发邮件"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的博客网站！若有需要，可通过上方联系方式找到我。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%80%BB%E8%A7%88"><span class="toc-number">1.</span> <span class="toc-text">1. 总览</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E4%BB%93%E5%BA%93%E7%9A%84%E4%B8%BB%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.1.</span> <span class="toc-text">1.2 仓库的主实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E6%80%BB%E4%BD%93%E6%9E%B6%E6%9E%84%E5%9B%BE"><span class="toc-number">1.2.</span> <span class="toc-text">1.3 总体架构图</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BB%8E%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4%E5%88%B0%E5%8F%AF%E5%B7%A5%E4%BD%9C%E7%9A%84%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-number">2.</span> <span class="toc-text">2. 从启动命令到可工作的客户端</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-npm-%E5%85%A5%E5%8F%A3%EF%BC%9A%E9%80%89%E6%8B%A9%E5%B9%B6%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%94%9F%E7%A8%8B%E5%BA%8F"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 npm 入口：选择并启动原生程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-Rust-%E5%85%A5%E5%8F%A3%EF%BC%9A%E4%B8%80%E4%B8%AA%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E5%8F%91%E5%A4%9A%E7%A7%8D%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 Rust 入口：一个二进制分发多种工作模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-TUI-%E6%9C%89%E4%B8%89%E7%A7%8D-app-server-%E7%9B%AE%E6%A0%87"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 TUI 有三种 app-server 目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E6%97%A0%E4%BA%A4%E4%BA%92-exec-%E4%B9%9F%E9%80%9A%E8%BF%87-app-server"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 无交互 exec 也通过 app-server</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-app-server%EF%BC%9A%E5%B0%86%E8%BF%90%E8%A1%8C%E6%97%B6%E5%8F%98%E6%88%90%E5%8F%AF%E9%9B%86%E6%88%90%E7%9A%84%E6%9C%8D%E5%8A%A1"><span class="toc-number">3.</span> <span class="toc-text">3. app-server：将运行时变成可集成的服务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E5%8D%8F%E8%AE%AE%E5%B1%82%E5%92%8C%E5%86%85%E6%A0%B8%E5%B1%82%E7%9A%84%E5%88%86%E5%B7%A5"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 协议层和内核层的分工</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-MessageProcessor-%E6%98%AF%E6%8E%A5%E5%85%A5%E5%B1%82%E7%9A%84%E5%88%86%E5%8F%91%E4%B8%AD%E5%BF%83"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 MessageProcessor 是接入层的分发中心</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-Thread%E3%80%81Turn%E3%80%81Item-%E6%98%AF%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%9A%84%E6%A0%B8%E5%BF%83%E5%AF%B9%E8%B1%A1"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 Thread、Turn、Item 是客户端的核心对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E5%85%B8%E5%9E%8B%E4%BA%A4%E4%BA%92%E9%A1%BA%E5%BA%8F"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 典型交互顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E8%BF%9B%E7%A8%8B%E5%86%85%E6%A8%A1%E5%BC%8F%E4%BF%9D%E7%95%99%E5%8D%8F%E8%AE%AE%E8%AF%AD%E4%B9%89"><span class="toc-number">3.5.</span> <span class="toc-text">3.5 进程内模式保留协议语义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-%E5%A4%96%E9%83%A8%E4%BC%A0%E8%BE%93%E5%92%8C%E9%83%A8%E7%BD%B2%E8%BE%B9%E7%95%8C"><span class="toc-number">3.6.</span> <span class="toc-text">3.6 外部传输和部署边界</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E4%BC%9A%E8%AF%9D%E3%80%81%E8%BD%AE%E6%AC%A1%E4%B8%8E%E4%BB%BB%E5%8A%A1"><span class="toc-number">4.</span> <span class="toc-text">4. 会话、轮次与任务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E5%85%88%E5%8C%BA%E5%88%86-Thread%E3%80%81Session%E3%80%81Turn%E3%80%81Task-%E5%92%8C-Step"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 先区分 Thread、Session、Turn、Task 和 Step</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-CodexThread-%E6%98%AF%E8%BF%90%E8%A1%8C%E6%97%B6%E7%9A%84%E5%8F%8C%E5%90%91%E9%80%9A%E9%81%93%E9%97%A8%E9%9D%A2"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 CodexThread 是运行时的双向通道门面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-Submission-loop-%E5%A4%84%E7%90%86%E6%8E%A7%E5%88%B6%E9%9D%A2%EF%BC%8CTask-%E6%89%A7%E8%A1%8C%E5%B7%A5%E4%BD%9C%E9%9D%A2"><span class="toc-number">4.3.</span> <span class="toc-text">4.3 Submission loop 处理控制面，Task 执行工作面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-Session-%E4%BF%9D%E5%AD%98%E4%BB%80%E4%B9%88%EF%BC%8C%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9%E5%B1%9E%E4%BA%8E%E4%B8%80%E8%BD%AE"><span class="toc-number">4.4.</span> <span class="toc-text">4.4 Session 保存什么，哪些内容属于一轮</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-%E8%BE%93%E5%85%A5%E6%8E%A5%E7%BA%B3%E4%B8%8E-steering%EF%BC%9A%E6%94%B6%E5%88%B0%E6%B6%88%E6%81%AF%E4%B8%8D%E7%AD%89%E4%BA%8E%E5%8F%A6%E8%B5%B7%E4%B8%80%E8%BD%AE"><span class="toc-number">4.5.</span> <span class="toc-text">4.5 输入接纳与 steering：收到消息不等于另起一轮</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-TurnContext-%E4%B8%8E-StepContext%EF%BC%9A%E4%B8%80%E8%BD%AE%E8%BA%AB%E4%BB%BD%E5%92%8C%E4%B8%80%E6%AC%A1%E8%AF%B7%E6%B1%82%E7%9A%84%E8%A7%86%E5%9B%BE"><span class="toc-number">4.6.</span> <span class="toc-text">4.6 TurnContext 与 StepContext：一轮身份和一次请求的视图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-7-Task-%E5%A5%91%E7%BA%A6%E4%B8%8E%E7%BB%9F%E4%B8%80%E5%AE%8C%E6%88%90%E8%B7%AF%E5%BE%84"><span class="toc-number">4.7.</span> <span class="toc-text">4.7 Task 契约与统一完成路径</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Agent-%E4%B8%BB%E5%BE%AA%E7%8E%AF%E4%B8%8E%E6%A8%A1%E5%9E%8B%E9%80%9A%E4%BF%A1"><span class="toc-number">5.</span> <span class="toc-text">5. Agent 主循环与模型通信</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E6%99%AE%E9%80%9A%E5%AF%B9%E8%AF%9D%E4%B8%8D%E6%98%AF%E4%B8%80%E6%AC%A1-API-%E8%B0%83%E7%94%A8"><span class="toc-number">5.1.</span> <span class="toc-text">5.1 普通对话不是一次 API 调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E4%BB%8E%E8%BE%93%E5%85%A5%E5%88%B0%E6%9C%AC%E8%BD%AE%E7%BB%93%E6%9D%9F%E7%9A%84%E8%B0%83%E7%94%A8%E9%93%BE"><span class="toc-number">5.2.</span> <span class="toc-text">5.2 从输入到本轮结束的调用链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-%E9%87%87%E6%A0%B7%E5%BE%AA%E7%8E%AF%E4%BD%95%E6%97%B6%E7%BB%A7%E7%BB%AD%EF%BC%8C%E4%BD%95%E6%97%B6%E5%81%9C%E6%AD%A2"><span class="toc-number">5.3.</span> <span class="toc-text">5.3 采样循环何时继续，何时停止</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-Prompt-%E4%B8%8E%E7%BA%BF%E4%B8%8A-Responses-request-%E6%98%AF%E4%B8%A4%E5%B1%82%E7%BB%93%E6%9E%84"><span class="toc-number">5.4.</span> <span class="toc-text">5.4 Prompt 与线上 Responses request 是两层结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5-ModelClient-%E4%B8%8E-ModelClientSession-%E5%90%84%E8%87%AA%E7%BC%93%E5%AD%98%E4%BB%80%E4%B9%88"><span class="toc-number">5.5.</span> <span class="toc-text">5.5 ModelClient 与 ModelClientSession 各自缓存什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-6-WebSocket-continuation-%E6%98%AF%E6%9C%89%E6%9D%A1%E4%BB%B6%E7%9A%84%E5%A2%9E%E9%87%8F%E6%8F%90%E4%BA%A4"><span class="toc-number">5.6.</span> <span class="toc-text">5.6 WebSocket continuation 是有条件的增量提交</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-7-%E4%BA%8B%E4%BB%B6%E6%B5%81%E6%80%8E%E6%A0%B7%E5%8F%98%E6%88%90%E5%8F%AF%E8%A7%81%E6%96%87%E5%AD%97%E3%80%81%E5%B7%A5%E5%85%B7%E7%BB%93%E6%9E%9C%E4%B8%8E%E5%8E%86%E5%8F%B2"><span class="toc-number">5.7.</span> <span class="toc-text">5.7 事件流怎样变成可见文字、工具结果与历史</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-8-%E9%94%99%E8%AF%AF%E9%87%8D%E8%AF%95%E3%80%81%E5%9B%9E%E9%80%80%E4%B8%8E%E5%81%9C%E6%AD%A2%E8%BE%B9%E7%95%8C"><span class="toc-number">5.8.</span> <span class="toc-text">5.8 错误重试、回退与停止边界</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-9-Interrupt%E3%80%81steering-preemption-%E4%B8%8E-mailbox-%E6%98%AF%E4%B8%89%E7%B1%BB%E4%BF%A1%E5%8F%B7"><span class="toc-number">5.9.</span> <span class="toc-text">5.9 Interrupt、steering preemption 与 mailbox 是三类信号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-10-%E9%98%85%E8%AF%BB%E5%92%8C%E9%AA%8C%E8%AF%81%E8%BF%99%E9%83%A8%E5%88%86%E5%AE%9E%E7%8E%B0%E6%97%B6%E7%9A%84%E6%8A%93%E6%89%8B"><span class="toc-number">5.10.</span> <span class="toc-text">5.10 阅读和验证这部分实现时的抓手</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E4%B8%8A%E4%B8%8B%E6%96%87%E4%B8%8E%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B"><span class="toc-number">6.</span> <span class="toc-text">6. 上下文与提示词工程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E4%BB%8E%E2%80%9C%E6%8B%BC%E6%8E%A5-prompt%E2%80%9D%E5%88%B0%E2%80%9C%E7%AE%A1%E7%90%86%E4%B8%96%E7%95%8C%E7%8A%B6%E6%80%81%E2%80%9D"><span class="toc-number">6.1.</span> <span class="toc-text">6.1 从“拼接 prompt”到“管理世界状态”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-StepContext-%E6%98%AF%E9%87%87%E6%A0%B7%E8%BE%B9%E7%95%8C%EF%BC%8C%E4%B8%8D%E5%8F%AA%E6%98%AF%E5%8F%82%E6%95%B0%E9%9B%86%E5%90%88"><span class="toc-number">6.2.</span> <span class="toc-text">6.2 StepContext 是采样边界，不只是参数集合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-AGENTS-md-%E7%9A%84%E5%8F%91%E7%8E%B0%E8%A7%84%E5%88%99"><span class="toc-number">6.3.</span> <span class="toc-text">6.3 AGENTS.md 的发现规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-4-%E5%85%A8%E5%B1%80%E3%80%81%E7%BA%BF%E7%A8%8B%E5%92%8C%E4%BB%93%E5%BA%93%E8%AF%B4%E6%98%8E%E5%A6%82%E4%BD%95%E6%B1%87%E5%90%88"><span class="toc-number">6.4.</span> <span class="toc-text">6.4 全局、线程和仓库说明如何汇合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-5-WorldState-%E7%9A%84-section-%E4%B8%8E%E5%B7%AE%E9%87%8F"><span class="toc-number">6.5.</span> <span class="toc-text">6.5 WorldState 的 section 与差量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-6-%E5%88%9D%E5%A7%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E7%9A%84%E6%B6%88%E6%81%AF%E8%A7%92%E8%89%B2%E4%B8%8E%E9%A1%BA%E5%BA%8F"><span class="toc-number">6.6.</span> <span class="toc-text">6.6 初始上下文的消息角色与顺序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%8E%8B%E7%BC%A9%E3%80%81%E6%8C%81%E4%B9%85%E5%8C%96%E4%B8%8E%E6%81%A2%E5%A4%8D"><span class="toc-number">7.</span> <span class="toc-text">7. 压缩、持久化与恢复</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-%E6%A8%A1%E5%9E%8B%E7%AA%97%E5%8F%A3%E4%B8%8E%E5%AE%8C%E6%95%B4%E5%8E%86%E5%8F%B2%E6%98%AF%E4%B8%A4%E4%B8%AA%E5%AF%B9%E8%B1%A1"><span class="toc-number">7.1.</span> <span class="toc-text">7.1 模型窗口与完整历史是两个对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E8%A7%A6%E5%8F%91%E5%8E%8B%E7%BC%A9"><span class="toc-number">7.2.</span> <span class="toc-text">7.2 什么时候触发压缩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-3-%E4%B8%89%E7%A7%8D%E5%8E%8B%E7%BC%A9%E8%B7%AF%E5%BE%84%E8%A6%81%E5%88%86%E5%BC%80%E7%9C%8B"><span class="toc-number">7.3.</span> <span class="toc-text">7.3 三种压缩路径要分开看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-4-%E5%BC%82%E6%AD%A5%E5%8E%8B%E7%BC%A9%E4%B8%8D%E6%98%AF%E9%BB%98%E8%AE%A4%E8%A1%8C%E4%B8%BA"><span class="toc-number">7.4.</span> <span class="toc-text">7.4 异步压缩不是默认行为</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-5-%E5%8E%8B%E7%BC%A9-checkpoint-%E4%BF%9D%E5%AD%98%E4%BA%86%E4%BB%80%E4%B9%88"><span class="toc-number">7.5.</span> <span class="toc-text">7.5 压缩 checkpoint 保存了什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-6-ThreadStore-%E6%98%AF%E5%AD%98%E5%82%A8%E6%8A%BD%E8%B1%A1%E8%BE%B9%E7%95%8C"><span class="toc-number">7.6.</span> <span class="toc-text">7.6 ThreadStore 是存储抽象边界</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-7-JSONL%E3%80%81%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E5%8E%8B%E7%BC%A9%E5%AD%98%E5%82%A8"><span class="toc-number">7.7.</span> <span class="toc-text">7.7 JSONL、数据库与压缩存储</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-8-Resume-%E6%98%AF%E7%BB%93%E6%9E%84%E5%8C%96%E9%87%8D%E6%94%BE"><span class="toc-number">7.8.</span> <span class="toc-text">7.8 Resume 是结构化重放</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E5%B7%A5%E5%85%B7%E7%B3%BB%E7%BB%9F%E4%B8%8E%E8%B0%83%E5%BA%A6"><span class="toc-number">8.</span> <span class="toc-text">8. 工具系统与调度</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-%E5%B7%A5%E5%85%B7%E5%A5%91%E7%BA%A6%EF%BC%9A%E8%A7%84%E6%A0%BC%E4%B8%8E%E5%8F%AF%E6%89%A7%E8%A1%8C%E5%AF%B9%E8%B1%A1%E7%BB%91%E5%AE%9A"><span class="toc-number">8.1.</span> <span class="toc-text">8.1 工具契约：规格与可执行对象绑定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2-%E6%AF%8F%E4%B8%AA%E6%AD%A5%E9%AA%A4%E9%87%8D%E6%96%B0%E5%BD%A2%E6%88%90%E5%8F%AF%E7%94%A8%E5%B7%A5%E5%85%B7%E8%AE%A1%E5%88%92"><span class="toc-number">8.2.</span> <span class="toc-text">8.2 每个步骤重新形成可用工具计划</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-3-%E6%9B%9D%E5%85%89%E6%96%B9%E5%BC%8F%E5%86%B3%E5%AE%9A%E6%A8%A1%E5%9E%8B%E5%A6%82%E4%BD%95%E6%89%BE%E5%88%B0%E5%B7%A5%E5%85%B7"><span class="toc-number">8.3.</span> <span class="toc-text">8.3 曝光方式决定模型如何找到工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-4-%E4%BB%8E%E6%A8%A1%E5%9E%8B%E5%93%8D%E5%BA%94%E5%88%B0%E5%B7%A5%E5%85%B7%E7%BB%93%E6%9E%9C%E7%9A%84%E8%B0%83%E7%94%A8%E9%93%BE"><span class="toc-number">8.4.</span> <span class="toc-text">8.4 从模型响应到工具结果的调用链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-5-%E5%B9%B6%E8%A1%8C%E5%B9%B6%E9%9D%9E%E2%80%9C%E6%89%80%E6%9C%89%E5%B7%A5%E5%85%B7%E7%9B%B4%E6%8E%A5-spawn%E2%80%9D"><span class="toc-number">8.5.</span> <span class="toc-text">8.5 并行并非“所有工具直接 spawn”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-6-Hook-%E7%9A%84%E4%BD%8D%E7%BD%AE%E4%B8%8E%E8%BE%B9%E7%95%8C"><span class="toc-number">8.6.</span> <span class="toc-text">8.6 Hook 的位置与边界</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E5%91%BD%E4%BB%A4%E3%80%81%E8%A1%A5%E4%B8%81%E4%B8%8E-Code-Mode"><span class="toc-number">9.</span> <span class="toc-text">9. 命令、补丁与 Code Mode</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-1-exec-command%EF%BC%9A%E4%B8%80%E6%AC%A1%E8%B0%83%E7%94%A8%E5%8F%AF%E4%BB%A5%E7%95%99%E4%B8%8B%E6%8C%81%E7%BB%AD%E8%BF%9B%E7%A8%8B"><span class="toc-number">9.1.</span> <span class="toc-text">9.1 exec_command：一次调用可以留下持续进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-write-stdin-%E8%BF%98%E9%9C%80%E8%A6%81%E7%AE%A1%E7%90%86%E2%80%9C%E7%BB%88%E7%AB%AF%E4%BF%9D%E7%95%99%E7%9A%84%E6%9D%83%E9%99%90%E2%80%9D"><span class="toc-number">9.2.</span> <span class="toc-text">9.2 write_stdin 还需要管理“终端保留的权限”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3-apply-patch%EF%BC%9A%E5%85%88%E7%90%86%E8%A7%A3%E6%94%B9%E5%8A%A8%EF%BC%8C%E5%86%8D%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="toc-number">9.3.</span> <span class="toc-text">9.3 apply_patch：先理解改动，再执行文件操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-4-Code-Mode%EF%BC%9A%E6%A8%A1%E5%9E%8B%E7%94%A8-JavaScript-%E7%BC%96%E6%8E%92%E5%B7%A5%E5%85%B7"><span class="toc-number">9.4.</span> <span class="toc-text">9.4 Code Mode：模型用 JavaScript 编排工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-5-Feature-gates-%E5%86%B3%E5%AE%9A%E5%AE%9E%E9%99%85%E6%9A%B4%E9%9C%B2%E7%9A%84%E7%BB%84%E5%90%88"><span class="toc-number">9.5.</span> <span class="toc-text">9.5 Feature gates 决定实际暴露的组合</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E6%9D%83%E9%99%90%E3%80%81%E5%AE%A1%E6%89%B9%E4%B8%8E%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%B2%99%E7%AE%B1"><span class="toc-number">10.</span> <span class="toc-text">10. 权限、审批与操作系统沙箱</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#10-1-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%9D%83%E9%99%90%E7%9A%84%E4%BA%8B%E5%AE%9E%E6%9D%A5%E6%BA%90%E6%98%AF-PermissionProfile"><span class="toc-number">10.1.</span> <span class="toc-text">10.1 运行时权限的事实来源是 PermissionProfile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-2-execpolicy%EF%BC%9A%E5%9C%A8%E6%89%A7%E8%A1%8C%E5%89%8D%E5%88%A4%E6%96%AD%E5%85%B7%E4%BD%93%E5%91%BD%E4%BB%A4"><span class="toc-number">10.2.</span> <span class="toc-text">10.2 execpolicy：在执行前判断具体命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-3-%E5%AE%A1%E6%89%B9%E6%94%BF%E7%AD%96%E4%B8%8E%E5%AE%A1%E6%89%B9%E4%BA%BA%E6%98%AF%E4%B8%A4%E6%9D%A1%E9%85%8D%E7%BD%AE%E8%BD%B4"><span class="toc-number">10.3.</span> <span class="toc-text">10.3 审批政策与审批人是两条配置轴</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-4-Guardian%EF%BC%9A%E5%8F%97%E9%99%90%E5%AE%A1%E6%9F%A5%E8%80%85%E4%B8%8E%E5%AE%BF%E4%B8%BB%E5%BC%BA%E5%88%B6%E6%89%A7%E8%A1%8C%E5%8D%8F%E4%BD%9C"><span class="toc-number">10.4.</span> <span class="toc-text">10.4 Guardian：受限审查者与宿主强制执行协作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-5-ToolOrchestrator-%E6%8A%8A%E5%AE%A1%E6%89%B9%E5%92%8C%E6%89%A7%E8%A1%8C%E5%B0%9D%E8%AF%95%E6%8E%A5%E8%B5%B7%E6%9D%A5"><span class="toc-number">10.5.</span> <span class="toc-text">10.5 ToolOrchestrator 把审批和执行尝试接起来</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-6-%E7%A6%81%E6%AD%A2%E8%AF%BB%E5%8F%96%E8%B7%AF%E5%BE%84%E4%BD%BF%E2%80%9C%E6%8F%90%E6%9D%83%E2%80%9D%E4%B8%8D%E5%86%8D%E7%AD%89%E4%BA%8E%E2%80%9C%E5%8E%BB%E6%8E%89%E6%B2%99%E7%AE%B1%E2%80%9D"><span class="toc-number">10.6.</span> <span class="toc-text">10.6 禁止读取路径使“提权”不再等于“去掉沙箱”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-7-OS-%E9%9A%94%E7%A6%BB%E5%90%8E%E7%AB%AF%EF%BC%9A%E5%90%8C%E4%B8%80%E6%9D%83%E9%99%90%E6%84%8F%E5%9B%BE%EF%BC%8C%E4%B8%8D%E5%90%8C%E5%B9%B3%E5%8F%B0%E6%9C%BA%E5%88%B6"><span class="toc-number">10.7.</span> <span class="toc-text">10.7 OS 隔离后端：同一权限意图，不同平台机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-8-%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%EF%BC%9A%E6%8E%A7%E5%88%B6%E5%99%A8%E5%86%B3%E5%AE%9A%E7%AD%96%E7%95%A5%EF%BC%8Cexecutor-%E8%90%BD%E5%9C%B0%E9%9A%94%E7%A6%BB"><span class="toc-number">10.8.</span> <span class="toc-text">10.8 远程执行：控制器决定策略，executor 落地隔离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-9-%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%87%AD%E6%8D%AE%E4%B9%9F%E6%98%AF%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E7%9A%84%E4%B8%80%E9%83%A8%E5%88%86"><span class="toc-number">10.9.</span> <span class="toc-text">10.9 网络与凭据也是执行上下文的一部分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-10-%E9%98%85%E8%AF%BB%E4%B8%8E%E9%AA%8C%E8%AF%81%E8%BF%99%E9%83%A8%E5%88%86%E4%BB%A3%E7%A0%81%E6%97%B6%E5%BA%94%E4%BF%9D%E7%95%99%E7%9A%84%E8%BE%B9%E7%95%8C"><span class="toc-number">10.10.</span> <span class="toc-text">10.10 阅读与验证这部分代码时应保留的边界</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-Skills%E3%80%81%E6%8F%92%E4%BB%B6%E3%80%81MCP-%E4%B8%8E-Hooks"><span class="toc-number">11.</span> <span class="toc-text">11. Skills、插件、MCP 与 Hooks</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#11-1-%E5%9B%9B%E7%A7%8D%E6%89%A9%E5%B1%95%E5%88%86%E5%88%AB%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98"><span class="toc-number">11.1.</span> <span class="toc-text">11.1 四种扩展分别解决什么问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-2-Skills-%E4%BD%BF%E7%94%A8%E7%9B%AE%E5%BD%95%E6%91%98%E8%A6%81%E4%B8%8E%E6%8C%89%E9%9C%80%E6%AD%A3%E6%96%87"><span class="toc-number">11.2.</span> <span class="toc-text">11.2 Skills 使用目录摘要与按需正文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-3-Skills-%E7%9A%84%E6%97%B6%E5%BA%8F%E4%B8%8E%E9%97%A8%E6%8E%A7"><span class="toc-number">11.3.</span> <span class="toc-text">11.3 Skills 的时序与门控</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-4-Plugin-%E7%9A%84%E8%BD%BD%E5%85%A5%E7%BB%93%E6%9E%9C%E6%98%AF%E8%83%BD%E5%8A%9B%E6%8A%95%E5%BD%B1"><span class="toc-number">11.4.</span> <span class="toc-text">11.4 Plugin 的载入结果是能力投影</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-5-MCP-runtime-%E4%B8%8E-binding-%E7%9A%84%E5%88%86%E5%B7%A5"><span class="toc-number">11.5.</span> <span class="toc-text">11.5 MCP runtime 与 binding 的分工</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-6-%E4%BB%8E-MCP-%E5%B7%A5%E5%85%B7%E7%9B%AE%E5%BD%95%E5%88%B0%E5%8E%9F%E7%94%9F%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8"><span class="toc-number">11.6.</span> <span class="toc-text">11.6 从 MCP 工具目录到原生工具调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-7-Hooks-%E6%98%AF%E7%9C%9F%E6%AD%A3%E4%BC%9A%E5%BD%B1%E5%93%8D%E6%8E%A7%E5%88%B6%E6%B5%81%E7%9A%84%E6%89%A9%E5%B1%95%E7%82%B9"><span class="toc-number">11.7.</span> <span class="toc-text">11.7 Hooks 是真正会影响控制流的扩展点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-8-Hooks-%E7%9A%84%E4%BF%A1%E4%BB%BB%E4%B8%8E%E9%85%8D%E7%BD%AE%E4%B8%8D%E6%98%AF%E5%8F%AF%E5%BF%BD%E7%95%A5%E7%BB%86%E8%8A%82"><span class="toc-number">11.8.</span> <span class="toc-text">11.8 Hooks 的信任与配置不是可忽略细节</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-%E5%A4%9A-Agent%E3%80%81%E7%9B%AE%E6%A0%87%E4%B8%8E%E9%95%BF%E6%9C%9F%E8%AE%B0%E5%BF%86"><span class="toc-number">12.</span> <span class="toc-text">12. 多 Agent、目标与长期记忆</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#12-1-%E5%A4%9A-Agent-%E6%98%AF%E7%BA%BF%E7%A8%8B%E8%BF%90%E8%A1%8C%E6%97%B6%EF%BC%8C%E4%B8%8D%E5%8F%AA%E6%98%AF%E5%B9%B6%E8%A1%8C%E8%AF%B7%E6%B1%82"><span class="toc-number">12.1.</span> <span class="toc-text">12.1 多 Agent 是线程运行时，不只是并行请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-2-V2-spawn-%E8%B0%83%E7%94%A8%E9%93%BE"><span class="toc-number">12.2.</span> <span class="toc-text">12.2 V2 spawn 调用链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-3-%E5%AD%90-Agent-%E7%BB%A7%E6%89%BF%E7%9A%84%E6%98%AF%E5%8F%97%E6%8E%A7%E5%BF%AB%E7%85%A7"><span class="toc-number">12.3.</span> <span class="toc-text">12.3 子 Agent 继承的是受控快照</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-4-%E8%B0%83%E5%BA%A6%E3%80%81%E6%B6%88%E6%81%AF%E4%B8%8E%E8%B5%84%E6%BA%90%E9%99%90%E5%88%B6"><span class="toc-number">12.4.</span> <span class="toc-text">12.4 调度、消息与资源限制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-5-Goals-%E6%8A%8A%E2%80%9C%E7%BB%A7%E7%BB%AD%E5%81%9A%E2%80%9D%E5%8F%98%E6%88%90%E6%98%BE%E5%BC%8F%E7%8A%B6%E6%80%81%E6%9C%BA"><span class="toc-number">12.5.</span> <span class="toc-text">12.5 Goals 把“继续做”变成显式状态机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-6-%E9%95%BF%E6%9C%9F%E8%AE%B0%E5%BF%86%E7%9A%84%E8%AF%BB%E5%86%99%E8%B7%AF%E5%BE%84%E5%88%86%E7%A6%BB"><span class="toc-number">12.6.</span> <span class="toc-text">12.6 长期记忆的读写路径分离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-7-%E5%90%8E%E5%8F%B0%E6%8F%90%E5%8F%96%E4%B8%8E%E5%85%A8%E5%B1%80%E6%95%B4%E5%90%88"><span class="toc-number">12.7.</span> <span class="toc-text">12.7 后台提取与全局整合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-8-%E8%AE%B0%E5%BF%86-Agent-%E7%9A%84%E6%9D%83%E9%99%90%E4%B8%8E%E8%AF%81%E6%8D%AE%E8%BE%B9%E7%95%8C"><span class="toc-number">12.8.</span> <span class="toc-text">12.8 记忆 Agent 的权限与证据边界</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-%E5%89%8D%E7%AB%AF%E5%91%88%E7%8E%B0%E4%B8%8E-SDK%EF%BC%9A%E5%90%8C%E4%B8%80%E4%B8%AA%E6%89%A7%E8%A1%8C%E5%86%85%E6%A0%B8%E7%9A%84%E4%B8%8D%E5%90%8C%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-number">13.</span> <span class="toc-text">13. 前端呈现与 SDK：同一个执行内核的不同客户端</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#13-1-TUI-%E7%9A%84%E4%B8%89%E5%B1%82%E8%81%8C%E8%B4%A3"><span class="toc-number">13.1.</span> <span class="toc-text">13.1 TUI 的三层职责</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-2-%E6%B5%81%E5%BC%8F%E6%96%87%E6%9C%AC%E5%B9%B6%E9%9D%9E%E6%94%B6%E5%88%B0%E4%B8%80%E4%B8%AA-token-%E5%B0%B1%E9%87%8D%E7%94%BB%E5%85%A8%E9%83%A8%E5%8E%86%E5%8F%B2"><span class="toc-number">13.2.</span> <span class="toc-text">13.2 流式文本并非收到一个 token 就重画全部历史</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-3-%E8%BE%93%E5%85%A5%E6%A1%86%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E7%8A%B6%E6%80%81%E6%9C%BA"><span class="toc-number">13.3.</span> <span class="toc-text">13.3 输入框为什么需要状态机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-4-exec-%E8%BE%93%E5%87%BA%E6%98%AF%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%86%8D%E6%AC%A1%E6%8A%95%E5%BD%B1"><span class="toc-number">13.4.</span> <span class="toc-text">13.4 exec 输出是协议的再次投影</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-5-TypeScript-SDK%EF%BC%9A%E5%8C%85%E8%A3%85-exec-%E5%AD%90%E8%BF%9B%E7%A8%8B"><span class="toc-number">13.5.</span> <span class="toc-text">13.5 TypeScript SDK：包装 exec 子进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-6-Python-SDK%EF%BC%9Atyped-app-server-JSON-RPC-%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-number">13.6.</span> <span class="toc-text">13.6 Python SDK：typed app-server JSON-RPC 客户端</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14-%E9%85%8D%E7%BD%AE%E3%80%81%E6%A8%A1%E5%9E%8B%E5%90%8E%E7%AB%AF%E4%B8%8E%E8%AE%A4%E8%AF%81"><span class="toc-number">14.</span> <span class="toc-text">14. 配置、模型后端与认证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#14-1-%E9%85%8D%E7%BD%AE%E4%B8%8D%E4%BB%85%E6%98%AF%E8%AF%BB%E5%8F%96%E4%B8%80%E4%B8%AA-config-toml"><span class="toc-number">14.1.</span> <span class="toc-text">14.1 配置不仅是读取一个 config.toml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-2-%E4%BC%98%E5%85%88%E7%BA%A7%E4%B8%8E%E5%8F%97%E7%AE%A1%E7%BA%A6%E6%9D%9F%E6%98%AF%E4%B8%A4%E4%B8%AA%E9%97%AE%E9%A2%98"><span class="toc-number">14.2.</span> <span class="toc-text">14.2 优先级与受管约束是两个问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-3-%E5%8A%9F%E8%83%BD%E5%BC%80%E5%85%B3%E6%98%AF%E6%9E%B6%E6%9E%84%E7%9A%84%E4%B8%80%E9%83%A8%E5%88%86"><span class="toc-number">14.3.</span> <span class="toc-text">14.3 功能开关是架构的一部分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-4-Provider-%E4%BF%A1%E6%81%AF%E4%B8%8E-Provider-%E8%BF%90%E8%A1%8C%E5%AF%B9%E8%B1%A1"><span class="toc-number">14.4.</span> <span class="toc-text">14.4 Provider 信息与 Provider 运行对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-5-%E8%AE%A4%E8%AF%81%E7%8A%B6%E6%80%81%E7%94%B1%E4%B8%93%E9%97%A8%E7%9A%84%E7%AE%A1%E7%90%86%E5%B1%82%E6%8C%81%E6%9C%89"><span class="toc-number">14.5.</span> <span class="toc-text">14.5 认证状态由专门的管理层持有</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-6-Token%E3%80%81%E4%B8%8A%E4%B8%8B%E6%96%87%E9%A2%84%E7%AE%97%E3%80%81%E7%BC%93%E5%AD%98%E4%B8%8E%E5%AE%9E%E9%99%85%E8%B4%B9%E7%94%A8"><span class="toc-number">14.6.</span> <span class="toc-text">14.6 Token、上下文预算、缓存与实际费用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#15-%E4%B8%80%E6%AC%A1%E5%AE%8C%E6%95%B4%E4%BB%BB%E5%8A%A1%E5%A6%82%E4%BD%95%E7%A9%BF%E8%BF%87%E6%89%80%E6%9C%89%E5%B1%82"><span class="toc-number">15.</span> <span class="toc-text">15. 一次完整任务如何穿过所有层</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#15-1-%E5%9C%BA%E6%99%AF%EF%BC%9A%E4%BF%AE%E6%94%B9%E4%B8%80%E4%B8%AA%E5%87%BD%E6%95%B0%E5%B9%B6%E8%BF%90%E8%A1%8C%E6%B5%8B%E8%AF%95"><span class="toc-number">15.1.</span> <span class="toc-text">15.1 场景：修改一个函数并运行测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15-2-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%AF%E4%BB%A5%E5%9C%A8%E4%B8%AD%E9%80%94%E7%BB%A7%E7%BB%AD%E8%A1%A5%E5%85%85%E8%A6%81%E6%B1%82"><span class="toc-number">15.2.</span> <span class="toc-text">15.2 为什么可以在中途继续补充要求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15-3-%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E3%80%81Worktree-%E4%B8%8E%E8%BF%9B%E7%A8%8B%E8%BA%AB%E4%BB%BD%E5%88%86%E5%88%AB%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88"><span class="toc-number">15.3.</span> <span class="toc-text">15.3 远程执行、Worktree 与进程身份分别解决什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15-4-%E5%9B%BE%E7%89%87%E4%B8%8E%E5%AE%9E%E6%97%B6%E8%AF%AD%E9%9F%B3%E6%98%AF%E9%A2%9D%E5%A4%96%E7%9A%84%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E7%AE%A1%E7%BA%BF"><span class="toc-number">15.4.</span> <span class="toc-text">15.4 图片与实时语音是额外的输入输出管线</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16-%E6%B5%8B%E8%AF%95%E3%80%81%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7%E4%B8%8E%E9%AA%8C%E8%AF%81%E8%BE%B9%E7%95%8C"><span class="toc-number">16.</span> <span class="toc-text">16. 测试、可观测性与验证边界</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#16-1-%E8%BF%99%E4%B8%AA%E7%B3%BB%E7%BB%9F%E9%9C%80%E8%A6%81%E6%B5%8B%E8%AF%95%E5%93%AA%E4%BA%9B%E5%A5%91%E7%BA%A6"><span class="toc-number">16.1.</span> <span class="toc-text">16.1 这个系统需要测试哪些契约</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#16-2-%E6%97%A5%E5%BF%97%E3%80%81trace-%E4%B8%8E%E7%8A%B6%E6%80%81%E6%96%87%E4%BB%B6%E4%B8%8D%E6%98%AF%E5%90%8C%E4%B8%80%E7%A7%8D%E8%AF%81%E6%8D%AE"><span class="toc-number">16.2.</span> <span class="toc-text">16.2 日志、trace 与状态文件不是同一种证据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#16-3-%E5%A6%82%E4%BD%95%E4%BB%8E%E6%BA%90%E7%A0%81%E8%BF%90%E8%A1%8C%E5%92%8C%E9%AA%8C%E8%AF%81%E4%B8%80%E4%B8%AA%E5%B1%80%E9%83%A8%E6%94%B9%E5%8A%A8"><span class="toc-number">16.3.</span> <span class="toc-text">16.3 如何从源码运行和验证一个局部改动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#16-4-%E6%9C%AC%E6%96%87%E5%B7%B2%E7%BB%8F%E9%AA%8C%E8%AF%81%E4%B8%8E%E5%B0%9A%E6%9C%AA%E9%AA%8C%E8%AF%81%E7%9A%84%E8%8C%83%E5%9B%B4"><span class="toc-number">16.4.</span> <span class="toc-text">16.4 本文已经验证与尚未验证的范围</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#17-%E9%98%85%E8%AF%BB%E8%B7%AF%E7%BA%BF%E3%80%81%E8%AE%BE%E8%AE%A1%E5%90%AF%E7%A4%BA%E4%B8%8E%E6%A6%82%E5%BF%B5%E7%B4%A2%E5%BC%95"><span class="toc-number">17.</span> <span class="toc-text">17. 阅读路线、设计启示与概念索引</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#17-1-%E7%AC%AC%E4%B8%80%E6%9D%A1%E8%B7%AF%E7%BA%BF%EF%BC%9A%E5%85%88%E6%89%93%E9%80%9A%E4%B8%80%E6%AC%A1%E4%BB%BB%E5%8A%A1"><span class="toc-number">17.1.</span> <span class="toc-text">17.1 第一条路线：先打通一次任务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#17-2-%E4%B8%8D%E5%90%8C%E7%9B%AE%E6%A0%87%E5%BA%94%E4%BB%8E%E5%93%AA%E4%B8%80%E5%B1%82%E6%94%B9%E8%B5%B7"><span class="toc-number">17.2.</span> <span class="toc-text">17.2 不同目标应从哪一层改起</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#17-3-%E4%BB%8E%E5%AE%9E%E7%8E%B0%E4%B8%AD%E5%8F%AF%E4%BB%A5%E6%8F%90%E7%82%BC%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="toc-number">17.3.</span> <span class="toc-text">17.3 从实现中可以提炼的设计原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#17-4-%E9%99%84%E5%BD%95%EF%BC%9A%E6%A6%82%E5%BF%B5%E8%A7%A3%E9%87%8A"><span class="toc-number">17.4.</span> <span class="toc-text">17.4 附录：概念解释</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/%E7%AC%94%E8%AE%B0/codex-harness%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/" title="codex harness架构解析">codex harness架构解析</a><time datetime="2026-11-04T12:35:58.000Z" title="发表于 2026-11-04 20:35:58">2026-11-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/%E7%AC%94%E8%AE%B0/code%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/" title="claude code架构解析">claude code架构解析</a><time datetime="2026-11-03T05:29:14.000Z" title="发表于 2026-11-03 13:29:14">2026-11-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/%E7%AC%94%E8%AE%B0/%E5%A4%9A%E6%A8%A1%E6%80%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%A2%B3%E7%90%86/" title="多模态大模型梳理">多模态大模型梳理</a><time datetime="2026-07-22T15:40:38.000Z" title="发表于 2026-07-22 23:40:38">2026-07-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/%E7%AC%94%E8%AE%B0/%E4%B8%BB%E6%B5%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%98%AF%E5%A6%82%E4%BD%95%E8%AE%AD%E7%BB%83agent%E8%83%BD%E5%8A%9B%E7%9A%84/" title="主流大模型是如何训练agent能力的">主流大模型是如何训练agent能力的</a><time datetime="2026-07-01T15:13:47.000Z" title="发表于 2026-07-01 23:13:47">2026-07-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/uncategorized/%E5%89%8D%E6%AE%B5%E6%97%B6%E9%97%B4%E7%9C%8B%E7%9A%84skill%E3%80%81OPD%E3%80%81%E4%BF%A1%E7%94%A8%E5%88%86%E9%85%8D%E8%AE%BA%E6%96%87/" title="前段时间看的skill、OPD、信用分配论文">前段时间看的skill、OPD、信用分配论文</a><time datetime="2026-06-07T14:19:43.000Z" title="发表于 2026-06-07 22:19:43">2026-06-07</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By 姜将</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid@9.4.3/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    btf.addModeChange('mermaid', () => {
+      window.runMermaid()
+    })
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script><script>function getGiscusTheme (theme) {
+  return theme === 'dark' ? 'dark' : 'light'
+}
+
+function loadGiscus () {
+  const config = Object.assign({
+    src: 'https://giscus.app/client.js',
+    'data-repo': 'JIANG54864/JIANG54864.github.io',
+    'data-repo-id': 'R_kgDOIrh5dw',
+    'data-category-id': 'DIC_kwDOIrh5d84DKTIJ',
+    'data-mapping': 'pathname',
+    'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+    'data-reactions-enabled': '1',
+    crossorigin: 'anonymous',
+    async: true
+  },{"data-category":"Announcements","data-mapping":"pathname","data-strict":"1","data-lang":"zh-CN","data-input-position":"top","data-loading":"lazy","data-reactions-enabled":"1","data-emit-metadata":"0"})
+
+  let ele = document.createElement('script')
+  for (let key in config) {
+    ele.setAttribute(key, config[key])
+  }
+  document.getElementById('giscus-wrap').insertAdjacentElement('afterbegin',ele)
+}
+
+function changeGiscusTheme (theme) {
+  function sendMessage(message) {
+    const iframe = document.querySelector('iframe.giscus-frame')
+    if (!iframe) return
+    iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app')
+  }
+
+  sendMessage({
+    setConfig: {
+      theme: getGiscusTheme(theme)
+    }
+  });
+}
+
+btf.addModeChange('giscus', changeGiscusTheme)
+
+if ('Giscus' === 'Giscus' || !false) {
+  if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+  else loadGiscus()
+} else {
+  function loadOtherComment () {
+    loadGiscus()
+  }
+}</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="true"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
