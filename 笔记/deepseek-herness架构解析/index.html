@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg">
 <meta property="article:published_time" content="2026-11-04T14:29:12.000Z">
-<meta property="article:modified_time" content="2026-11-04T14:34:22.913Z">
+<meta property="article:modified_time" content="2026-11-05T07:12:49.011Z">
 <meta property="article:author" content="姜将">
 <meta property="article:tag" content="LLM">
 <meta property="article:tag" content="Agent">
@@ -60,7 +60,7 @@
   isHome: false,
   isHighlightShrink: false,
   isToc: true,
-  postUpdate: '2026-11-04 22:34:22'
+  postUpdate: '2026-11-05 15:12:49'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -185,7 +185,7 @@ window.addEventListener('load',()=> { preloader.endLoading() })
 if (false) {
   document.addEventListener('pjax:send', () => { preloader.initLoading() })
   document.addEventListener('pjax:complete', () => { preloader.endLoading() })
-}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="姜将的个人博客"><img class="site-icon" src="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg"/><span class="site-name">姜将的个人博客</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">deepseek herness架构解析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-11-04T14:29:12.000Z" title="发表于 2026-11-04 22:29:12">2026-11-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-11-04T14:34:22.913Z" title="更新于 2026-11-04 22:34:22">2026-11-04</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">8.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>31分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="deepseek herness架构解析"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="1-总览"><a href="#1-总览" class="headerlink" title="1. 总览"></a>1. 总览</h2><p>最鲜明的设计是 <strong>“Everything is a Plugin”</strong>：模型适配器、工具注册表、会话服务、默认 Agent Loop、Web 界面都通过 Cordis 插件装配。应用启动时选择一组配置，形成具体的运行系统。</p>
+}</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="姜将的个人博客"><img class="site-icon" src="https://pic1.imgdb.cn/item/6794d01ad0e0a243d4f7e064.jpg"/><span class="site-name">姜将的个人博客</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fa fa-comment"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">deepseek herness架构解析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-11-04T14:29:12.000Z" title="发表于 2026-11-04 22:29:12">2026-11-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-11-05T07:12:49.011Z" title="更新于 2026-11-05 15:12:49">2026-11-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">10.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>38分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="deepseek herness架构解析"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="1-总览"><a href="#1-总览" class="headerlink" title="1. 总览"></a>1. 总览</h2><p>最鲜明的设计是 <strong>“Everything is a Plugin”</strong>：模型适配器、工具注册表、会话服务、默认 Agent Loop、Web 界面都通过 Cordis 插件装配。应用启动时选择一组配置，形成具体的运行系统。</p>
 <p>可以把主要职责分成六类：</p>
 <ul>
 <li><strong>应用装配</strong>：CLI、Profile、Bundle 与配置覆盖。</li>
@@ -231,6 +231,22 @@ if (false) {
 <li><strong>Consumer</strong>：使用服务，常见形式是面向模型的工具。</li>
 </ol>
 <p>以文件能力为例，模型工具处理参数和工具输出，文件服务提供操作接口，<code>fs-sandbox</code> 在写操作前检查允许写入的位置。替换提供方时，可以保留上层工具的使用方式。能力说明（<code>docs/architecture.md</code>）、文件限制实现（<code>packages/fs/fs-sandbox/src/index.ts:156</code>）。</p>
+<p><strong>图：Cordis 插件的激活与卸载生命周期</strong></p>
+<p>插件配置顺序与依赖就绪顺序不是同一件事。<code>inject</code> 控制激活条件，effect 将服务、工具和监听器的注册绑定到插件生命周期；卸载时需要撤销自己拥有的能力。</p>
+<div class="mermaid-wrap"><pre class="mermaid-src" hidden>flowchart TB
+    Config["Loader 读入插件配置"] --&gt; Register["建立插件作用域与 inject 依赖"]
+    Register --&gt; Ready{"依赖服务已就绪？"}
+    Ready --&gt;|否| Wait["等待依赖变化"]
+    Wait --&gt; Ready
+    Ready --&gt;|是| Activate["激活插件 apply"]
+    Activate --&gt; Services["发布 Service / Adapter / Executor"]
+    Activate --&gt; Events["注册事件与 waterfall 中间件"]
+    Services --&gt; Effects["effect 记录注册归属与清理函数"]
+    Events --&gt; Effects
+    Effects --&gt; Runtime["消费者通过 ctx 使用能力"]
+    Runtime --&gt; Dispose["插件卸载 / 旧作用域释放"]
+    Dispose --&gt; Cleanup["撤销路由、工具与监听器并清理资源"]
+</pre></div>
 <h2 id="4-启动：Profile、Bundle-与配置叠加"><a href="#4-启动：Profile、Bundle-与配置叠加" class="headerlink" title="4. 启动：Profile、Bundle 与配置叠加"></a>4. 启动：Profile、Bundle 与配置叠加</h2><h3 id="4-1-三种“预设”分别控制什么"><a href="#4-1-三种“预设”分别控制什么" class="headerlink" title="4.1 三种“预设”分别控制什么"></a>4.1 三种“预设”分别控制什么</h3><p>源码中有三个容易混淆的概念：</p>
 <ul>
 <li><strong>Profile</strong> 决定启动哪种应用组合，如 Web、Headless 或 SDK，保存在 Harness home 中。</li>
@@ -246,6 +262,23 @@ if (false) {
 <p>启动器还可以在末尾追加遥测退出配置。后面的层可以覆盖前面的层；按 id 修改一行时，<code>config</code> 是整份替换，不能假设系统会深度合并缺少的字段。组合实现（<code>packages/boot/app-boot/src/profile-context.ts:74</code>）、base patch 约定（<code>packages/bundle/base/cordis.patch.yml:1</code>）。</p>
 <h3 id="4-4-启动调用链"><a href="#4-4-启动调用链" class="headerlink" title="4.4 启动调用链"></a>4.4 启动调用链</h3><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">apps/cli/src/bin.ts        runCli()</span><br><span class="line">→ 参数解析与命令分发</span><br><span class="line">→ profile-boot.ts          runProfile()</span><br><span class="line">→ 读取环境与组合 Profile</span><br><span class="line">→ app-boot                boot()</span><br><span class="line">→ 创建 Cordis Context</span><br><span class="line">→ 安装 Loader，加载组合后的插件树</span><br><span class="line">→ 等待激活并检查启动状态</span><br><span class="line">→ 具体应用插件进入工作状态</span><br></pre></td></tr></table></figure>
 <p>根 Context 的创建、Loader 安装和插件树就绪检查集中在共享 boot 代码，CLI 只负责选择组合与生命周期管理。CLI 入口（<code>apps/cli/src/bin.ts:28</code>）、Profile runner（<code>apps/cli/src/profile-boot.ts:271</code>）、boot 实现（<code>packages/boot/app-boot/src/index.ts:1201</code>）。</p>
+<p><strong>图：Profile 配置叠加与应用装配</strong></p>
+<p>上半部分表达配置覆盖顺序，下半部分表达启动依赖。<code>sdk-minimal</code> 使用独立的最小组合；其他官方 Profile 通常在 base 上叠加各自载体，不能把所有 Profile 都画成同一份插件树。</p>
+<div class="mermaid-wrap"><pre class="mermaid-src" hidden>flowchart TB
+    CLI["dsh 解析参数并选择 Profile"] --&gt; Bundles["按列表顺序组合 Bundle patches"]
+    Bundles --&gt; Profile["叠加 Profile 自己的 patch"]
+    Profile --&gt; Home["叠加 Harness home patch"]
+    Home --&gt; Flags["按顺序叠加命令行 patches"]
+    Flags --&gt; Effective["形成最终配置：后层覆盖前层"]
+    Effective --&gt; Boot["共享 app-boot 创建 Cordis Context"]
+    Boot --&gt; Loader["安装 Loader 并加载插件树"]
+    Loader --&gt; DI["依赖注入与插件激活"]
+    DI --&gt; Check["等待就绪并检查启动状态"]
+    Check --&gt; App{"所选应用载体"}
+    App --&gt; Web["Web：服务端与客户端插件"]
+    App --&gt; Headless["Headless：一次性任务"]
+    App --&gt; SDK["SDK / ACP：协议服务"]
+</pre></div>
 <h2 id="5-Agent-Loop：一条请求如何执行"><a href="#5-Agent-Loop：一条请求如何执行" class="headerlink" title="5. Agent Loop：一条请求如何执行"></a>5. Agent Loop：一条请求如何执行</h2><h3 id="5-1-公开-Agent-服务与默认驱动"><a href="#5-1-公开-Agent-服务与默认驱动" class="headerlink" title="5.1 公开 Agent 服务与默认驱动"></a>5.1 公开 Agent 服务与默认驱动</h3><p><code>core/agent</code> 提供公开的 Agent 接口与注册表；<code>core/agent-loop</code> 将自己注册为工厂，负责创建和驱动 Agent。具体驱动类叫 <code>ReactLoopAgent</code>，这里的名称指 ReAct 式模型与工具循环，与前端 React 组件没有关系。工厂发布（<code>packages/core/agent-loop/src/index.ts:329</code>）、驱动类（<code>packages/core/agent-loop/src/agent.ts:112</code>）。</p>
 <p>阅读时先建立两个概念：</p>
 <ul>
@@ -256,6 +289,45 @@ if (false) {
 <h3 id="5-2-正常执行路径"><a href="#5-2-正常执行路径" class="headerlink" title="5.2 正常执行路径"></a>5.2 正常执行路径</h3><p>下面省略取消和失败分支，保留主要执行顺序：</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">输入进入会话 inbox</span><br><span class="line">  ↓</span><br><span class="line">turn/start</span><br><span class="line">  ↓</span><br><span class="line">claim 本 step 输入；按规则取出一条排队用户消息</span><br><span class="line">  ↓</span><br><span class="line">固定模型选择，解析当前可用 toolSet，组装 Prompt</span><br><span class="line">  ↓</span><br><span class="line">agent/pre-step：接受、改写或拒绝这批输入</span><br><span class="line">  ↓</span><br><span class="line">step/start</span><br><span class="line">  ↓</span><br><span class="line">准备模型调用 prepareCall()</span><br><span class="line">  ↓</span><br><span class="line">将有效 system/user 输入与请求元数据写入 Session</span><br><span class="line">  ↓</span><br><span class="line">deriveMessages() 重建历史，冻结请求并流式调用模型</span><br><span class="line">  ↓</span><br><span class="line">结算 assistant/message</span><br><span class="line">  ↓</span><br><span class="line">如有工具调用，交给 ctx.tools.execute()</span><br><span class="line">  ↓</span><br><span class="line">step/end</span><br><span class="line">  ↓</span><br><span class="line">需要模型读取工具结果或出现下一步输入：继续 step</span><br><span class="line">否则：agent/turn-stopping → turn/end</span><br></pre></td></tr></table></figure>
 <p>主要实现分别位于 step 准备（<code>packages/core/agent-loop/src/agent.ts:283</code>）、turn 状态机（<code>packages/core/agent-loop/src/agent.ts:327</code>）、模型调用与结算（<code>packages/core/agent-loop/src/agent.ts:435</code>）、工具批次执行（<code>packages/core/agent-loop/src/agent.ts:586</code>）。</p>
+<p><strong>图：输入接纳、模型派发与工具结算时序</strong></p>
+<p>图中省略失败和取消；一次 turn 可以经历多个 step。flush 检查点由装载的 <code>session-checkpoint-policy</code> 提供，拒绝时会阻止对应外部动作；它与内存中的 Session.append 不是同一个提交时点。</p>
+<div class="mermaid-wrap"><pre class="mermaid-src" hidden>sequenceDiagram
+    participant Host as 用户 / 宿主
+    participant Agent as ReactLoopAgent
+    participant LLM as LlmRuntime / Adapter
+    participant Session as Session 与持久化
+    participant Tools as ctx.tools
+    Host-&gt;&gt;Agent: 消息进入 inbox
+    Agent-&gt;&gt;Session: 记录 turn/start
+    loop 每个需要执行的 step
+        Agent-&gt;&gt;Agent: claim 输入&lt;br/&gt;固定模型与 toolSet
+        Agent-&gt;&gt;Agent: 组装 Prompt&lt;br/&gt;agent/pre-step
+        Agent-&gt;&gt;Session: 记录 step/start
+        Agent-&gt;&gt;LLM: prepareCall&lt;br/&gt;捕获适配器与能力
+        LLM--&gt;&gt;Agent: 已准备的调用对象
+        Agent-&gt;&gt;Session: 提交有效 system / user 消息
+        Agent-&gt;&gt;Session: deriveMessages 派生历史
+        Agent-&gt;&gt;LLM: 派发冻结的请求
+        opt 已装载检查点策略
+            LLM-&gt;&gt;Session: flush 请求前缀&lt;br/&gt;失败则停止派发
+        end
+        LLM--&gt;&gt;Agent: 流式响应
+        Agent--&gt;&gt;Host: assistant-stream 实时增量
+        Agent-&gt;&gt;Session: 结算 assistant/message
+        opt 模型请求了工具
+            Agent-&gt;&gt;Tools: 执行本步工具批次
+            Tools-&gt;&gt;Session: tool/call&lt;br/&gt;顶层执行前检查点
+            Tools-&gt;&gt;Tools: 策略 / 审批 / guards&lt;br/&gt;执行工具函数
+            Tools-&gt;&gt;Session: 记录 tool/result
+            Tools--&gt;&gt;Agent: 完成批次
+        end
+        Agent-&gt;&gt;Session: step/end
+        Agent-&gt;&gt;Agent: 继续 step&lt;br/&gt;或停止 turn
+    end
+    Agent-&gt;&gt;Agent: agent/turn-stopping
+    Agent-&gt;&gt;Session: turn/end
+    Agent--&gt;&gt;Host: 本轮完成
+</pre></div>
 <h3 id="5-3-为什么先准备调用，再提交用户输入"><a href="#5-3-为什么先准备调用，再提交用户输入" class="headerlink" title="5.3 为什么先准备调用，再提交用户输入"></a>5.3 为什么先准备调用，再提交用户输入</h3><p><code>prepareCall()</code> 会绑定实际适配器与模型能力。默认循环在这一阶段完成后，才提交本次进入模型上下文的 system/user 消息。因此，准备阶段发生取消时，不会把尚未真正接受的输入提前记成已进入模型上下文。准备与输入提交顺序（<code>packages/core/agent-loop/src/agent.ts:435</code>）。</p>
 <p>同一 step 的模型选择和工具集合在准备时固定。重试复用该 step 的组装结果，不重复执行 <code>pre-step</code>，也不重复追加同一条用户消息。旧的 <code>agent/request</code> 钩子不能随意替换已选定的 provider、model 或 reasoning effort；这些选择应在 step 准备前通过公开模型选择接口完成。重试分支（<code>packages/core/agent-loop/src/agent.ts:542</code>）、选择校验（<code>packages/core/agent-loop/src/agent.ts:630</code>）。</p>
 <h3 id="5-4-实时输出与最终消息分开"><a href="#5-4-实时输出与最终消息分开" class="headerlink" title="5.4 实时输出与最终消息分开"></a>5.4 实时输出与最终消息分开</h3><p>模型流的实时增量通过进程内 <code>agent/assistant-stream</code> 事件交给界面。流结束后，完整的紧凑流记录随 <code>assistant/message</code> 或日志专用的 <code>assistant/attempt</code> 结算持久化。失败、重试和流错误等尝试因此可以被记录，而不必全部加入后续模型历史。流读取与结算（<code>packages/core/agent-loop/src/agent.ts:480</code>）。</p>
@@ -279,6 +351,27 @@ if (false) {
 </ul>
 <p>内层派发（<code>packages/core/tool-executor-ptc/src/ptc.ts:648</code>）、子调用记录（<code>packages/core/tool-executor-ptc/src/ptc.ts:550</code>）、Node 提供方（<code>packages/ptc-runtime/ptc-runtime-node/src/index.ts:19</code>）、持久性配置（<code>packages/ptc-runtime/ptc-runtime-node/src/config.ts:10</code>）。</p>
 <p>本地 <code>base</code> 配置默认启用 native executor，PTC executor 默认禁用；选择 PTC 需要相应配置，而不是所有会话天然进入代码模式。默认组合（<code>packages/bundle/base/cordis.patch.yml:496</code>）。</p>
+<p><strong>图：Native 与 PTC 共享执行控制</strong></p>
+<p>PTC 改变的是调用表达和中间结果处理位置。程序中发起的每个工具子调用仍进入共享执行流水线；返回给程序的中间数据，不必全部再次进入模型上下文。默认 base 组合启用 Native，PTC 需另行启用。</p>
+<div class="mermaid-wrap"><pre class="mermaid-src" hidden>flowchart TB
+    Set["当前 Agent / step 准入的 toolSet"] --&gt; Mode{"所选 executor"}
+    Mode --&gt;|Native| Native["向模型声明工具 schema"]
+    Mode --&gt;|PTC| SDK["生成当前工具的程序 SDK"]
+    Native --&gt; Calls["模型返回工具名与参数"]
+    SDK --&gt; Program["模型调用 run_code"]
+    Program --&gt; Runtime["PTC Runtime：执行程序"]
+    Runtime --&gt; Subcall["await tools.some_tool：工具子调用"]
+    Calls --&gt; Pipeline["共享工具流水线：策略 / 审批 / guards"]
+    Subcall --&gt; Pipeline
+    Pipeline --&gt; Body["调用能力提供方与工具函数"]
+    Body --&gt; Projection["结果校验、投影与执行记录"]
+    Projection --&gt; Route{"结果属于哪种调用？"}
+    Route --&gt;|Native| Result["模型可见的工具结果"]
+    Route --&gt;|PTC 子调用| Resume["返回同一 PTC 程序&lt;br/&gt;继续计算或调用下一工具"]
+    Resume --&gt; Selected["run_code 最终输出所需结果"]
+    Selected --&gt; Result
+    Result --&gt; Next["Agent Loop 的下一次采样"]
+</pre></div>
 <h3 id="6-6-MCP-工具也接入同一个注册表"><a href="#6-6-MCP-工具也接入同一个注册表" class="headerlink" title="6.6 MCP 工具也接入同一个注册表"></a>6.6 MCP 工具也接入同一个注册表</h3><p>MCP client 插件连接外部服务，将其工具注册为 <code>mcp__&lt;serverName&gt;__&lt;rawName&gt;</code>。配置支持 stdio 和 Streamable HTTP；一个插件实例对应一个服务，卸载时断开连接、撤销工具和命名空间。因此 MCP 工具进入统一工具系统，而不要求在 Agent Loop 中增加专门的协议分支。MCP client（<code>packages/mcp/mcp-client/src/index.ts:1</code>）。</p>
 <h2 id="7-模型接入：统一调用与提供方适配"><a href="#7-模型接入：统一调用与提供方适配" class="headerlink" title="7. 模型接入：统一调用与提供方适配"></a>7. 模型接入：统一调用与提供方适配</h2><h3 id="7-1-LlmRuntime-管路由，Adapter-管协议"><a href="#7-1-LlmRuntime-管路由，Adapter-管协议" class="headerlink" title="7.1 LlmRuntime 管路由，Adapter 管协议"></a>7.1 LlmRuntime 管路由，Adapter 管协议</h3><p><code>ctx.llm</code> 管理 provider 路由、模型元数据和统一流式调用。具体适配器负责把 Harness 消息转换成提供方请求，并把提供方响应转换成通用 <code>StreamChunk</code>。重复占用同一路由会失败，路由注册也绑定插件生命周期。适配器抽象（<code>packages/llm/llm/src/index.ts:203</code>）、路由注册（<code>packages/llm/llm/src/index.ts:394</code>）。</p>
 <p>当前组合既包含 DeepSeek 提供方，也挂载 pi-ai 多提供方适配器。后者是否产生可用路由取决于用户配置，不能把“插件已安装”直接理解为“所有模型均已配置好”。base 中的适配器配置（<code>packages/bundle/base/cordis.patch.yml:131</code>）。</p>
@@ -326,12 +419,45 @@ if (false) {
 <p>一次压缩大致经过：选择安全范围、记录开始、生成摘要、确认范围没有被并发改变，再提交替换。提交时追加摘要事件和携带 <code>surfaceOp: replace</code> 的摘要消息，使后续模型历史使用新的摘要节点。压缩事务过程（<code>packages/compaction/compaction-basic/src/region.ts:173</code>）、摘要提交（<code>packages/compaction/compaction-basic/src/region.ts:470</code>）。</p>
 <p>被摘要遮蔽的旧事件仍在日志中；工具调用和结果还必须成对处理，压缩范围不能随意切开未完成的交互。工具配对约束（<code>packages/compaction/compaction/src/tool-pairing.ts</code>）。</p>
 <p>因此，“保留原始事件”与“模型仍能看到所有原文”是两件事。摘要会产生额外模型调用，也可能遗漏细节；压缩解决的是容量管理和可追溯的历史替换，无法提供无损的无限上下文。</p>
+<p><strong>图：压缩事务如何改写模型视图</strong></p>
+<p>压缩提交的是新的摘要事件及 surface 替换操作，不是物理删除旧事件。摘要生成期间若选中范围或相应 surface 已发生不兼容变化，稳定性校验会阻止安装过时摘要。</p>
+<div class="mermaid-wrap"><pre class="mermaid-src" hidden>flowchart TB
+    Pre["pre-step 检测 token 压力"] --&gt; Select["选择安全且工具配对完整的范围"]
+    Error["context-window-exceeded 恢复路径"] --&gt; Select
+    Select --&gt; Begin["记录 compaction/start"]
+    Begin --&gt; Summary["调用模型生成摘要"]
+    Summary --&gt; Stable{"选中范围 / surface 仍满足稳定性约束？"}
+    Stable --&gt;|否| Reject["本次压缩失败，不安装过时摘要"]
+    Stable --&gt;|是| Commit["追加 summary 与携带 replace 的摘要消息"]
+    Commit --&gt; Surface["更新当前 Surface"]
+    Surface --&gt; History["deriveMessages：摘要与保留的可见节点"]
+    History --&gt; Request["下一次模型请求"]
+    Commit --&gt; Log["原始事件与新压缩记录仍保留在日志"]
+    Log -.-&gt; Audit["持久化、追溯与恢复"]
+</pre></div>
 <h2 id="10-Subagent：委派、Spawn-与-Fork"><a href="#10-Subagent：委派、Spawn-与-Fork" class="headerlink" title="10. Subagent：委派、Spawn 与 Fork"></a>10. Subagent：委派、Spawn 与 Fork</h2><h3 id="10-1-子代理有服务与生命周期"><a href="#10-1-子代理有服务与生命周期" class="headerlink" title="10.1 子代理有服务与生命周期"></a>10.1 子代理有服务与生命周期</h3><p>Subagent 服务根据 provider 启动本地或外部后端，并检查深度、提供方能力、父 Agent 身份等条件。并发数和深度上限可配置，不能将源码默认值当成永久产品限制。准入与后端选择（<code>packages/subagent/subagent/src/index.ts:271</code>）。</p>
 <p>本地可继续委派会创建子会话身份、可继续的运行描述，以及父子结果投递关系，还会捕获委派时的模型选择和权限覆盖。它比一次普通异步函数调用多了持久身份和后续交互管理。本地子代理创建（<code>packages/subagent/subagent/src/manager.ts:379</code>）。</p>
 <p>外部后端提供执行句柄，在需要向父会话投递时记录 external 目录项，不要求存在本地可继续 Session。不能把本地子会话的恢复能力直接套到所有 provider 上。外部启动（<code>packages/subagent/subagent/src/manager.ts:483</code>）、external 目录记录（<code>packages/subagent/subagent/src/catalog.ts:150</code>）。</p>
 <h3 id="10-2-Spawn：新的上下文"><a href="#10-2-Spawn：新的上下文" class="headerlink" title="10.2 Spawn：新的上下文"></a>10.2 Spawn：新的上下文</h3><p><code>subagent-spawn-in-process</code> 在同一 Cordis 运行环境中创建新 Agent，使用独立 Session 与系统提示，默认不复制父会话历史，并可选择独立 Agent Preset。它适合把一个边界清楚的子任务连同必要说明交给新的上下文。Spawn 实现（<code>packages/subagent/subagent-spawn-in-process/src/index.ts:1</code>）。</p>
 <h3 id="10-3-Fork：继承已完成前缀"><a href="#10-3-Fork：继承已完成前缀" class="headerlink" title="10.3 Fork：继承已完成前缀"></a>10.3 Fork：继承已完成前缀</h3><p><code>subagent-fork-in-process</code> 捕获父日志截至最近一次 <code>turn/end</code> 的已平衡完成前缀，排除父 Agent 正在执行的工具轮次。捕获发生在创建时，这份前缀随后成为子会话自己的持久历史；恢复子会话时不会重新复制父 Agent 后来新增的内容。Fork 说明与捕获（<code>packages/subagent/subagent-fork-in-process/src/index.ts:1</code>）、创建路径（<code>packages/subagent/subagent-fork-in-process/src/index.ts:77</code>）。</p>
 <p>Spawn/Fork 描述的是上下文与会话构造方式。这里的 in-process 后端不会因为“创建了子代理”就自动建立操作系统隔离环境；实际工具权限仍由能力提供方与执行策略控制。</p>
+<p><strong>图：Spawn、Fork 与外部后端的边界</strong></p>
+<p>Spawn/Fork 的区别主要在子会话初始上下文。Fork 只在创建时捕获父会话最近一个已完成 turn 的平衡前缀，恢复子会话不会重新复制父方的新历史；外部 provider 的句柄也不必对应本地可恢复 Session。</p>
+<div class="mermaid-wrap"><pre class="mermaid-src" hidden>flowchart TB
+    Parent["父 Agent 委派请求"] --&gt; Admission["校验身份、深度、并发与 provider 能力"]
+    Admission --&gt; Backend{"选择子代理后端"}
+    Backend --&gt;|本地 Spawn| Spawn["新 Session：任务输入，不复制父历史"]
+    Backend --&gt;|本地 Fork| Fork["捕获父日志截至最近 turn/end 的完成前缀"]
+    Spawn --&gt; Child["创建子 Agent 与独立会话生命周期"]
+    Fork --&gt; Child
+    Child --&gt; Run["复用 Agent Loop 与受控工具能力"]
+    Run --&gt; Local["结果投递与本地可继续运行描述"]
+    Backend --&gt;|外部 provider| External["启动外部执行并取得句柄"]
+    External --&gt; Catalog["按需记录 external 目录项"]
+    Catalog --&gt; Return["结果投递给父会话"]
+    Local --&gt; Return
+    Return --&gt; Continue["父 Agent 后续处理"]
+</pre></div>
 <h2 id="11-Web、Desktop-与-SDK-如何复用运行时"><a href="#11-Web、Desktop-与-SDK-如何复用运行时" class="headerlink" title="11. Web、Desktop 与 SDK 如何复用运行时"></a>11. Web、Desktop 与 SDK 如何复用运行时</h2><h3 id="11-1-Web：后端服务加客户端插件"><a href="#11-1-Web：后端服务加客户端插件" class="headerlink" title="11.1 Web：后端服务加客户端插件"></a>11.1 Web：后端服务加客户端插件</h3><p>Web profile 在共享 base 之上装入 Web 服务、客户端模块和连接插件。默认服务地址为 <code>127.0.0.1:3080</code>；本机启动会打开浏览器，<code>--no-open</code> 可以关闭自动打开行为。Web 服务配置（<code>packages/bundle/web-app/cordis.patch.yml:175</code>）。</p>
 <p>浏览器入口很薄，主要创建并执行 <code>AppWebEntry</code>，具体界面能力由客户端插件提供。Node 端负责发现客户端模块和提供启动资料，连接层连接网关与浏览器 fetch/SSE 客户端。浏览器入口（<code>apps/web/src/main.ts:1</code>）、客户端装配（<code>packages/bundle/web-app/cordis.patch.yml:223</code>）。</p>
 <h3 id="11-2-Desktop：共享-Web-产品的桌面载体"><a href="#11-2-Desktop：共享-Web-产品的桌面载体" class="headerlink" title="11.2 Desktop：共享 Web 产品的桌面载体"></a>11.2 Desktop：共享 Web 产品的桌面载体</h3><p>Desktop 使用 Electron，启动独立的 Desktop Host。Host 调用共享 <code>runProfile()</code>，使用桌面保留的 <code>desktop</code> profile；其默认端口为 <code>0</code>，由操作系统分配。Host 子进程（<code>apps/desktop/src/host-process.ts:209</code>）、Desktop Host 入口（<code>apps/desktop-host/src/index.ts:33</code>）。</p>
@@ -359,6 +485,29 @@ if (false) {
 <h3 id="12-3-进程限制与文件-API-限制都存在"><a href="#12-3-进程限制与文件-API-限制都存在" class="headerlink" title="12.3 进程限制与文件 API 限制都存在"></a>12.3 进程限制与文件 API 限制都存在</h3><p>本地进程后端按平台选择 Linux bubblewrap/Landlock、macOS Seatbelt 或 Windows ACL restricted-token。Windows 后端明确声明为 partial enforcement，不能据此宣称各平台都有完全相同的隔离强度。平台选择与限制（<code>packages/sandbox/sandbox-local/src/index.ts:1</code>）。</p>
 <p>文件 API 还由 <code>fs-sandbox</code> 在写入前检查：read-only 直接拒绝；workspace-write 重新解析目标路径，再判断是否落在允许写入的目录中，以避免一直使用此前解析的旧目标。文件写入检查（<code>packages/fs/fs-sandbox/src/index.ts:156</code>）。</p>
 <p>这些控制面向通过相应能力执行的操作。Cordis 插件和 YAML 中的 <code>!!js</code> 配置属于可信应用代码范围，不能把“工具有沙箱”扩展成“任意第三方插件也被隔离”。仓库安全说明明确指出该开发者预览尚未经过安全审计。Loader 配置语义（<code>docs/cordis-primer.zh.md</code>）、项目安全说明（<code>SAFETY.zh.md</code>）。</p>
+<p><strong>图：审批、执行守卫与平台限制的职责</strong></p>
+<p>审批接受一次请求，不会取消后续 guards 和能力提供方的限制。图中的平台后端主要表达文件效果 confinement；这三个文件模式本身不承诺网络隔离，Windows 后端的限制也应保留正文所述边界。</p>
+<div class="mermaid-wrap"><pre class="mermaid-src" hidden>flowchart TB
+    Call["模型工具请求"] --&gt; Policy["tools/pre-execute 策略"]
+    Policy --&gt; Decision{"准入决定"}
+    Decision --&gt;|拒绝| Deny["返回拒绝结果"]
+    Decision --&gt;|需审批| Approval{"审批策略"}
+    Approval --&gt;|never| Deny
+    Approval --&gt;|ask| Responder["交给已配置的应答方"]
+    Responder --&gt;|拒绝 / 无应答方| Deny
+    Responder --&gt;|批准| Guards["执行不可被后续放宽的 guards"]
+    Decision --&gt;|允许| Guards
+    Guards --&gt;|通过| Service{"实际能力入口"}
+    Guards --&gt;|拒绝| Deny
+    Service --&gt;|文件 API| FS["fs-sandbox：模式、目标解析与写根检查"]
+    Service --&gt;|本地进程| Sandbox["sandbox-policy 与所选平台 provider"]
+    FS --&gt;|通过| File["执行文件操作"]
+    FS --&gt;|拒绝| Deny
+    Sandbox --&gt; Process["Linux / macOS / Windows 后端执行"]
+    Process --&gt; Result["工具结果与 Session 记录"]
+    File --&gt; Result
+    Deny --&gt; Result
+</pre></div>
 <h2 id="13-这套设计值得关注的地方"><a href="#13-这套设计值得关注的地方" class="headerlink" title="13. 这套设计值得关注的地方"></a>13. 这套设计值得关注的地方</h2><ul>
 <li><strong>组合是一级机制</strong>：应用由具名 Profile 和可覆盖 Bundle 构成。同一能力可以用于不同载体，代价是理解当前行为时必须追踪最终配置。</li>
 <li><strong>状态围绕日志组织</strong>：模型历史、业务投影、持久化与恢复都有事件依据。新增模型可见输入时，需要同时考虑它如何记录和重建。</li>
